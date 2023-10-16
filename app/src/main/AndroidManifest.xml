@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@drawable/paz"
+        android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.FortuneApplication"
+        tools:targetApi="31">
+        <activity
+            android:name=".DATA1"
+            android:exported="false" />
+        <activity
+            android:name=".ConnecttionSetup"
+            android:exported="false" />
+        <activity
+            android:name=".Connections"
+            android:exported="false" />
+        <activity
+            android:name=".UpdateDelete"
+            android:exported="false" />
+        <activity
+            android:name=".Profileman"
+            android:exported="false" />
+        <activity
+            android:name=".MoreInfoData"
+            android:exported="false" />
+        <activity
+            android:name=".TemporaryData"
+            android:exported="false" />
+        <activity
+            android:name=".Notes"
+            android:exported="false" />
+        <activity
+            android:name=".ItemPricelvlChoiceDisplay"
+            android:exported="false" />
+        <activity
+            android:name=".ChangePass"
+            android:exported="false" />
+        <activity
+            android:name=".LogIn"
+            android:exported="false" />
+        <activity
+            android:name=".NewPriceLEVEl"
+            android:exported="false" />
+        <activity
+            android:name=".SyncPriceleveLines"
+            android:exported="false" />
+        <activity
+            android:name=".SyncPricelvl"
+            android:exported="false" />
+        <activity
+            android:name=".SyncDatas"
+            android:exported="false" />
+        <activity
+            android:name=".SyncPterms"
+            android:exported="false" />
+        <activity
+            android:name=".SyncUnitMeasures"
+            android:exported="false" />
+        <activity
+            android:name=".InputQuantity"
+            android:exported="false" />
+        <activity
+            android:name=".SyncLocation"
+            android:exported="false" />
+        <activity
+            android:name=".SyncSalesRep"
+            android:exported="false" />
+        <activity
+            android:name=".Locations"
+            android:exported="false" />
+        <activity
+            android:name=".SalesRep"
+            android:exported="false" />
+        <activity
+            android:name=".SOItemDisplay"
+            android:exported="false" />
+        <activity
+            android:name=".SOdisplayCustomer"
+            android:exported="false" />
+        <activity
+            android:name=".DisplayCustomer"
+            android:exported="false" />
+        <activity
+            android:name=".SyncCustomer"
+            android:exported="false" />
+        <activity
+            android:name=".ItemListDisplay"
+            android:exported="false" />
+        <activity
+            android:name=".SyncItemActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DisplayItem"
+            android:exported="false" />
+        <activity
+            android:name=".SOActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SampleItemActitvity"
+            android:exported="false" />
+        <activity
+            android:name=".EnterQuantity"
+            android:exported="false" />
+        <activity
+            android:name=".HomePage"
+            android:exported="false" />
+        <activity
+            android:name=".History"
+            android:exported="false" />
+        <activity
+            android:name=".SelectItemActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CustoDisplay"
+            android:exported="false" />
+        <activity
+            android:name=".NewCustomer"
+            android:exported="false" />
+        <activity
+            android:name=".SelectActivity"
+            android:exported="false"
+            android:label="@string/title_activity_select" />
+        <activity
+            android:name=".SinkItem"
+            android:exported="false" />
+        <activity
+            android:name=".FAShome"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SOItemDisplay">
+
+    <EditText
+        android:paddingLeft="10dp"
+        android:drawableLeft="@drawable/iconasearch"
+        android:background="@drawable/searchmestyle"
+        android:id="@+id/searchbaritems"
+        android:layout_width="360dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:hint="Search ...."></EditText>
+
+    <TextView
+        android:layout_marginLeft="10dp"
+        android:id="@+id/dsp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    </TextView>
+
+
+
+    <Spinner
+        android:layout_marginTop="20dp"
+        android:layout_alignParentRight="true"
+        android:id="@+id/spinner5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+    </Spinner>
+
+
+    <androidx.cardview.widget.CardView
+        app:cardBackgroundColor="#4CAF50"
+        android:layout_below="@+id/searchbaritems"
+        android:id="@+id/cards"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="49dp">
+
+        <TableRow
+            android:layout_below="@+id/sr"
+            android:id="@+id/table2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            >
+
+            <TextView
+                android:id="@+id/des1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:padding="10sp"
+                android:text="@string/hd1"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+
+            <TextView
+                android:id="@+id/des2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:padding="10sp"
+                android:text="@string/hd2"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+
+            <TextView
+                android:id="@+id/des3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:padding="10sp"
+                android:text="@string/hd3"
+                android:textAlignment="center"
+                android:textColor="#FFFDFD"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/des4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:padding="10sp"
+                android:text="@string/hd4"
+                android:textAlignment="center"
+                android:textColor="#FDFBFB"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:padding="10sp"
+                android:text="@string/hd5"
+                android:textAlignment="center"
+                android:textColor="#FDFBFB"
+                android:textSize="15sp">
+            </TextView>
+
+
+
+        </TableRow>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/item_recycle2"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/cards"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
+
+</RelativeLayout>

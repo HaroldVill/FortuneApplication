@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SyncItemActivity">
+
+
+    <ProgressBar
+
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/progressBar1"
+        android:visibility="invisible"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="160dp"
+        android:layout_height="160dp" >
+    </ProgressBar>
+
+
+    <ImageView
+        android:id="@+id/hm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:src="@drawable/home2">
+    </ImageView>
+
+
+
+    <Button
+        android:text="SYNC"
+        android:layout_alignParentRight="true"
+        android:id="@+id/bbt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    </Button>
+
+
+    <androidx.cardview.widget.CardView
+        app:cardBackgroundColor="#4CAF50"
+      android:layout_below="@+id/bbt"
+        android:id="@+id/cards"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="49dp">
+
+        <TableRow
+            android:layout_below="@+id/sr"
+            android:id="@+id/table2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            >
+
+            <TextView
+                android:id="@+id/des1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:padding="10sp"
+                android:text="@string/hd1"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+
+            <TextView
+                android:id="@+id/des2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:padding="10sp"
+                android:text="@string/hd2"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+
+            <TextView
+                android:id="@+id/des3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:padding="10sp"
+                android:text="@string/hd3"
+                android:textAlignment="center"
+                android:textColor="#FFFDFD"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/des4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:padding="10sp"
+                android:text="@string/hd4"
+                android:textAlignment="center"
+                android:textColor="#FDFBFB"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:padding="10sp"
+                android:text="@string/hd5"
+                android:textAlignment="center"
+                android:textColor="#FDFBFB"
+                android:textSize="15sp">
+            </TextView>
+
+
+
+        </TableRow>
+
+    </androidx.cardview.widget.CardView>
+
+
+    <ListView
+        android:layout_below="@+id/bbt"
+        android:id="@+id/listview_item"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </ListView>
+
+</RelativeLayout>

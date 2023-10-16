@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="360dp"
+    android:background="#4CAF50"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.cardview.widget.CardView
+        android:layout_marginTop="25dp"
+        android:layout_centerHorizontal="true"
+        android:layout_width="220dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="4dp"
+        android:layout_height="60dp">
+
+
+
+<TextView
+    android:textColor="#000000"
+    android:layout_marginTop="15dp"
+    android:textStyle="bold"
+   android:layout_gravity="center_horizontal"
+    android:textSize="25sp"
+    android:text="CUSTOMER INFO"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+</TextView>
+
+    </androidx.cardview.widget.CardView>
+
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="116dp"
+        android:layout_marginHorizontal="16dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="4dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+<!--            <TextView-->
+<!--               android:layout_centerHorizontal="true"-->
+<!--                android:layout_marginLeft="10dp"-->
+<!--                android:textColor="#0A0A0B"-->
+<!--                android:textStyle="bold"-->
+<!--                android:textSize="27sp"-->
+<!--                android:id="@+id/header"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Customer Info:">-->
+
+<!--            </TextView>-->
+
+
+            <TextView
+                android:textStyle="bold"
+                android:layout_below="@+id/header"
+                android:layout_marginTop="10dp"
+                android:id="@+id/ci"
+                android:textSize="17sp"
+                android:layout_marginLeft="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ID:">
+            </TextView>
+
+
+            <TextView
+                android:textColor="#F44336"
+                android:id="@+id/u1"
+                android:layout_marginTop="10dp"
+                android:textSize="15sp"
+                android:layout_marginLeft="190dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ID">
+            </TextView>
+
+
+
+
+
+            <TextView
+                android:textStyle="bold"
+                android:id="@+id/cnn"
+                android:layout_marginTop="5dp"
+                android:layout_below="@+id/ci"
+                android:textSize="17sp"
+                android:layout_marginLeft="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CUSTOMER NAME:">
+            </TextView>
+
+
+            <TextView
+                android:textColor="#F44336"
+                android:id="@+id/u2"
+                android:layout_marginTop="5dp"
+                android:layout_below="@+id/ci"
+                android:textSize="15sp"
+                android:layout_marginLeft="190dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CUSTOMER NAME:">
+            </TextView>
+
+
+
+
+            <TextView
+                android:textStyle="bold"
+                android:id="@+id/caddd"
+                android:layout_marginTop="5dp"
+                android:layout_below="@+id/cnn"
+                android:textSize="17sp"
+                android:layout_marginLeft="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ADDRESS:">
+            </TextView>
+
+
+
+
+            <TextView
+                android:textColor="#3F51B5"
+                android:id="@+id/u3"
+                android:layout_marginTop="5dp"
+                android:layout_below="@+id/cnn"
+                android:textSize="15sp"
+                android:layout_marginLeft="190dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ADDRESS:">
+            </TextView>
+
+
+
+
+            <TextView
+                android:textStyle="bold"
+                android:id="@+id/kk"
+                android:layout_marginTop="15dp"
+                android:layout_below="@+id/caddd"
+                android:textSize="17sp"
+                android:layout_marginLeft="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="PHONE NO:">
+            </TextView>
+
+
+            <TextView
+
+                android:textColor="#F44336"
+                android:id="@+id/u4"
+                android:layout_marginTop="15dp"
+                android:layout_below="@+id/caddd"
+                android:textSize="15sp"
+                android:layout_marginLeft="190dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="PHONE NO:">
+            </TextView>
+
+
+
+            <TextView
+                android:textStyle="bold"
+                android:id="@+id/kOF"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/kk"
+                android:textSize="17sp"
+                android:layout_marginLeft="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CONTACT PERSON:">
+            </TextView>
+
+
+            <TextView
+                android:textColor="#3F51B5"
+                android:id="@+id/u5"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/kk"
+                android:textSize="15sp"
+                android:layout_marginLeft="190dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CONTACT PERSON:">
+            </TextView>
+
+
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+
+</RelativeLayout>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SyncPterms">
+
+
+
+
+    <ProgressBar
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/progressBar6"
+        android:visibility="invisible"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="160dp"
+        android:layout_height="160dp" >
+
+    </ProgressBar>
+
+
+
+    <RelativeLayout
+        android:background="#4CAF50"
+        android:id="@+id/cx"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:textColor="#FFFDFD"
+            android:layout_centerHorizontal="true"
+            android:textSize="25sp"
+            android:text="SYNC PTERMS"
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        </TextView>
+
+
+    <Button
+        android:text="SYNC"
+        android:layout_alignParentRight="true"
+        android:id="@+id/dsgs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    </Button>
+
+
+    </RelativeLayout>
+
+    <ListView
+        android:layout_below="@+id/cx"
+        android:id="@+id/plist"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</RelativeLayout>

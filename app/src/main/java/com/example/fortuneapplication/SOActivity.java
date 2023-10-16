@@ -1,0 +1,350 @@
+package com.example.fortuneapplication;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.motion.utils.ViewSpline;
+import androidx.preference.PreferenceManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import android.annotation.SuppressLint;
+import android.content.ContentValues;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import java.util.Random;
+
+public class SOActivity extends AppCompatActivity {
+    Button cl, adis;
+    EditText cname, ccontact, caddd, slr, loc, ptt;
+    private EditText tot;
+    TextView datess, sr1, sr2, autref, save, ii, cid, location_id, sales_id, sonotes, textnote;
+    Button his;
+
+    ImageView profile;
+    private RecyclerView recyclerViews;
+    private List<Item2> itemList = new ArrayList<>();
+
+    private ADisplayItemAdapter aDisplayItemAdapter;
+    private PazDatabaseHelper mDatabaseHelper;
+
+    private static final String PREFS_KEY = "ReferenceNumberPrefs";
+    private static final String REFERENCE_NUMBER_KEY = "reference_number";
+    private int referenceNumber;
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_soactivity);
+
+        cl = findViewById(R.id.cl);
+        adis = findViewById(R.id.adis);
+        cname = findViewById(R.id.cname);
+        ccontact = findViewById(R.id.ccontact);
+        caddd = findViewById(R.id.caddd);
+        his = findViewById(R.id.his);
+        datess = findViewById(R.id.datess);
+        slr = findViewById(R.id.slr);
+        loc = findViewById(R.id.loc);
+        sr1 = findViewById(R.id.sr1);
+        sr2 = findViewById(R.id.sr2);
+        recyclerViews = findViewById(R.id.recyclerViews);
+        tot = findViewById(R.id.tot);
+        autref = findViewById(R.id.autref);
+        save = findViewById(R.id.save);
+        ptt = findViewById(R.id.ptt);
+        ii = findViewById(R.id.ii);
+        cid = findViewById(R.id.cid);
+        location_id = findViewById(R.id.location_id);
+        sales_id = findViewById(R.id.sales_id);
+        sonotes = findViewById(R.id.sonotes);
+        textnote = findViewById(R.id.textnote);
+        profile = findViewById(R.id.profile);
+
+
+        // Load the last saved reference number from SharedPreferences
+        SharedPreferences sharedPreferencesb = getSharedPreferences(PREFS_KEY, MODE_PRIVATE);
+        referenceNumber = sharedPreferencesb.getInt(REFERENCE_NUMBER_KEY, 0);
+        updateReferenceNumberTextView();
+
+        // Retrieve the value from SharedPreferences in notes
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        String savednotes = sharedPreferences.getString("NOTE", "");
+        textnote.setText(savednotes);
+
+//ItemList Order Recycleview Display//
+        recyclerViews.setLayoutManager(new LinearLayoutManager(this));
+        mDatabaseHelper = new PazDatabaseHelper(this);
+        itemList.addAll(mDatabaseHelper.getAllOrderItem());
+        ADisplayItemAdapter adapter = new ADisplayItemAdapter(this, itemList, mDatabaseHelper);
+        recyclerViews.setAdapter(adapter);
+
+//GET TOTAL PAYABLE//
+        double totalPayable = mDatabaseHelper.getTotalPayable();
+        DecimalFormat decimalFormat = new DecimalFormat("#,###.00");
+        String formattedTotal = decimalFormat.format(totalPayable);
+        tot.setText(formattedTotal);
+
+        profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent prof = new Intent(SOActivity.this, Profileman.class);
+                startActivity(prof);
+                finish();
+
+            }
+        });
+
+        sonotes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent sff = new Intent(SOActivity.this, Notes.class);
+                startActivity(sff);
+                finish();
+            }
+        });
+
+///////////////////////////////////////////////////////////////////////////////////////
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String tindera = slr.getText().toString();
+                String lugar = loc.getText().toString();
+                if (tindera.isEmpty() || lugar.isEmpty()) {
+                    Toast.makeText(SOActivity.this, "Please Enter Valid Sales Representative or Location", Toast.LENGTH_LONG).show();
+                } else if (itemList.isEmpty()) {
+                    Toast.makeText(SOActivity.this, "Please Select Items Before Saving", Toast.LENGTH_SHORT).show();
+                } else {
+                    maone();
+                }
+            }
+        });
+
+
+        sr1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent sss = new Intent(SOActivity.this, SalesRep.class);
+                startActivity(sss);
+
+            }
+        });
+
+        sr2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent lll = new Intent(SOActivity.this, Locations.class);
+                startActivity(lll);
+            }
+        });
+        //*DATES//*
+        String currentDate = getCurrentDate();
+        datess.setText(currentDate);
+
+
+        his.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent ht = new Intent(SOActivity.this, History.class);
+                startActivity(ht);
+                finish();
+            }
+        });
+
+        //* FETCH DATA FROM CUSTOMER LIST//*
+        SharedPreferences preferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        // SharedPreferences.Editor editor = preferences.edit();
+        String iidd = preferences.getString("CID", "");
+        String firstCname = preferences.getString("CNAME", "");
+        String firstCcontact = preferences.getString("CCONTACT", "");
+        String firstCadd = preferences.getString("CADD", "");
+        String rpt = preferences.getString("DI", "");
+
+        String lvl = preferences.getString("prlvl", "");
+        cname.setText(firstCname);
+        ccontact.setText(firstCcontact);
+        caddd.setText(firstCadd);
+        ptt.setText(rpt);
+        ii.setText(lvl);
+        cid.setText(iidd);
+
+//*FETCH DATA FROM SALES_REP//*
+        SharedPreferences preferencess = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        String namesr = preferencess.getString("SRNAME", "");
+        String srid = preferencess.getString("SRID", "");
+        String idloc = preferencess.getString("LOCID", "");
+        String cola = preferencess.getString("LOC", "");
+
+        slr.setText(namesr);
+        loc.setText(cola);
+        location_id.setText(idloc);
+        sales_id.setText(srid);
+
+        adis.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkCustomer();
+
+
+            }
+        });
+        cl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent P = new Intent(SOActivity.this, SOdisplayCustomer.class);
+                startActivity(P);
+            }
+        });
+    }
+
+    // GET date//
+    private String getCurrentDate() {
+        Date currentDate = new Date();
+        DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.SHORT);
+        return dateFormat.format(currentDate);
+    }
+
+    public void updateTotalPayable(double totalPayable) {
+        tot.setText(String.valueOf(totalPayable));
+    }
+
+    public void checkCustomer() {
+        if (!cname.getText().toString().isEmpty()) {
+            adis.setEnabled(true);
+            String value = ii.getText().toString();
+
+            Intent ik = new Intent(SOActivity.this, ItemPricelvlChoiceDisplay.class);
+            ik.putExtra("PRI", value);
+            startActivity(ik);
+
+        } else {
+            //adis.setEnabled(false);
+            Toast.makeText(this, "Please Select Customer", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    private void updateReferenceNumberTextView() {
+        String formattedReferenceNumber = String.format("%04d", referenceNumber);
+        autref.setText(formattedReferenceNumber);
+    }
+    public void saveSalesOrders() {
+        // long insertedRows = mDatabaseHelper.insertITEMSO();
+        String nts = textnote.getText().toString();
+        String total = tot.getText().toString();
+        String idlocation = location_id.getText().toString();
+        String custoid = cid.getText().toString();
+        String reff = autref.getText().toString();
+        String salesrep_id = sales_id.getText().toString();
+        String currentDate = getCurrentDate();
+
+    }
+            public void maone () {
+                String nts = textnote.getText().toString();
+                String idlocation = location_id.getText().toString();
+                String custoid = cid.getText().toString();
+                String reff = autref.getText().toString();
+                String salesrep_id = sales_id.getText().toString();
+                String currentDate = getCurrentDate();
+                String total = tot.getText().toString();
+
+                //SALES ORDER TABLE
+                SALESORDER dataModel = new SALESORDER();
+                dataModel.setCode(reff);
+                dataModel.setNotes(nts);
+                dataModel.setAmount(total);
+                dataModel.setSalesrepid(Integer.parseInt(salesrep_id));
+                dataModel.setLocationid(Integer.parseInt(idlocation));
+                dataModel.setCustomerid(Integer.parseInt(custoid));
+                dataModel.setDate(currentDate);
+                mDatabaseHelper.inserSO(dataModel);
+
+                Toast.makeText(SOActivity.this, "Saving", Toast.LENGTH_SHORT).show();
+                referenceNumber++;
+                updateReferenceNumberTextView();
+
+                // Save the new reference number to SharedPreferences
+                SharedPreferences sharedPreferences = getSharedPreferences(PREFS_KEY, MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putInt(REFERENCE_NUMBER_KEY, referenceNumber);
+                editor.apply();
+                Toast.makeText(SOActivity.this, "Successfully Order Save", Toast.LENGTH_LONG).show();
+                long insert = mDatabaseHelper.insertDataIDAndITEMSO();
+
+                PazDatabaseHelper databaseHelper = new PazDatabaseHelper(getApplicationContext());
+                databaseHelper.deleOrderSample();
+                startActivity(getIntent());
+
+            }
+
+
+        }
+
+
+
+
+
+
+
+//                String nts = textnote.getText().toString();
+//                String idlocation = location_id.getText().toString();
+//                String custoid = cid.getText().toString();
+//                String reff = autref.getText().toString();
+//                String salesrep_id = sales_id.getText().toString();
+//                String currentDate = getCurrentDate();
+//                String total = tot.getText().toString();
+//
+////SALES ORDER TABLE
+//                    SALESORDER dataModel = new SALESORDER();
+//                    dataModel.setCode(reff);
+//                    dataModel.setNotes(nts);
+//                    dataModel.setAmount(total);
+//                    dataModel.setSalesrepid(Integer.parseInt(salesrep_id));
+//                    dataModel.setLocationid(Integer.parseInt(idlocation));
+//                    dataModel.setCustomerid(Integer.parseInt(custoid));
+//                    dataModel.setDate(currentDate);
+//                    mDatabaseHelper.inserSO(dataModel);
+//
+//                    Toast.makeText(SOActivity.this, "Saving", Toast.LENGTH_SHORT).show();
+//                    referenceNumber++;
+//                    updateReferenceNumberTextView();
+//
+//                    // Save the new reference number to SharedPreferences
+//                    SharedPreferences sharedPreferences = getSharedPreferences(PREFS_KEY, MODE_PRIVATE);
+//                    SharedPreferences.Editor editor = sharedPreferences.edit();
+//                    editor.putInt(REFERENCE_NUMBER_KEY, referenceNumber);
+//                    editor.apply();
+//                    Toast.makeText(SOActivity.this, "Successfully Order Save", Toast.LENGTH_LONG).show();
+//                    long insert = mDatabaseHelper.insertDataIDAndITEMSO();
+//
+//                    PazDatabaseHelper databaseHelper = new PazDatabaseHelper(getApplicationContext());
+//                    databaseHelper.deleOrderSample();
+//                    startActivity(getIntent());
+
+
+
+
+

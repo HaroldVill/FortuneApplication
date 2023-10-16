@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    tools:ignore="MissingPrefix"
+    android:layout_height="wrap_content" >
+
+
+<androidx.cardview.widget.CardView
+    android:layout_marginTop="5dp"
+    android:layout_width="match_parent"
+    android:layout_height="40dp">
+
+
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <TextView
+            android:id="@+id/so1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:padding="10sp"
+            android:text="@string/ro1"
+            android:textAlignment="center"
+            android:textSize="14sp" />
+
+
+        <TextView
+            android:id="@+id/so2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:padding="10sp"
+            android:text="@string/ro2"
+            android:textAlignment="center"
+            android:textSize="14sp" />
+
+
+        <TextView
+            android:id="@+id/so3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:inputType="number"
+            android:padding="10sp"
+            android:text="@string/ro3"
+            android:textAlignment="center"
+            android:textSize="14sp" />
+
+
+        <TextView
+            android:id="@+id/so4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:padding="10sp"
+            android:text="@string/ro4"
+            android:textAlignment="center"
+            android:textSize="14sp" />
+    </TableRow>
+</androidx.cardview.widget.CardView>
+
+
+</RelativeLayout>

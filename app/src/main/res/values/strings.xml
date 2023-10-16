@@ -1,0 +1,35 @@
+<resources>
+    <string name="app_name">Paz_Distribution Application</string>
+    <string name="title_activity_select">SelectActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="col0">CODE</string>
+    <string name="col1">DESCRIPTION</string>
+    <string name="col2">PRICE</string>
+    <string name="col3">QUANTITY</string>
+    <string name="col4">TOTAL</string>
+    <string name="ro1">D</string>
+    <string name="ro2">P</string>
+    <string name="ro3"></string>
+    <string name="ro4">T</string>
+
+    <string name="hd1">CODE</string>
+    <string name="hd2">DESCRIPTION</string>
+    <string name="hd3">PRICE</string>
+    <string name="hd4">QUANTITY</string>
+    <string name="hd5">GROUP</string>
+    <string name="v1">ONHAND</string>
+
+
+    <string name="ss1">CUSTOMER NAME</string>
+    <string name="ss2">DESCRIPTION</string>
+    <string name="ss3">TOTAL PAYABLE</string>
+
+
+    <string name="st1">REF#</string>
+    <string name="st2">CUSTOMER</string>
+    <string name="st3">TOTAL</string>
+    <string name="st4">DATE</string>
+
+</resources>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#3F51B5"
+    tools:context=".MoreInfoData">
+
+    <TextView
+        android:id="@+id/mr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    </TextView>
+
+
+    <TextView
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="70dp"
+        android:layout_alignParentRight="true"
+        android:textColor="#FFFDFD"
+        android:text="BOOKING DATE:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    </TextView>
+
+
+
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="48dp"
+            android:layout_marginRight="10dp"
+            app:cardCornerRadius="10dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="350dp">
+
+                <TextView
+                    android:id="@+id/w1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
+                    android:text="CustomerName:"
+                    android:textSize="20sp"></TextView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="190dp"
+                    android:layout_marginTop="5dp"
+                    android:text="jesie gwapo"></TextView>
+
+
+                <TextView
+                    android:id="@+id/w2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/w1"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="10dp"
+                    android:text="Contact no:"
+                    android:textSize="20sp"></TextView>
+
+                <TextView
+                    android:textSize="18sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/w1"
+                    android:layout_marginLeft="130dp"
+                    android:layout_marginTop="10dp"
+                    android:text="09460992346"></TextView>
+
+                <TextView
+                    android:id="@+id/w3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/w2"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="10dp"
+                    android:text="Address"
+                    android:textSize="20sp"></TextView>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/w2"
+                    android:layout_marginLeft="130dp"
+                    android:layout_marginTop="5dp"
+                    android:text="loon, bohol">
+
+                </TextView>
+
+
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+
+
+
+</RelativeLayout>

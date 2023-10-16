@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    tools:ignore="MissingPrefix"
+    android:layout_height="match_parent" >
+
+
+    <ImageView
+        android:id="@+id/hs"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/home">
+
+    </ImageView>
+
+    <RelativeLayout
+        android:id="@+id/backg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <SearchView
+            android:layout_centerHorizontal="true"
+            android:id="@+id/srch"
+            android:layout_width="400dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+          />
+
+        <TableRow
+            android:layout_below="@+id/srch"
+            android:id="@+id/table2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="#4CAF50">
+
+            <TextView
+                android:id="@+id/v1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="10sp"
+                android:text="@string/hd1"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+
+            <TextView
+                android:id="@+id/v2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:padding="10sp"
+                android:text="@string/hd2"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/v3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:padding="10sp"
+                android:text="@string/hd3"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+
+            <TextView
+                android:id="@+id/v4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:padding="10sp"
+                android:text="@string/hd4"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+        </TableRow>
+
+
+    </RelativeLayout>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/ritems"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/backg"
+        android:layout_marginTop="1dp" />
+
+
+</RelativeLayout>

@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="#3F51B5"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    tools:ignore="MissingPrefix"
+    android:layout_height="380dp" >
+
+
+     <androidx.cardview.widget.CardView
+         android:layout_centerHorizontal="true"
+           android:id="@+id/crd"
+         android:layout_marginTop="20dp"
+         android:layout_marginStart="20dp"
+    android:layout_width="200dp"
+    android:layout_height="60dp">
+
+
+    <TextView
+        android:textColor="#0B0B0B"
+        android:id="@+id/fff"
+        android:textStyle="bold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center_horizontal"
+        android:text="ITEM INFO"
+        android:textSize="35sp"
+        >
+    </TextView>
+</androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_below="@id/crd"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="10dp">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <TextView
+
+                android:layout_marginLeft="10dp"
+                android:textStyle="bold"
+                android:id="@+id/a"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CODE: "
+                android:textSize="20sp"></TextView>
+
+            <TextView
+                android:textColor="#F44336"
+                android:id="@+id/icode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="180dp"
+                android:text="CODE"
+                android:textSize="15sp"></TextView>
+
+
+            <TextView
+                android:layout_marginLeft="10dp"
+                android:textStyle="bold"
+                android:id="@+id/c"
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/a"
+                android:text="DESCRIPTION:"
+                android:textSize="20sp">
+            </TextView>
+
+            <TextView
+                android:textColor="#3F51B5"
+                android:id="@+id/ides"
+                android:layout_marginLeft="180dp"
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/a"
+                android:text="DESCRIPTION:"
+                android:textSize="15sp">
+            </TextView>
+
+
+            <TextView
+                android:layout_marginLeft="10dp"
+                android:textStyle="bold"
+                android:id="@+id/d"
+                android:layout_marginTop="15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/c"
+                android:text="RATE:"
+                android:textSize="20sp">
+            </TextView>
+
+            <TextView
+                android:textColor="#F44336"
+                android:id="@+id/irate"
+                android:layout_marginLeft="180dp"
+                android:layout_marginTop="15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/c"
+                android:text="RATE:"
+                android:textSize="15sp">
+            </TextView>
+
+
+
+
+
+            <TextView
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/d"
+                android:textSize="20sp">
+            </TextView>
+
+
+
+            <TextView
+                android:layout_marginLeft="10dp"
+                android:textStyle="bold"
+                android:id="@+id/f"
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/d"
+                android:text="QUANTITY:"
+                android:textSize="20sp">
+            </TextView>
+
+
+
+            <TextView
+                android:textColor="#3F51B5"
+                android:id="@+id/iquant"
+                android:layout_marginLeft="180dp"
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/d"
+                android:text="QUANTITY:"
+                android:textSize="15sp">
+            </TextView>
+
+
+            <TextView
+                android:textStyle="bold"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/f"
+                android:textSize="20sp"
+                android:text="GROUP:"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            </TextView>
+
+
+            <TextView
+                android:id="@+id/grp"
+                android:textColor="#3F51B5"
+                android:layout_marginLeft="180dp"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/f"
+                android:text="group"
+                android:textSize="15sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+            </TextView>
+
+
+
+
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+</RelativeLayout>

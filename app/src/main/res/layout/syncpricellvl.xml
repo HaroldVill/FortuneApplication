@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:text="pvlv_id"
+        android:layout_marginLeft="10dp"
+        android:textSize="15sp"
+        android:layout_marginTop="10dp"
+        android:id="@+id/pl1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    </TextView>
+
+
+
+    <TextView
+        android:layout_below="@+id/pl1"
+        android:text="pvlv_id"
+        android:layout_marginLeft="10dp"
+        android:textSize="15sp"
+        android:layout_marginTop="10dp"
+        android:id="@+id/pl2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    </TextView>
+
+
+
+    <TextView
+        android:layout_below="@+id/pl2"
+        android:text="pvlv_id"
+        android:layout_marginLeft="10dp"
+        android:textSize="15sp"
+        android:layout_marginTop="10dp"
+        android:id="@+id/pl3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    </TextView>
+
+    <TextView
+        android:layout_below="@+id/pl3"
+        android:text="pvlv_id"
+        android:layout_marginLeft="10dp"
+        android:textSize="15sp"
+        android:layout_marginTop="10dp"
+        android:id="@+id/pl4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    </TextView>
+
+
+    <TextView
+        android:layout_below="@+id/pl4"
+        android:text="pvlv_id"
+        android:layout_marginLeft="10dp"
+        android:textSize="15sp"
+        android:layout_marginTop="10dp"
+        android:id="@+id/pl5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    </TextView>
+
+
+</RelativeLayout>

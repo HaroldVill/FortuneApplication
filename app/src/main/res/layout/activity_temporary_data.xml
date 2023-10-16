@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".TemporaryData">
+
+    <RelativeLayout
+        android:id="@+id/headr"
+        android:layout_width="match_parent"
+        android:layout_height="100dp">
+
+        <ImageView
+            android:layout_marginTop="65dp"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/hm"
+            android:src="@drawable/home"
+            android:layout_marginRight="100dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        </ImageView>
+
+        <TextView
+            android:id="@+id/ref"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:visibility="invisible"
+            tools:visibility="invisible">
+        </TextView>
+
+        <TextView
+            android:id="@+id/dd"
+            android:textColor="#3F51B5"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:text="CustomerName:">
+
+        </TextView>
+
+
+        <TextView
+            android:textStyle="bold"
+            android:id="@+id/n"
+            android:textColor="#3F51B5"
+            android:textSize="18sp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="3dp"
+            android:layout_below="@+id/dd"
+            android:text="Note:"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        </TextView>
+
+        <TextView
+            android:textSize="12sp"
+            android:id="@+id/notesam"
+            android:layout_marginLeft="63dp"
+            android:text="sample"
+            android:layout_marginTop="7dp"
+            android:layout_below="@+id/dd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        </TextView>
+
+
+        <TextView
+            android:id="@+id/dt"
+            android:textColor="#D52518"
+            android:layout_below="@+id/n"
+            android:text="DATE"
+            android:layout_marginLeft="55dp"
+            android:layout_marginTop="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        </TextView>
+
+<!--        <TextView-->
+<!--            android:id="@+id/moreinfo"-->
+<!--            android:textColor="#151515"-->
+<!--            android:layout_alignParentRight="true"-->
+<!--            android:drawablePadding="3dp"-->
+<!--            android:textStyle="bold"-->
+<!--            android:drawableRight="@drawable/info"-->
+<!--            android:layout_marginLeft="10dp"-->
+<!--            android:layout_marginTop="7dp"-->
+<!--            android:text="More Info:"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content">-->
+<!--        </TextView>-->
+
+
+        <TextView
+            android:textSize="15sp"
+            android:textColor="#101010"
+            android:textStyle="italic"
+            android:id="@+id/names"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="150dp"
+            android:layout_marginTop="13dp">
+
+        </TextView>
+
+        <TextView
+            android:textColor="#3F51B5"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="72dp"
+            android:layout_marginRight="90dp"
+            android:text="TOTAL:"></TextView>
+
+
+        <TextView
+            android:textColor="#3F51B5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="72dp"
+            android:text="DATE:"
+            android:textSize="15sp"
+            android:textStyle="bold"></TextView>
+
+
+        <EditText
+            android:textAlignment="center"
+            android:textSize="15sp"
+           android:layout_marginEnd="2dp"
+            android:id="@+id/supertot"
+            android:layout_marginTop="60dp"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:textColor="#D52518"></EditText>
+
+    </RelativeLayout>
+
+    <TableLayout
+        android:id="@+id/tbl"
+       android:layout_below="@+id/headr"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/black">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="#3F51B5">
+
+
+            <TextView
+                android:id="@+id/hlk"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:padding="10sp"
+                android:text="@string/col0"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/h1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:padding="10sp"
+                android:text="@string/col1"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+
+
+            <TextView
+                android:id="@+id/h2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:padding="10sp"
+                android:text="@string/col2"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/h3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:padding="10sp"
+                android:text="@string/col3"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+
+
+            <TextView
+                android:id="@+id/h4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:padding="10sp"
+                android:text="@string/col4"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+        </TableRow>
+
+    </TableLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/datadisp"
+        android:layout_below="@+id/tbl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/arayba"
+        android:layout_marginRight="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="15dp"
+        android:contentDescription="Add item"
+        android:src="@drawable/saveus">
+    </com.google.android.material.floatingactionbutton.FloatingActionButton>
+
+
+
+</RelativeLayout>

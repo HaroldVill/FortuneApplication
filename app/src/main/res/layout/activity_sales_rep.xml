@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".SalesRep">
+
+
+    <EditText
+        android:id="@+id/rep1"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/searchmestyle"
+        android:drawableLeft="@drawable/iconasearch"
+        android:hint="Search......."
+        android:paddingLeft="10dp"></EditText>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_below="@+id/rep1"
+        android:id="@+id/slrep"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</RelativeLayout>

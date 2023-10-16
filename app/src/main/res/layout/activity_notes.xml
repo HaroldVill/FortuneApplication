@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Notes">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:background="#4CAF50">
+
+        <TextView
+            android:layout_marginTop="20dp"
+            android:layout_centerHorizontal="true"
+            android:textStyle="italic"
+            android:textColor="#FBFBFB"
+            android:textSize="30sp"
+            android:text="WRITE NOTE"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        </TextView>
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardnote"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="80dp"
+            android:layout_marginRight="10dp"
+            app:cardCornerRadius="10dp">
+
+            <EditText
+                android:layout_marginBottom="5dp"
+                android:id="@+id/takenote"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginRight="5dp"
+                android:hint="Enter Note"></EditText>
+
+        </androidx.cardview.widget.CardView>
+
+        <Button
+            android:id="@+id/savenote"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/cardnote"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="10dp"
+            android:text="SAVE">
+
+        </Button>
+
+    </RelativeLayout>
+</RelativeLayout>

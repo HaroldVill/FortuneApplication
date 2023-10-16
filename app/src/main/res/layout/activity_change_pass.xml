@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ChangePass">
+
+
+    <RelativeLayout
+        android:background="#1B31AC"
+        android:layout_width="match_parent"
+        android:layout_height="180dp">
+
+    <TextView
+        android:textSize="18sp"
+        android:id="@+id/cre"
+        android:textColor="#FFFDFD"
+        android:drawablePadding="8dp"
+        android:drawableLeft="@drawable/leftarrow"
+        android:layout_marginTop="10dp"
+        android:text="UPDATE CREDENTIALS"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    </TextView>
+    </RelativeLayout>
+
+
+    <ImageView
+        android:layout_marginTop="70dp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/updt"
+        android:layout_width="170dp"
+        android:layout_height="170dp">
+
+    </ImageView>
+
+
+
+    <EditText
+        android:drawablePadding="10dp"
+        android:drawableLeft="@drawable/use"
+        android:hint="UserName"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="320dp"
+        android:id="@+id/cuser"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </EditText>
+
+
+    <EditText
+
+        android:id="@+id/cpass"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/cuser"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:drawableLeft="@drawable/pass"
+        android:drawablePadding="10dp"
+        android:hint="New Password"
+        android:inputType="textPassword"></EditText>
+
+    <EditText
+        android:id="@+id/conpas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/cpass"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:drawableLeft="@drawable/pass"
+        android:drawablePadding="10dp"
+        android:hint="Confirm Password"
+        android:inputType="textPassword">
+
+    </EditText>
+
+    <Button
+
+        android:id="@+id/upd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/cpass"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="150dp"
+        android:layout_marginRight="10dp"
+        android:background="#4CAF50"
+        android:text="SAVE"
+        android:textColor="#FDFCFC">
+    </Button>
+
+
+</RelativeLayout>

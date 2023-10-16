@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="290dp"
+    android:background="#2A40B8"
+    tools:context=".Connections">
+
+
+    <TextView
+        android:id="@+id/ids"
+        android:text="id"
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    </TextView>
+
+    <TextView
+        android:drawablePadding="5dp"
+        android:drawableLeft="@drawable/connect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:text="SET CONNECTION"
+        android:textColor="#FAFAFB"
+        android:textSize="25dp"
+        android:textStyle="italic"></TextView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/con"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="70dp"
+        app:cardCornerRadius="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="170dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+           >
+
+            <TextView
+                android:id="@+id/gggg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="15dp"
+                android:text="NAME:"
+                android:textSize="25sp"
+                android:textStyle="bold"></TextView>
+
+
+            <TextView
+                android:textStyle="italic"
+                android:id="@+id/selection"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="105dp"
+                android:layout_marginTop="18dp"
+                android:drawableRight="@drawable/downboy"
+                android:text= "Select Connection"
+                android:textColor="#3F51B5"
+                android:textSize="20sp"></TextView>
+
+            <TextView
+                android:textColor="#EF4438"
+                android:layout_marginTop="20dp"
+                android:layout_below="@+id/selection"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/ipadd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            </TextView>
+
+            <Button
+                android:textColor="#FDFCFC"
+                android:background="@drawable/buttondesign3"
+                android:id="@+id/apply"
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/gggg"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="60dp"
+                android:text="APPLY">
+
+            </Button>
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+
+    <TextView
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="12dp"
+        android:layout_below="@+id/con"
+        android:textColor="#E6E2E2"
+        android:text="New Connection?"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    </TextView>
+
+
+    <TextView
+        android:id="@+id/creatcon"
+        android:textStyle="bold"
+        android:layout_marginLeft="127dp"
+        android:layout_marginTop="5dp"
+        android:layout_below="@+id/con"
+        android:textColor="#FAFDFA"
+        android:text="CLICK HERE"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    </TextView>
+
+</RelativeLayout>

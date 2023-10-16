@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/cl"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Profileman">
+
+    <TextView
+        android:layout_marginLeft="5dp"
+        android:id="@+id/ssss"
+       android:textStyle="italic"
+        android:textColor="#1931B8"
+        android:textSize="25sp"
+        android:text="DashBoard:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    </TextView>
+
+
+  <ImageView
+      android:id="@+id/del"
+      android:src="@drawable/delete"
+      android:layout_alignParentRight="true"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content">
+  </ImageView>
+
+
+<RelativeLayout
+    android:layout_marginTop="5dp"
+    android:id="@+id/colormen"
+    android:background="#3F51B5"
+    android:layout_below="@id/ssss"
+    android:layout_width="match_parent"
+    android:layout_height="215dp">
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardmen"
+        android:layout_width="match_parent"
+        android:layout_height="190dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        app:cardCornerRadius="15dp">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="188dp">
+
+            <TextView
+                android:id="@+id/date1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:drawableLeft="@drawable/calen"
+                android:drawableRight="@drawable/down"
+                android:text="From:"
+                android:textColor="#121111"
+                android:textSize="18sp"
+                android:textStyle="italic"></TextView>
+
+
+            <TextView
+                android:id="@+id/dt1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="110dp"
+                android:layout_marginTop="7dp"
+                android:textColor="#CF2417"></TextView>
+
+            <TextView
+                android:layout_marginEnd="2dp"
+                android:id="@+id/dt2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="7dp"
+                android:textColor="#CF2417"></TextView>
+
+
+            <TextView
+                android:id="@+id/date2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="60dp"
+                android:drawableLeft="@drawable/calen"
+                android:drawableRight="@drawable/down"
+                android:text="To:"
+                android:textColor="#121111"
+                android:textSize="18sp"
+                android:textStyle="italic"></TextView>
+
+
+            <TextView
+                android:textStyle="italic"
+                android:id="@+id/sas"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="70dp"
+                android:text="Total Booking:"
+                android:textColor="#0E0E0E"
+                android:textSize="20sp"></TextView>
+
+            <EditText
+                android:textColor="#DF3529"
+                android:textAlignment="center"
+                android:enabled="false"
+                android:id="@+id/totaldata"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="140dp"
+                android:layout_marginTop="60dp">
+            </EditText>
+
+            <Button
+                android:id="@+id/filt"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/sas"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="35dp"
+                android:layout_marginRight="10dp"
+                android:text="FILTER"></Button>
+
+
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+</RelativeLayout>
+
+
+    <TableRow
+        android:layout_marginTop="10dp"
+        android:id="@+id/table9"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/colormen"
+        android:background="#4CAF50">
+
+        <TextView
+            android:id="@+id/h1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:padding="10sp"
+            android:text="@string/st1"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+
+
+        <TextView
+            android:id="@+id/h2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:padding="10sp"
+            android:text="@string/st2"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/h3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:padding="10sp"
+            android:text="@string/st3"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+
+
+        <TextView
+            android:id="@+id/h4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:padding="10sp"
+            android:text="@string/st4"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+    </TableRow>
+
+        <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/listHist"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/table9"
+        android:layout_marginTop="10dp">
+    </androidx.recyclerview.widget.RecyclerView>
+
+
+</RelativeLayout>
