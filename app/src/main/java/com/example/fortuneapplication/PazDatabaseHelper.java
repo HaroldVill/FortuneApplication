@@ -1177,6 +1177,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                 " FROM " + SALES_ORDER_TABLE +
                 " JOIN " + CUSTOMER_TABLE +
                 " ON " + SALES_ORDER_TABLE + "." + CUSTOMER_ID + " = " + CUSTOMER_TABLE + "." + CUSTOMER_ID +
+                " WHERE " + SALES_ORDER_TABLE+ "."+ "status" +"=" + 0+
                 " ORDER BY " + CODE + " ASC";
 
         SQLiteDatabase db = this.getReadableDatabase();
@@ -1203,6 +1204,31 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         return salesORlist;
 
         }
+
+    @SuppressLint("Range")
+    public ArrayList<CONNECT> SelectUPDT() {
+        ArrayList<CONNECT> connectlist = new ArrayList<>();
+
+        String query = "SELECT " +
+                CONNECTION_TABLE + "." + CONNECTION_IP +
+                " FROM " + CONNECTION_TABLE +
+                " WHERE " + "defaultconn" + " = '1'";
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor.moveToFirst()) {
+            do {
+                String cip = cursor.getString(cursor.getColumnIndex(CONNECTION_IP));
+
+                CONNECT connect = new CONNECT();
+                connect.setIp(cip);
+                connectlist.add(connect);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return connectlist;
+    }
 
     }
 

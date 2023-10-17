@@ -16,6 +16,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -44,7 +49,6 @@ import java.util.Map;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
@@ -58,8 +62,12 @@ public class History extends AppCompatActivity {
     TextView booktot, numcustomer;
     FloatingActionButton aray;
 
+    RequestQueue request_queue;
+
     private PazDatabaseHelper mDatabaseHelper;
     private List<HistoryGetSet> historyGetSets = new ArrayList<>();
+    private String api_url;
+    private String x;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,12 +101,44 @@ public class History extends AppCompatActivity {
         aray.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Snackbar.make(v, "SYNCING . . . . . . . . . . . . .  ", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                try {
+                    ArrayList<CONNECT> connectList = mDatabaseHelper.SelectUPDT();
+                    if (!connectList.isEmpty()) {
+                        x = connectList.get(0).getIp(); // Assuming the first IP address is what you need
+                        api_url = "http://" + x + "/MobileAPI/SampleApi.php";
+                    }
 
-                sendDataToServer();
+                    PazDatabaseHelper dbHelper = new PazDatabaseHelper(getApplicationContext());
+                    List<SALESORDER> salesOrderList = dbHelper.getSlsorder();
+                    for (SALESORDER salesOrder : salesOrderList) {
+                        JSONObject jsonObject = new JSONObject();
+
+                        jsonObject.put("refno", salesOrder.getCode());
+                        jsonObject.put("customer_id", salesOrder.getCustomer().getId());
+                        jsonObject.put("total", salesOrder.getAmount());
+                        jsonObject.put("date", salesOrder.getDate());
+
+                        Log.d("SendDataToServerTask", "JSON Data to Send: " +jsonObject.toString());
+                        StringRequest send_invoices = new StringRequest(Request.Method.POST, api_url,
+                                response -> Toast.makeText(History.this, "Success", Toast.LENGTH_LONG).show(),
+                                error -> Toast.makeText(History.this, "Connection Error", Toast.LENGTH_LONG).show()){
+                            @Override
+                            protected Map<String, String> getParams() throws AuthFailureError{
+                                Map<String, String> params =new HashMap<>();
+                                params.put(jsonObject.toString(), "SalesReceipts");
+                                return params;
+                            }
+                        };
+                        request_queue = Volley.newRequestQueue(History.this);
+                        request_queue.add(send_invoices);
+                    }
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Toast.makeText(History.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                }
             }
-
         });
 
         del.setOnClickListener(new View.OnClickListener() {
