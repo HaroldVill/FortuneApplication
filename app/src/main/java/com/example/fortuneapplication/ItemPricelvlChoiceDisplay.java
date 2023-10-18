@@ -168,6 +168,7 @@ public class ItemPricelvlChoiceDisplay extends AppCompatActivity {
     SQLiteDatabase db = mDatabaseHelper.getReadableDatabase();
     String levelValue = level.getText().toString();
         try(
+                //NAPAKA POTANG INANG CODE INCOMING
     Cursor cursor = db.rawQuery(query, null))
     {
         if (cursor.moveToFirst()) {

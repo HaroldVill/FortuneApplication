@@ -111,29 +111,25 @@ public class History extends AppCompatActivity {
                     PazDatabaseHelper dbHelper = new PazDatabaseHelper(getApplicationContext());
                     List<SALESORDER> salesOrderList = dbHelper.getSlsorder();
                     for (SALESORDER salesOrder : salesOrderList) {
-                        JSONObject jsonObject = new JSONObject();
-
-                        jsonObject.put("refno", salesOrder.getCode());
-                        jsonObject.put("customer_id", salesOrder.getCustomer().getId());
-                        jsonObject.put("total", salesOrder.getAmount());
-                        jsonObject.put("date", salesOrder.getDate());
-
-                        Log.d("SendDataToServerTask", "JSON Data to Send: " +jsonObject.toString());
                         StringRequest send_invoices = new StringRequest(Request.Method.POST, api_url,
-                                response -> Toast.makeText(History.this, "Success", Toast.LENGTH_LONG).show(),
+                                response -> Toast.makeText(History.this, response, Toast.LENGTH_LONG).show(),
                                 error -> Toast.makeText(History.this, "Connection Error", Toast.LENGTH_LONG).show()){
                             @Override
                             protected Map<String, String> getParams() throws AuthFailureError{
                                 Map<String, String> params =new HashMap<>();
-                                params.put(jsonObject.toString(), "SalesReceipts");
+                                params.put("refno", salesOrder.getCode().toString());
+                                params.put("customer_id", salesOrder.getCustomer().getId().toString());
+                                params.put("total", salesOrder.getAmount().toString());
+                                params.put("date", salesOrder.getDate().toString());
+                                params.put("sales_rep_id", Integer.toString(salesOrder.getSalesrepid()));
                                 return params;
                             }
                         };
                         request_queue = Volley.newRequestQueue(History.this);
                         request_queue.add(send_invoices);
+                        PazDatabaseHelper dbHelperSoItems = new PazDatabaseHelper(getApplicationContext());
+                        List<SALESORDERITEMS> salesOrderItemList = dbHelper.getSlsorderitems(salesOrder.getCode().toString());
                     }
-
-
                 } catch (Exception e) {
                     e.printStackTrace();
                     Toast.makeText(History.this, e.getMessage(), Toast.LENGTH_LONG).show();
@@ -186,74 +182,6 @@ public class History extends AppCompatActivity {
         });
     }
 
-    private void sendDataToServer() {
-        new SendDataToServerTask(this).execute();
-    }
-
-    private static class SendDataToServerTask extends AsyncTask<Void, Void, String> {
-        private final Context context;
-
-        SendDataToServerTask(Context context) {
-            this.context = context;
-        }
-
-        @Override
-        protected String doInBackground(Void... voids) {
-            try {
-                PazDatabaseHelper dbHelper = new PazDatabaseHelper(context);
-                List<SALESORDER> salesOrderList = dbHelper.getSlsorder();
-
-                JSONArray jsonArray = new JSONArray();
-                for (SALESORDER salesOrder : salesOrderList) {
-                    JSONObject jsonObject = new JSONObject();
-
-                    jsonObject.put("refno", salesOrder.getCode());
-                    jsonObject.put("customer_id", salesOrder.getCustomer().getId());
-                    jsonObject.put("total", salesOrder.getAmount());
-                    jsonObject.put("date", salesOrder.getDate());
-                    jsonArray.put(jsonObject);
-                }
-                Log.d("SendDataToServerTask", "JSON Data to Send: " + jsonArray.toString());
-
-                URL url = new URL(SERVER_URL);
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.setRequestMethod("POST");
-                connection.setRequestProperty("Content-Type", "application/json");
-                connection.setRequestProperty("Authorization", AUTHORIZATION_HEADER);
-                connection.setDoOutput(true);
-
-                try (OutputStream os = connection.getOutputStream()) {
-                    byte[] input = jsonArray.toString().getBytes("utf-8");
-                    os.write(input, 0, input.length);
-                }
-
-                int responseCode = connection.getResponseCode();
-                if (responseCode == HttpURLConnection.HTTP_OK) {
-                    return "Success";
-                } else {
-                    return "Error: " + responseCode;
-                }
-
-            } catch (IOException | JSONException e) {
-                e.printStackTrace();
-                return "Error: " + e.getMessage();
-            }
-        }
-
-        @Override
-        protected void onPostExecute(String response) {
-            // Handle the response here
-            if ("Success".equals(response)) {
-                // Successful response from the server
-                Toast.makeText(context, "Data synced successfully", Toast.LENGTH_SHORT).show();
-            } else {
-                // Handle error response
-                Toast.makeText(context, "Sync failed. " + response, Toast.LENGTH_SHORT).show();
-            }
-        }
-
-
-    }
 }
 
 
