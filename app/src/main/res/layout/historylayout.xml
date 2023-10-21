@@ -75,7 +75,7 @@
 
             android:layout_gravity="center"
             android:id="@+id/removes"
-            android:src="@drawable/deletebay"
+            android:src="@drawable/sinkicon"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content">
         </ImageView>

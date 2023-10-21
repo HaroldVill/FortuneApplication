@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.RequestFuture;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -69,6 +70,7 @@ public class History extends AppCompatActivity {
     private String api_url;
     private String x;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,8 +86,9 @@ public class History extends AppCompatActivity {
 
 
         mDatabaseHelper = new PazDatabaseHelper(this);
-        ArrayList<SALESORDER> salesOrderList = mDatabaseHelper.getSlsorder();
-        historyAdapter = new HistoryAdapter(salesOrderList, this);
+        ArrayList<SALESORDER> salesOrderList = mDatabaseHelper.getSlsorder(0);
+        ArrayList<SALESORDERITEMS> salesOrderItemsList = mDatabaseHelper.getSlsorderitems(0);
+        historyAdapter = new HistoryAdapter(salesOrderList, this,salesOrderItemsList);
         histview.setLayoutManager(new LinearLayoutManager(this));
         histview.setAdapter(historyAdapter);
 
@@ -98,6 +101,7 @@ public class History extends AppCompatActivity {
         int listdata = mDatabaseHelper.countData();
         numcustomer.setText(String.valueOf(listdata));
 
+
         aray.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -105,30 +109,46 @@ public class History extends AppCompatActivity {
                     ArrayList<CONNECT> connectList = mDatabaseHelper.SelectUPDT();
                     if (!connectList.isEmpty()) {
                         x = connectList.get(0).getIp(); // Assuming the first IP address is what you need
-                        api_url = "http://" + x + "/MobileAPI/SampleApi.php";
+                        api_url = "http://" + x + "/MobileAPI/sync_sales_order.php";
                     }
 
                     PazDatabaseHelper dbHelper = new PazDatabaseHelper(getApplicationContext());
-                    List<SALESORDER> salesOrderList = dbHelper.getSlsorder();
+                    List<SALESORDER> salesOrderList = dbHelper.getSlsorder(0);
                     for (SALESORDER salesOrder : salesOrderList) {
+                        //For Items
+                        JSONArray json_soitems = new JSONArray();
+                        List<SALESORDERITEMS> salesOrderItemList = dbHelper.getSlsorderitems(0);
+                        for (SALESORDERITEMS salesOrderItems : salesOrderItemList) {
+                            JSONObject jsonObject = new JSONObject();
+                            jsonObject.put("item_id", salesOrderItems.getSoiitemid());
+                            jsonObject.put("quantity", salesOrderItems.getSoiquantity());
+                            jsonObject.put("rate", salesOrderItems.getSoirate());
+                            jsonObject.put("amount", salesOrderItems.getSoiamount());
+                            jsonObject.put("unit_base_qty", salesOrderItems.getSoiunitbasequantity());
+                            jsonObject.put("uom", salesOrderItems.getUom());
+                            json_soitems.put(jsonObject);
+                        }
+                        Log.v("so_items",json_soitems.toString());
+//                        RequestFuture <JSONObject> future = RequestFuture.newFuture();
                         StringRequest send_invoices = new StringRequest(Request.Method.POST, api_url,
                                 response -> Toast.makeText(History.this, response, Toast.LENGTH_LONG).show(),
                                 error -> Toast.makeText(History.this, "Connection Error", Toast.LENGTH_LONG).show()){
+
                             @Override
                             protected Map<String, String> getParams() throws AuthFailureError{
                                 Map<String, String> params =new HashMap<>();
                                 params.put("refno", salesOrder.getCode().toString());
                                 params.put("customer_id", salesOrder.getCustomer().getId().toString());
                                 params.put("total", salesOrder.getAmount().toString());
-                                params.put("date", salesOrder.getDate().toString());
+                                params.put("date", salesOrder.getDate());
                                 params.put("sales_rep_id", Integer.toString(salesOrder.getSalesrepid()));
+                                params.put("sales_order_items", json_soitems.toString());
                                 return params;
                             }
                         };
                         request_queue = Volley.newRequestQueue(History.this);
                         request_queue.add(send_invoices);
-                        PazDatabaseHelper dbHelperSoItems = new PazDatabaseHelper(getApplicationContext());
-                        List<SALESORDERITEMS> salesOrderItemList = dbHelper.getSlsorderitems(salesOrder.getCode().toString());
+
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -183,63 +203,6 @@ public class History extends AppCompatActivity {
     }
 
 }
-
-
-
-
-//    private void sendDataToServer() {
-//        new SendDataToServerTask().execute();
-//    }
-//
-//    private class SendDataToServerTask extends AsyncTask<Void, Void, String> {
-//        @Override
-//        protected String doInBackground(Void... voids) {
-//            try {
-//                PazDatabaseHelper dbHelper = new PazDatabaseHelper(History.this);
-//                List<SALESORDER> salesOrderList = dbHelper.getSlsorder();
-//
-//                JSONArray jsonArray = new JSONArray();
-//                for (SALESORDER salesOrder : salesOrderList) {
-//                    JSONObject jsonObject = new JSONObject();
-//                    jsonObject.put("refno", salesOrder.getCode());
-//                    jsonObject.put("customer_id", salesOrder.getCustomer().getId());
-//                    jsonObject.put("total", salesOrder.getAmount());
-//                    jsonObject.put("date", salesOrder.getDate());
-//                    jsonArray.put(jsonObject);
-//                }
-//
-//                String json = jsonArray.toString();
-//
-//                OkHttpClient client = new OkHttpClient();
-//                MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-//                RequestBody requestBody = RequestBody.create(json, JSON);
-//
-//                Request request = new Request.Builder()
-//                        .url(SERVER_URL)
-//                        .header("Authorization", AUTHORIZATION_HEADER)
-//                        .post(requestBody)
-//                        .build();
-//
-//                Response response = client.newCall(request).execute();
-//                if (response.isSuccessful()) {
-//                    return "Success";
-//                } else {
-//                    return "Error: " + response.code();
-//                }
-//            } catch (IOException | JSONException e) {
-//                e.printStackTrace();
-//                return "Error: " + e.getMessage();
-//            }
-//        }
-//
-//        @Override
-//        protected void onPostExecute(String response) {
-//            if ("Success".equals(response)) {
-//                Toast.makeText(History.this, "Data synced successfully", Toast.LENGTH_SHORT).show();
-//            } else {
-//                Toast.makeText(History.this, "Sync failed. " + response, Toast.LENGTH_SHORT).show();
-//            }
-//        }
 
 
 

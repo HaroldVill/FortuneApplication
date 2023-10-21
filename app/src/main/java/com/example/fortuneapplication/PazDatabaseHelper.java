@@ -9,6 +9,7 @@ import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import java.util.ArrayList;
@@ -93,6 +94,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
     protected static final String PRICE_LEVELID = "price_level_id";
     protected static final String PRICE_LEVEL_CODE = "price_level_code";
     protected static final String PRICE_LEVEL_DESCRIPTION = "price_level_des";
+    private static final String TAG = "MyActivity";
 
 
     // SALES ORDER TABLE //
@@ -1165,21 +1167,40 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
 //    }
     //GET ORDER TO HISTORY
     @SuppressLint("Range")
-    public ArrayList<SALESORDER> getSlsorder() {
+    public ArrayList<SALESORDER> getSlsorder(int sales_order_id) {
         ArrayList<SALESORDER> salesORlist = new ArrayList<>();
-        String query = " SELECT " +
-                SALES_ORDER_TABLE + "." + SALES_ORDERID + ", " +
-                SALES_ORDER_TABLE + "." + CODE + ", " +
-                SALES_ORDER_TABLE + "." + AMOUNT + ", " +
-                SALES_ORDER_TABLE + "." + DATE + ", " +
-                SALES_ORDER_TABLE + "." + SALES_REP_ID + ", " +
-                CUSTOMER_TABLE + "." + CUSTOMER_ID + ", " +
-                CUSTOMER_TABLE + "." + CUSTOMER_NAME +
-                " FROM " + SALES_ORDER_TABLE +
-                " JOIN " + CUSTOMER_TABLE +
-                " ON " + SALES_ORDER_TABLE + "." + CUSTOMER_ID + " = " + CUSTOMER_TABLE + "." + CUSTOMER_ID +
-                " WHERE " + SALES_ORDER_TABLE+ "."+ "status" +"=" + 0+
-                " ORDER BY " + CODE + " ASC";
+        String query ="";
+        if(sales_order_id == 0) {
+                query = " SELECT " +
+                    SALES_ORDER_TABLE + "." + SALES_ORDERID + ", " +
+                    SALES_ORDER_TABLE + "." + CODE + ", " +
+                    SALES_ORDER_TABLE + "." + AMOUNT + ", " +
+                    SALES_ORDER_TABLE + "." + DATE + ", " +
+                    SALES_ORDER_TABLE + "." + SALES_REP_ID + ", " +
+                    CUSTOMER_TABLE + "." + CUSTOMER_ID + ", " +
+                    CUSTOMER_TABLE + "." + CUSTOMER_NAME +
+                    " FROM " + SALES_ORDER_TABLE +
+                    " JOIN " + CUSTOMER_TABLE +
+                    " ON " + SALES_ORDER_TABLE + "." + CUSTOMER_ID + " = " + CUSTOMER_TABLE + "." + CUSTOMER_ID +
+                    " WHERE " + SALES_ORDER_TABLE + "." + "status" + "=" + 0 +
+                    " ORDER BY " + SALES_ORDERID + " ASC";
+        }
+        else{
+            query = " SELECT " +
+                    SALES_ORDER_TABLE + "." + SALES_ORDERID + ", " +
+                    SALES_ORDER_TABLE + "." + CODE + ", " +
+                    SALES_ORDER_TABLE + "." + AMOUNT + ", " +
+                    SALES_ORDER_TABLE + "." + DATE + ", " +
+                    SALES_ORDER_TABLE + "." + SALES_REP_ID + ", " +
+                    CUSTOMER_TABLE + "." + CUSTOMER_ID + ", " +
+                    CUSTOMER_TABLE + "." + CUSTOMER_NAME +
+                    " FROM " + SALES_ORDER_TABLE +
+                    " JOIN " + CUSTOMER_TABLE +
+                    " ON " + SALES_ORDER_TABLE + "." + CUSTOMER_ID + " = " + CUSTOMER_TABLE + "." + CUSTOMER_ID +
+                    " WHERE " + SALES_ORDER_TABLE + "." + "status" + "=" + 0 +
+                    " AND "+ SALES_ORDER_TABLE+"."+ SALES_ORDERID+"="+sales_order_id+
+                    " ORDER BY " + SALES_ORDERID + " ASC";
+        }
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(query, null);
@@ -1207,20 +1228,21 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         }
 
         @SuppressLint("Range")
-        public ArrayList<SALESORDERITEMS> getSlsorderitems(String Code) {
-            ArrayList<SALESORDERITEMS  > salesORlist = new ArrayList<>();
+        public ArrayList<SALESORDERITEMS> getSlsorderitems(Integer so_id) {
+            ArrayList<SALESORDERITEMS> salesORlist = new ArrayList<>();
+//            Log.v(TAG, "index=" + Code);
             String query = " SELECT " +
-                    SALES_ORDER_TABLE + "." + SALES_ORDERID + ", " +
-                    SALES_ORDER_TABLE + "." + CODE + ", " +
-                    SALES_ORDER_TABLE + "." + AMOUNT + ", " +
-                    SALES_ORDER_TABLE + "." + DATE + ", " +
-                    SALES_ORDER_TABLE + "." + SALES_REP_ID + ", " +
-                    CUSTOMER_TABLE + "." + CUSTOMER_ID + ", " +
-                    CUSTOMER_TABLE + "." + CUSTOMER_NAME +
-                    " FROM " + SALES_ORDER_TABLE +
-                    " INNER JOIN " + CUSTOMER_TABLE +
-                    " ON " + SALES_ORDER_TABLE + "." + CUSTOMER_ID + " = " + CUSTOMER_TABLE + "." + CUSTOMER_ID +
-                    " WHERE " + SALES_ORDER_TABLE+ "."+ "CODE" +"=" + Code.toString()+
+                    SALES_ORDER_ITEMS_TABLE + "." + SOI_ITEM_ID + ", " +
+                    SALES_ORDER_ITEMS_TABLE + "." + SOI_QUANTITY + ", " +
+                    SALES_ORDER_ITEMS_TABLE + "." + SOI_RATE + ", " +
+                    SALES_ORDER_ITEMS_TABLE + "." + SOI_AMOUNT + ", " +
+                    SALES_ORDER_ITEMS_TABLE + "." + SOI_UNIT_BASE_QUANTITY + ", " +
+                    SALES_ORDER_ITEMS_TABLE + "." + SOI_PRICE_LEVEL_ID + ", " +
+                    SALES_ORDER_ITEMS_TABLE + "." + SOI_UOM +
+                    " FROM " + SALES_ORDER_ITEMS_TABLE +
+                    " INNER JOIN " + SALES_ORDER_TABLE +
+                    " ON " + SALES_ORDER_TABLE + "." + SALES_ORDERID + " = " + SALES_ORDER_ITEMS_TABLE + "." + SALES_ORDERITEMID +
+                    " WHERE " + SALES_ORDER_ITEMS_TABLE+ "."+ SALES_ORDERITEMID +"=" + so_id+
                     " ORDER BY " + CODE + " ASC";
 
             SQLiteDatabase db = this.getReadableDatabase();
@@ -1229,9 +1251,16 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
             if (cursor.moveToFirst()) {
                 do {
                     SALESORDERITEMS salesorderitems = new SALESORDERITEMS();
-                    salesorderitems.setSalesorderid(cursor.getInt(cursor.getColumnIndex(SALES_ORDERID)));
-
-
+//                    salesorderitems.setSalesorderid(cursor.getInt(cursor.getColumnIndex(SALES_ORDERID)));
+                    salesorderitems.setSoiitemid(cursor.getInt(cursor.getColumnIndex(SOI_ITEM_ID)));
+                    salesorderitems.setSoiquantity(cursor.getInt(cursor.getColumnIndex(SOI_QUANTITY)));
+                    salesorderitems.setSoirate(cursor.getDouble(cursor.getColumnIndex(SOI_RATE)));
+                    salesorderitems.setSoiamount(cursor.getDouble(cursor.getColumnIndex(SOI_AMOUNT)));
+                    salesorderitems.setSoiunitbasequantity(cursor.getInt(cursor.getColumnIndex(SOI_UNIT_BASE_QUANTITY)));
+                    salesorderitems.setSoipricelevelid(cursor.getDouble(cursor.getColumnIndex(SOI_PRICE_LEVEL_ID)));
+                    Unit uom = new Unit();
+                    uom.setName(cursor.getString(cursor.getColumnIndex(SOI_UOM)));
+                    salesorderitems.setUom(uom.getName());
 
                     salesORlist.add(salesorderitems);
                 } while (cursor.moveToNext());
