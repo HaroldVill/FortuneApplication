@@ -1102,6 +1102,44 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         return DatabaseUtils.queryNumEntries(db, SALES_ORDER_ITEMS_TABLE);
     }
 
+    public int update_so_status(int so_id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String update_query = "UPDATE SALES_ORDER_TABLE SET STATUS = 1 where SALES_ORDERID = "+so_id;
+        try{
+            db.execSQL(update_query);
+            //db.setTransactionSuccessful();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        finally {
+            //db.endTransaction();
+        }
+        return 0;
+    }
+
+    public int get_so_status(int so_id){
+        int status =0;
+        try {
+            SQLiteDatabase db = this.getReadableDatabase();
+            String query = "SELECT STATUS FROM SALES_ORDER_TABLE WHERE SALES_ORDERID="+so_id;
+            Cursor cursor = db.rawQuery(query,null);
+            if (cursor.moveToFirst()) {
+                status = cursor.getInt(0);
+            }
+            cursor.close();
+            db.close();
+            return status;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        finally {
+
+        }
+        return status;
+    }
+
 // INSERT DATA INTO DASHBOARD TABLE
 
     public long insertDataIntoDashboard() {
@@ -1182,7 +1220,6 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                     " FROM " + SALES_ORDER_TABLE +
                     " JOIN " + CUSTOMER_TABLE +
                     " ON " + SALES_ORDER_TABLE + "." + CUSTOMER_ID + " = " + CUSTOMER_TABLE + "." + CUSTOMER_ID +
-                    " WHERE " + SALES_ORDER_TABLE + "." + "status" + "=" + 0 +
                     " ORDER BY " + SALES_ORDERID + " ASC";
         }
         else{
@@ -1197,8 +1234,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                     " FROM " + SALES_ORDER_TABLE +
                     " JOIN " + CUSTOMER_TABLE +
                     " ON " + SALES_ORDER_TABLE + "." + CUSTOMER_ID + " = " + CUSTOMER_TABLE + "." + CUSTOMER_ID +
-                    " WHERE " + SALES_ORDER_TABLE + "." + "status" + "=" + 0 +
-                    " AND "+ SALES_ORDER_TABLE+"."+ SALES_ORDERID+"="+sales_order_id+
+                    " WHERE "+ SALES_ORDER_TABLE+"."+ SALES_ORDERID+"="+sales_order_id+
                     " ORDER BY " + SALES_ORDERID + " ASC";
         }
 

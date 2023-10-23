@@ -2,6 +2,7 @@ package com.example.fortuneapplication;
 
 import static com.example.fortuneapplication.PazDatabaseHelper.SALES_ORDER_ITEMS_TABLE;
 import static com.example.fortuneapplication.PazDatabaseHelper.SALES_ORDER_TABLE;
+//import static com.example.fortuneapplication.PazDatabaseHelper.
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -9,6 +10,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,6 +68,20 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull HistoryAdapter.ViewHolder holder, int position) {
         SALESORDER salesOrder = salesOrderList.get(position);
+        PazDatabaseHelper db = new PazDatabaseHelper(context);
+        int status = db.get_so_status(salesOrder.getSalesorderid());
+        if(status !=0){
+
+            holder.sam1.setTextColor(Color.rgb(0,89,27));
+            holder.sam2.setTextColor(Color.rgb(0,89,27));
+            holder.sam4.setTextColor(Color.rgb(0,89,27));
+//            holder.removes.setEnabled(false);
+            holder.sam1.setTypeface(Typeface.DEFAULT_BOLD);
+            holder.sam2.setTypeface(Typeface.DEFAULT_BOLD);
+            holder.sam3.setTypeface(Typeface.DEFAULT_BOLD);
+            holder.sam4.setTypeface(Typeface.DEFAULT_BOLD);
+
+        }
         holder.sam1.setText(salesOrder.getCode());
         holder.sam2.setText(salesOrder.getCustomer().getCustomername());
         holder.sam3.setText(salesOrder.getAmount());
@@ -171,7 +188,6 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
                 x = connectList.get(0).getIp(); // Assuming the first IP address is what you need
                 api_url = "http://" + x + "/MobileAPI/sync_sales_order.php";
             }
-
             PazDatabaseHelper dbHelper = new PazDatabaseHelper(context);
             List<SALESORDER> salesOrderList = dbHelper.getSlsorder(salesOrderId);
             for (SALESORDER salesOrder : salesOrderList) {
@@ -194,7 +210,9 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
                 }
 //                        RequestFuture <JSONObject> future = RequestFuture.newFuture();
                 StringRequest send_invoices = new StringRequest(Request.Method.POST, api_url,
-                        response -> Toast.makeText(context, response, Toast.LENGTH_LONG).show(),
+                        response -> {Toast.makeText(context, response, Toast.LENGTH_LONG).show();
+                        if(response.contains("succesfully")){
+                        dbHelper.update_so_status(salesOrderId);}},
                         error -> Toast.makeText(context, "Connection Error", Toast.LENGTH_LONG).show()){
 
                     @Override
@@ -209,11 +227,8 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
                         return params;
                     }
                 };
-//                request_queue.wait(20);
                 request_queue = Volley.newRequestQueue(context);
                 request_queue.add(send_invoices);
-
-
             }
         } catch (Exception e) {
             e.printStackTrace();
