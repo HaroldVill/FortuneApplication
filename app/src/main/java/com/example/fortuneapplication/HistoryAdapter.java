@@ -104,10 +104,26 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
 
                                     int salesOrderId = salesOrder.getSalesorderid();
                                     sync(salesOrderId);
-//                                    deleteSalesOrderAndItems(salesOrderId);
-//                                    salesOrderList.remove(position);
-//                                    notifyItemRemoved(position);
-//                                    dialogInterface.dismiss();
+                                    PazDatabaseHelper db = new PazDatabaseHelper(context);
+                                    int status = db.get_so_status(salesOrder.getSalesorderid());
+                                    if(status !=0){
+
+                                        holder.sam1.setTextColor(Color.rgb(0,89,27));
+                                        holder.sam2.setTextColor(Color.rgb(0,89,27));
+                                        holder.sam4.setTextColor(Color.rgb(0,89,27));
+//                                      holder.removes.setEnabled(false);
+                                        holder.sam1.setTypeface(Typeface.DEFAULT_BOLD);
+                                        holder.sam2.setTypeface(Typeface.DEFAULT_BOLD);
+                                        holder.sam3.setTypeface(Typeface.DEFAULT_BOLD);
+                                        holder.sam4.setTypeface(Typeface.DEFAULT_BOLD);
+
+                                    }
+                                    notifyItemChanged(position,null);
+//                                    HistoryAdapter.this.notifyAll();
+//                                  deleteSalesOrderAndItems(salesOrderId);
+//                                  salesOrderList.remove(position);
+//                                  notifyItemRemoved(position);
+//                                  dialogInterface.dismiss();
                                 }
                             })
                             .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -211,7 +227,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
 //                        RequestFuture <JSONObject> future = RequestFuture.newFuture();
                 StringRequest send_invoices = new StringRequest(Request.Method.POST, api_url,
                         response -> {Toast.makeText(context, response, Toast.LENGTH_LONG).show();
-                        if(response.contains("succesfully")){
+                        if(response.contains("succesfully") || response.contains("has already been")){
                         dbHelper.update_so_status(salesOrderId);}},
                         error -> Toast.makeText(context, "Connection Error", Toast.LENGTH_LONG).show()){
 
