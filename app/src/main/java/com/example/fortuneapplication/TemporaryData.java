@@ -55,9 +55,10 @@ import java.util.Date;
 
 public class TemporaryData extends AppCompatActivity {
     TextView ref, names,moreinfo,notesam,dt;
-    ImageView hm;
+    ImageView hm,print;
     EditText supertot;
     RecyclerView datadisp;
+//    ImageView printbutton;
     private PazDatabaseHelper mDatabaseHelper;
     private TempoDataAdapter tempoDataAdapter;
     ArrayList<SALESORDERITEMS> orderItemss;
@@ -81,6 +82,7 @@ public class TemporaryData extends AppCompatActivity {
         notesam = findViewById(R.id.notesam);
         dt = findViewById(R.id.dt);
         arayba = findViewById(R.id.arayba);
+        print = findViewById(R.id.print);
         builder = new AlertDialog.Builder(this);
 
 
@@ -102,6 +104,19 @@ public class TemporaryData extends AppCompatActivity {
         ref.setText(salesOrderIdString);
         names.setText(nameses);
        //supertot.setText(sprt);
+
+
+        print.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent print_form = new Intent(TemporaryData.this, print_form.class);
+                SharedPreferences preferences = TemporaryData.this.getSharedPreferences("print_form",Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putInt("SO_ID", salesOrderId);
+                startActivity(print_form);
+//                finish();
+            }
+        });
 
         hm.setOnClickListener(new View.OnClickListener() {
             @Override

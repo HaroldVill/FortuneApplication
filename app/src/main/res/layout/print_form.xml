@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TemporaryData">
+    tools:context=".print_form">
 
     <RelativeLayout
         android:id="@+id/headr"
@@ -95,19 +95,19 @@
 
         </TextView>
 
-<!--        <TextView-->
-<!--            android:id="@+id/moreinfo"-->
-<!--            android:textColor="#151515"-->
-<!--            android:layout_alignParentRight="true"-->
-<!--            android:drawablePadding="3dp"-->
-<!--            android:textStyle="bold"-->
-<!--            android:drawableRight="@drawable/info"-->
-<!--            android:layout_marginLeft="10dp"-->
-<!--            android:layout_marginTop="7dp"-->
-<!--            android:text="More Info:"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content">-->
-<!--        </TextView>-->
+        <!--        <TextView-->
+        <!--            android:id="@+id/moreinfo"-->
+        <!--            android:textColor="#151515"-->
+        <!--            android:layout_alignParentRight="true"-->
+        <!--            android:drawablePadding="3dp"-->
+        <!--            android:textStyle="bold"-->
+        <!--            android:drawableRight="@drawable/info"-->
+        <!--            android:layout_marginLeft="10dp"-->
+        <!--            android:layout_marginTop="7dp"-->
+        <!--            android:text="More Info:"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content">-->
+        <!--        </TextView>-->
 
 
         <TextView

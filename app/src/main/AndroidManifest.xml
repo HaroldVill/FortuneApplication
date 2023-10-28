@@ -131,6 +131,10 @@
             android:exported="false"
             android:label="@string/title_activity_select" />
         <activity
+            android:name=".print_form"
+            android:exported="false"
+            />
+        <activity
             android:name=".SinkItem"
             android:exported="false" />
         <activity
