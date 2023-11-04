@@ -1216,9 +1216,12 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                     SALES_ORDER_TABLE + "." + DATE + ", " +
                     SALES_ORDER_TABLE + "." + SALES_REP_ID + ", " +
                     CUSTOMER_TABLE + "." + CUSTOMER_ID + ", " +
+                    SALESREP_TABLE + "." + SALESREP_NAME + ", " +
                     CUSTOMER_TABLE + "." + CUSTOMER_NAME +
                     " FROM " + SALES_ORDER_TABLE +
-                    " JOIN " + CUSTOMER_TABLE +
+                    " INNER JOIN " + SALESREP_TABLE +
+                    " ON " + SALESREP_TABLE + "." + SALESREP_ID + " = " + SALES_ORDER_TABLE + "." + SALES_REP_ID +
+                    " INNER JOIN " + CUSTOMER_TABLE +
                     " ON " + SALES_ORDER_TABLE + "." + CUSTOMER_ID + " = " + CUSTOMER_TABLE + "." + CUSTOMER_ID +
                     " ORDER BY " + SALES_ORDERID + " ASC";
         }
@@ -1230,9 +1233,12 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                     SALES_ORDER_TABLE + "." + DATE + ", " +
                     SALES_ORDER_TABLE + "." + SALES_REP_ID + ", " +
                     CUSTOMER_TABLE + "." + CUSTOMER_ID + ", " +
+                    SALESREP_TABLE + "." + SALESREP_NAME + ", " +
                     CUSTOMER_TABLE + "." + CUSTOMER_NAME +
                     " FROM " + SALES_ORDER_TABLE +
-                    " JOIN " + CUSTOMER_TABLE +
+                    " INNER JOIN " + SALESREP_TABLE +
+                    " ON " + SALESREP_TABLE + "." + SALESREP_ID + " = " + SALES_ORDER_TABLE + "." + SALES_REP_ID +
+                    " INNER JOIN " + CUSTOMER_TABLE +
                     " ON " + SALES_ORDER_TABLE + "." + CUSTOMER_ID + " = " + CUSTOMER_TABLE + "." + CUSTOMER_ID +
                     " WHERE "+ SALES_ORDER_TABLE+"."+ SALES_ORDERID+"="+sales_order_id+
                     " ORDER BY " + SALES_ORDERID + " ASC";
@@ -1254,6 +1260,8 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                 customerR.setCustomername(cursor.getString(cursor.getColumnIndex(CUSTOMER_NAME)));
                 customerR.setId(cursor.getString(cursor.getColumnIndex(CUSTOMER_ID)));
 
+                salesorder.set_sales_rep_name(cursor.getString(cursor.getColumnIndex(SALESREP_NAME)));
+
                 salesorder.setCustomer(customerR);
                 salesORlist.add(salesorder);
             } while (cursor.moveToNext());
@@ -1268,6 +1276,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
             ArrayList<SALESORDERITEMS> salesORlist = new ArrayList<>();
 //            Log.v(TAG, "index=" + Code);
             String query = " SELECT " +
+                    TABLE_NAME + "." + ITEM_DESCRIPTION + ", " +
                     SALES_ORDER_ITEMS_TABLE + "." + SOI_ITEM_ID + ", " +
                     SALES_ORDER_ITEMS_TABLE + "." + SOI_QUANTITY + ", " +
                     SALES_ORDER_ITEMS_TABLE + "." + SOI_RATE + ", " +
@@ -1276,6 +1285,8 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                     SALES_ORDER_ITEMS_TABLE + "." + SOI_PRICE_LEVEL_ID + ", " +
                     SALES_ORDER_ITEMS_TABLE + "." + SOI_UOM +
                     " FROM " + SALES_ORDER_ITEMS_TABLE +
+                    " INNER JOIN " + TABLE_NAME +
+                    " ON " + TABLE_NAME + "." + ITEMID + " = " + SALES_ORDER_ITEMS_TABLE + "." + SOI_ITEM_ID +
                     " INNER JOIN " + SALES_ORDER_TABLE +
                     " ON " + SALES_ORDER_TABLE + "." + SALES_ORDERID + " = " + SALES_ORDER_ITEMS_TABLE + "." + SALES_ORDERITEMID +
                     " WHERE " + SALES_ORDER_ITEMS_TABLE+ "."+ SALES_ORDERITEMID +"=" + so_id+
@@ -1297,7 +1308,9 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                     Unit uom = new Unit();
                     uom.setName(cursor.getString(cursor.getColumnIndex(SOI_UOM)));
                     salesorderitems.setUom(uom.getName());
-
+                    Item item = new Item();
+                    item.setDescription(cursor.getString(cursor.getColumnIndex(ITEM_DESCRIPTION)));
+                    salesorderitems.setitemdesc(item.getDescription());
                     salesORlist.add(salesorderitems);
                 } while (cursor.moveToNext());
             }

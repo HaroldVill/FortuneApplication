@@ -20,8 +20,9 @@ public class SALESORDERITEMS {
      private String soicustomfield5;
      private SALESORDER salesorder ;
      private Item item;
+     private String Itemdesc;
 
-     public SALESORDERITEMS(int id, int salesorderid, int soiitemid, int soiquantity, int soiunitbasequantity, String uom, double soirate, double soiamount, double taxable, double taxableamount, double taxamount, double soipricelevelid, String soicustomfield1, String soicustomfield2, String soicustomfield3, String soicustomfield4, String soicustomfield5, SALESORDER salesorder, Item item) {
+     public SALESORDERITEMS(int id, int salesorderid, int soiitemid, int soiquantity, int soiunitbasequantity, String uom, double soirate, double soiamount, double taxable, double taxableamount, double taxamount, double soipricelevelid, String soicustomfield1, String soicustomfield2, String soicustomfield3, String soicustomfield4, String soicustomfield5, SALESORDER salesorder, Item item, String Itemdesc) {
           this.id = id;
           this.salesorderid = salesorderid;
           this.soiitemid = soiitemid;
@@ -198,4 +199,11 @@ public class SALESORDERITEMS {
      public void setItem(Item item) {
           this.item = item;
      }
+
+     public String getitemdesc(){
+         return Itemdesc;
+     }
+    public void setitemdesc(String Itemdesc) {
+        this.Itemdesc = Itemdesc;
+    }
 }
