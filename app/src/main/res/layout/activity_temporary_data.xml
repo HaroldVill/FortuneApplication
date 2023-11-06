@@ -149,7 +149,7 @@
 
     <TableLayout
         android:id="@+id/tbl"
-        android:layout_width="410dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/headr"
         android:layout_marginStart="0dp"

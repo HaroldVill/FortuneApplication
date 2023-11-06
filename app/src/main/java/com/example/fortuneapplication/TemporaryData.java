@@ -312,8 +312,9 @@ public class TemporaryData extends AppCompatActivity implements PrintingCallback
             title.setColor(ContextCompat.getColor(this, R.color.white));
             title.setTextSize(7);
             title.setTextAlign(Paint.Align.RIGHT);
-            String amount = Double.toString(salesOrderItems.getSoiamount());
-            canvas.drawText(amount, 160, initial_pageHeight-3, title);
+            Double amount = salesOrderItems.getSoirate() * salesOrderItems.getSoiquantity();
+//            String amount = Double.toString(salesOrderItems.getSoiamount());
+            canvas.drawText(Double.toString(amount), 160, initial_pageHeight-3, title);
 
             title.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
             title.setColor(ContextCompat.getColor(this, R.color.white));
