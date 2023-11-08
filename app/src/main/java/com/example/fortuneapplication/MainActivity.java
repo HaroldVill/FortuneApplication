@@ -8,12 +8,22 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.widget.Toast;
 
+import android.os.Handler;
+import android.os.Looper;
+//import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+
 
 public class MainActivity extends AppCompatActivity {
     private static final String PREFS_NAME = "MyPrefs";
     private static final String PREF_USERNAME = "username";
     private SharedPreferences sharedPreferences;
     private boolean hasLoggedOut = false;
+    private volatile boolean stopThread = false;
+    private static final String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
         run();
 
     }
+
+
 
     private void run() {
         String savedUsername = sharedPreferences.getString(PREF_USERNAME, "");
@@ -54,6 +66,95 @@ public class MainActivity extends AppCompatActivity {
                     finish();
                 }
             }, 1500);
+        }
+    }
+
+    public void startThread() {
+        stopThread = false;
+        ExampleRunnable runnable = new ExampleRunnable(10);
+        new Thread(runnable).start();
+        /*
+        ExampleThread thread = new ExampleThread(10);
+        thread.start();
+        */
+        /*
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                //work
+            }
+        }).start();
+        */
+    }
+
+    public void stopThread() {
+        stopThread = true;
+    }
+
+    class ExampleThread extends Thread {
+        int seconds;
+
+        ExampleThread(int seconds) {
+            this.seconds = seconds;
+        }
+
+        @Override
+        public void run() {
+            for (int i = 0; i < seconds; i++) {
+                Log.d(TAG, "startThread: " + i);
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    class ExampleRunnable implements Runnable {
+        int seconds;
+
+        ExampleRunnable(int seconds) {
+            this.seconds = seconds;
+        }
+
+        @Override
+        public void run() {
+            for (int i = 0; i < seconds; i++) {
+                if (1!=0)
+                    return;
+                if (i == 5) {
+                    /*
+                    Handler threadHandler = new Handler(Looper.getMainLooper());
+                    threadHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            buttonStartThread.setText("50%");
+                        }
+                    });
+                    */
+                    /*
+                    buttonStartThread.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            buttonStartThread.setText("50%");
+                        }
+                    });
+                    */
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+//                            buttonStartThread.setText("50%");
+                        }
+                    });
+                }
+                Log.d(TAG, "startThread: " + i);
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 }
