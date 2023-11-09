@@ -108,8 +108,9 @@ public class History extends AppCompatActivity {
                 try {
                     ArrayList<CONNECT> connectList = mDatabaseHelper.SelectUPDT();
                     if (!connectList.isEmpty()) {
+                        String sales_type = mDatabaseHelper.sales_type();
                         x = connectList.get(0).getIp(); // Assuming the first IP address is what you need
-                        api_url = "http://" + x + "/MobileAPI/sync_sales_order.php";
+                        api_url = "http://" + x + "/MobileAPI/"+sales_type;
                     }
 
                     PazDatabaseHelper dbHelper = new PazDatabaseHelper(getApplicationContext());

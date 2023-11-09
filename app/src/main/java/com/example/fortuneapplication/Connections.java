@@ -4,6 +4,9 @@ import static com.example.fortuneapplication.PazDatabaseHelper.CONECTIONID;
 import static com.example.fortuneapplication.PazDatabaseHelper.CONNECTION_IP;
 import static com.example.fortuneapplication.PazDatabaseHelper.CONNECTION_NAME;
 import static com.example.fortuneapplication.PazDatabaseHelper.CONNECTION_TABLE;
+import static com.example.fortuneapplication.PazDatabaseHelper.SYSTEM_SETTINGS;
+import static com.example.fortuneapplication.PazDatabaseHelper.SYSTEM_SETTINGS_NAME;
+import static com.example.fortuneapplication.PazDatabaseHelper.SYSTEM_SETTINGS_VALUE;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -26,8 +29,8 @@ import java.util.ArrayList;
 
 public class Connections extends AppCompatActivity {
     TextView creatcon, ids;
-    TextView selection, ipadd;
-    Button apply;
+    TextView selection, ipadd, select_sales_type,sales_type_label;
+    Button apply,apply_sales_type;
     private PazDatabaseHelper mdatabaseHelper;
 
     @Override
@@ -37,12 +40,19 @@ public class Connections extends AppCompatActivity {
 
         creatcon = findViewById(R.id.creatcon);
         selection = findViewById(R.id.selection);
+        select_sales_type = findViewById(R.id.select_sales_type);
+        sales_type_label = findViewById(R.id.sales_type_label);
         mdatabaseHelper = new PazDatabaseHelper(this);
         ipadd = findViewById(R.id.ipadd);
         apply = findViewById(R.id.apply);
         ids = findViewById(R.id.ids);
-
-
+        apply_sales_type=findViewById(R.id.apply_sales_type);
+        apply_sales_type.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                update_sales_type();
+            }
+        });
         apply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,7 +68,25 @@ public class Connections extends AppCompatActivity {
                 finish();
             }
         });
-
+        select_sales_type.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PopupMenu popupMenu = new PopupMenu(Connections.this,select_sales_type);
+                Menu menu = popupMenu.getMenu();
+                menu.add(Menu.NONE,Menu.NONE,Menu.NONE,"sync_sales_order.php");
+                menu.add(Menu.NONE,Menu.NONE,Menu.NONE,"sync_sales_receipt.php");
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        String sales_type = menuItem.getTitle().toString();
+                        select_sales_type.setText(sales_type);
+                        sales_type_label.setText(sales_type);
+                        return true;
+                    }
+                });
+                popupMenu.show();
+            }
+        });
         selection.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -80,7 +108,6 @@ public class Connections extends AppCompatActivity {
                         selection.setText(connectionName);
                         ipadd.setText(ipconf);
                         ids.setText(String.valueOf(connectionId));
-
                         return true;
                     }
                 });
@@ -155,6 +182,31 @@ public class Connections extends AppCompatActivity {
 
         if (numSpecificRowUpdated > 0) {
             Toast.makeText(this, "Successfully IP Set", Toast.LENGTH_SHORT).show();
+            selection.setText("");
+            ipadd.setText("");
+
+            Intent nanay = new Intent(Connections.this, SyncDatas.class);
+            startActivity(nanay);
+            finish();
+        }
+    }
+
+    public void update_sales_type() {
+
+        String sales_type = sales_type_label.getText().toString();
+
+        SQLiteDatabase db = mdatabaseHelper.getWritableDatabase();
+        ContentValues specificRowValues = new ContentValues();
+        specificRowValues.put("VALUE", sales_type);
+
+        String whereClause = SYSTEM_SETTINGS_NAME + " = ?";
+        String[] whereArgs = {"SALES_TYPE"};
+
+        int numSpecificRowUpdated = db.update(SYSTEM_SETTINGS, specificRowValues, whereClause, whereArgs);
+        db.close();
+
+        if (numSpecificRowUpdated > 0) {
+            Toast.makeText(this, "Successfully Sales Type Set", Toast.LENGTH_SHORT).show();
             selection.setText("");
             ipadd.setText("");
 

@@ -149,6 +149,13 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
     protected static final String CONNECTION_NAME = "conection_name";
     protected static final String CONNECTION_IP = "conenction_ip";
 
+    //SYSTEM SETTINGS TABLE
+    protected static final String SYSTEM_SETTINGS = "SYSTEM_SETTINGS";
+    protected static final String SYSTEM_SETTINGS_ID = "id";
+    protected static final String SYSTEM_SETTINGS_NAME = "NAME";
+    protected static final String SYSTEM_SETTINGS_VALUE = "VALUE";
+
+
     public PazDatabaseHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
 
@@ -287,6 +294,14 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                 CONNECTION_IP + " TEXT, " +
                 "defaultconn TEXT DEFAULT '0')";
 
+        String CREATE_SYSTEM_SETTINGS_TABLE = "CREATE TABLE " + SYSTEM_SETTINGS + " (" +
+                SYSTEM_SETTINGS_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                SYSTEM_SETTINGS_NAME + " TEXT , " +
+                SYSTEM_SETTINGS_VALUE+ " TEXT DEFAULT '', UNIQUE("+SYSTEM_SETTINGS_NAME+")" +
+                ");";
+
+        String INSERT_SYSTEM_SETTINGS ="INSERT INTO "+SYSTEM_SETTINGS+" VALUES (NULL,'SALES_TYPE','')";
+
         db.execSQL(CREATE_CONNECTIONTABLE);
         db.execSQL(CREATE_DASHBOARDTABLE);
         db.execSQL(CREATE_SALES_ORDER_ITEMS_TABLE);
@@ -300,6 +315,8 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_PAYMENT_TERMS_TABLE);
         db.execSQL(CREATE_PRICE_LEVEL_TABLE);
         db.execSQL(CREATE_PRICE_LEVEL_LINES_TABLE);
+        db.execSQL(CREATE_SYSTEM_SETTINGS_TABLE);
+        db.execSQL(INSERT_SYSTEM_SETTINGS);
 
     }
 
@@ -317,6 +334,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + PRICE_LEVEL_LINES_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + SALES_ORDER_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + SALES_ORDER_ITEMS_TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + SYSTEM_SETTINGS);
         onCreate(db);
     }
 
@@ -1342,6 +1360,20 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         db.close();
         return connectlist;
+    }
+
+    public String sales_type(){
+        String sales_type="";
+        String query ="SELECT "+ SYSTEM_SETTINGS_VALUE +" FROM "+ SYSTEM_SETTINGS +
+                " WHERE "+ SYSTEM_SETTINGS_NAME +"= SALES_TYPE";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query,null);
+        if(cursor.moveToFirst()){
+            while(cursor.moveToNext()){
+                sales_type=cursor.getString(cursor.getColumnIndex(SYSTEM_SETTINGS_VALUE));
+            }
+        }
+        return sales_type;
     }
 
     }
