@@ -54,7 +54,6 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class History extends AppCompatActivity {
-    private static final String SERVER_URL = "http://192.168.254.230:8082/mobileapi/sync_sales_order.php";
     private static final String AUTHORIZATION_HEADER = "Bearer YourAuthToken";
     AlertDialog.Builder builder;
     RecyclerView histview;

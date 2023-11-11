@@ -156,6 +156,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
     protected static final String SYSTEM_SETTINGS_VALUE = "VALUE";
 
 
+
     public PazDatabaseHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
 
@@ -1364,14 +1365,13 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
 
     public String sales_type(){
         String sales_type="";
-        String query ="SELECT "+ SYSTEM_SETTINGS_VALUE +" FROM "+ SYSTEM_SETTINGS +
-                " WHERE "+ SYSTEM_SETTINGS_NAME +"= SALES_TYPE";
+        String query ="SELECT "+ "SYSTEM_SETTINGS"+"."+SYSTEM_SETTINGS_VALUE +" FROM "+ SYSTEM_SETTINGS +
+                " WHERE "+ SYSTEM_SETTINGS_NAME +"= 'SALES_TYPE'";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(query,null);
         if(cursor.moveToFirst()){
-            while(cursor.moveToNext()){
                 sales_type=cursor.getString(cursor.getColumnIndex(SYSTEM_SETTINGS_VALUE));
-            }
+                Log.d("sales_type",sales_type);
         }
         return sales_type;
     }

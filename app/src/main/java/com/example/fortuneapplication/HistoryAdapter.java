@@ -12,6 +12,7 @@ import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -202,7 +203,9 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
             ArrayList<CONNECT> connectList = mDatabaseHelper.SelectUPDT();
             if (!connectList.isEmpty()) {
                 x = connectList.get(0).getIp(); // Assuming the first IP address is what you need
-                api_url = "http://" + x + "/MobileAPI/sync_sales_order.php";
+                String sales_type = mDatabaseHelper.sales_type();
+                Log.d("sales_type",sales_type);
+                api_url = "http://" + x + "/MobileAPI/"+sales_type;
             }
             PazDatabaseHelper dbHelper = new PazDatabaseHelper(context);
             List<SALESORDER> salesOrderList = dbHelper.getSlsorder(salesOrderId);

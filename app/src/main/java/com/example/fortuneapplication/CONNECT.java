@@ -4,6 +4,7 @@ public class CONNECT {
     private int id;
     private String name;
     private String ip;
+    private String sales_type;
 
     public CONNECT(int id, String name, String ip) {
         this.id = id;
@@ -37,5 +38,11 @@ public class CONNECT {
 
     public void setIp(String ip) {
         this.ip = ip;
+    }
+    public String get_sales_type() {
+        return sales_type;
+    }
+    public void set_sales_type(String sales_type) {
+        this.sales_type = sales_type;
     }
 }
