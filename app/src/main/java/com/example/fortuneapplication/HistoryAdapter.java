@@ -70,8 +70,8 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
     public void onBindViewHolder(@NonNull HistoryAdapter.ViewHolder holder, int position) {
         SALESORDER salesOrder = salesOrderList.get(position);
         PazDatabaseHelper db = new PazDatabaseHelper(context);
-        int status = db.get_so_status(salesOrder.getSalesorderid());
-        if(status !=0){
+        int posted = db.get_so_posted_flag(salesOrder.getSalesorderid());
+        if(posted !=0){
 
             holder.sam1.setTextColor(Color.rgb(0,89,27));
             holder.sam2.setTextColor(Color.rgb(0,89,27));
@@ -97,17 +97,19 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
 
                     // Set the title and message for the dialog
                     builder.setTitle("WARNING")
-                            .setMessage("Do you want to sync this transaction?")
+                            .setMessage("Do you want to post this transaction?")
                             .setCancelable(true)
                             .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
 
                                     int salesOrderId = salesOrder.getSalesorderid();
-                                    sync(salesOrderId);
+//                                    sync(salesOrderId);
                                     PazDatabaseHelper db = new PazDatabaseHelper(context);
-                                    int status = db.get_so_status(salesOrder.getSalesorderid());
-                                    if(status !=0){
+                                    db.update_so_posted_flag(salesOrderId);
+                                    Toast.makeText(context, salesOrder.getCode().toString() +" Succesfully Posted.", Toast.LENGTH_LONG).show();
+                                    int posted = db.get_so_posted_flag(salesOrder.getSalesorderid());
+                                    if(posted !=0){
 
                                         holder.sam1.setTextColor(Color.rgb(0,89,27));
                                         holder.sam2.setTextColor(Color.rgb(0,89,27));
@@ -120,11 +122,6 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
 
                                     }
                                     notifyItemChanged(position,null);
-//                                    HistoryAdapter.this.notifyAll();
-//                                  deleteSalesOrderAndItems(salesOrderId);
-//                                  salesOrderList.remove(position);
-//                                  notifyItemRemoved(position);
-//                                  dialogInterface.dismiss();
                                 }
                             })
                             .setNegativeButton("No", new DialogInterface.OnClickListener() {

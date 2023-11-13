@@ -23,8 +23,10 @@ public class SALESORDER {
     private Location location;
     private SalesRepList salesRepList;
     private String sales_rep_name;
+    private String item_group;
 
-    public SALESORDER(int salesorderid, String code, String date, int customerid, int locationid, int salesrepid, String dateneeded, int ponumber, int shipvia, String amount, String notes, String custom1, String custom2, String custom3, String custom4, String custom5, Customer customer, SALESORDERITEMS salesorderitems, Item item, Location location, SalesRepList salesRepList, String sales_rep_name) {
+
+    public SALESORDER(int salesorderid, String code, String date, int customerid, int locationid, int salesrepid, String dateneeded, int ponumber, int shipvia, String amount, String notes, String custom1, String custom2, String custom3, String custom4, String custom5, Customer customer, SALESORDERITEMS salesorderitems, Item item, Location location, SalesRepList salesRepList, String sales_rep_name,String item_group) {
         this.salesorderid = salesorderid;
         this.code = code;
         this.date = date;
@@ -46,6 +48,7 @@ public class SALESORDER {
         this.item = item;
         this.location = location;
         this.salesRepList = salesRepList;
+        this.item_group = item_group;
     }
     public  SALESORDER(){
 
@@ -221,5 +224,9 @@ public class SALESORDER {
     public void setSalesRepList(SalesRepList salesRepList) {
         this.salesRepList = salesRepList;
     }
+    public void set_item_group(String item_group){this.item_group=item_group;}
+    public String get_item_group(){return item_group;}
+
+
 }
 

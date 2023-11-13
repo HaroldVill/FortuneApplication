@@ -115,6 +115,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
     private static final String CUSTOM_FIELD3 = "custom_field3";
     private static final String CUSTOM_FIELD4 = "custom_field4";
     private static final String CUSTOM_FIELD5 = "custom_field5";
+    private static final String POSTED = "posted";
 
     // SALES ORDER ITEMS //
     protected static final String SALES_ORDER_ITEMS_TABLE = "Sales_Order_Items_Table";
@@ -257,7 +258,8 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                 CUSTOM_FIELD3 + " TEXT, " +
                 CUSTOM_FIELD4 + " TEXT, " +
                 CUSTOM_FIELD5 + " TEXT, " +
-                "status INTEGER DEFAULT '0')";
+                "status INTEGER DEFAULT '0'," +
+                "posted INTEGER DEFAULT '0')";
 
                // ");";
 
@@ -1136,12 +1138,49 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         }
         return 0;
     }
+    public int update_so_posted_flag(int so_id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String update_query = "UPDATE SALES_ORDER_TABLE SET POSTED = 1 where SALES_ORDERID = "+so_id;
+        try{
+            db.execSQL(update_query);
+            //db.setTransactionSuccessful();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        finally {
+            //db.endTransaction();
+        }
+        return 0;
+    }
 
     public int get_so_status(int so_id){
         int status =0;
         try {
             SQLiteDatabase db = this.getReadableDatabase();
             String query = "SELECT STATUS FROM SALES_ORDER_TABLE WHERE SALES_ORDERID="+so_id;
+            Cursor cursor = db.rawQuery(query,null);
+            if (cursor.moveToFirst()) {
+                status = cursor.getInt(0);
+            }
+            cursor.close();
+            db.close();
+            return status;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        finally {
+
+        }
+        return status;
+    }
+
+    public int get_so_posted_flag(int so_id){
+        int status =0;
+        try {
+            SQLiteDatabase db = this.getReadableDatabase();
+            String query = "SELECT POSTED FROM SALES_ORDER_TABLE WHERE SALES_ORDERID="+so_id;
             Cursor cursor = db.rawQuery(query,null);
             if (cursor.moveToFirst()) {
                 status = cursor.getInt(0);
@@ -1285,8 +1324,8 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                 salesORlist.add(salesorder);
             } while (cursor.moveToNext());
         }
-        cursor.close();
-        db.close();
+//        cursor.close();
+//        db.close();
         return salesORlist;
         }
 
@@ -1333,8 +1372,8 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                     salesORlist.add(salesorderitems);
                 } while (cursor.moveToNext());
             }
-            cursor.close();
-            db.close();
+//            cursor.close();
+//            db.close();
             return salesORlist;
         }
 
@@ -1374,6 +1413,37 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                 Log.d("sales_type",sales_type);
         }
         return sales_type;
+    }
+
+    public int get_open_sales_order(){
+        int sales_order_id = 0;
+        String query ="SELECT "+SALES_ORDERID +" FROM "+ SALES_ORDER_TABLE +
+                " WHERE STATUS = 0 and POSTED=1  LIMIT 1";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query,null);
+        if(cursor.moveToFirst()){
+            sales_order_id=cursor.getInt(cursor.getColumnIndex(SALES_ORDERID));
+            Log.d("sales_order_id", Integer.toString(sales_order_id));
+        }
+        return sales_order_id;
+    }
+
+    @SuppressLint("Range")
+    public ArrayList<SALESORDERITEMS> get_principal_performance(){
+        ArrayList<SALESORDERITEMS> pr = new ArrayList<>();
+        String query="SELECT ITEM_GROUP,ROUND(SUM(AMOUNT),2) AMOUNT FROM Sales_Order_Items_Table \n" +
+                "INNER JOIN ITEM_TABLE ON ITEM_TABLE.item_id = SALES_ORDER_ITEMS_TABLE.item_id\n" +
+                "GROUP BY ITEM_GROUP";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        if(cursor.moveToFirst()){
+            while(cursor.moveToNext()){
+                SALESORDER so = new SALESORDER();
+                so.set_item_group(cursor.getString(cursor.getColumnIndex(ITEM_GROUP)));
+                so.setAmount(cursor.getString(cursor.getColumnIndex(AMOUNT)));
+            }
+        }
+        return pr;
     }
 
     }
