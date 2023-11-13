@@ -28,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        startThread();
+        Log.d("Created","1");
         setContentView(R.layout.activity_main);
         sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         run();
@@ -61,8 +63,11 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     Intent t = new Intent(MainActivity.this, LogIn.class);
+
                     startActivity(t);
+
                     Toast.makeText(MainActivity.this, "WELCOME TO PAZ_DISTRIBUTION APP", Toast.LENGTH_LONG).show();
+
                     finish();
                 }
             }, 1500);
@@ -71,8 +76,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void startThread() {
         stopThread = false;
-        ExampleRunnable runnable = new ExampleRunnable(10);
+        ExampleRunnable runnable = new ExampleRunnable(1000);
         new Thread(runnable).start();
+        Log.d("Test", "1");
         /*
         ExampleThread thread = new ExampleThread(10);
         thread.start();
@@ -87,29 +93,7 @@ public class MainActivity extends AppCompatActivity {
         */
     }
 
-    public void stopThread() {
-        stopThread = true;
-    }
 
-    class ExampleThread extends Thread {
-        int seconds;
-
-        ExampleThread(int seconds) {
-            this.seconds = seconds;
-        }
-
-        @Override
-        public void run() {
-            for (int i = 0; i < seconds; i++) {
-                Log.d(TAG, "startThread: " + i);
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
 
     class ExampleRunnable implements Runnable {
         int seconds;
@@ -120,35 +104,20 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void run() {
+            Log.d("StartThread", Integer.toString(seconds));
             for (int i = 0; i < seconds; i++) {
-                if (1!=0)
-                    return;
-                if (i == 5) {
-                    /*
-                    Handler threadHandler = new Handler(Looper.getMainLooper());
-                    threadHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            buttonStartThread.setText("50%");
-                        }
-                    });
-                    */
-                    /*
-                    buttonStartThread.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            buttonStartThread.setText("50%");
-                        }
-                    });
-                    */
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-//                            buttonStartThread.setText("50%");
-                        }
-                    });
+//                if (1!=0)
+//                    return;
+                if (i ==10 || i==20) {
+                    Log.d("StartThread", "floof");
+//                    runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+////                            buttonStartThread.setText("50%");
+//                        }
+//                    });
                 }
-                Log.d(TAG, "startThread: " + i);
+                Log.d(TAG, "startThread2: " + i);
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
