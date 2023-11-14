@@ -403,7 +403,6 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
     public boolean storeSalesRep(SalesRepList salesRepList) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-
         values.put(SALESREP_ID, salesRepList.getSrid());
         values.put(SALESREP_NAME, salesRepList.getSrname());
         values.put(SALESREP_ADDRESS, salesRepList.getSraddress());
