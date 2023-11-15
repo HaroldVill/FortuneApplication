@@ -303,6 +303,9 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                 SYSTEM_SETTINGS_VALUE+ " TEXT DEFAULT '', UNIQUE("+SYSTEM_SETTINGS_NAME+")" +
                 ");";
 
+//        String  ALTER_ITEM_TABLE = "ALTER TABLE " + SALES_ORDER_TABLE + " ADD COLUMN " +
+//                "posted" + " INTEGER DEFAULT 0";
+
         String INSERT_SYSTEM_SETTINGS ="INSERT INTO "+SYSTEM_SETTINGS+" VALUES (NULL,'SALES_TYPE','')";
 
         db.execSQL(CREATE_CONNECTIONTABLE);
@@ -320,6 +323,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_PRICE_LEVEL_LINES_TABLE);
         db.execSQL(CREATE_SYSTEM_SETTINGS_TABLE);
         db.execSQL(INSERT_SYSTEM_SETTINGS);
+//        db.execSQL(ALTER_ITEM_TABLE);
 
     }
 

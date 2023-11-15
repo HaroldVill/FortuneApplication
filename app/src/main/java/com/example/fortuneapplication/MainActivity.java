@@ -53,6 +53,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mDatabaseHelper = new PazDatabaseHelper(this);
+//        SQLiteDatabase db = mDatabaseHelper.getWritableDatabase();
+//        mDatabaseHelper.onCreate(db);
         Log.d("Created","1");
         setContentView(R.layout.activity_main);
         sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
@@ -227,7 +229,7 @@ public class MainActivity extends AppCompatActivity {
 //                    RequestQueue requestQueue = Volley.newRequestQueue(MainActivity.this);
 //                    requestQueue.add(stringRequest);
                 }
-                if(i%15 == 0){
+                if(i%605 == 0){
 
                     StringRequest stringRequest = new StringRequest(Request.Method.GET, JSON_URL,
                             new Response.Listener<String>() {
