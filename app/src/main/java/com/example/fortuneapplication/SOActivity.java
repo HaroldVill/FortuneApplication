@@ -147,6 +147,7 @@ public class SOActivity extends AppCompatActivity {
 
                 Intent sss = new Intent(SOActivity.this, SalesRep.class);
                 startActivity(sss);
+                finish();
 
             }
         });
@@ -157,6 +158,7 @@ public class SOActivity extends AppCompatActivity {
 
                 Intent lll = new Intent(SOActivity.this, Locations.class);
                 startActivity(lll);
+                finish();
             }
         });
         //*DATES//*
@@ -216,6 +218,7 @@ public class SOActivity extends AppCompatActivity {
 
                 Intent P = new Intent(SOActivity.this, SOdisplayCustomer.class);
                 startActivity(P);
+                finish();
             }
         });
     }
@@ -239,6 +242,7 @@ public class SOActivity extends AppCompatActivity {
             Intent ik = new Intent(SOActivity.this, ItemPricelvlChoiceDisplay.class);
             ik.putExtra("PRI", value);
             startActivity(ik);
+            finish();
 
         } else {
             //adis.setEnabled(false);
@@ -296,17 +300,18 @@ public class SOActivity extends AppCompatActivity {
 
                 PazDatabaseHelper databaseHelper = new PazDatabaseHelper(getApplicationContext());
                 databaseHelper.deleOrderSample();
+//                recyclerViews.setLayoutManager(new LinearLayoutManager(this));
+//                mDatabaseHelper = new PazDatabaseHelper(this);
+//                itemList.addAll(mDatabaseHelper.getAllOrderItem());
+//                ADisplayItemAdapter adapter = new ADisplayItemAdapter(this, itemList, mDatabaseHelper);
+//                recyclerViews.setAdapter(adapter);
+//                autref.setText(referenceNumber);
                 startActivity(getIntent());
-
+                finish();
             }
 
 
         }
-
-
-
-
-
 
 
 //                String nts = textnote.getText().toString();

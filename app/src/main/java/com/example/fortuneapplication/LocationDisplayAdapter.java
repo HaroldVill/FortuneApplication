@@ -52,6 +52,7 @@ public class LocationDisplayAdapter extends RecyclerView.Adapter<LocationDisplay
                 editor.apply();
                 context.startActivity(lol);
 
+
             }
         });
 

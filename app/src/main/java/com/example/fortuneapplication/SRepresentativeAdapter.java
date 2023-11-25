@@ -51,7 +51,6 @@ public class SRepresentativeAdapter extends RecyclerView.Adapter<SRepresentative
                 editor.putString("SRNAME", salesRepList.getSrname());
                 editor.apply();
                 context.startActivity(tras);
-
             }
         });
 

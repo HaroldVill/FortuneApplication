@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mDatabaseHelper = new PazDatabaseHelper(this);
+
 //        SQLiteDatabase db = mDatabaseHelper.getWritableDatabase();
 //        mDatabaseHelper.onCreate(db);
         Log.d("Created","1");
@@ -124,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
 
     class ExampleRunnable implements Runnable {
         int seconds;
-        private Context context;
+        private Context context1;
 
         ExampleRunnable(int seconds) {
             this.seconds = seconds;
@@ -133,7 +133,8 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void run() {
             Log.d("StartThread", Integer.toString(seconds));
-            for (int i = 0; i < seconds; i++) {
+            mDatabaseHelper = new PazDatabaseHelper(MainActivity.this);
+            for (int i = 1; i < seconds; i++) {
                 String JSON_URL="";
                 ArrayList<CONNECT> connectList = mDatabaseHelper.SelectUPDT();
                 if (!connectList.isEmpty()) {
@@ -229,57 +230,57 @@ public class MainActivity extends AppCompatActivity {
 //                    RequestQueue requestQueue = Volley.newRequestQueue(MainActivity.this);
 //                    requestQueue.add(stringRequest);
                 }
-                if(i%605 == 0){
+                if(i%905 == 0){
 
-                    StringRequest stringRequest = new StringRequest(Request.Method.GET, JSON_URL,
-                            new Response.Listener<String>() {
-                                @Override
-                                public void onResponse(String response) {
-                                    try {
-
-                                        JSONObject obj = new JSONObject(response);
-                                        JSONArray itemArray = obj.getJSONArray("data");
-
-                                        // Delete existing data from the table before syncing new data
-                                        mDatabaseHelper.deleteExistingData();
-
-                                        for (int i = 0; i < itemArray.length(); i++) {
-                                            JSONObject jsonObject = itemArray.getJSONObject(i);
-
-                                            String id = jsonObject.getString("id");
-                                            String code = jsonObject.getString("code");
-                                            String description = jsonObject.getString("description");
-                                            String rate = jsonObject.getString("rate");
-                                            String group = jsonObject.getString("group");
-                                            String quant = jsonObject.getString("qty");
-                                            String uom = jsonObject.getString("uom");
-                                            String vend = jsonObject.getString("vendor");
-
-                                            Item item = new Item(id, code, description, rate, group, quant, uom, vend);
-
-                                            boolean isStored = mDatabaseHelper.StoreData(item);
-
-                                        }
-
-
-                                        Log.d(TAG, "ItemSync:  Success");;
-
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                        Log.d(TAG, "ItemSync: Error "+e.getMessage());
-                                    } finally {
-                                    }
-                                }
-                            }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Log.d(TAG, "onErrorResponse: "+ error.getMessage());
-                        }
-                    });
-                    RequestQueue requestQueue = Volley.newRequestQueue(MainActivity.this);
-                    requestQueue.add(stringRequest);
+//                    StringRequest stringRequest = new StringRequest(Request.Method.GET, JSON_URL,
+//                            new Response.Listener<String>() {
+//                                @Override
+//                                public void onResponse(String response) {
+//                                    try {
+//
+//                                        JSONObject obj = new JSONObject(response);
+//                                        JSONArray itemArray = obj.getJSONArray("data");
+//
+//                                        // Delete existing data from the table before syncing new data
+//                                        mDatabaseHelper.deleteExistingData();
+//
+//                                        for (int i = 0; i < itemArray.length(); i++) {
+//                                            JSONObject jsonObject = itemArray.getJSONObject(i);
+//
+//                                            String id = jsonObject.getString("id");
+//                                            String code = jsonObject.getString("code");
+//                                            String description = jsonObject.getString("description");
+//                                            String rate = jsonObject.getString("rate");
+//                                            String group = jsonObject.getString("group");
+//                                            String quant = jsonObject.getString("qty");
+//                                            String uom = jsonObject.getString("uom");
+//                                            String vend = jsonObject.getString("vendor");
+//
+//                                            Item item = new Item(id, code, description, rate, group, quant, uom, vend);
+//
+//                                            boolean isStored = mDatabaseHelper.StoreData(item);
+//
+//                                        }
+//
+//
+//                                        Log.d(TAG, "ItemSync:  Success");;
+//
+//                                    } catch (JSONException e) {
+//                                        e.printStackTrace();
+//                                        Log.d(TAG, "ItemSync: Error "+e.getMessage());
+//                                    } finally {
+//                                    }
+//                                }
+//                            }, new Response.ErrorListener() {
+//                        @Override
+//                        public void onErrorResponse(VolleyError error) {
+//                            Log.d(TAG, "onErrorResponse: "+ error.getMessage());
+//                        }
+//                    });
+//                    RequestQueue requestQueue = Volley.newRequestQueue(MainActivity.this);
+//                    requestQueue.add(stringRequest);
                 }
-                if (i % 10 == 0) {
+                if (i % 20 == 0) {
                     int sales_order_id = mDatabaseHelper.get_open_sales_order();
                     if(sales_order_id !=0){
                         try {

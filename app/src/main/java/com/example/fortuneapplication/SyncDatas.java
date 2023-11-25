@@ -51,7 +51,7 @@ public class SyncDatas extends AppCompatActivity {
                             Intent ff = new Intent(SyncDatas.this, Connections.class);
                             startActivity(ff);
                             Toast.makeText(SyncDatas.this, "Welcome Admin", Toast.LENGTH_LONG).show();
-                            finish();
+
                         } else {
                             Toast.makeText(SyncDatas.this, "You are not Authorized", Toast.LENGTH_LONG).show();
                         }

@@ -90,7 +90,7 @@ public class HomePage extends AppCompatActivity {
                             Intent ff = new Intent(HomePage.this, SyncDatas.class);
                             startActivity(ff);
                             Toast.makeText(HomePage.this, "Welcome Admin", Toast.LENGTH_LONG).show();
-                            finish();
+//                            finish();
                         } else {
                             Toast.makeText(HomePage.this, "You are not Authorized", Toast.LENGTH_LONG).show();
                         }
