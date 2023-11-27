@@ -24,9 +24,10 @@ public class SALESORDER {
     private SalesRepList salesRepList;
     private String sales_rep_name;
     private String item_group;
+    private String customer_name;
 
 
-    public SALESORDER(int salesorderid, String code, String date, int customerid, int locationid, int salesrepid, String dateneeded, int ponumber, int shipvia, String amount, String notes, String custom1, String custom2, String custom3, String custom4, String custom5, Customer customer, SALESORDERITEMS salesorderitems, Item item, Location location, SalesRepList salesRepList, String sales_rep_name,String item_group) {
+    public SALESORDER(int salesorderid, String code, String date, int customerid, int locationid, int salesrepid, String dateneeded, int ponumber, int shipvia, String amount, String notes, String custom1, String custom2, String custom3, String custom4, String custom5, Customer customer, SALESORDERITEMS salesorderitems, Item item, Location location, SalesRepList salesRepList, String sales_rep_name,String item_group, String customer_name) {
         this.salesorderid = salesorderid;
         this.code = code;
         this.date = date;
@@ -49,6 +50,7 @@ public class SALESORDER {
         this.location = location;
         this.salesRepList = salesRepList;
         this.item_group = item_group;
+        this.customer_name=customer_name;
     }
     public  SALESORDER(){
 
@@ -216,6 +218,9 @@ public class SALESORDER {
 
     public void set_sales_rep_name(String sales_rep_name){this.sales_rep_name=sales_rep_name;}
     public String get_sales_rep_name(){return sales_rep_name;}
+
+    public void set_customer_name(String customer_name){this.customer_name=customer_name;}
+    public String get_customer_name(){return customer_name;}
 
     public SalesRepList getSalesRepList() {
         return salesRepList;

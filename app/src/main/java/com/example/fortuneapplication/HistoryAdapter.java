@@ -56,6 +56,10 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         this.context = context;
     }
 
+    public void setFilterdList(List<SALESORDER>filterdList){
+        this.salesOrderList = (ArrayList<SALESORDER>) filterdList;
+        notifyDataSetChanged();
+    }
 //    public HistoryAdapter(ArrayList<SALESORDER> salesOrderList) {
 //        this.salesOrderList = salesOrderList;
 //    }

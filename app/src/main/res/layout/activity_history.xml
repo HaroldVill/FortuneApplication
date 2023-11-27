@@ -37,14 +37,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
     </TextView>
+    <EditText
+        android:paddingLeft="10dp"
+        android:drawableLeft="@drawable/iconasearch"
+        android:background="@drawable/searchmestyle"
+        android:id="@+id/searchbaritem"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="10dp"
+        android:layout_below="@+id/head"
+        android:hint="Search ...."></EditText>
 
 
     <RelativeLayout
         android:id="@+id/rells"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/head"
-        android:layout_marginTop="5dp">
+        android:layout_below="@+id/searchbaritem"
+        android:layout_marginTop="0dp">
 
         <Button
             android:id="@+id/principal_breakdown"

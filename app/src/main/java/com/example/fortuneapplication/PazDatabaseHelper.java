@@ -1322,6 +1322,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                 customerR.setId(cursor.getString(cursor.getColumnIndex(CUSTOMER_ID)));
 
                 salesorder.set_sales_rep_name(cursor.getString(cursor.getColumnIndex(SALESREP_NAME)));
+                salesorder.set_customer_name(cursor.getString(cursor.getColumnIndex(CUSTOMER_NAME)));
 
                 salesorder.setCustomer(customerR);
                 salesORlist.add(salesorder);

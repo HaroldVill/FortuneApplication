@@ -10,9 +10,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -65,11 +68,13 @@ public class History extends AppCompatActivity {
     Button principal_breakdown;
 
     RequestQueue request_queue;
+    EditText searchbaritem;
 
     private PazDatabaseHelper mDatabaseHelper;
     private List<HistoryGetSet> historyGetSets = new ArrayList<>();
     private String api_url;
     private String x;
+    private ArrayList<SALESORDER> filter_history = new ArrayList<>();
 
 
     @Override
@@ -84,6 +89,7 @@ public class History extends AppCompatActivity {
         numcustomer = findViewById(R.id.numcustomer);
         aray = findViewById(R.id.aray);
         principal_breakdown = findViewById(R.id.principal_breakdown);
+        searchbaritem = findViewById(R.id.searchbaritem);
         // sinkme = findViewById(R.id.sinkme);
 
 
@@ -93,6 +99,8 @@ public class History extends AppCompatActivity {
         historyAdapter = new HistoryAdapter(salesOrderList, this,salesOrderItemsList);
         histview.setLayoutManager(new LinearLayoutManager(this));
         histview.setAdapter(historyAdapter);
+        filter_history.addAll(mDatabaseHelper.getSlsorder(0));
+        historyAdapter.notifyDataSetChanged();
 
         //get total booking
         double totalAmount = mDatabaseHelper.getBookTotal();
@@ -102,6 +110,24 @@ public class History extends AppCompatActivity {
 
         int listdata = mDatabaseHelper.countData();
         numcustomer.setText(String.valueOf(listdata));
+
+        searchbaritem.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                filterList(s.toString());
+                Log.d("search", s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         principal_breakdown.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -210,6 +236,25 @@ public class History extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    public void filterList(String text) {
+        List<SALESORDER> filteredList = new ArrayList<>();
+        for (SALESORDER so : filter_history) {
+            Log.d("test_search", so.getCode().toString().toLowerCase());
+            if (so.get_customer_name().toString().toLowerCase().contains(text.toLowerCase())){
+                filteredList.add(so);
+            }
+        }
+
+        if (filteredList.isEmpty()) {
+            Toast.makeText(this, "NO MATCH DATA", Toast.LENGTH_SHORT).show();
+        } else {
+            historyAdapter.setFilterdList(filteredList);
+        }
+
+        historyAdapter.notifyDataSetChanged();
+
     }
 
 }
