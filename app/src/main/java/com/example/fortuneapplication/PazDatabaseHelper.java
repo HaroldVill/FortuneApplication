@@ -1432,20 +1432,24 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
     }
 
     @SuppressLint("Range")
-    public ArrayList<SALESORDERITEMS> get_principal_performance(){
-        ArrayList<SALESORDERITEMS> pr = new ArrayList<>();
-        String query="SELECT ITEM_GROUP,ROUND(SUM(AMOUNT),2) AMOUNT FROM Sales_Order_Items_Table \n" +
-                "INNER JOIN ITEM_TABLE ON ITEM_TABLE.item_id = SALES_ORDER_ITEMS_TABLE.item_id\n" +
+    public ArrayList<SALESORDER> get_principal_performance(){
+        ArrayList<SALESORDER> pr = new ArrayList<>();
+        String query="SELECT ITEM_GROUP,ROUND(SUM(AMOUNT),2) AMOUNT FROM Sales_Order_Items_Table " +
+                "INNER JOIN ITEM_TABLE ON ITEM_TABLE.item_id = SALES_ORDER_ITEMS_TABLE.item_id " +
                 "GROUP BY ITEM_GROUP";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(query, null);
         if(cursor.moveToFirst()){
-            while(cursor.moveToNext()){
+            do{
                 SALESORDER so = new SALESORDER();
-                so.set_item_group(cursor.getString(cursor.getColumnIndex(ITEM_GROUP)));
-                so.setAmount(cursor.getString(cursor.getColumnIndex(AMOUNT)));
-            }
+                so.set_item_group(cursor.getString(0));
+                so.setAmount(cursor.getString(1));
+                pr.add(so);
+                Log.d("check_result", cursor.getColumnName(0));
+                Log.d("check_result", cursor.getColumnName(1));
+            }while(cursor.moveToNext());
         }
+        Log.d("principal_performance", pr.toString());
         return pr;
     }
 

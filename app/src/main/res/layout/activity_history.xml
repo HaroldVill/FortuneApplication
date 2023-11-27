@@ -47,7 +47,7 @@
         android:layout_marginTop="5dp">
 
         <Button
-            android:id="@+id/syncreceipts"
+            android:id="@+id/principal_breakdown"
             android:layout_width="wrap_content"
             android:layout_height="35dp"
             android:layout_alignParentRight="true"

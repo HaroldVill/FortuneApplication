@@ -12,6 +12,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -61,6 +62,7 @@ public class History extends AppCompatActivity {
     HistoryAdapter historyAdapter;
     TextView booktot, numcustomer;
     FloatingActionButton aray;
+    Button principal_breakdown;
 
     RequestQueue request_queue;
 
@@ -81,6 +83,7 @@ public class History extends AppCompatActivity {
         booktot = findViewById(R.id.booktot);
         numcustomer = findViewById(R.id.numcustomer);
         aray = findViewById(R.id.aray);
+        principal_breakdown = findViewById(R.id.principal_breakdown);
         // sinkme = findViewById(R.id.sinkme);
 
 
@@ -100,6 +103,13 @@ public class History extends AppCompatActivity {
         int listdata = mDatabaseHelper.countData();
         numcustomer.setText(String.valueOf(listdata));
 
+        principal_breakdown.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent open_principal_breakdown  = new Intent(History.this,print_form.class);
+                startActivity(open_principal_breakdown);
+            }
+        });
 
         aray.setOnClickListener(new View.OnClickListener() {
             @Override
