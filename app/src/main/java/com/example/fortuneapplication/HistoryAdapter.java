@@ -74,7 +74,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
     public void onBindViewHolder(@NonNull HistoryAdapter.ViewHolder holder, int position) {
         SALESORDER salesOrder = salesOrderList.get(position);
         PazDatabaseHelper db = new PazDatabaseHelper(context);
-        int posted = db.get_so_posted_flag(salesOrder.getSalesorderid());
+        int posted = db.get_so_status(salesOrder.getSalesorderid());
         if(posted !=0){
 
             holder.sam1.setTextColor(Color.rgb(0,89,27));
@@ -112,7 +112,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
                                     PazDatabaseHelper db = new PazDatabaseHelper(context);
                                     db.update_so_posted_flag(salesOrderId);
                                     Toast.makeText(context, salesOrder.getCode().toString() +" Succesfully Posted.", Toast.LENGTH_LONG).show();
-                                    int posted = db.get_so_posted_flag(salesOrder.getSalesorderid());
+                                    int posted = db.get_so_status(salesOrder.getSalesorderid());
                                     if(posted !=0){
 
                                         holder.sam1.setTextColor(Color.rgb(0,89,27));

@@ -381,7 +381,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         values.put(ITEM_QUANTITY, item.getQuantity());
         values.put(ITEM_UNIT_MEASURE, item.getUnitquant());
         values.put(ITEM_VENDOR, item.getVendor());
-        db.insert(TABLE_NAME, null, values);
+        db.insertWithOnConflict(TABLE_NAME, null, values,db.CONFLICT_REPLACE);
         return false;
     }
 
@@ -1422,7 +1422,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
     public int get_open_sales_order(){
         int sales_order_id = 0;
         String query ="SELECT "+SALES_ORDERID +" FROM "+ SALES_ORDER_TABLE +
-                " WHERE STATUS = 0 and POSTED=1  LIMIT 1";
+                " WHERE STATUS = 0 LIMIT 1";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(query,null);
         if(cursor.moveToFirst()){
@@ -1435,11 +1435,12 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
     @SuppressLint("Range")
     public ArrayList<SALESORDER> get_principal_performance(){
         ArrayList<SALESORDER> pr = new ArrayList<>();
-        String query="SELECT ITEM_GROUP,ROUND(SUM(AMOUNT),2) AMOUNT FROM Sales_Order_Items_Table " +
+        String query="SELECT ITEM_GROUP,ROUND(SUM(SALES_ORDER_ITEMS_TABLE.AMOUNT),0) AMOUNT FROM Sales_Order_Items_Table " +
                 "INNER JOIN ITEM_TABLE ON ITEM_TABLE.item_id = SALES_ORDER_ITEMS_TABLE.item_id " +
+                "INNER JOIN SALES_ORDER_TABLE ON SALES_ORDER_TABLE.SALES_ORDERID = SALES_ORDER_ITEMS_TABLE.SALES_ORDER_ID " +
                 "GROUP BY ITEM_GROUP";
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(query, null);
+        Cursor cursor = db.rawQuery(query,  null);
         if(cursor.moveToFirst()){
             do{
                 SALESORDER so = new SALESORDER();

@@ -230,55 +230,55 @@ public class MainActivity extends AppCompatActivity {
 //                    RequestQueue requestQueue = Volley.newRequestQueue(MainActivity.this);
 //                    requestQueue.add(stringRequest);
                 }
-                if(i%905 == 0){
+                if(i%90 == 0){
 
-//                    StringRequest stringRequest = new StringRequest(Request.Method.GET, JSON_URL,
-//                            new Response.Listener<String>() {
-//                                @Override
-//                                public void onResponse(String response) {
-//                                    try {
-//
-//                                        JSONObject obj = new JSONObject(response);
-//                                        JSONArray itemArray = obj.getJSONArray("data");
-//
-//                                        // Delete existing data from the table before syncing new data
+                    StringRequest stringRequest = new StringRequest(Request.Method.GET, JSON_URL,
+                            new Response.Listener<String>() {
+                                @Override
+                                public void onResponse(String response) {
+                                    try {
+
+                                        JSONObject obj = new JSONObject(response);
+                                        JSONArray itemArray = obj.getJSONArray("data");
+
+                                        // Delete existing data from the table before syncing new data
 //                                        mDatabaseHelper.deleteExistingData();
-//
-//                                        for (int i = 0; i < itemArray.length(); i++) {
-//                                            JSONObject jsonObject = itemArray.getJSONObject(i);
-//
-//                                            String id = jsonObject.getString("id");
-//                                            String code = jsonObject.getString("code");
-//                                            String description = jsonObject.getString("description");
-//                                            String rate = jsonObject.getString("rate");
-//                                            String group = jsonObject.getString("group");
-//                                            String quant = jsonObject.getString("qty");
-//                                            String uom = jsonObject.getString("uom");
-//                                            String vend = jsonObject.getString("vendor");
-//
-//                                            Item item = new Item(id, code, description, rate, group, quant, uom, vend);
-//
-//                                            boolean isStored = mDatabaseHelper.StoreData(item);
-//
-//                                        }
-//
-//
-//                                        Log.d(TAG, "ItemSync:  Success");;
-//
-//                                    } catch (JSONException e) {
-//                                        e.printStackTrace();
-//                                        Log.d(TAG, "ItemSync: Error "+e.getMessage());
-//                                    } finally {
-//                                    }
-//                                }
-//                            }, new Response.ErrorListener() {
-//                        @Override
-//                        public void onErrorResponse(VolleyError error) {
-//                            Log.d(TAG, "onErrorResponse: "+ error.getMessage());
-//                        }
-//                    });
-//                    RequestQueue requestQueue = Volley.newRequestQueue(MainActivity.this);
-//                    requestQueue.add(stringRequest);
+
+                                        for (int i = 0; i < itemArray.length(); i++) {
+                                            JSONObject jsonObject = itemArray.getJSONObject(i);
+
+                                            String id = jsonObject.getString("id");
+                                            String code = jsonObject.getString("code");
+                                            String description = jsonObject.getString("description");
+                                            String rate = jsonObject.getString("rate");
+                                            String group = jsonObject.getString("group");
+                                            String quant = jsonObject.getString("qty");
+                                            String uom = jsonObject.getString("uom");
+                                            String vend = jsonObject.getString("vendor");
+
+                                            Item item = new Item(id, code, description, rate, group, quant, uom, vend);
+
+                                            boolean isStored = mDatabaseHelper.StoreData(item);
+
+                                        }
+
+
+                                        Log.d(TAG, "ItemSync:  Success");;
+
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                        Log.d(TAG, "ItemSync: Error "+e.getMessage());
+                                    } finally {
+                                    }
+                                }
+                            }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.d(TAG, "onErrorResponse: "+ error.getMessage());
+                        }
+                    });
+                    RequestQueue requestQueue = Volley.newRequestQueue(MainActivity.this);
+                    requestQueue.add(stringRequest);
                 }
                 if (i % 20 == 0) {
                     int sales_order_id = mDatabaseHelper.get_open_sales_order();

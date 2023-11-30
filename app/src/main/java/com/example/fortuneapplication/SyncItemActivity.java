@@ -96,7 +96,7 @@ public class SyncItemActivity extends AppCompatActivity {
                             JSONArray itemArray = obj.getJSONArray("data");
 
                             // Delete existing data from the table before syncing new data
-                            databaseHelper.deleteExistingData();
+//                            databaseHelper.deleteExistingData();
 
                             for (int i = 0; i < itemArray.length(); i++) {
                                 JSONObject jsonObject = itemArray.getJSONObject(i);
