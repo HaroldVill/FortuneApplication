@@ -1438,7 +1438,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         String query="SELECT ITEM_GROUP,ROUND(SUM(SALES_ORDER_ITEMS_TABLE.AMOUNT),0) AMOUNT FROM Sales_Order_Items_Table " +
                 "INNER JOIN ITEM_TABLE ON ITEM_TABLE.item_id = SALES_ORDER_ITEMS_TABLE.item_id " +
                 "INNER JOIN SALES_ORDER_TABLE ON SALES_ORDER_TABLE.SALES_ORDERID = SALES_ORDER_ITEMS_TABLE.SALES_ORDER_ID " +
-                "GROUP BY ITEM_GROUP";
+                "GROUP BY ITEM_GROUP ORDER BY AMOUNT DESC";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(query,  null);
         if(cursor.moveToFirst()){

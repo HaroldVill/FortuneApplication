@@ -1,10 +1,16 @@
 package com.example.fortuneapplication;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.LocationListener;
+import android.location.LocationProvider;
+import android.location.LocationRequest;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
@@ -37,8 +43,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationManager;
+import android.provider.Settings;
 
-public class MainActivity extends AppCompatActivity {
+
+
+public class MainActivity extends AppCompatActivity  {
     private static final String PREFS_NAME = "MyPrefs";
     private static final String PREF_USERNAME = "username";
     private SharedPreferences sharedPreferences;
@@ -46,8 +58,16 @@ public class MainActivity extends AppCompatActivity {
     private volatile boolean stopThread = false;
     private static final String TAG = "DebugLogs";
     private PazDatabaseHelper mDatabaseHelper;
-    private String api_url,x;
+    private String api_url, x;
     RequestQueue request_queue;
+    private static final int REQUEST_LOCATION = 1;
+    Button getlocationBtn;
+    String latitude, longitude;
+    LocationManager locationManager;
+    LocationRequest locationRequest;
+    private Location location;
+    LocationListener locationListener;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,12 +75,46 @@ public class MainActivity extends AppCompatActivity {
 
 //        SQLiteDatabase db = mDatabaseHelper.getWritableDatabase();
 //        mDatabaseHelper.onCreate(db);
-        Log.d("Created","1");
+        Log.d("Created", "1");
         setContentView(R.layout.activity_main);
         sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         run();
+        MyLocation myLocation = new MyLocation();
         startThread();
-
+//        locationListener= location -> {
+//            double latitude=location.getLatitude();
+//            double longitude=location.getLongitude();
+//            String msg="New Latitude: "+latitude + "New Longitude: "+longitude;
+//            Toast.makeText(MainActivity.this,msg,Toast.LENGTH_LONG).show();
+//        };
+//
+//        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//            // TODO: Consider calling
+//            //    ActivityCompat#requestPermissions
+//            // here to request the missing permissions, and then overriding
+//            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+//            //                                          int[] grantResults)
+//            // to handle the case where the user grants the permission. See the documentation
+//            // for ActivityCompat#requestPermissions for more details.
+//            return;
+//        }
+//        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000L, 500.0f, locationListener);
+//        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//            // TODO: Consider calling
+//            //    ActivityCompat#requestPermissions
+//            // here to request the missing permissions, and then overriding
+//            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+//            //                                          int[] grantResults)
+//            // to handle the case where the user grants the permission. See the documentation
+//            // for ActivityCompat#requestPermissions for more details.
+//            return;
+//        }
+//        Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+//        double latitude=0;
+//        double longitude=0;
+//        latitude = location.getLatitude();
+//        longitude = location.getLongitude();
+//        Log.d("location_logs", "Latitude: "+ latitude +" Longitude: "+ longitude);
     }
 
 
