@@ -5,6 +5,7 @@ import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -20,7 +21,7 @@ import android.widget.Toast;
 
 public class DisplayCustomer extends AppCompatActivity {
     private static final int REQUEST_LOCATION = 1;
-    TextView u1,u2,u3,u4,u5,Longitude,Latitude;
+    TextView u1,u2,u3,u4,u5,lx,ly;
     Button pin;
     Button getlocationBtn;
     String latitude, longitude;
@@ -39,8 +40,8 @@ public class DisplayCustomer extends AppCompatActivity {
         u3 = findViewById(R.id.u3);
         u4 = findViewById(R.id.u4);
         u5 = findViewById(R.id.u5);
-        Longitude.findViewById(R.id.Longitude);
-        Latitude.findViewById(R.id.Latitude);
+        lx = findViewById(R.id.LongitudeValue);
+        ly = findViewById(R.id.LatitudeValue);
 
 
         Intent intent = getIntent();
@@ -58,20 +59,31 @@ public class DisplayCustomer extends AppCompatActivity {
         u4.setText(cphone);
         u5.setText(cperson);
 
-//        pin = findViewById(R.id.save_coordinates);
-
-//        pin.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        Longitude.setText(getLongitude());
-//                        Latitude.setText(getLatitude());
-//                    }
-//                });
-//            }
-//        });
+        pin = findViewById(R.id.save_coordinate);
+        pin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ActivityCompat.requestPermissions(DisplayCustomer.this,new String[]
+                        {Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
+                locationManager=(LocationManager) getSystemService(Context.LOCATION_SERVICE);
+                if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
+                {
+                    //Write Function To enable gps
+//            OnGPS();
+                }
+                else
+                {
+                    //GPS is already On then
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            lx.setText(getLongitude());
+                            ly.setText(getLatitude());
+                        }
+                    });
+                }
+            }
+        });
     }
     private String getLatitude() {
 
