@@ -1,11 +1,18 @@
 package com.example.fortuneapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.location.LocationRequest;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -31,7 +38,15 @@ import java.util.concurrent.CompletableFuture;
 public class FAShome extends AppCompatActivity {
 
 
-    TextView icode,ides,irate,iquant,grp;
+    TextView icode,ides,irate,iquant,grp,coordinates;
+
+    private static final int REQUEST_LOCATION = 1;
+    Button getlocationBtn;
+    String latitude, longitude;
+    LocationManager locationManager;
+    LocationRequest locationRequest;
+    private Location location;
+    LocationListener locationListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +57,7 @@ public class FAShome extends AppCompatActivity {
         irate = findViewById(R.id.irate);
         iquant = findViewById(R.id.iquant);
         grp = findViewById(R.id.grp);
+//        coordinates = findViewById(R.id.coordinates);
 
 
 
@@ -63,7 +79,22 @@ public class FAShome extends AppCompatActivity {
         iquant.setText(itemquant);
         grp.setText(itemgrp);
 
+        ActivityCompat.requestPermissions(this,new String[]
+                {Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
+        locationManager=(LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
+        {
+            //Write Function To enable gps
 
+//            OnGPS();
+        }
+        else
+        {
+            //GPS is already On then
+
+//            GetLocation gl= new GetLocation();
+//            String coordinates=gl.get_location();
+        }
 
 
     }

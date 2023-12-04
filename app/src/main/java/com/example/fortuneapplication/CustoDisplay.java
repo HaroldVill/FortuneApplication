@@ -12,6 +12,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.SearchView;
@@ -34,6 +35,7 @@ public class CustoDisplay extends AppCompatActivity {
     private ArrayList<Customer> mIcustomer = new ArrayList<>();
     private PazDatabaseHelper mDatabaseHelper;
     private Spinner spinner3;
+    Button pin;
 
 
     @Override
@@ -55,10 +57,13 @@ public class CustoDisplay extends AppCompatActivity {
         customerDisplayAdapter.notifyDataSetChanged();
 
 
+
         String[] sortme = {"SORT BY: ...........", "Customer Name", "Customer Address"};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, sortme);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner3.setAdapter(adapter);
+
+//        pin = findViewById(R.id.pin);
 
         spinner3.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
