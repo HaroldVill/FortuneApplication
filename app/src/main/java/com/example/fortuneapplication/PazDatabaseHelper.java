@@ -41,6 +41,8 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
     private static final String PAYMENT_TERMS_ID = "payment_terms_id";
     private static final String SALES_REP_ID = "sales_rep_id";
     private static final String PRICE_LEVEL_ID = "price_level_id";
+    private static final String LONGITUDE = "longitude";
+    private static final String LATITUDE = "latitude";
 
     //* SALES_REP_TABLE //*
     public static final String SALESREP_TABLE = "Sales_Rep_Table";
@@ -187,7 +189,9 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                 TELEPHONE_NO + " TEXT," +
                 PAYMENT_TERMS_ID + " INTEGER," +
                 SALES_REP_ID + " INTEGER," +
-                PRICE_LEVEL_ID + " INTEGER" +
+                PRICE_LEVEL_ID + " INTEGER," +
+                LONGITUDE + " TEXT,"+
+                LATITUDE + " TEXT"+
                 ")";
 
         String createTableQuery = "CREATE TABLE " + SALESREP_TABLE + " (" +
@@ -1141,6 +1145,23 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         }
         return 0;
     }
+
+    public int update_customer_coordinates(int id,String longitude,String latitude){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String update_query = "UPDATE CUSTOMER_TABLE SET LONGITUDE='"+longitude+"'," +
+                "LATITUDE='"+latitude+"' where CUSTOMER_ID = "+id;
+        try{
+            db.execSQL(update_query);
+            //db.setTransactionSuccessful();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        finally {
+            //db.endTransaction();
+        }
+        return 0;
+    }
     public int update_so_posted_flag(int so_id){
         SQLiteDatabase db = this.getWritableDatabase();
         String update_query = "UPDATE SALES_ORDER_TABLE SET POSTED = 1 where SALES_ORDERID = "+so_id;
@@ -1155,6 +1176,50 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
             //db.endTransaction();
         }
         return 0;
+    }
+
+    public String get_customer_longitude(int id){
+        String longitude ="";
+        try {
+            SQLiteDatabase db = this.getReadableDatabase();
+            String query = "SELECT LONGITUDE FROM CUSTOMER_TABLE WHERE CUSTOMER_ID="+id;
+            Cursor cursor = db.rawQuery(query,null);
+            if (cursor.moveToFirst()) {
+                longitude = cursor.getString(0);
+            }
+            cursor.close();
+            db.close();
+            return longitude;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        finally {
+
+        }
+        return longitude;
+    }
+
+    public String get_customer_latitude(int id){
+        String latitude ="";
+        try {
+            SQLiteDatabase db = this.getReadableDatabase();
+            String query = "SELECT LATITUDE FROM CUSTOMER_TABLE WHERE CUSTOMER_ID="+id;
+            Cursor cursor = db.rawQuery(query,null);
+            if (cursor.moveToFirst()) {
+                latitude = cursor.getString(0);
+            }
+            cursor.close();
+            db.close();
+            return latitude;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        finally {
+
+        }
+        return latitude;
     }
 
     public int get_so_status(int so_id){

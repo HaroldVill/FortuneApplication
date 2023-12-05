@@ -51,13 +51,15 @@ public class DisplayCustomer extends AppCompatActivity {
         String cphone= intent.getStringExtra("CPHONE");
         String cperson= intent.getStringExtra("CPERSON");
 
-
+        PazDatabaseHelper dbhelper = new PazDatabaseHelper(DisplayCustomer.this);
 
         u1.setText(cid);
         u2.setText(cname);
         u3.setText(cadd);
         u4.setText(cphone);
         u5.setText(cperson);
+        lx.setText(dbhelper.get_customer_longitude(Integer.parseInt(cid)));
+        ly.setText(dbhelper.get_customer_latitude(Integer.parseInt(cid)));
 
         pin = findViewById(R.id.save_coordinate);
         pin.setOnClickListener(new View.OnClickListener() {
@@ -79,6 +81,7 @@ public class DisplayCustomer extends AppCompatActivity {
                         public void run() {
                             lx.setText(getLongitude());
                             ly.setText(getLatitude());
+                            dbhelper.update_customer_coordinates(Integer.parseInt(cid),getLongitude(),getLatitude());
                         }
                     });
                 }

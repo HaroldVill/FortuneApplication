@@ -20,6 +20,7 @@ public class CustomerDisplayAdapter extends RecyclerView.Adapter< CustomerDispla
     private ArrayList<Customer>customerList;
     private Comparator<Customer> currentComparator;
 
+
     public CustomerDisplayAdapter(Context context, ArrayList<Customer> customerList) {
         this.context = context;
         this.customerList = customerList;
@@ -58,6 +59,9 @@ public class CustomerDisplayAdapter extends RecyclerView.Adapter< CustomerDispla
         holder.h3.setText(customer.getPostaladdress());
         holder.h4.setText(customer.getMobilenumber());
         holder.h5.setText(customer.getContactperson());
+        PazDatabaseHelper dbhelper = new PazDatabaseHelper(context);
+        holder.lx.setText(dbhelper.get_customer_longitude(Integer.parseInt(customer.getId())));
+        holder.ly.setText(dbhelper.get_customer_latitude(Integer.parseInt(customer.getId())));
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,7 +84,7 @@ public class CustomerDisplayAdapter extends RecyclerView.Adapter< CustomerDispla
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView h1,h2,h3,h4,h5;
+        TextView h1,h2,h3,h4,h5,lx,ly;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             h1 = itemView.findViewById(R.id.h1);
@@ -88,6 +92,8 @@ public class CustomerDisplayAdapter extends RecyclerView.Adapter< CustomerDispla
             h3 = itemView.findViewById(R.id.h3);
             h4 = itemView.findViewById(R.id.h4);
             h5 = itemView.findViewById(R.id.h5);
+            lx = itemView.findViewById(R.id.lx);
+            ly = itemView.findViewById(R.id.ly);
 
         }
     }

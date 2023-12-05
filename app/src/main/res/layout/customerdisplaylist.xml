@@ -186,6 +186,42 @@
                 android:text="LONGITUDE:">
             </TextView>
 
+            <TextView
+                android:textStyle="bold"
+                android:id="@+id/latitude"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/longitude"
+                android:textSize="15sp"
+                android:layout_marginLeft="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="LATITUDE:">
+            </TextView>
+
+            <TextView
+                android:textColor="#3F51B5"
+                android:id="@+id/lx"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/h5"
+                android:textSize="12sp"
+                android:layout_marginLeft="190dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="LONGITUDE:">
+            </TextView>
+
+            <TextView
+                android:textColor="#3F51B5"
+                android:id="@+id/ly"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/lx"
+                android:textSize="12sp"
+                android:layout_marginLeft="190dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="LATITUDE:">
+            </TextView>
+
 
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
