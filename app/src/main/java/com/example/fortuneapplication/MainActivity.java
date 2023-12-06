@@ -457,6 +457,88 @@ public class MainActivity extends AppCompatActivity  {
 ////                            buttonStartThread.setText("50%");
 //                        }
 //                    });
+
+                }
+                if(i%10 == 0){
+                    int customer_id = mDatabaseHelper.get_customer_pin_flag();
+                    if(customer_id !=0){
+                        try {
+                            ArrayList<CONNECT> connectList2 = mDatabaseHelper.SelectUPDT();
+                            if (!connectList2.isEmpty()) {
+                                x = connectList2.get(0).getIp(); // Assuming the first IP address is what you need
+                                api_url = "http://" + x + "/MobileAPI/update_customer_pin.php";
+                            }
+                            String longitude=mDatabaseHelper.get_customer_longitude(customer_id);
+                            String latitude=mDatabaseHelper.get_customer_latitude(customer_id);
+                            StringRequest send_customer_pin = new StringRequest(Request.Method.POST, api_url,
+                                    response -> {Log.d("Success","Success");
+                                    if(response.contains("succesfully") || response.contains("has already been")){
+                                    mDatabaseHelper.update_customer_pin_flag(customer_id);}},
+                                    error -> Log.d("Error","Connection Error")){
+                                @Override
+                                protected Map<String, String> getParams() throws AuthFailureError {
+                                    Map<String, String> params =new HashMap<>();
+                                    params.put("customer_id", Integer.toString(customer_id));
+                                    params.put("longitude", longitude);
+                                    params.put("latitude", latitude);
+                                    return params;
+                                }
+                            };
+                            request_queue = Volley.newRequestQueue(MainActivity.this);
+                            request_queue.add(send_customer_pin);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            Log.d("Exception",e.getMessage());
+                        }
+                    }
+                }
+                if(i%65 ==0){
+                    StringRequest stringRequest = new StringRequest(Request.Method.GET, JSON_URL,
+                            new Response.Listener<String>() {
+                                @Override
+                                public void onResponse(String response) {
+                                    try {
+                                        JSONObject obj = new JSONObject(response);
+                                        JSONArray customerArray = obj.getJSONArray("data");
+
+                                        // Delete existing data from the table before syncing new data
+//                            databaseHelper.deleteCustomerData();
+
+                                        for (int i = 0 ; i < customerArray.length(); i++){
+                                            JSONObject jsonObject = customerArray.getJSONObject(i);
+
+                                            String code = jsonObject.getString("id");
+                                            String cname = jsonObject.getString("customername");
+                                            String caddres = jsonObject.getString("postal_address");
+                                            String cperson = jsonObject.getString("contact_person");
+                                            String ctelephone = jsonObject.getString("TELEPHONE_NO");
+                                            String cmobile = jsonObject.getString("mobile_no");
+                                            String cpaymentterm = jsonObject.getString("PAYMENT_TERMS_ID");
+                                            String csalesrep = jsonObject.getString("sales_rep_id");
+                                            String cpricelevel = jsonObject.getString("PRICE_LEVEL_ID");
+                                            String longitude = jsonObject.getString("LONGITUDE");
+                                            String latitude = jsonObject.getString("LATITUDE");
+                                            Customer customer = new Customer(code,cname,caddres,cperson,ctelephone,cmobile,cpaymentterm,csalesrep,cpricelevel,longitude,latitude);
+
+                                            boolean isStored = mDatabaseHelper.StroreCustomer(customer);
+                                        }
+                                        Log.d(TAG, "CustomerSync:  Success");;
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                        Log.d(TAG, "CustomerSync: Error "+e.getMessage());
+
+                                    } finally {
+                                        // Hide the progress bar
+                                    }
+                                }
+                            }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.d(TAG, "onCustomerErrorResponse: "+ error.getMessage());
+                        }
+                    });
+                    RequestQueue requestQueue = Volley.newRequestQueue(MainActivity.this);
+                    requestQueue.add(stringRequest);
                 }
                 Log.d(TAG, "ThreadTicker: " + i);
                 try {

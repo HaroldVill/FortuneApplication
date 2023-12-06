@@ -43,6 +43,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
     private static final String PRICE_LEVEL_ID = "price_level_id";
     private static final String LONGITUDE = "longitude";
     private static final String LATITUDE = "latitude";
+    private static final String PIN_FLAG = "pin_flag";
 
     //* SALES_REP_TABLE //*
     public static final String SALESREP_TABLE = "Sales_Rep_Table";
@@ -181,7 +182,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
 
         String CREATE_CUSTOMER_TABLE = "CREATE TABLE " + CUSTOMER_TABLE +
                 "(" +
-                CUSTOMER_ID + " TEXT," +
+                CUSTOMER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 CUSTOMER_NAME + " TEXT," +
                 CUSTOMER_ADDRESS + " TEXT," +
                 CONTACT_PERSON + " TEXT," +
@@ -191,7 +192,8 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                 SALES_REP_ID + " INTEGER," +
                 PRICE_LEVEL_ID + " INTEGER," +
                 LONGITUDE + " TEXT,"+
-                LATITUDE + " TEXT"+
+                LATITUDE + " TEXT,"+
+                PIN_FLAG + " INT DEFAULT 0"+
                 ")";
 
         String createTableQuery = "CREATE TABLE " + SALESREP_TABLE + " (" +
@@ -403,7 +405,9 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         values.put(PAYMENT_TERMS_ID, customer.getPaymenttermsid());
         values.put(SALES_REP_ID, customer.getSalesrepid());
         values.put(PRICE_LEVEL_ID, customer.getPricelevelid());
-        db.insert(CUSTOMER_TABLE, null, values);
+        values.put(LONGITUDE, customer.getLongitude());
+        values.put(LATITUDE,customer.getLatitude());
+        db.insertWithOnConflict(CUSTOMER_TABLE, null, values,db.CONFLICT_REPLACE);
         return false;
     }
 
@@ -1149,7 +1153,22 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
     public int update_customer_coordinates(int id,String longitude,String latitude){
         SQLiteDatabase db = this.getWritableDatabase();
         String update_query = "UPDATE CUSTOMER_TABLE SET LONGITUDE='"+longitude+"'," +
-                "LATITUDE='"+latitude+"' where CUSTOMER_ID = "+id;
+                "LATITUDE='"+latitude+"', PIN_FLAG=1 where CUSTOMER_ID = "+id;
+        try{
+            db.execSQL(update_query);
+            //db.setTransactionSuccessful();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        finally {
+            //db.endTransaction();
+        }
+        return 0;
+    }
+    public int update_customer_pin_flag(int id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String update_query = "UPDATE CUSTOMER_TABLE SET PIN_FLAG=0 where CUSTOMER_ID = "+id;
         try{
             db.execSQL(update_query);
             //db.setTransactionSuccessful();
@@ -1220,6 +1239,28 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
 
         }
         return latitude;
+    }
+
+    public int get_customer_pin_flag(){
+        int customer_id =0;
+        try {
+            SQLiteDatabase db = this.getReadableDatabase();
+            String query = "SELECT CUSTOMER_ID FROM CUSTOMER_TABLE WHERE PIN_FLAG =1 LIMIT 1";
+            Cursor cursor = db.rawQuery(query,null);
+            if (cursor.moveToFirst()) {
+                customer_id = cursor.getInt(0);
+            }
+            cursor.close();
+            db.close();
+            return customer_id;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        finally {
+
+        }
+        return customer_id;
     }
 
     public int get_so_status(int so_id){

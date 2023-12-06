@@ -10,9 +10,11 @@ public class Customer {
     private String paymenttermsid;
     private String salesrepid;
     private String pricelevelid;
+    private String longitude;
+    private String latitude;
     private PaymenTerm paymenTerm;
 
-    public Customer(String id, String customername, String postaladdress, String contactperson, String telephonenumber, String mobilenumber, String paymenttermsid, String salesrepid, String pricelevelid) {
+    public Customer(String id, String customername, String postaladdress, String contactperson, String telephonenumber, String mobilenumber, String paymenttermsid, String salesrepid, String pricelevelid, String longitude, String latitude) {
         this.id = id;
         this.customername = customername;
         this.postaladdress = postaladdress;
@@ -23,6 +25,8 @@ public class Customer {
         this.salesrepid = salesrepid;
         this.pricelevelid = pricelevelid;
         this.paymenTerm = paymenTerm;
+        this.longitude = longitude;
+        this.latitude = latitude;
     }
     public Customer(){
 
@@ -98,6 +102,20 @@ public class Customer {
 
     public void setPricelevelid(String pricelevelid) {
         this.pricelevelid = pricelevelid;
+    }
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
+    public String getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
     }
 
     public PaymenTerm getPaymenTerm() {

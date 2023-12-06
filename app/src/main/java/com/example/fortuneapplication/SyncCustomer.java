@@ -95,7 +95,7 @@ public class SyncCustomer extends AppCompatActivity {
                             JSONArray customerArray = obj.getJSONArray("data");
 
                             // Delete existing data from the table before syncing new data
-                            databaseHelper.deleteCustomerData();
+//                            databaseHelper.deleteCustomerData();
 
                             for (int i = 0 ; i < customerArray.length(); i++){
                                 JSONObject jsonObject = customerArray.getJSONObject(i);
@@ -109,7 +109,9 @@ public class SyncCustomer extends AppCompatActivity {
                                 String cpaymentterm = jsonObject.getString("PAYMENT_TERMS_ID");
                                 String csalesrep = jsonObject.getString("sales_rep_id");
                                 String cpricelevel = jsonObject.getString("PRICE_LEVEL_ID");
-                                Customer customer = new Customer(code,cname,caddres,cperson,ctelephone,cmobile,cpaymentterm,csalesrep,cpricelevel);
+                                String longitude = jsonObject.getString("LONGITUDE");
+                                String latitude = jsonObject.getString("LATITUDE");
+                                Customer customer = new Customer(code,cname,caddres,cperson,ctelephone,cmobile,cpaymentterm,csalesrep,cpricelevel,longitude,latitude);
 
                                 boolean isStored = databaseHelper.StroreCustomer(customer);
                                 customerList.add(customer);

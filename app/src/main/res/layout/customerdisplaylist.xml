@@ -197,6 +197,17 @@
                 android:layout_height="wrap_content"
                 android:text="LATITUDE:">
             </TextView>
+            <TextView
+                android:textStyle="bold"
+                android:id="@+id/Distance"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/latitude"
+                android:textSize="15sp"
+                android:layout_marginLeft="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="DISTANCE:">
+            </TextView>
 
             <TextView
                 android:textColor="#3F51B5"
@@ -220,6 +231,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="LATITUDE:">
+            </TextView>
+            <TextView
+                android:textColor="#3F51B5"
+                android:id="@+id/distance"
+                android:layout_marginTop="20dp"
+                android:layout_below="@+id/ly"
+                android:textSize="12sp"
+                android:layout_marginLeft="190dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="-">
             </TextView>
 
 
