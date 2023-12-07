@@ -1,5 +1,6 @@
 package com.example.fortuneapplication;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -19,11 +20,14 @@ public class CustomerDisplayAdapter extends RecyclerView.Adapter< CustomerDispla
     private Context context;
     private ArrayList<Customer>customerList;
     private Comparator<Customer> currentComparator;
+    double longitude1,latitude1;
 
 
-    public CustomerDisplayAdapter(Context context, ArrayList<Customer> customerList) {
+    public CustomerDisplayAdapter(Context context, ArrayList<Customer> customerList,double longitude,double latitude) {
         this.context = context;
         this.customerList = customerList;
+        this.longitude1 = longitude;
+        this.latitude1 = latitude;
     }
 
 
@@ -51,6 +55,7 @@ public class CustomerDisplayAdapter extends RecyclerView.Adapter< CustomerDispla
 
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Customer customer = customerList.get(position);
@@ -62,6 +67,13 @@ public class CustomerDisplayAdapter extends RecyclerView.Adapter< CustomerDispla
         PazDatabaseHelper dbhelper = new PazDatabaseHelper(context);
         holder.lx.setText(dbhelper.get_customer_longitude(Integer.parseInt(customer.getId())));
         holder.ly.setText(dbhelper.get_customer_latitude(Integer.parseInt(customer.getId())));
+        double longtiude2 = Double.parseDouble(dbhelper.get_customer_longitude(Integer.parseInt(customer.getId())));
+        double latitude2 = Double.parseDouble(dbhelper.get_customer_latitude(Integer.parseInt(customer.getId())));
+        getDistance distance_class = new getDistance(longitude1,longtiude2,latitude1,latitude2,0,0);
+        holder.distance.setText(Double.toString(distance_class.get_distance()));
+        if(longtiude2 == 0 && latitude2 == 0){
+            holder.distance.setText("0");
+        }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,7 +96,7 @@ public class CustomerDisplayAdapter extends RecyclerView.Adapter< CustomerDispla
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView h1,h2,h3,h4,h5,lx,ly;
+        TextView h1,h2,h3,h4,h5,lx,ly,distance;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             h1 = itemView.findViewById(R.id.h1);
@@ -94,6 +106,8 @@ public class CustomerDisplayAdapter extends RecyclerView.Adapter< CustomerDispla
             h5 = itemView.findViewById(R.id.h5);
             lx = itemView.findViewById(R.id.lx);
             ly = itemView.findViewById(R.id.ly);
+            distance = itemView.findViewById(R.id.distance);
+
 
         }
     }

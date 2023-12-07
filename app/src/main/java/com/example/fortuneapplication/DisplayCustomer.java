@@ -21,7 +21,7 @@ import android.widget.Toast;
 
 public class DisplayCustomer extends AppCompatActivity {
     private static final int REQUEST_LOCATION = 1;
-    TextView u1,u2,u3,u4,u5,lx,ly;
+    TextView u1,u2,u3,u4,u5,lx,ly,DistanceValue;
     Button pin;
     Button getlocationBtn;
     String latitude, longitude;
@@ -42,6 +42,7 @@ public class DisplayCustomer extends AppCompatActivity {
         u5 = findViewById(R.id.u5);
         lx = findViewById(R.id.LongitudeValue);
         ly = findViewById(R.id.LatitudeValue);
+        DistanceValue =  findViewById(R.id.DistanceValue);
 
 
         Intent intent = getIntent();
@@ -60,6 +61,18 @@ public class DisplayCustomer extends AppCompatActivity {
         u5.setText(cperson);
         lx.setText(dbhelper.get_customer_longitude(Integer.parseInt(cid)));
         ly.setText(dbhelper.get_customer_latitude(Integer.parseInt(cid)));
+        ActivityCompat.requestPermissions(DisplayCustomer.this,new String[]
+                {Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
+        locationManager=(LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        Double long1 = Double.parseDouble(getLongitude());
+        Double long2 = Double.parseDouble(dbhelper.get_customer_longitude(Integer.parseInt(cid)));
+        Double lat1 = Double.parseDouble(getLatitude());
+        Double lat2 = Double.parseDouble(dbhelper.get_customer_latitude(Integer.parseInt(cid)));
+        getDistance distance_class = new getDistance(long1,long2,lat1,lat2,0,0);
+        DistanceValue.setText(Double.toString(distance_class.get_distance()));
+        if(long2 == 0 && lat2 == 0){
+            DistanceValue.setText("0");
+        }
 
         pin = findViewById(R.id.save_coordinate);
         pin.setOnClickListener(new View.OnClickListener() {
@@ -82,6 +95,18 @@ public class DisplayCustomer extends AppCompatActivity {
                             lx.setText(getLongitude());
                             ly.setText(getLatitude());
                             dbhelper.update_customer_coordinates(Integer.parseInt(cid),getLongitude(),getLatitude());
+                            ActivityCompat.requestPermissions(DisplayCustomer.this,new String[]
+                                    {Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
+                            locationManager=(LocationManager) getSystemService(Context.LOCATION_SERVICE);
+                            Double long1 = Double.parseDouble(getLongitude());
+                            Double long2 = Double.parseDouble(dbhelper.get_customer_longitude(Integer.parseInt(cid)));
+                            Double lat1 = Double.parseDouble(getLatitude());
+                            Double lat2 = Double.parseDouble(dbhelper.get_customer_latitude(Integer.parseInt(cid)));
+                            getDistance distance_class = new getDistance(long1,long2,lat1,lat2,0,0);
+                            DistanceValue.setText(Double.toString(distance_class.get_distance()));
+                            if(long2 == 0 && lat2 == 0){
+                                DistanceValue.setText("0");
+                            }
                         }
                     });
                 }

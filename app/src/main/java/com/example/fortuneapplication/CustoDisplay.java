@@ -1,11 +1,15 @@
 package com.example.fortuneapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -28,7 +32,7 @@ import java.util.List;
 
 public class CustoDisplay extends AppCompatActivity {
    // SearchView cseach;
-
+    private static final int REQUEST_LOCATION = 1;
     EditText searchbarcusto;
     private RecyclerView list1;
     private CustomerDisplayAdapter customerDisplayAdapter;
@@ -36,7 +40,7 @@ public class CustoDisplay extends AppCompatActivity {
     private PazDatabaseHelper mDatabaseHelper;
     private Spinner spinner3;
     Button pin;
-
+    LocationManager locationManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +53,13 @@ public class CustoDisplay extends AppCompatActivity {
         spinner3 = findViewById(R.id.spinner3);
 
         list1.setLayoutManager(new LinearLayoutManager(this));
-        customerDisplayAdapter = new CustomerDisplayAdapter(this, mIcustomer);
+        ActivityCompat.requestPermissions(this,new String[]
+                {Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
+        locationManager=(LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        GetGPSLocation gps = new GetGPSLocation(CustoDisplay.this,this,locationManager);
+        double longitude = Double.parseDouble(gps.get_longitude());
+        double latitude = Double.parseDouble(gps.get_latitude());
+        customerDisplayAdapter = new CustomerDisplayAdapter(this, mIcustomer,longitude,latitude);
         list1.setAdapter(customerDisplayAdapter);
 
         mDatabaseHelper = new PazDatabaseHelper(this);

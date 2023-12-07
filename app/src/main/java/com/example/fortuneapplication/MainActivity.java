@@ -493,7 +493,12 @@ public class MainActivity extends AppCompatActivity  {
                     }
                 }
                 if(i%65 ==0){
-                    StringRequest stringRequest = new StringRequest(Request.Method.GET, JSON_URL,
+                    ArrayList<CONNECT> connectList2 = mDatabaseHelper.SelectUPDT();
+                    if (!connectList2.isEmpty()) {
+                        x = connectList2.get(0).getIp(); // Assuming the first IP address is what you need
+                        api_url = "http://" + x + "/MobileAPI/customers.php";
+                    }
+                    StringRequest stringRequest = new StringRequest(Request.Method.GET, api_url,
                             new Response.Listener<String>() {
                                 @Override
                                 public void onResponse(String response) {

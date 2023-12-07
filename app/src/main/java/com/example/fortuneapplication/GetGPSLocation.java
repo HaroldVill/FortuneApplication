@@ -5,6 +5,7 @@ package com.example.fortuneapplication;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -23,18 +24,21 @@ public class GetGPSLocation extends AppCompatActivity{
     private Location location;
     LocationListener locationListener;
     private Context context;
-    public GetGPSLocation(Context context,LocationManager locationManager){
-        context = this.context;
-        locationManager = this.locationManager;
+    Activity activity;
+    public GetGPSLocation(Context context,Activity activity, LocationManager locationManager){
+        this.locationManager = locationManager;
+        this.context = context;
+        this.activity = activity;
     }
-
-    public String get_location() {
-        ActivityCompat.requestPermissions(this,new String[]
-                {Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
-        locationManager=(LocationManager) getSystemService(Context.LOCATION_SERVICE);
+    public String get_longitude(){//int delcaration to determine if longitude(0) or latitude(1) is asked.
+        return get_location(0);
+    }
+    public String get_latitude(){//int delcaration to determine if longitude(0) or latitude(1) is asked.
+        return get_location(1);
+    }
+    public String get_location(int i) {//int delcaration to determine if longitude(0) or latitude(1) is asked.
         //Check Permissions again
-
-        if (ActivityCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(GetGPSLocation.this,
+        if (ActivityCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context,
 
                 android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(GetGPSLocation.this, new String[]
@@ -74,6 +78,12 @@ public class GetGPSLocation extends AppCompatActivity{
 
             //Thats All Run Your App
         }
-        return ("LONGITUDE: "+longitude+"           LATITUDE: "+latitude);
+        if(i == 0){
+            return longitude;
+        }
+        else {
+            return latitude;
+        }
     }
+
 }
