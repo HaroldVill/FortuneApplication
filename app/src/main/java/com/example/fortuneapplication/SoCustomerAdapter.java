@@ -1,15 +1,20 @@
 package com.example.fortuneapplication;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.LocationManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -21,10 +26,15 @@ public class SoCustomerAdapter extends RecyclerView.Adapter<SoCustomerAdapter.My
     private Context context;
     private ArrayList<Customer> customerList;
     private Comparator<Customer> currentComparator;
+    Activity activity;
+    private static final int REQUEST_LOCATION = 1;
+    LocationManager locationManager;
 
-    public SoCustomerAdapter(Context context, ArrayList<Customer> customerList) {
+    public SoCustomerAdapter(Context context, ArrayList<Customer> customerList,Activity activity, LocationManager locationManager) {
         this.context = context;
         this.customerList = customerList;
+        this.activity = activity;
+        this.locationManager = locationManager;
     }
 
     public void setFilterdList(List<Customer> filterdList){
@@ -58,23 +68,56 @@ public class SoCustomerAdapter extends RecyclerView.Adapter<SoCustomerAdapter.My
         holder.so3.setText(customer.getPostaladdress());
         holder.so4.setText(customer.getMobilenumber());
         holder.socontact.setText(customer.getContactperson());
+        PazDatabaseHelper db = new PazDatabaseHelper(context);
+        int customer_id = Integer.parseInt(customer.getId());
+        GetGPSLocation gps = new GetGPSLocation(context,activity,locationManager);
+        String longitude1 = gps.get_longitude();
+        String latitude1 = gps.get_latitude();
+        String longitude2 = db.get_customer_longitude(customer_id);
+        String latitude2 = db.get_customer_latitude(customer_id);
+        holder.longitude.setText(longitude2);
+        holder.latitude.setText(latitude2);
+        if(Double.parseDouble(longitude2) > 0|| Double.parseDouble(latitude2) > 0) {
+            holder.save_coordinate.setVisibility(View.INVISIBLE);
+            getDistance get_distance = new getDistance(Double.parseDouble(longitude1),Double.parseDouble(longitude2),Double.parseDouble(latitude1),Double.parseDouble(latitude2),0,0);
+            holder.distance.setText(Double.toString(get_distance.get_distance()));
+        }
+        if(Double.parseDouble(longitude2) == 0|| Double.parseDouble(latitude2) == 0){
+            holder.distance.setText("0");
+            holder.save_coordinate.setVisibility(View.VISIBLE);
+            holder.save_coordinate.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    db.update_customer_coordinates(customer_id,longitude1,latitude1);
+                    holder.longitude.setText(longitude1);
+                    holder.latitude.setText(latitude1);
+                    holder.save_coordinate.setVisibility(View.INVISIBLE);
+                    notifyDataSetChanged();
+                }
+            });
+        }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent tra = new Intent(context, SOActivity.class);
-                SharedPreferences preferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = preferences.edit();
-                editor.putString("CID",customer.getId());
-                editor.putString("CNAME", customer.getCustomername());
-                editor.putString("CCONTACT", customer.getMobilenumber());
-                editor.putString("CADD", customer.getPostaladdress());
-                editor.putString("prlvl", customer.getPricelevelid());
-                editor.putString("DI", customer.getPaymenTerm().getDescription());
-                editor.apply();
-                context.startActivity(tra);
-                ((Activity) context).finish();
-
+                if(Double.parseDouble(longitude2) == 0|| Double.parseDouble(latitude2) == 0){
+                    Toast.makeText(context, "Please pin customer first.", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Intent tra = new Intent(context, SOActivity.class);
+                    SharedPreferences preferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putString("CID", customer.getId());
+                    editor.putString("CNAME", customer.getCustomername());
+                    editor.putString("CCONTACT", customer.getMobilenumber());
+                    editor.putString("CADD", customer.getPostaladdress());
+                    editor.putString("prlvl", customer.getPricelevelid());
+                    editor.putString("DI", customer.getPaymenTerm().getDescription());
+                    editor.apply();
+                    context.startActivity(tra);
+                    ((Activity) context).finish();
+                }
             }
         });
 
@@ -86,7 +129,8 @@ public class SoCustomerAdapter extends RecyclerView.Adapter<SoCustomerAdapter.My
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView so1,so2,so3,so4,socontact;
+        TextView so1,so2,so3,so4,socontact,longitude,latitude,distance;
+        Button save_coordinate;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -96,8 +140,10 @@ public class SoCustomerAdapter extends RecyclerView.Adapter<SoCustomerAdapter.My
             so3 = itemView.findViewById(R.id.so3);
             so4 = itemView.findViewById(R.id.so4);
             socontact = itemView.findViewById(R.id.socontact);
-
-
+            longitude = itemView.findViewById(R.id.longitude);
+            latitude = itemView.findViewById(R.id.latitude);
+            distance = itemView.findViewById(R.id.distance);
+            save_coordinate = itemView.findViewById(R.id.save_coordinate);
         }
     }
 }

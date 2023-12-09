@@ -141,9 +141,6 @@
                 android:text="PHONE NO:">
             </TextView>
 
-
-
-
             <TextView
                 android:id="@+id/sok"
                 android:layout_marginTop="10dp"
@@ -153,6 +150,39 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="CONTACT PERSON">
+            </TextView>
+
+            <TextView
+                android:id="@+id/longitude_label"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/sok"
+                android:textSize="15sp"
+                android:layout_marginLeft="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="LONGITUDE">
+            </TextView>
+
+            <TextView
+                android:id="@+id/latitude_label"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/longitude_label"
+                android:textSize="15sp"
+                android:layout_marginLeft="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="LATITUDE">
+            </TextView>
+
+            <TextView
+                android:id="@+id/distance_label"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/latitude_label"
+                android:textSize="15sp"
+                android:layout_marginLeft="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="DISTANCE">
             </TextView>
 
             <TextView
@@ -166,6 +196,54 @@
                 android:text="CONTACT PERSON">
             </TextView>
 
+            <TextView
+                android:id="@+id/longitude"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/socontact"
+                android:textSize="12sp"
+                android:layout_marginLeft="190dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="LONGITUDE">
+            </TextView>
+
+            <TextView
+                android:id="@+id/latitude"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/longitude"
+                android:textSize="12sp"
+                android:layout_marginLeft="190dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="LATITUDE">
+            </TextView>
+
+            <TextView
+                android:id="@+id/distance"
+                android:layout_marginTop="20dp"
+                android:layout_below="@+id/latitude"
+                android:textSize="12sp"
+                android:layout_marginLeft="190dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="DISTANCE">
+            </TextView>
+            <Button
+                android:id="@+id/save_coordinate"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_below="@+id/distance"
+                android:layout_marginLeft="180dp"
+                android:layout_marginTop="10dp"
+                android:background="#009688"
+                android:backgroundTint="#009737"
+                android:backgroundTintMode="screen"
+                android:text="PIN"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="italic"
+                android:visibility="invisible"></Button>
 
 
         </RelativeLayout>

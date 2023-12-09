@@ -1201,7 +1201,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         String longitude ="";
         try {
             SQLiteDatabase db = this.getReadableDatabase();
-            String query = "SELECT LONGITUDE FROM CUSTOMER_TABLE WHERE CUSTOMER_ID="+id;
+            String query = "SELECT IFNULL(LONGITUDE,'0') FROM CUSTOMER_TABLE WHERE CUSTOMER_ID="+id;
             Cursor cursor = db.rawQuery(query,null);
             if (cursor.moveToFirst()) {
                 longitude = cursor.getString(0);
@@ -1223,7 +1223,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         String latitude ="";
         try {
             SQLiteDatabase db = this.getReadableDatabase();
-            String query = "SELECT LATITUDE FROM CUSTOMER_TABLE WHERE CUSTOMER_ID="+id;
+            String query = "SELECT IFNULL(LATITUDE,'0') FROM CUSTOMER_TABLE WHERE CUSTOMER_ID="+id;
             Cursor cursor = db.rawQuery(query,null);
             if (cursor.moveToFirst()) {
                 latitude = cursor.getString(0);

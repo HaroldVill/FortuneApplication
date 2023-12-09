@@ -70,11 +70,13 @@ public class DisplayCustomer extends AppCompatActivity {
         Double lat2 = Double.parseDouble(dbhelper.get_customer_latitude(Integer.parseInt(cid)));
         getDistance distance_class = new getDistance(long1,long2,lat1,lat2,0,0);
         DistanceValue.setText(Double.toString(distance_class.get_distance()));
+        pin = findViewById(R.id.save_coordinate);
         if(long2 == 0 && lat2 == 0){
             DistanceValue.setText("0");
         }
-
-        pin = findViewById(R.id.save_coordinate);
+        else{
+            pin.setVisibility(View.INVISIBLE);
+        }
         pin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

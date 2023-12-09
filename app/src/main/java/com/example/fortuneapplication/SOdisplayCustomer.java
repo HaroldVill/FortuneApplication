@@ -1,9 +1,13 @@
 package com.example.fortuneapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
+import android.content.Context;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -28,6 +32,8 @@ public class SOdisplayCustomer extends AppCompatActivity {
     private PazDatabaseHelper mDatabaseHelper;
     private Spinner spinner4;
     EditText searchbar;
+    private static final int REQUEST_LOCATION = 1;
+    LocationManager locationManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +45,10 @@ public class SOdisplayCustomer extends AppCompatActivity {
         sorecyle = findViewById(R.id.sorecyle);
 
         sorecyle.setLayoutManager(new LinearLayoutManager(this));
-        soCustomerAdapter = new SoCustomerAdapter(this, customers);
+        ActivityCompat.requestPermissions(SOdisplayCustomer.this,new String[]
+                {Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
+        locationManager=(LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        soCustomerAdapter = new SoCustomerAdapter(this, customers,this,locationManager);
         sorecyle.setAdapter(soCustomerAdapter);
 
         mDatabaseHelper = new PazDatabaseHelper(this);
