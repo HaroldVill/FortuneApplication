@@ -603,7 +603,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
         cursor.close();
-        db.close();
+//        db.close();
         return itemList;
     }
 
@@ -715,7 +715,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
         cursor.close();
-        db.close();
+//        db.close();
         return salesRepList;
     }
     // FETCH DATA FROM LOCATION TABLE //
@@ -737,7 +737,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
         cursor.close();
-        db.close();
+//        db.close();
         return locations;
     }
 
@@ -816,7 +816,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
         cursor.close();
-        db.close();
+//        db.close();
         return customerlist;
     }
 
@@ -867,7 +867,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
         cursor.close();
-        db.close();
+//        db.close();
         return itemList;
     }
 
@@ -909,73 +909,73 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
     public void deleteExistingData() {
         SQLiteDatabase db = getWritableDatabase();
         db.delete(TABLE_NAME, null, null);
-        db.close();
+//        db.close();
     }
 
     //* DELETE All CUSTOMER DATA SYNC //*
     public void deleteCustomerData() {
         SQLiteDatabase db = getWritableDatabase();
         db.delete(CUSTOMER_TABLE, null, null);
-        db.close();
+//        db.close();
     }
 
     //* DELETE All SALESREP DATA SYNC //*s
     public void deleteSalerepDate() {
         SQLiteDatabase db = getWritableDatabase();
         db.delete(SALESREP_TABLE, null, null);
-        db.close();
+//        db.close();
     }
 
     // DELETE SYNC LOCATION //
     public void deleteLocation() {
         SQLiteDatabase db = getWritableDatabase();
         db.delete(LOCATION_TABLE, null, null);
-        db.close();
+//        db.close();
     }
 
     public void deleteItem(String code) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete("Order_Item_Table", "order_item_code = ?", new String[]{code});
-        db.close();
+//        db.close();
 
     }
 
     public void deleteexistUm() {
         SQLiteDatabase db = getWritableDatabase();
         db.delete(UNIT_MEASURE_TABLE, null, null);
-        db.close();
+//        db.close();
     }
 
     public void deletePT() {
         SQLiteDatabase db = getWritableDatabase();
         db.delete(PAYMENT_TERMS_TABLE, null, null);
-        db.close();
+//        db.close();
     }
 
     public void deleteplines() {
         SQLiteDatabase db = getWritableDatabase();
         db.delete(PRICE_LEVEL_LINES_TABLE, null, null);
-        db.close();
+//        db.close();
 
     }
 
     public void deletepricelevel() {
         SQLiteDatabase db = getWritableDatabase();
         db.delete(PRICE_LEVEL_TABLE, null, null);
-        db.close();
+//        db.close();
     }
 
     // delete lsit order
     public void deleOrderSample() {
         SQLiteDatabase db = getWritableDatabase();
         db.delete(ORDER_ITEM_TABLE, null, null);
-        db.close();
+//        db.close();
     }
 
     public void deletanan() {
         SQLiteDatabase db = getWritableDatabase();
         db.delete(SALES_ORDER_TABLE, null, null);
-        db.close();
+//        db.close();
     }
 
 
@@ -984,7 +984,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
     public void DeletealltotBOOK() {
         SQLiteDatabase db = getWritableDatabase();
         db.delete(DASHBOARD_TABLE, null, null);
-        db.close();
+//        db.close();
     }
 
 //    public void deleteSpecific() {
@@ -1002,7 +1002,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
             total = cursor.getDouble(0);
         }
         cursor.close();
-        db.close();
+//        db.close();
         return total;
     }
 
@@ -1028,7 +1028,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         }
 
         cursor.close();
-        db.close();
+//        db.close();
         return total;
     }
 
@@ -1065,7 +1065,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
             count = cursor.getInt(0);
         }
         cursor.close();
-        db.close();
+//        db.close();
         return count;
     }
 
@@ -1207,7 +1207,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                 longitude = cursor.getString(0);
             }
             cursor.close();
-            db.close();
+//            db.close();
             return longitude;
         }
         catch (Exception e){
@@ -1229,7 +1229,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                 latitude = cursor.getString(0);
             }
             cursor.close();
-            db.close();
+//            db.close();
             return latitude;
         }
         catch (Exception e){
@@ -1251,7 +1251,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                 customer_id = cursor.getInt(0);
             }
             cursor.close();
-            db.close();
+//            db.close();
             return customer_id;
         }
         catch (Exception e){
@@ -1273,7 +1273,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                 status = cursor.getInt(0);
             }
             cursor.close();
-            db.close();
+//            db.close();
             return status;
         }
         catch (Exception e){
@@ -1295,7 +1295,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                 status = cursor.getInt(0);
             }
             cursor.close();
-            db.close();
+//            db.close();
             return status;
         }
         catch (Exception e){
@@ -1508,7 +1508,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
         cursor.close();
-        db.close();
+//        db.close();
         return connectlist;
     }
 

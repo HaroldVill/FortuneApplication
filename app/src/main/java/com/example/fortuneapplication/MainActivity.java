@@ -492,7 +492,7 @@ public class MainActivity extends AppCompatActivity  {
                         }
                     }
                 }
-                if(i%65 ==0){
+                if(i%565 ==0){
                     ArrayList<CONNECT> connectList2 = mDatabaseHelper.SelectUPDT();
                     if (!connectList2.isEmpty()) {
                         x = connectList2.get(0).getIp(); // Assuming the first IP address is what you need

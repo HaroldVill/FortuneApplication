@@ -102,7 +102,7 @@ public class SoCustomerAdapter extends RecyclerView.Adapter<SoCustomerAdapter.My
             @Override
             public void onClick(View v) {
                 if(Double.parseDouble(longitude2) == 0|| Double.parseDouble(latitude2) == 0){
-                    Toast.makeText(context, "Please pin customer first.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Please PIN customer first.", Toast.LENGTH_SHORT).show();
                 }
                 else {
                     Intent tra = new Intent(context, SOActivity.class);
