@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity  {
         setContentView(R.layout.activity_main);
         sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         run();
-        startThread();
+//        startThread();
         ActivityCompat.requestPermissions(this,new String[]
                 {Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
         locationManager=(LocationManager) getSystemService(Context.LOCATION_SERVICE);

@@ -1,5 +1,6 @@
 plugins {
     id 'com.android.application'
+    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
 }
 
 android {
@@ -48,6 +49,7 @@ android {
      implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1'
      implementation 'com.squareup.okhttp3:logging-interceptor:4.9.0'
      implementation 'com.squareup.okhttp3:okhttp:4.9.0'
+     implementation 'com.google.android.gms:play-services-maps:18.1.0'
      testImplementation 'junit:junit:4.13.2'
      implementation 'com.android.car.ui:car-ui-lib:2.5.1'
      androidTestImplementation 'androidx.test.ext:junit:1.1.5'

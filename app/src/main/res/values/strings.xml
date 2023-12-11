@@ -31,5 +31,6 @@
     <string name="st2">CUSTOMER</string>
     <string name="st3">TOTAL</string>
     <string name="st4">DATE</string>
+    <string name="title_activity_maps">MapsActivity</string>
 
 </resources>

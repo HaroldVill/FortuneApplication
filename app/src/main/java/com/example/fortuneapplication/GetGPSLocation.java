@@ -12,8 +12,11 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.LocationRequest;
+import android.os.CancellationSignal;
 import android.util.Log;
 import android.widget.Button;
+
+import java.util.concurrent.Executor;
 
 public class GetGPSLocation extends AppCompatActivity{
     private static final int REQUEST_LOCATION = 1;
@@ -44,6 +47,8 @@ public class GetGPSLocation extends AppCompatActivity{
             ActivityCompat.requestPermissions(GetGPSLocation.this, new String[]
                     {Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
         } else {
+            CancellationSignal cancellationSignal = new CancellationSignal();
+            cancellationSignal.cancel();
             android.location.Location LocationGps = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
             android.location.Location LocationNetwork = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
             Location LocationPassive = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
@@ -56,7 +61,8 @@ public class GetGPSLocation extends AppCompatActivity{
                 longitude = String.valueOf(longi);
 
                 Log.d("LOCATION", "Your Location:" + "\n" + "Latitude= " + latitude + "\n" + "Longitude= " + longitude);
-            } else if (LocationNetwork != null) {
+            }
+            else if (LocationNetwork != null) {
                 double lat = LocationNetwork.getLatitude();
                 double longi = LocationNetwork.getLongitude();
 
@@ -72,8 +78,10 @@ public class GetGPSLocation extends AppCompatActivity{
                 longitude = String.valueOf(longi);
 
                 Log.d("LOCATION", "Your Location:" + "\n" + "Latitude= " + latitude + "\n" + "Longitude= " + longitude);
-            } else {
-
+            }
+            else {
+                latitude = "0";
+                longitude = "0";
             }
 
             //Thats All Run Your App

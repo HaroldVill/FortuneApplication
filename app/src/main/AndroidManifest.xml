@@ -6,32 +6,49 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <!-- Always include this permission -->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-
-    <!-- Include only if your app benefits from precise location access. -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- Always include this permission -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- Include only if your app benefits from precise location access. -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <!-- Required only when requesting background location access on
-       Android 10 (API level 29) and higher. -->
+    <!--
+ Required only when requesting background location access on
+       Android 10 (API level 29) and higher.
+    -->
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <uses-permission android:name="com.google.android.gms.permission.ACTIVITY_RECOGNITION" />
 
     <application
-        tools:replace="android:theme"
         android:allowBackup="false"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@drawable/paz"
         android:label="FORTUNE APP"
         android:networkSecurityConfig="@xml/network_security_config"
+        android:requestLegacyExternalStorage="true"
         android:supportsRtl="true"
         android:theme="@style/Theme.FortuneApplication"
-        android:requestLegacyExternalStorage="true"
+        tools:replace="android:theme"
         tools:targetApi="31">
 
+        <!--
+             TODO: Before you run your application, you need a Google Maps API key.
+
+             To get one, follow the directions here:
+
+                https://developers.google.com/maps/documentation/android-sdk/get-api-key
+
+             Once you have your API key (it starts with "AIza"), define a new property in your
+             project's local.properties file (e.g. MAPS_API_KEY=Aiza...), and replace the
+             "YOUR_API_KEY" string in this file with "${MAPS_API_KEY}".
+        -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="YOUR_API_KEY" />
+
+        <activity
+            android:name=".MapsActivity"
+            android:exported="false"
+            android:label="@string/title_activity_maps" />
         <activity
             android:name=".DATA1"
             android:exported="false" />
@@ -149,8 +166,7 @@
             android:label="@string/title_activity_select" />
         <activity
             android:name=".print_form"
-            android:exported="false"
-            />
+            android:exported="false" />
         <activity
             android:name=".SinkItem"
             android:exported="false" />
@@ -166,11 +182,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <service
             android:name=".MyLocation"
-            android:foregroundServiceType="location">
-        </service>
-<!--        <receiver android:name=".MyLocation"/>-->
+            android:foregroundServiceType="location"></service>
     </application>
 
 </manifest>
