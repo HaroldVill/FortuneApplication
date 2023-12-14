@@ -1,4 +1,6 @@
 package com.example.fortuneapplication;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -11,12 +13,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.LocationRequest;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Settings;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
@@ -45,10 +49,10 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class HomePage extends AppCompatActivity {
-
-
-    ImageView  ie,  bots1, bots2, bots3, bots4, sin;
+public class HomePage extends AppCompatActivity implements LocationListener {
+    private static final long MIN_TIME_BW_UPDATES = 1000;
+    private static final float MIN_DISTANCE_CHANGE_FOR_UPDATES = 1;
+    ImageView ie, bots1, bots2, bots3, bots4, sin;
     CardView c1, c2, c3, c4;
     AlertDialog.Builder builder;
     private static final String PREFS_NAME = "MyPrefs";
@@ -66,6 +70,7 @@ public class HomePage extends AppCompatActivity {
     private PazDatabaseHelper mDatabaseHelper;
     private String api_url, x;
     RequestQueue request_queue;
+    Criteria criteria;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,13 +92,13 @@ public class HomePage extends AppCompatActivity {
         coordinates = findViewById(R.id.coordinates);
         startThread();
 
-        ActivityCompat.requestPermissions(this,new String[]
+        ActivityCompat.requestPermissions(this, new String[]
                 {Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
-        locationManager=(LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
         {
             //Write Function To enable gps
-//            OnGPS();
+            OnGPS();
         }
         else
         {
@@ -302,6 +307,10 @@ public class HomePage extends AppCompatActivity {
         */
     }
 
+    @Override
+    public void onLocationChanged(@NonNull Location location) {
+
+    }
 
 
     class ExampleRunnable implements Runnable {
@@ -635,6 +644,18 @@ public class HomePage extends AppCompatActivity {
         }
         else
         {
+            locationManager.requestLocationUpdates(
+                    LocationManager.NETWORK_PROVIDER,
+                    MIN_TIME_BW_UPDATES,
+                    MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
+            locationManager.requestLocationUpdates(
+                    LocationManager.GPS_PROVIDER,
+                    MIN_TIME_BW_UPDATES,
+                    MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
+            locationManager.requestLocationUpdates(
+                    LocationManager.PASSIVE_PROVIDER,
+                    MIN_TIME_BW_UPDATES,
+                    MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
             Location LocationGps= locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
             Location LocationNetwork=locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
             Location LocationPassive=locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
@@ -679,5 +700,25 @@ public class HomePage extends AppCompatActivity {
             //Thats All Run Your App
         }
         return ("MY CURRENT LOCATION\n\n"+"Longitude: "+longitude+"\nLatitude: "+latitude);
+    }
+
+    private void OnGPS() {
+
+        final AlertDialog.Builder builder= new AlertDialog.Builder(this);
+
+        builder.setMessage("Enable GPS").setCancelable(false).setPositiveButton("YES", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+            }
+        }).setNegativeButton("NO", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                dialog.cancel();
+            }
+        });
+        final AlertDialog alertDialog=builder.create();
+        alertDialog.show();
     }
 }

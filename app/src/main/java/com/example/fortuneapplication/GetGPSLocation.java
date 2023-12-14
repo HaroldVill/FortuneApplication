@@ -1,7 +1,7 @@
 package com.example.fortuneapplication;
 
 
-
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import android.Manifest;
@@ -18,7 +18,9 @@ import android.widget.Button;
 
 import java.util.concurrent.Executor;
 
-public class GetGPSLocation extends AppCompatActivity{
+public class GetGPSLocation extends AppCompatActivity implements LocationListener{
+    private static final long MIN_TIME_BW_UPDATES = 1000;
+    private static final float MIN_DISTANCE_CHANGE_FOR_UPDATES = 1;
     private static final int REQUEST_LOCATION = 1;
     Button getlocationBtn;
     String latitude, longitude;
@@ -47,8 +49,18 @@ public class GetGPSLocation extends AppCompatActivity{
             ActivityCompat.requestPermissions(GetGPSLocation.this, new String[]
                     {Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
         } else {
-            CancellationSignal cancellationSignal = new CancellationSignal();
-            cancellationSignal.cancel();
+            locationManager.requestLocationUpdates(
+                    LocationManager.NETWORK_PROVIDER,
+                    MIN_TIME_BW_UPDATES,
+                    MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
+            locationManager.requestLocationUpdates(
+                    LocationManager.GPS_PROVIDER,
+                    MIN_TIME_BW_UPDATES,
+                    MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
+            locationManager.requestLocationUpdates(
+                    LocationManager.PASSIVE_PROVIDER,
+                    MIN_TIME_BW_UPDATES,
+                    MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
             android.location.Location LocationGps = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
             android.location.Location LocationNetwork = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
             Location LocationPassive = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
@@ -94,4 +106,9 @@ public class GetGPSLocation extends AppCompatActivity{
         }
     }
 
+    @Override
+    public void onLocationChanged(@NonNull Location location) {
+        latitude = "0";
+        longitude = "0";
+    }
 }

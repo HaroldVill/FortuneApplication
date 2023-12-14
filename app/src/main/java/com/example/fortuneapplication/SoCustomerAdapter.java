@@ -1,11 +1,14 @@
 package com.example.fortuneapplication;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,14 +78,27 @@ public class SoCustomerAdapter extends RecyclerView.Adapter<SoCustomerAdapter.My
         String latitude1 = gps.get_latitude();
         String longitude2 = db.get_customer_longitude(customer_id);
         String latitude2 = db.get_customer_latitude(customer_id);
-        holder.longitude.setText(longitude2);
-        holder.latitude.setText(latitude2);
+
         if(Double.parseDouble(longitude2) > 0|| Double.parseDouble(latitude2) > 0) {
-            holder.save_coordinate.setVisibility(View.INVISIBLE);
+            holder.longitude.setText(longitude2);
+            holder.latitude.setText(latitude2);
+            holder.save_coordinate.setVisibility(View.VISIBLE);
+            holder.save_coordinate.setText("LOCATE");
+            holder.save_coordinate.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Uri gmmIntentUri = Uri.parse("google.navigation:q="+latitude2+","+longitude2);
+                    Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                    mapIntent.setPackage("com.google.android.apps.maps");
+                    startActivity(context,mapIntent,null);
+                }
+            });
             getDistance get_distance = new getDistance(Double.parseDouble(longitude1),Double.parseDouble(longitude2),Double.parseDouble(latitude1),Double.parseDouble(latitude2),0,0);
             holder.distance.setText(Double.toString(get_distance.get_distance()));
         }
         if(Double.parseDouble(longitude2) == 0|| Double.parseDouble(latitude2) == 0){
+            holder.longitude.setText("0");
+            holder.latitude.setText("0");
             holder.distance.setText("0");
             holder.save_coordinate.setVisibility(View.VISIBLE);
             holder.save_coordinate.setOnClickListener(new View.OnClickListener() {
