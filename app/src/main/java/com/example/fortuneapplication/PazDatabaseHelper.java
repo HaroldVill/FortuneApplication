@@ -1541,10 +1541,10 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
     @SuppressLint("Range")
     public ArrayList<SALESORDER> get_principal_performance(){
         ArrayList<SALESORDER> pr = new ArrayList<>();
-        String query="SELECT ITEM_GROUP,ROUND(SUM(SALES_ORDER_ITEMS_TABLE.AMOUNT),0) AMOUNT FROM Sales_Order_Items_Table " +
+        String query="SELECT ITEM_GROUP,printf('%,d',ROUND(SUM(SALES_ORDER_ITEMS_TABLE.AMOUNT),0)) AMOUNT,COUNT(DISTINCT(CUSTOMER_ID)) BUYING_ACCTS,printf('%,d',ROUND(SUM(SALES_ORDER_ITEMS_TABLE.AMOUNT)/COUNT(DISTINCT(CUSTOMER_ID)),2)) DROP_SIZE,ROUND(SUM(SALES_ORDER_ITEMS_TABLE.AMOUNT)) AMOUNTNUMBER FROM Sales_Order_Items_Table " +
                 "INNER JOIN ITEM_TABLE ON ITEM_TABLE.item_id = SALES_ORDER_ITEMS_TABLE.item_id " +
                 "INNER JOIN SALES_ORDER_TABLE ON SALES_ORDER_TABLE.SALES_ORDERID = SALES_ORDER_ITEMS_TABLE.SALES_ORDER_ID " +
-                "GROUP BY ITEM_GROUP ORDER BY AMOUNT DESC";
+                "GROUP BY ITEM_GROUP ORDER BY AMOUNTNUMBER DESC";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(query,  null);
         if(cursor.moveToFirst()){
@@ -1552,9 +1552,13 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                 SALESORDER so = new SALESORDER();
                 so.set_item_group(cursor.getString(0));
                 so.setAmount(cursor.getString(1));
+                so.setBuying_accts(cursor.getString(2));
+                so.setDrop_size(cursor.getString(3));
                 pr.add(so);
-                Log.d("check_result", cursor.getColumnName(0));
-                Log.d("check_result", cursor.getColumnName(1));
+                Log.d("principal_result", cursor.getString(0));
+                Log.d("principal_result", cursor.getString(1));
+                Log.d("principal_result", cursor.getString(2));
+                Log.d("principal_result", cursor.getString(3));
             }while(cursor.moveToNext());
         }
         Log.d("principal_performance", pr.toString());

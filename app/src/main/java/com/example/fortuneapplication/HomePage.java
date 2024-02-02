@@ -68,6 +68,7 @@ public class HomePage extends AppCompatActivity implements LocationListener {
     private volatile boolean stopThread = false;
     private static final String TAG = "DebugLogs";
     private PazDatabaseHelper mDatabaseHelper;
+    ImageView sfa_button;
     private String api_url, x;
     RequestQueue request_queue;
     Criteria criteria;
@@ -89,6 +90,7 @@ public class HomePage extends AppCompatActivity implements LocationListener {
         c3 = findViewById(R.id.c3);
         c4 = findViewById(R.id.c4);
         ie = findViewById(R.id.ie);
+        sfa_button = findViewById(R.id.imageView4);
         coordinates = findViewById(R.id.coordinates);
         startThread();
 
@@ -185,6 +187,12 @@ public class HomePage extends AppCompatActivity implements LocationListener {
             }
         });
 
+        sfa_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(HomePage.this, "Welcome Admin", Toast.LENGTH_LONG).show();
+            }
+        });
 //        ie.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -421,7 +429,7 @@ public class HomePage extends AppCompatActivity implements LocationListener {
 //                    RequestQueue requestQueue = Volley.newRequestQueue(MainActivity.this);
 //                    requestQueue.add(stringRequest);
                 }
-                if(i%90 == 0){
+                if(i%3600 == 0){
 
                     StringRequest stringRequest = new StringRequest(Request.Method.GET, JSON_URL,
                             new Response.Listener<String>() {
@@ -568,7 +576,7 @@ public class HomePage extends AppCompatActivity implements LocationListener {
                         }
                     }
                 }
-                if(i%565 ==0){
+                if(i%905 ==0){
                     ArrayList<CONNECT> connectList2 = mDatabaseHelper.SelectUPDT();
                     if (!connectList2.isEmpty()) {
                         x = connectList2.get(0).getIp(); // Assuming the first IP address is what you need

@@ -41,6 +41,8 @@ public class principal_adapter extends RecyclerView.Adapter<principal_adapter.Vi
         Log.d("check_results", get_principal.get_item_group());
         holder.sam1.setText(get_principal.get_item_group());
         holder.sam2.setText(get_principal.getAmount());
+        holder.sam3.setText(get_principal.getbuying_accts());
+        holder.sam4.setText(get_principal.getDrop_size());
 
 
     }
@@ -49,12 +51,14 @@ public class principal_adapter extends RecyclerView.Adapter<principal_adapter.Vi
         return get_principal_performance.size();
     }
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView sam1,sam2;
+        TextView sam1,sam2,sam3,sam4;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             sam1= itemView.findViewById(R.id.sam1);
             sam2 = itemView.findViewById(R.id.sam2);
+            sam3 = itemView.findViewById(R.id.sam3);
+            sam4 = itemView.findViewById(R.id.sam4);
 
         }
     }

@@ -25,9 +25,11 @@ public class SALESORDER {
     private String sales_rep_name;
     private String item_group;
     private String customer_name;
+    private String buying_accts;
+    private String drop_size;
 
 
-    public SALESORDER(int salesorderid, String code, String date, int customerid, int locationid, int salesrepid, String dateneeded, int ponumber, int shipvia, String amount, String notes, String custom1, String custom2, String custom3, String custom4, String custom5, Customer customer, SALESORDERITEMS salesorderitems, Item item, Location location, SalesRepList salesRepList, String sales_rep_name,String item_group, String customer_name) {
+    public SALESORDER(int salesorderid, String code, String date, int customerid, int locationid, int salesrepid, String dateneeded, int ponumber, int shipvia, String amount, String notes, String custom1, String custom2, String custom3, String custom4, String custom5, Customer customer, SALESORDERITEMS salesorderitems, Item item, Location location, SalesRepList salesRepList, String sales_rep_name,String item_group, String customer_name, String buying_accts, String drop_size) {
         this.salesorderid = salesorderid;
         this.code = code;
         this.date = date;
@@ -51,6 +53,8 @@ public class SALESORDER {
         this.salesRepList = salesRepList;
         this.item_group = item_group;
         this.customer_name=customer_name;
+        this.buying_accts = buying_accts;
+        this.drop_size = drop_size;
     }
     public  SALESORDER(){
 
@@ -134,6 +138,20 @@ public class SALESORDER {
 
     public void setAmount(String amount) {
         this.amount = amount;
+    }
+    public String getbuying_accts() {
+        return buying_accts;
+    }
+
+    public void setBuying_accts(String buying_accts) {
+        this.buying_accts = buying_accts;
+    }
+    public String getDrop_size() {
+        return drop_size;
+    }
+
+    public void setDrop_size(String drop_size) {
+        this.drop_size = drop_size;
     }
 
     public String getNotes() {

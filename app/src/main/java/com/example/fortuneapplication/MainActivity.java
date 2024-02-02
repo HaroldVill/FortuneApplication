@@ -507,7 +507,7 @@ public class MainActivity extends AppCompatActivity  {
                                         JSONArray customerArray = obj.getJSONArray("data");
 
                                         // Delete existing data from the table before syncing new data
-//                            databaseHelper.deleteCustomerData();
+//                                      databaseHelper.deleteCustomerData();
 
                                         for (int i = 0 ; i < customerArray.length(); i++){
                                             JSONObject jsonObject = customerArray.getJSONObject(i);

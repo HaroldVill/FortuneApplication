@@ -20,7 +20,18 @@
                 android:id="@+id/sam1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="4"
+                android:layout_weight="3"
+                android:padding="10sp"
+                android:text="@string/ro1"
+                android:textAlignment="center"
+                android:textSize="12sp" />
+
+            <TextView
+                android:textColor="#3F51B5"
+                android:id="@+id/sam2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
                 android:padding="10sp"
                 android:text="@string/ro1"
                 android:textAlignment="center"
@@ -28,7 +39,17 @@
 
 
             <TextView
-                android:id="@+id/sam2"
+                android:id="@+id/sam3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="10sp"
+                android:text="@string/ro2"
+                android:textAlignment="textEnd"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/sam4"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"

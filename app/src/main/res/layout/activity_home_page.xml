@@ -55,7 +55,7 @@
         <ImageView
             android:id="@+id/imageView4"
             android:layout_width="300dp"
-            android:layout_height="200dp"
+            android:layout_height="45dp"
             app:srcCompat="@drawable/paz" />
     </androidx.cardview.widget.CardView>
 
@@ -66,7 +66,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
         android:columnCount="2"
         android:rowCount="3"
@@ -187,7 +187,7 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/c4"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="173dp"
             android:layout_row="1"
             android:layout_rowWeight="1"
             android:layout_column="1"
@@ -227,12 +227,12 @@
         android:id="@+id/coordinates"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="24dp"
         android:text="LONGITUDE: "
         android:textColor="@color/black"
         app:layout_constraintTop_toBottomOf="@+id/GridId"
         tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="40dp" />
+        tools:layout_editor_absoluteX="20dp" />
 
     <!--    <TextView-->
 <!--        android:layout_width="wrap_content"-->
