@@ -21,8 +21,9 @@ public class SALESORDERITEMS {
      private SALESORDER salesorder ;
      private Item item;
      private String Itemdesc;
+     private int location_id;
 
-     public SALESORDERITEMS(int id, int salesorderid, int soiitemid, int soiquantity, int soiunitbasequantity, String uom, double soirate, double soiamount, double taxable, double taxableamount, double taxamount, double soipricelevelid, String soicustomfield1, String soicustomfield2, String soicustomfield3, String soicustomfield4, String soicustomfield5, SALESORDER salesorder, Item item, String Itemdesc) {
+     public SALESORDERITEMS(int id, int salesorderid, int soiitemid, int soiquantity, int soiunitbasequantity, String uom, double soirate, double soiamount, double taxable, double taxableamount, double taxamount, double soipricelevelid, String soicustomfield1, String soicustomfield2, String soicustomfield3, String soicustomfield4, String soicustomfield5, SALESORDER salesorder, Item item, String Itemdesc, int location_id) {
           this.id = id;
           this.salesorderid = salesorderid;
           this.soiitemid = soiitemid;
@@ -42,6 +43,7 @@ public class SALESORDERITEMS {
           this.soicustomfield5 = soicustomfield5;
           this.salesorder = salesorder;
           this.item = item;
+          this.location_id = location_id;
      }
 
    public SALESORDERITEMS(){
@@ -205,5 +207,12 @@ public class SALESORDERITEMS {
      }
     public void setitemdesc(String Itemdesc) {
         this.Itemdesc = Itemdesc;
+    }
+    public int getLocationId() {
+        return location_id;
+    }
+
+    public void setLocationId(int location_id) {
+        this.location_id = location_id;
     }
 }

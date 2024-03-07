@@ -152,6 +152,20 @@ public class InputQuantity extends AppCompatActivity {
                                 DecimalFormat decimalFormat = new DecimalFormat("#.00");
                                 String formattedResult = decimalFormat.format(result);
                                 q4.setText(formattedResult);
+                                String quantityString = q5.getText().toString();
+                                if (!quantityString.isEmpty()) {
+
+                                    int quantity = Integer.parseInt(quantityString);
+                                    double price = Double.parseDouble(q4.getText().toString());
+                                    double computedValue = computeValue(quantity, price);
+
+                                    NumberFormat numberFormat = new DecimalFormat("#,###.00");
+                                    String formattedValue = numberFormat.format(computedValue);
+                                    q6.setText(formattedValue);
+
+                                } else {
+                                    q6.setText("");
+                                }
                                 basihan.setText(selectedQuantityString);
                                 ps.setText(selectedOption);
 

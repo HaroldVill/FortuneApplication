@@ -1382,6 +1382,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                     SALES_ORDER_TABLE + "." + AMOUNT + ", " +
                     SALES_ORDER_TABLE + "." + DATE + ", " +
                     SALES_ORDER_TABLE + "." + SALES_REP_ID + ", " +
+                    SALES_ORDER_TABLE + "." + LOCATION_ID + ", " +
                     CUSTOMER_TABLE + "." + CUSTOMER_ID + ", " +
                     SALESREP_TABLE + "." + SALESREP_NAME + ", " +
                     CUSTOMER_TABLE + "." + CUSTOMER_NAME +
@@ -1399,6 +1400,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                     SALES_ORDER_TABLE + "." + AMOUNT + ", " +
                     SALES_ORDER_TABLE + "." + DATE + ", " +
                     SALES_ORDER_TABLE + "." + SALES_REP_ID + ", " +
+                    SALES_ORDER_TABLE + "." + LOCATION_ID + ", " +
                     CUSTOMER_TABLE + "." + CUSTOMER_ID + ", " +
                     SALESREP_TABLE + "." + SALESREP_NAME + ", " +
                     CUSTOMER_TABLE + "." + CUSTOMER_NAME +
@@ -1427,6 +1429,10 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                 customerR.setCustomername(cursor.getString(cursor.getColumnIndex(CUSTOMER_NAME)));
                 customerR.setId(cursor.getString(cursor.getColumnIndex(CUSTOMER_ID)));
 
+                Location location = new Location();
+                location.setLocid(cursor.getString(cursor.getColumnIndex(LOCATION_ID)));
+
+                salesorder.setLocationid(Integer.parseInt(location.getLocid()));
                 salesorder.set_sales_rep_name(cursor.getString(cursor.getColumnIndex(SALESREP_NAME)));
                 salesorder.set_customer_name(cursor.getString(cursor.getColumnIndex(CUSTOMER_NAME)));
 
