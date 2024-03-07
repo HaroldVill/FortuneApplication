@@ -101,6 +101,7 @@ public class SoCustomerAdapter extends RecyclerView.Adapter<SoCustomerAdapter.My
             holder.latitude.setText("0");
             holder.distance.setText("0");
             holder.save_coordinate.setVisibility(View.VISIBLE);
+            holder.save_coordinate.setText("PIN");
             holder.save_coordinate.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
