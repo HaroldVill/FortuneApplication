@@ -370,8 +370,9 @@ public class MainActivity extends AppCompatActivity  {
                                             String quant = jsonObject.getString("qty");
                                             String uom = jsonObject.getString("uom");
                                             String vend = jsonObject.getString("vendor");
+                                            String inactive = jsonObject.getString("vendor");
 
-                                            Item item = new Item(id, code, description, rate, group, quant, uom, vend);
+                                            Item item = new Item(id, code, description, rate, group, quant, uom, vend, inactive);
 
                                             boolean isStored = mDatabaseHelper.StoreData(item);
 

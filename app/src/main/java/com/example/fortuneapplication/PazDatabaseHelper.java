@@ -29,6 +29,12 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
     protected static final String ITEM_QUANTITY = "item_quantity";
     protected static final String ITEM_UNIT_MEASURE = "item_unit_measure";
     private static final String ITEM_VENDOR = "item_vendor";
+    private static final String INACTIVE = "inactive";
+    //**SYNC HISTORY TABLE
+    protected static final String SYNC_HISTORY_TABLE = "sync_history";
+    protected static final String SYNC_HISTORY_TABLE_ID = "id";
+    protected static final String SYNC_HISTORY_TABLE_NAME = "tabe_name";
+    protected static final String SYNC_HISTORY_TABLE_DATE = "date";
 
     //*CUSTOMER TABLE //*
     protected static final String CUSTOMER_TABLE = "Customer_Table";
@@ -177,7 +183,8 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                 ITEM_GROUP + " TEXT, " +
                 ITEM_QUANTITY + " TEXT, " +
                 ITEM_UNIT_MEASURE + " TEXT, " +
-                ITEM_VENDOR + " TEXT" +
+                ITEM_VENDOR + " TEXT," +
+                INACTIVE + " INTEGER " +
                 ")";
 
         String CREATE_CUSTOMER_TABLE = "CREATE TABLE " + CUSTOMER_TABLE +
@@ -309,6 +316,23 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                 SYSTEM_SETTINGS_VALUE+ " TEXT DEFAULT '', UNIQUE("+SYSTEM_SETTINGS_NAME+")" +
                 ");";
 
+        String CREATE_SYNC_HISTORY_TABLE="CREATE TABLE " +SYNC_HISTORY_TABLE + " ("+
+                SYNC_HISTORY_TABLE_ID+" INTEGER PRIMARY KEY AUTOINCREMENT, "+
+                SYNC_HISTORY_TABLE_NAME+" TEXT, "+
+                SYNC_HISTORY_TABLE_DATE+" TEXT "+
+                ")";
+
+        String INSERT_SYNC_HISTORY ="INSERT INTO "+SYNC_HISTORY_TABLE+" VALUES " +
+                "(NULL,'ITEM',''),"+
+                "(NULL,'CUSTOMER',''),"+
+                "(NULL,'LOCATION',''),"+
+                "(NULL,'SALESREP',''),"+
+                "(NULL,'LOCATION',''),"+
+                "(NULL,'PRICELEVEL',''),"+
+                "(NULL,'PRICELEVELLINES',''),"+
+                "(NULL,'UOM','')"+
+                ""
+                ;
 //        String  ALTER_ITEM_TABLE = "ALTER TABLE " + SALES_ORDER_TABLE + " ADD COLUMN " +
 //                "posted" + " INTEGER DEFAULT 0";
 
@@ -329,6 +353,8 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_PRICE_LEVEL_LINES_TABLE);
         db.execSQL(CREATE_SYSTEM_SETTINGS_TABLE);
         db.execSQL(INSERT_SYSTEM_SETTINGS);
+        db.execSQL(CREATE_SYNC_HISTORY_TABLE);
+        db.execSQL(INSERT_SYNC_HISTORY);
 //        db.execSQL(ALTER_ITEM_TABLE);
 
     }
@@ -387,6 +413,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         values.put(ITEM_QUANTITY, item.getQuantity());
         values.put(ITEM_UNIT_MEASURE, item.getUnitquant());
         values.put(ITEM_VENDOR, item.getVendor());
+        values.put(INACTIVE, item.getInactive());
         db.insertWithOnConflict(TABLE_NAME, null, values,db.CONFLICT_REPLACE);
         return false;
     }
@@ -577,7 +604,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                 " FROM " + TABLE_NAME +
                 " LEFT JOIN " + UNIT_MEASURE_TABLE +
                 " ON " + TABLE_NAME + "." + ITEMID + " = " + UNIT_MEASURE_TABLE + "." + ITM+
-                " GROUP by "+ITEM_CODE;
+                " WHERE " + INACTIVE+"=0 GROUP by "+ITEM_CODE;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(query, null);
         if (cursor.moveToFirst()) {
@@ -842,7 +869,8 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                 " LEFT JOIN " + PRICE_LEVEL_LINES_TABLE +
                 " ON " + TABLE_NAME + "." + ITEMID + " = " + PRICE_LEVEL_LINES_TABLE + "." + PRITEM_ID +
                 " WHERE " + PRICE_LEVEL_LINES_TABLE + "." + PRI_LEVEL_ID + " IS NULL OR " +
-                PRICE_LEVEL_LINES_TABLE + "." + PRI_LEVEL_ID + " = 1";
+                PRICE_LEVEL_LINES_TABLE + "." + PRI_LEVEL_ID + " = 1" +
+                " AND INACTIVE=0";
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(query, null);
@@ -1569,6 +1597,21 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         }
         Log.d("principal_performance", pr.toString());
         return pr;
+    }
+
+    public void UpdateSyncHistory(Integer id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String update_query = "UPDATE sync_history SET date = DATE('now') where NAME = " +id;
+        try{
+            db.execSQL(update_query);
+            //db.setTransactionSuccessful();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        finally {
+            //db.endTransaction();
+        }
     }
 
     }

@@ -11,8 +11,9 @@ public class Item {
     private Unit unit;
     private NewPriceLvl newPriceLvl;
     private String vendor;
+    private String inactive;
 
-    public Item(String id, String code, String description, String rate, String group, String quantity, String unitquant, String vendor) {
+    public Item(String id, String code, String description, String rate, String group, String quantity, String unitquant, String vendor, String inactive) {
         this.id = id;
         this.code = code;
         this.description = description;
@@ -23,6 +24,7 @@ public class Item {
         this.unit = unit;
         this.newPriceLvl = newPriceLvl;
         this.vendor = vendor;
+        this.inactive = inactive;
     }
     public Item(){
 
@@ -91,6 +93,14 @@ public class Item {
 
     public void setUnit(Unit unit) {
         this.unit = unit;
+    }
+
+    public String getInactive() {
+        return inactive;
+    }
+
+    public void setInactive(String inactive) {
+        this.inactive = inactive;
     }
 
     public NewPriceLvl getNewPriceLvl() {

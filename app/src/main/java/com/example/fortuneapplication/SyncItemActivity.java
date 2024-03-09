@@ -109,8 +109,9 @@ public class SyncItemActivity extends AppCompatActivity {
                                 String quant = jsonObject.getString("qty");
                                 String uom = jsonObject.getString("uom");
                                 String vend = jsonObject.getString("vendor");
+                                String inactive = jsonObject.getString("inactive");
 
-                                Item item = new Item(id, code, description, rate, group, quant, uom, vend);
+                                Item item = new Item(id, code, description, rate, group, quant, uom, vend,inactive);
 
                                 boolean isStored = databaseHelper.StoreData(item);
                                 itemList.add(item);
@@ -118,7 +119,7 @@ public class SyncItemActivity extends AppCompatActivity {
 
                             ItemAdapter adapter = new ItemAdapter(itemList, getApplicationContext());
                             listview_item.setAdapter(adapter);
-
+                            databaseHelper.UpdateSyncHistory(1);
                             Toast.makeText(SyncItemActivity.this, "Successfully Sync Data", Toast.LENGTH_SHORT).show();
 
                         } catch (JSONException e) {
