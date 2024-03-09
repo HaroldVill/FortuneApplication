@@ -30,11 +30,22 @@
             android:textColor="#FDFCFC"
             android:textSize="20sp"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="1dp"
             android:text="SYNC PLEVEL_LINES"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
+        </TextView>
+        <TextView
+            android:id="@+id/sync_history"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:layout_marginTop="30dp"
+            android:layout_centerHorizontal="true"
+            android:textSize="12sp"
+            android:text="NO SYNC HISTORY"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
         </TextView>
 
     <Button
