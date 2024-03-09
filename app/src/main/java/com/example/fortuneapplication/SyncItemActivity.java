@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -39,6 +40,7 @@ public class SyncItemActivity extends AppCompatActivity {
     Button bbt;
     ImageView hm;
     ProgressBar progressBar1;
+    TextView sync_datetime;
     private String x;
     private String JSON_URL;
     private PazDatabaseHelper mdatabaseHelper;
@@ -52,7 +54,10 @@ public class SyncItemActivity extends AppCompatActivity {
         itemList = new ArrayList<>();
         bbt = findViewById(R.id.bbt);
         progressBar1= findViewById(R.id.progressBar1);
+        sync_datetime = findViewById(R.id.sync_datetime);
         mdatabaseHelper = new PazDatabaseHelper(this);
+
+        sync_datetime.setText(mdatabaseHelper.get_sync_history(1));
 
 
         ArrayList<CONNECT> connectList = SelectUPDT();

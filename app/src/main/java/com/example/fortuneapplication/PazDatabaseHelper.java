@@ -1601,7 +1601,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
 
     public void UpdateSyncHistory(Integer id){
         SQLiteDatabase db = this.getWritableDatabase();
-        String update_query = "UPDATE sync_history SET date = DATE('now') where NAME = " +id;
+        String update_query = "UPDATE sync_history SET date = DATETIME('now','localtime') where ID ="+ id.toString();
         try{
             db.execSQL(update_query);
             //db.setTransactionSuccessful();
@@ -1612,6 +1612,19 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         finally {
             //db.endTransaction();
         }
+    }
+
+    public String get_sync_history(Integer id){
+        String value="";
+        String query ="SELECT "+DATE +" FROM "+ SYNC_HISTORY_TABLE +
+                " WHERE "+ id +"="+id.toString();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query,null);
+        if(cursor.moveToFirst()){
+            value=cursor.getString(cursor.getColumnIndex(DATE));
+//            Log.d("sales_type",sales_type);
+        }
+        return value;
     }
 
     }

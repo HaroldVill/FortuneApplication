@@ -346,55 +346,55 @@ public class MainActivity extends AppCompatActivity  {
 //                    requestQueue.add(stringRequest);
                 }
                 if(i%90 == 0){
-
-                    StringRequest stringRequest = new StringRequest(Request.Method.GET, JSON_URL,
-                            new Response.Listener<String>() {
-                                @Override
-                                public void onResponse(String response) {
-                                    try {
-
-                                        JSONObject obj = new JSONObject(response);
-                                        JSONArray itemArray = obj.getJSONArray("data");
-
-                                        // Delete existing data from the table before syncing new data
-//                                        mDatabaseHelper.deleteExistingData();
-
-                                        for (int i = 0; i < itemArray.length(); i++) {
-                                            JSONObject jsonObject = itemArray.getJSONObject(i);
-
-                                            String id = jsonObject.getString("id");
-                                            String code = jsonObject.getString("code");
-                                            String description = jsonObject.getString("description");
-                                            String rate = jsonObject.getString("rate");
-                                            String group = jsonObject.getString("group");
-                                            String quant = jsonObject.getString("qty");
-                                            String uom = jsonObject.getString("uom");
-                                            String vend = jsonObject.getString("vendor");
-                                            String inactive = jsonObject.getString("vendor");
-
-                                            Item item = new Item(id, code, description, rate, group, quant, uom, vend, inactive);
-
-                                            boolean isStored = mDatabaseHelper.StoreData(item);
-
-                                        }
-
-
-                                        Log.d(TAG, "ItemSync:  Success");;
-
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                        Log.d(TAG, "ItemSync: Error "+e.getMessage());
-                                    } finally {
-                                    }
-                                }
-                            }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Log.d(TAG, "onErrorResponse: "+ error.getMessage());
-                        }
-                    });
-                    RequestQueue requestQueue = Volley.newRequestQueue(MainActivity.this);
-                    requestQueue.add(stringRequest);
+//
+//                    StringRequest stringRequest = new StringRequest(Request.Method.GET, JSON_URL,
+//                            new Response.Listener<String>() {
+//                                @Override
+//                                public void onResponse(String response) {
+//                                    try {
+//
+//                                        JSONObject obj = new JSONObject(response);
+//                                        JSONArray itemArray = obj.getJSONArray("data");
+//
+//                                        // Delete existing data from the table before syncing new data
+////                                        mDatabaseHelper.deleteExistingData();
+//
+//                                        for (int i = 0; i < itemArray.length(); i++) {
+//                                            JSONObject jsonObject = itemArray.getJSONObject(i);
+//
+//                                            String id = jsonObject.getString("id");
+//                                            String code = jsonObject.getString("code");
+//                                            String description = jsonObject.getString("description");
+//                                            String rate = jsonObject.getString("rate");
+//                                            String group = jsonObject.getString("group");
+//                                            String quant = jsonObject.getString("qty");
+//                                            String uom = jsonObject.getString("uom");
+//                                            String vend = jsonObject.getString("vendor");
+//                                            String inactive = jsonObject.getString("vendor");
+//
+//                                            Item item = new Item(id, code, description, rate, group, quant, uom, vend, inactive);
+//
+//                                            boolean isStored = mDatabaseHelper.StoreData(item);
+//
+//                                        }
+//
+//
+//                                        Log.d(TAG, "ItemSync:  Success");;
+//
+//                                    } catch (JSONException e) {
+//                                        e.printStackTrace();
+//                                        Log.d(TAG, "ItemSync: Error "+e.getMessage());
+//                                    } finally {
+//                                    }
+//                                }
+//                            }, new Response.ErrorListener() {
+//                        @Override
+//                        public void onErrorResponse(VolleyError error) {
+//                            Log.d(TAG, "onErrorResponse: "+ error.getMessage());
+//                        }
+//                    });
+//                    RequestQueue requestQueue = Volley.newRequestQueue(MainActivity.this);
+//                    requestQueue.add(stringRequest);
                 }
                 if (i % 20 == 0) {
                     int sales_order_id = mDatabaseHelper.get_open_sales_order();
@@ -494,57 +494,57 @@ public class MainActivity extends AppCompatActivity  {
                     }
                 }
                 if(i%565 ==0){
-                    ArrayList<CONNECT> connectList2 = mDatabaseHelper.SelectUPDT();
-                    if (!connectList2.isEmpty()) {
-                        x = connectList2.get(0).getIp(); // Assuming the first IP address is what you need
-                        api_url = "http://" + x + "/MobileAPI/customers.php";
-                    }
-                    StringRequest stringRequest = new StringRequest(Request.Method.GET, api_url,
-                            new Response.Listener<String>() {
-                                @Override
-                                public void onResponse(String response) {
-                                    try {
-                                        JSONObject obj = new JSONObject(response);
-                                        JSONArray customerArray = obj.getJSONArray("data");
-
-                                        // Delete existing data from the table before syncing new data
-//                                      databaseHelper.deleteCustomerData();
-
-                                        for (int i = 0 ; i < customerArray.length(); i++){
-                                            JSONObject jsonObject = customerArray.getJSONObject(i);
-
-                                            String code = jsonObject.getString("id");
-                                            String cname = jsonObject.getString("customername");
-                                            String caddres = jsonObject.getString("postal_address");
-                                            String cperson = jsonObject.getString("contact_person");
-                                            String ctelephone = jsonObject.getString("TELEPHONE_NO");
-                                            String cmobile = jsonObject.getString("mobile_no");
-                                            String cpaymentterm = jsonObject.getString("PAYMENT_TERMS_ID");
-                                            String csalesrep = jsonObject.getString("sales_rep_id");
-                                            String cpricelevel = jsonObject.getString("PRICE_LEVEL_ID");
-                                            String longitude = jsonObject.getString("LONGITUDE");
-                                            String latitude = jsonObject.getString("LATITUDE");
-                                            Customer customer = new Customer(code,cname,caddres,cperson,ctelephone,cmobile,cpaymentterm,csalesrep,cpricelevel,longitude,latitude);
-
-                                            boolean isStored = mDatabaseHelper.StroreCustomer(customer);
-                                        }
-                                        Log.d(TAG, "CustomerSync:  Success");;
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                        Log.d(TAG, "CustomerSync: Error "+e.getMessage());
-
-                                    } finally {
-                                        // Hide the progress bar
-                                    }
-                                }
-                            }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Log.d(TAG, "onCustomerErrorResponse: "+ error.getMessage());
-                        }
-                    });
-                    RequestQueue requestQueue = Volley.newRequestQueue(MainActivity.this);
-                    requestQueue.add(stringRequest);
+//                    ArrayList<CONNECT> connectList2 = mDatabaseHelper.SelectUPDT();
+//                    if (!connectList2.isEmpty()) {
+//                        x = connectList2.get(0).getIp(); // Assuming the first IP address is what you need
+//                        api_url = "http://" + x + "/MobileAPI/customers.php";
+//                    }
+//                    StringRequest stringRequest = new StringRequest(Request.Method.GET, api_url,
+//                            new Response.Listener<String>() {
+//                                @Override
+//                                public void onResponse(String response) {
+//                                    try {
+//                                        JSONObject obj = new JSONObject(response);
+//                                        JSONArray customerArray = obj.getJSONArray("data");
+//
+//                                        // Delete existing data from the table before syncing new data
+////                                      databaseHelper.deleteCustomerData();
+//
+//                                        for (int i = 0 ; i < customerArray.length(); i++){
+//                                            JSONObject jsonObject = customerArray.getJSONObject(i);
+//
+//                                            String code = jsonObject.getString("id");
+//                                            String cname = jsonObject.getString("customername");
+//                                            String caddres = jsonObject.getString("postal_address");
+//                                            String cperson = jsonObject.getString("contact_person");
+//                                            String ctelephone = jsonObject.getString("TELEPHONE_NO");
+//                                            String cmobile = jsonObject.getString("mobile_no");
+//                                            String cpaymentterm = jsonObject.getString("PAYMENT_TERMS_ID");
+//                                            String csalesrep = jsonObject.getString("sales_rep_id");
+//                                            String cpricelevel = jsonObject.getString("PRICE_LEVEL_ID");
+//                                            String longitude = jsonObject.getString("LONGITUDE");
+//                                            String latitude = jsonObject.getString("LATITUDE");
+//                                            Customer customer = new Customer(code,cname,caddres,cperson,ctelephone,cmobile,cpaymentterm,csalesrep,cpricelevel,longitude,latitude);
+//
+//                                            boolean isStored = mDatabaseHelper.StroreCustomer(customer);
+//                                        }
+//                                        Log.d(TAG, "CustomerSync:  Success");;
+//                                    } catch (JSONException e) {
+//                                        e.printStackTrace();
+//                                        Log.d(TAG, "CustomerSync: Error "+e.getMessage());
+//
+//                                    } finally {
+//                                        // Hide the progress bar
+//                                    }
+//                                }
+//                            }, new Response.ErrorListener() {
+//                        @Override
+//                        public void onErrorResponse(VolleyError error) {
+//                            Log.d(TAG, "onCustomerErrorResponse: "+ error.getMessage());
+//                        }
+//                    });
+//                    RequestQueue requestQueue = Volley.newRequestQueue(MainActivity.this);
+//                    requestQueue.add(stringRequest);
                 }
                 Log.d(TAG, "ThreadTicker: " + i);
                 try {
