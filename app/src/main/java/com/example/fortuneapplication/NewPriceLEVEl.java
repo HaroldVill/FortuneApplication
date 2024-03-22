@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -39,6 +40,7 @@ public class NewPriceLEVEl extends AppCompatActivity {
     private String x;
     private String JSON_URL;
     private PazDatabaseHelper mdatabaseHelper;
+    TextView sync_datetime;
 
 
     @Override
@@ -50,6 +52,9 @@ public class NewPriceLEVEl extends AppCompatActivity {
         newd = findViewById(R.id.newd);
         progressBar10 = findViewById(R.id.progressBar10);
         mdatabaseHelper = new PazDatabaseHelper(this);
+        sync_datetime = findViewById(R.id.sync_history);
+        sync_datetime.setText(mdatabaseHelper.get_sync_history(7));
+
 
         ArrayList<CONNECT> connectList = SelectUPDTK();
         if (!connectList.isEmpty()) {
@@ -97,6 +102,8 @@ public class NewPriceLEVEl extends AppCompatActivity {
 //                                databaseHelper.storepriceLevel(newPriceLvl);
 //                                newPriceLvls.add(newPriceLvl);
                             }
+                            databaseHelper.UpdateSyncHistory(7);
+                            sync_datetime.setText(mdatabaseHelper.get_sync_history(7));
                             NewPriveLvlAdapter adapter = new NewPriveLvlAdapter(newPriceLvls,getApplicationContext());
                             newp.setAdapter(adapter);
 

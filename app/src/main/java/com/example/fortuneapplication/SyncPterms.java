@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -39,6 +40,7 @@ public class SyncPterms extends AppCompatActivity {
     private String x;
     private String JSON_URL;
     private PazDatabaseHelper mdatabaseHelper;
+    TextView sync_datetime;
 
 
 
@@ -52,6 +54,8 @@ public class SyncPterms extends AppCompatActivity {
         dsgs = findViewById(R.id.dsgs);
         progressBar6 = findViewById(R.id.progressBar6);
         mdatabaseHelper = new PazDatabaseHelper(this);
+        sync_datetime = findViewById(R.id.sync_history);
+        sync_datetime.setText(mdatabaseHelper.get_sync_history(6));
 
         ArrayList<CONNECT> connectList = SelectUPDTS();
         if (!connectList.isEmpty()) {
@@ -99,6 +103,8 @@ public class SyncPterms extends AppCompatActivity {
                                 paymenTerms.add(paymenTerm);
 
                             }
+                            databaseHelper.UpdateSyncHistory(6);
+                            sync_datetime.setText(mdatabaseHelper.get_sync_history(6));
                             SyncPayemTAdapter adapter = new SyncPayemTAdapter(paymenTerms, getApplicationContext());
                             plist.setAdapter(adapter);
 

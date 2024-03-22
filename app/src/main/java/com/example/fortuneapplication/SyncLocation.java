@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -42,7 +43,7 @@ public class SyncLocation extends AppCompatActivity {
     private String x;
     private String JSON_URL;
     private PazDatabaseHelper mdatabaseHelper;
-
+    TextView sync_datetime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +56,9 @@ public class SyncLocation extends AppCompatActivity {
         humn = findViewById(R.id.humn);
         progressBar3 = findViewById(R.id.progressBar3);
         mdatabaseHelper = new PazDatabaseHelper(this);
+
+        sync_datetime = findViewById(R.id.sync_history);
+        sync_datetime.setText(mdatabaseHelper.get_sync_history(3));
 
         ArrayList<CONNECT> connectList = SelectUPDT();
         if (!connectList.isEmpty()) {
@@ -115,6 +119,8 @@ public class SyncLocation extends AppCompatActivity {
                                     locations.add(location);
                                 }
                                 SyncLocactionAdapter adapter = new SyncLocactionAdapter(locations,getApplicationContext());
+                                databaseHelper.UpdateSyncHistory(3);
+                                sync_datetime.setText(mdatabaseHelper.get_sync_history(3));
                                 syncloca.setAdapter(adapter);
 
                             } catch (JSONException e) {

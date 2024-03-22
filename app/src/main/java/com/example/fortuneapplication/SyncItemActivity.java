@@ -125,6 +125,7 @@ public class SyncItemActivity extends AppCompatActivity {
                             ItemAdapter adapter = new ItemAdapter(itemList, getApplicationContext());
                             listview_item.setAdapter(adapter);
                             databaseHelper.UpdateSyncHistory(1);
+                            sync_datetime.setText(mdatabaseHelper.get_sync_history(1));
                             Toast.makeText(SyncItemActivity.this, "Successfully Sync Data", Toast.LENGTH_SHORT).show();
 
                         } catch (JSONException e) {

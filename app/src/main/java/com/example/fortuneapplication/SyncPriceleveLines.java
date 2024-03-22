@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -40,6 +41,7 @@ public class SyncPriceleveLines extends AppCompatActivity {
     private String x;
     private String JSON_URL;
     private PazDatabaseHelper mdatabaseHelper;
+    TextView sync_datetime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +53,8 @@ public class SyncPriceleveLines extends AppCompatActivity {
         progressBar11 = findViewById(R.id.progressBar11);
         plevelLines_lists = new ArrayList<>();
         mdatabaseHelper = new PazDatabaseHelper(this);
+        sync_datetime = findViewById(R.id.sync_history);
+        sync_datetime.setText(mdatabaseHelper.get_sync_history(8));
 
         ArrayList<CONNECT> connectList = SelectUPDT();
         if (!connectList.isEmpty()) {
@@ -94,7 +98,8 @@ public void getDatalines() {
                         }
                             PlvlinesAdapter adapter = new PlvlinesAdapter(plevelLines_lists, getApplicationContext());
                             plines.setAdapter(adapter);
-
+                            databaseHelper.UpdateSyncHistory(8);
+                        sync_datetime.setText(mdatabaseHelper.get_sync_history(8));
                             Toast.makeText(SyncPriceleveLines.this, "Successfully Sync Data", Toast.LENGTH_SHORT).show();
 
                     } catch (JSONException e) {

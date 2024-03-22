@@ -26,13 +26,25 @@
         android:textStyle="italic"
         android:layout_marginTop="5dp"
         android:layout_marginRight="5dp"
-        android:drawableRight="@drawable/setupmen"
+        android:drawableRight="@drawable/editmen"
         android:layout_alignParentRight="true"
         android:text="SETUP"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
     </TextView>
 
+    <TextView
+        android:id="@+id/refresh"
+        android:textColor="#25C82B"
+        android:textStyle="italic"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="5dp"
+        android:drawableRight="@drawable/setupmen"
+        android:layout_alignParentRight="true"
+        android:text="REFRESH SYNC HISTORY"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    </TextView>
 
     <ScrollView
         android:layout_marginTop="70dp"
@@ -79,6 +91,16 @@
                         android:textStyle="bold">
 
                     </TextView>
+                    <TextView
+                        android:id="@+id/item_sync_history"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="NO SYNC HISTORY"
+                        android:textSize="10sp"
+                        android:textStyle="bold">
+
+                    </TextView>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -111,6 +133,17 @@
                         android:text="CUSTOMERS"
                         android:textAlignment="center"
                         android:textSize="20sp"
+                        android:textStyle="bold">
+
+                    </TextView>
+
+                    <TextView
+                        android:id="@+id/customer_sync_history"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="NO SYNC HISTORY"
+                        android:textSize="10sp"
                         android:textStyle="bold">
 
                     </TextView>
@@ -150,6 +183,18 @@
                         android:textStyle="bold">
 
                     </TextView>
+
+                    <TextView
+                        android:id="@+id/location_sync_history"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="NO SYNC HISTORY"
+                        android:textSize="10sp"
+                        android:textStyle="bold">
+
+                    </TextView>
+
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -185,6 +230,16 @@
                         android:textStyle="bold">
 
                     </TextView>
+                    <TextView
+                        android:id="@+id/salesrep_sync_history"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="NO SYNC HISTORY"
+                        android:textSize="10sp"
+                        android:textStyle="bold">
+
+                    </TextView>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -211,12 +266,23 @@
                         android:src="@drawable/bag" />
 
                     <TextView
+
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:text="UOM"
                         android:textAlignment="center"
                         android:textSize="20sp"
+                        android:textStyle="bold">
+
+                    </TextView>
+                    <TextView
+                        android:id="@+id/uom_sync_history"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="NO SYNC HISTORY"
+                        android:textSize="10sp"
                         android:textStyle="bold">
 
                     </TextView>
@@ -245,12 +311,23 @@
                         android:src="@drawable/wallet" />
 
                     <TextView
+
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:text="PAYMENT TERM"
                         android:textAlignment="center"
                         android:textSize="20sp"
+                        android:textStyle="bold">
+
+                    </TextView>
+                    <TextView
+                        android:id="@+id/pterm_sync_history"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="NO SYNC HISTORY"
+                        android:textSize="10sp"
                         android:textStyle="bold">
 
                     </TextView>
@@ -279,12 +356,23 @@
                         android:src="@drawable/prl" />
 
                     <TextView
+
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:text="PRICE LEVEL"
                         android:textAlignment="center"
                         android:textSize="20sp"
+                        android:textStyle="bold">
+
+                    </TextView>
+                    <TextView
+                        android:id="@+id/plevel_sync_history"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="NO SYNC HISTORY"
+                        android:textSize="10sp"
                         android:textStyle="bold">
 
                     </TextView>
@@ -320,6 +408,16 @@
                         android:text="PRICE LEVEL LINES"
                         android:textAlignment="center"
                         android:textSize="20sp"
+                        android:textStyle="bold">
+
+                    </TextView>
+                    <TextView
+                        android:id="@+id/plevellines_sync_history"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="NO SYNC HISTORY"
+                        android:textSize="10sp"
                         android:textStyle="bold">
 
                     </TextView>

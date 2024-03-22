@@ -38,6 +38,18 @@
             android:layout_height="wrap_content">
         </TextView>
 
+        <TextView
+            android:id="@+id/sync_history"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:layout_marginTop="40dp"
+            android:layout_centerHorizontal="true"
+            android:textSize="12sp"
+            android:text="NO SYNC HISTORY"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        </TextView>
+
 
     <Button
         android:text="SYNC"

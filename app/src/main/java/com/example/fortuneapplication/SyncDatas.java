@@ -17,7 +17,10 @@ public class SyncDatas extends AppCompatActivity {
 
 
     CardView z1, z2, z3, z4, z5, z6, z7, z8;
-    TextView blkhome, set;
+    TextView blkhome, set, item_sync_history, cutomer_sync_history, location_sync_history, salesrep_sync_history, uom_sync_history, pterms_sync_history, plevel_sync_history, plevelines_sync_history,
+    refresh;
+
+    private PazDatabaseHelper mdatabaseHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +37,40 @@ public class SyncDatas extends AppCompatActivity {
         z8 = findViewById(R.id.z8);
         blkhome = findViewById(R.id.blkhome);
         set = findViewById(R.id.set);
+        mdatabaseHelper = new PazDatabaseHelper(this);
 
+        item_sync_history = findViewById(R.id.item_sync_history);
+        cutomer_sync_history = findViewById(R.id.customer_sync_history);
+        location_sync_history = findViewById(R.id.location_sync_history);
+        salesrep_sync_history = findViewById(R.id.salesrep_sync_history);
+        uom_sync_history = findViewById(R.id.uom_sync_history);
+        pterms_sync_history = findViewById(R.id.pterm_sync_history);
+        plevel_sync_history = findViewById(R.id.plevel_sync_history);
+        plevelines_sync_history = findViewById(R.id.plevellines_sync_history);
+        refresh = findViewById(R.id.refresh);
+
+         item_sync_history.setText(mdatabaseHelper.get_sync_history(1).toString());
+         cutomer_sync_history.setText(mdatabaseHelper.get_sync_history(2));
+         location_sync_history.setText(mdatabaseHelper.get_sync_history(3));
+         salesrep_sync_history.setText(mdatabaseHelper.get_sync_history(4));
+         uom_sync_history.setText(mdatabaseHelper.get_sync_history(5));
+         pterms_sync_history.setText(mdatabaseHelper.get_sync_history(6));
+         plevel_sync_history.setText(mdatabaseHelper.get_sync_history(7));
+         plevelines_sync_history.setText(mdatabaseHelper.get_sync_history(8));
+
+         refresh.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View view) {
+                 item_sync_history.setText(mdatabaseHelper.get_sync_history(1).toString());
+                 cutomer_sync_history.setText(mdatabaseHelper.get_sync_history(2));
+                 location_sync_history.setText(mdatabaseHelper.get_sync_history(3));
+                 salesrep_sync_history.setText(mdatabaseHelper.get_sync_history(4));
+                 uom_sync_history.setText(mdatabaseHelper.get_sync_history(5));
+                 pterms_sync_history.setText(mdatabaseHelper.get_sync_history(6));
+                 plevel_sync_history.setText(mdatabaseHelper.get_sync_history(7));
+                 plevelines_sync_history.setText(mdatabaseHelper.get_sync_history(8));
+             }
+         });
         set.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

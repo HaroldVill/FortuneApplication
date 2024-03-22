@@ -42,6 +42,7 @@ public class SyncPricelvl extends AppCompatActivity {
         progressBar6 = findViewById(R.id.progressBar6);
 
 
+
         brot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,6 +82,7 @@ public class SyncPricelvl extends AppCompatActivity {
 //                                 databaseHelper.storePriceLvl(priceLvl);
 
                              }
+                             databaseHelper.UpdateSyncHistory(7);
                            SyncPricelvlAdapter adapter = new SyncPricelvlAdapter (priceLvlList, getApplicationContext());
                              pid.setAdapter(adapter);
 

@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -46,6 +47,7 @@ public class SyncSalesRep extends AppCompatActivity {
     private PazDatabaseHelper mdatabaseHelper;
     private String x;
     private String JSON_URL;
+    TextView sync_datetime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +60,8 @@ public class SyncSalesRep extends AppCompatActivity {
         lll = findViewById(R.id.lll);
         progressBar4 = findViewById(R.id.progressBar4);
         mdatabaseHelper = new PazDatabaseHelper(this);
+        sync_datetime = findViewById(R.id.sync_history);
+        sync_datetime.setText(mdatabaseHelper.get_sync_history(4));
 
 
         ArrayList<CONNECT> connectList = SelectUPDT();
@@ -118,7 +122,8 @@ public class SyncSalesRep extends AppCompatActivity {
 
                                     salesRepLists.add(salesRepList);
                                 }
-
+                                databaseHelper.UpdateSyncHistory(4);
+                                sync_datetime.setText(mdatabaseHelper.get_sync_history(4));
                                 SalesRepAdapter adapter = new SalesRepAdapter(salesRepLists,getApplicationContext());
                                 srlist.setAdapter(adapter);
 

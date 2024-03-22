@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -38,7 +39,7 @@ public class SyncUnitMeasures extends AppCompatActivity {
     private String x;
     private String JSON_URL;
     private PazDatabaseHelper mdatabaseHelper;
-
+    TextView sync_datetime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +51,8 @@ public class SyncUnitMeasures extends AppCompatActivity {
         unitList = new ArrayList<>();
         progressBar5 = findViewById(R.id.progressBar5);
         mdatabaseHelper = new PazDatabaseHelper(this);
+        sync_datetime = findViewById(R.id.sync_history);
+        sync_datetime.setText(mdatabaseHelper.get_sync_history(5));
 
 
         ArrayList<CONNECT> connectList = SelectUPDTL();
@@ -90,7 +93,8 @@ public class SyncUnitMeasures extends AppCompatActivity {
                                 boolean isStored = databaseHelper.storeUm(unit);
                                 unitList.add(unit);
                             }
-
+                            databaseHelper.UpdateSyncHistory(5);
+                            sync_datetime.setText(mdatabaseHelper.get_sync_history(5));
                            SyncUMadapter adapter = new SyncUMadapter(unitList,getApplicationContext());
                             listum.setAdapter(adapter);
 

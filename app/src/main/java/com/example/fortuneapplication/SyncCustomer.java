@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -42,6 +43,7 @@ public class SyncCustomer extends AppCompatActivity {
     private String x;
     private String JSON_URL;
     private PazDatabaseHelper mdatabaseHelper;
+    TextView sync_datetime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +55,8 @@ public class SyncCustomer extends AppCompatActivity {
         chome = findViewById(R.id.chome);
         progressBar = findViewById(R.id.progressBar);
         mdatabaseHelper = new PazDatabaseHelper(this);
+        sync_datetime = findViewById(R.id.sync_history);
+        sync_datetime.setText(mdatabaseHelper.get_sync_history(2));
 
 
         ArrayList<CONNECT> connectList = SelectUPDT();
@@ -118,6 +122,8 @@ public class SyncCustomer extends AppCompatActivity {
                             }
                             CustomerAdapter adapter = new CustomerAdapter(customerList, getApplicationContext());
                             syncc.setAdapter(adapter);
+                            databaseHelper.UpdateSyncHistory(2);
+                            sync_datetime.setText(mdatabaseHelper.get_sync_history(2));
                             Toast.makeText(SyncCustomer.this, "Successfully Sync Data", Toast.LENGTH_SHORT).show();
 
                         } catch (JSONException e) {
