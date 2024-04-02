@@ -80,7 +80,7 @@ public class SyncLocation extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 PazDatabaseHelper databaseHelper = new PazDatabaseHelper(getApplicationContext());
-                databaseHelper.deleteLocation();
+//                databaseHelper.deleteLocation();
                 syncLocation();
                 progressBar3.setVisibility(View.VISIBLE);
             }
@@ -95,6 +95,8 @@ public class SyncLocation extends AppCompatActivity {
                             try {
                                 JSONObject obj = new JSONObject(response);
                                 JSONArray locationArray = obj.getJSONArray("data");
+                                databaseHelper.deleteLocation();
+
                                 for (int i=0; i < locationArray.length(); i++){
                                     JSONObject jsonObject = locationArray.getJSONObject(i);
                                     String idlo = jsonObject.getString("id");

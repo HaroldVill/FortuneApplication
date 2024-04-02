@@ -67,7 +67,7 @@ public class NewPriceLEVEl extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 PazDatabaseHelper databaseHelper = new PazDatabaseHelper(getApplicationContext());
-                databaseHelper.deletepricelevel();
+//                databaseHelper.deletepricelevel();
                 fetchnewPr();
                 progressBar10.setVisibility(View.VISIBLE);
             }
@@ -83,6 +83,7 @@ public class NewPriceLEVEl extends AppCompatActivity {
                         try {
                             JSONObject Obj = new JSONObject(response);
                             JSONArray jsonArray = Obj.getJSONArray("data");
+                            databaseHelper.deletepricelevel();
                             for (int i =0; i < jsonArray.length(); i++){
                                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                                 String ia = jsonObject.getString("id");

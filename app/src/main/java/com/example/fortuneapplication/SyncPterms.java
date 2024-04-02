@@ -68,7 +68,7 @@ public class SyncPterms extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 PazDatabaseHelper databaseHelper = new PazDatabaseHelper(getApplicationContext());
-               databaseHelper.deletePT();
+
                 getpterms();
                 progressBar6.setVisibility(View.VISIBLE);
             }
@@ -83,6 +83,7 @@ public class SyncPterms extends AppCompatActivity {
                         try {
                             JSONObject obj = new JSONObject(response);
                             JSONArray ptarray = obj.getJSONArray("data");
+                            databaseHelper.deletePT();
                             for (int i = 0; i < ptarray.length(); i++) {
                                 JSONObject jsonObject = ptarray.getJSONObject(i);
                                 String ptid = jsonObject.getString("id");

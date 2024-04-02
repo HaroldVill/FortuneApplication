@@ -84,7 +84,7 @@ public class SyncSalesRep extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 PazDatabaseHelper databaseHelper = new PazDatabaseHelper(getApplicationContext());
-                databaseHelper.deleteSalerepDate();
+//                databaseHelper.deleteSalerepDate();
                 getallSalesRep();
                 progressBar4.setVisibility(View.VISIBLE);
             }
@@ -101,6 +101,8 @@ public class SyncSalesRep extends AppCompatActivity {
                             try {
                                 JSONObject obj = new JSONObject(response);
                                 JSONArray salerepArray = obj.getJSONArray("data");
+                                databaseHelper.deleteSalerepDate();
+                                
                                 for(int i = 0; i < salerepArray.length(); i++){
                                     JSONObject jsonObject = salerepArray.getJSONObject(i);
                                     String idd = jsonObject.getString("id");
