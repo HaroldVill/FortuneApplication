@@ -18,6 +18,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -30,7 +31,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SyncItemActivity extends AppCompatActivity {
 
@@ -91,8 +94,9 @@ public class SyncItemActivity extends AppCompatActivity {
     }
     public void fetchdatafromJson(){
         final PazDatabaseHelper databaseHelper = new PazDatabaseHelper(getApplicationContext());
+        String sales_rep_id = databaseHelper.get_active_connection();
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, JSON_URL,
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, JSON_URL+"?sales_rep_id=12",
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {

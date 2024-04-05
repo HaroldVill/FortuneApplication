@@ -29,8 +29,8 @@ import java.util.ArrayList;
 
 public class Connections extends AppCompatActivity {
     TextView creatcon, ids;
-    TextView selection, ipadd, select_sales_type,sales_type_label;
-    Button apply,apply_sales_type;
+    TextView selection, connection_label, select_sales_type,sales_type_label,select_sales_rep_id,sales_rep_id_label;
+    Button apply,apply_sales_type,apply_sales_rep_id;
     private PazDatabaseHelper mdatabaseHelper;
 
     @Override
@@ -42,11 +42,20 @@ public class Connections extends AppCompatActivity {
         selection = findViewById(R.id.selection);
         select_sales_type = findViewById(R.id.select_sales_type);
         sales_type_label = findViewById(R.id.sales_type_label);
+        select_sales_rep_id = findViewById(R.id.select_sales_rep_id);
+        sales_rep_id_label = findViewById(R.id.sales_rep_id_label);
         mdatabaseHelper = new PazDatabaseHelper(this);
-        ipadd = findViewById(R.id.ipadd);
+        connection_label = findViewById(R.id.connection_label);
+        connection_label.setText(mdatabaseHelper.get_active_connection());
+        sales_type_label.setText(mdatabaseHelper.get_active_salestype());
         apply = findViewById(R.id.apply);
         ids = findViewById(R.id.ids);
         apply_sales_type=findViewById(R.id.apply_sales_type);
+        apply_sales_rep_id = findViewById(R.id.apply_sales_rep_id);
+        apply_sales_rep_id.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {}
+        });
         apply_sales_type.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -65,7 +74,7 @@ public class Connections extends AppCompatActivity {
             public void onClick(View v) {
                 Intent cnt = new Intent(Connections.this, ConnecttionSetup.class);
                 startActivity(cnt);
-                finish();
+//                finish();
             }
         });
         select_sales_type.setOnClickListener(new View.OnClickListener() {
@@ -106,13 +115,38 @@ public class Connections extends AppCompatActivity {
                         String connectionName = item.getTitle().toString();
                         String ipconf = getIpForConnectionId(connectionId, connects);
                         selection.setText(connectionName);
-                        ipadd.setText(ipconf);
+                        connection_label.setText(ipconf);
                         ids.setText(String.valueOf(connectionId));
                         return true;
                     }
                 });
                 popupMenu.show();
 
+            }
+        });
+
+        select_sales_rep_id.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PopupMenu popupMenu = new PopupMenu(Connections.this, selection);
+                Menu menu = popupMenu.getMenu();
+                ArrayList<SalesRepList> salesreplists = displaysalesrep();
+
+                for (SalesRepList salesreplist : salesreplists) {
+                    menu.add(Menu.NONE, Integer.parseInt(salesreplist.getSrid().toString()), Menu.NONE, salesreplist.getSrname().toString());
+                }
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        int salesrepid = item.getItemId();
+                        String salesrepname = item.getTitle().toString();
+                        select_sales_rep_id.setText(Integer.toString(salesrepid));
+                        sales_rep_id_label.setText(salesrepname);
+                        update_sales_rep_id();
+                        return true;
+                    }
+                });
+                popupMenu.show();
             }
         });
     }
@@ -145,6 +179,27 @@ public class Connections extends AppCompatActivity {
         cursor.close();
         db.close();
         return connectlist;
+
+    }
+    @SuppressLint("Range")
+    public ArrayList<SalesRepList> displaysalesrep() {
+        ArrayList<SalesRepList> salesreplist = new ArrayList<>();
+
+        String query = "SELECT salesrep_id,salesrep_name from sales_rep_table";
+
+        SQLiteDatabase db = mdatabaseHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor.moveToFirst()) {
+            do {
+                SalesRepList salesrep = new SalesRepList();
+                salesrep.setSrid(cursor.getString(0));
+                salesrep.setSrname(cursor.getString(1));
+                salesreplist.add(salesrep);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return salesreplist;
 
     }
 
@@ -182,12 +237,12 @@ public class Connections extends AppCompatActivity {
 
         if (numSpecificRowUpdated > 0) {
             Toast.makeText(this, "Successfully IP Set", Toast.LENGTH_SHORT).show();
-            selection.setText("");
-            ipadd.setText("");
+//            selection.setText("");
+//            connection_label.setText("");
 
-            Intent nanay = new Intent(Connections.this, SyncDatas.class);
-            startActivity(nanay);
-            finish();
+//            Intent nanay = new Intent(Connections.this, SyncDatas.class);
+//            startActivity(nanay);
+//            finish();
         }
     }
 
@@ -207,12 +262,37 @@ public class Connections extends AppCompatActivity {
 
         if (numSpecificRowUpdated > 0) {
             Toast.makeText(this, "Successfully Sales Type Set", Toast.LENGTH_SHORT).show();
-            selection.setText("");
-            ipadd.setText("");
+//            selection.setText("");
+//            connection_label.setText("");
 
-            Intent nanay = new Intent(Connections.this, SyncDatas.class);
-            startActivity(nanay);
-            finish();
+//            Intent nanay = new Intent(Connections.this, SyncDatas.class);
+//            startActivity(nanay);
+//            finish();
+        }
+    }
+
+    public void update_sales_rep_id() {
+
+        String sales_rep_id = sales_rep_id_label.getText().toString();
+
+        SQLiteDatabase db = mdatabaseHelper.getWritableDatabase();
+        ContentValues specificRowValues = new ContentValues();
+        specificRowValues.put("VALUE", sales_rep_id);
+
+        String whereClause = SYSTEM_SETTINGS_NAME + " = ?";
+        String[] whereArgs = {"DEFAULT_SALES_REP_ID"};
+
+        int numSpecificRowUpdated = db.update(SYSTEM_SETTINGS, specificRowValues, whereClause, whereArgs);
+        db.close();
+
+        if (numSpecificRowUpdated > 0) {
+            Toast.makeText(this, "Successfully Sales Rep Set", Toast.LENGTH_SHORT).show();
+//            selection.setText("");
+//            connection_label.setText("");
+
+//            Intent nanay = new Intent(Connections.this, SyncDatas.class);
+//            startActivity(nanay);
+//            finish();
         }
     }
 }

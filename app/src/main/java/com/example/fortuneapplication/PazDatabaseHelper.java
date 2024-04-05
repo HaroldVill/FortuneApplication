@@ -336,7 +336,8 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
 //        String  ALTER_ITEM_TABLE = "ALTER TABLE " + SALES_ORDER_TABLE + " ADD COLUMN " +
 //                "posted" + " INTEGER DEFAULT 0";
 
-        String INSERT_SYSTEM_SETTINGS ="INSERT INTO "+SYSTEM_SETTINGS+" VALUES (NULL,'SALES_TYPE','')";
+        String INSERT_SYSTEM_SETTINGS ="INSERT INTO "+SYSTEM_SETTINGS+" VALUES (NULL,'SALES_TYPE',''), "
+                +"(NULL,'DEFAULT_SALES_REP_ID','')";
 
         db.execSQL(CREATE_CONNECTIONTABLE);
         db.execSQL(CREATE_DASHBOARDTABLE);
@@ -796,6 +797,58 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
 
     @SuppressLint("Range")
     public ArrayList<Customer> getAllCustomer() {
+        ArrayList<Customer> customerlist = new ArrayList<>();
+        String query = "SELECT " +
+                CUSTOMER_TABLE + "." + CUSTOMER_ID + ", " +
+                CUSTOMER_TABLE + "." + CUSTOMER_NAME + ", " +
+                CUSTOMER_TABLE + "." + CUSTOMER_ADDRESS + ", " +
+                CUSTOMER_TABLE + "." + CONTACT_PERSON + ", " +
+                CUSTOMER_TABLE + "." + MOBILE_NO + ", " +
+                CUSTOMER_TABLE + "." + TELEPHONE_NO + ", " +
+                CUSTOMER_TABLE + "." + PAYMENT_TERMS_ID + ", " +
+                CUSTOMER_TABLE + "." + SALES_REP_ID + ", " +
+                CUSTOMER_TABLE + "." + PRICE_LEVEL_ID + ", " +
+
+                PAYMENT_TERMS_TABLE + "." + PTERMS_CODE + ", " +
+                PAYMENT_TERMS_TABLE + "." + PTERMS_DESCRIPTION + ", " +
+                PAYMENT_TERMS_TABLE + "." + PTERMS_NET_DUE +
+                " FROM " + CUSTOMER_TABLE +
+                " LEFT JOIN " + PAYMENT_TERMS_TABLE +
+                " ON " + CUSTOMER_TABLE + "." + PAYMENT_TERMS_ID + " = " + PAYMENT_TERMS_TABLE + "." + PTERMS_ID;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor.moveToFirst()) {
+            do {
+                Customer customer = new Customer();
+
+                customer.setId(cursor.getString(cursor.getColumnIndex(CUSTOMER_ID)));
+                customer.setCustomername(cursor.getString(cursor.getColumnIndex(CUSTOMER_NAME)));
+                customer.setPostaladdress(cursor.getString(cursor.getColumnIndex(CUSTOMER_ADDRESS)));
+                customer.setContactperson(cursor.getString(cursor.getColumnIndex(CONTACT_PERSON)));
+                customer.setMobilenumber(cursor.getString(cursor.getColumnIndex(MOBILE_NO)));
+                customer.setTelephonenumber(cursor.getString(cursor.getColumnIndex(TELEPHONE_NO)));
+                customer.setPaymenttermsid(cursor.getString(cursor.getColumnIndex(PAYMENT_TERMS_ID)));
+                customer.setSalesrepid(cursor.getString(cursor.getColumnIndex(SALES_REP_ID)));
+                customer.setPricelevelid(cursor.getString(cursor.getColumnIndex(PRICE_LEVEL_ID)));
+
+                PaymenTerm paymenTerm = new PaymenTerm();
+                // paymenTerm.setId(cursor.getString(cursor.getColumnIndex(PTERMS_ID)));
+                paymenTerm.setCode(cursor.getString(cursor.getColumnIndex(PTERMS_CODE)));
+                paymenTerm.setDescription(cursor.getString(cursor.getColumnIndex(PTERMS_DESCRIPTION)));
+                paymenTerm.setNetdue(cursor.getString(cursor.getColumnIndex(PTERMS_NET_DUE)));
+
+                customer.setPaymenTerm(paymenTerm);
+
+                customerlist.add(customer);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+//        db.close();
+        return customerlist;
+    }
+
+    public ArrayList<Customer> getCustomerFromCoveragePlan() {
         ArrayList<Customer> customerlist = new ArrayList<>();
         String query = "SELECT " +
                 CUSTOMER_TABLE + "." + CUSTOMER_ID + ", " +
@@ -1621,6 +1674,30 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(query,null);
         if(cursor.moveToFirst()){
             value=cursor.getString(cursor.getColumnIndex(SYNC_HISTORY_TABLE_DATE));
+//            Log.d("sales_type",sales_type);
+        }
+        return value;
+    }
+
+    public String get_active_connection(){
+        String value="";
+        String query ="SELECT conection_name FROM CONNECTION_TABLE WHERE  defaultconn=1";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query,null);
+        if(cursor.moveToFirst()){
+            value=cursor.getString(0);
+//            Log.d("sales_type",sales_type);
+        }
+        return value;
+    }
+
+    public String get_active_salestype(){
+        String value="";
+        String query ="SELECT VALUE FROM SYSTEM_SETTINGS WHERE  id=1";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query,null);
+        if(cursor.moveToFirst()){
+            value=cursor.getString(0);
 //            Log.d("sales_type",sales_type);
         }
         return value;
