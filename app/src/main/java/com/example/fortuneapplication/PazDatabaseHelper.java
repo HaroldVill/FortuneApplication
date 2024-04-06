@@ -1703,6 +1703,30 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         return value;
     }
 
+    public String get_default_salesrep(){
+        String value="";
+        String query ="SELECT ifnull(VALUE,'') VALUE FROM SYSTEM_SETTINGS WHERE  id=2";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query,null);
+        if(cursor.moveToFirst()){
+            value=cursor.getString(0);
+//            Log.d("sales_type",sales_type);
+        }
+        return value;
+    }
+
+    public String get_default_salesrep_id(){
+        String value="";
+        String query ="SELECT ifnull(SALES_REP_TABLE.salesrep_id,'') salesrep_id FROM SYSTEM_SETTINGS INNER JOIN SALES_REP_TABLE ON SALES_REP_TABLE.salesrep_name = SYSTEM_SETTINGS.VALUE WHERE  id=2";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query,null);
+        if(cursor.moveToFirst()){
+            value=cursor.getString(0);
+//            Log.d("sales_type",sales_type);
+        }
+        return value;
+    }
+
     }
 
 

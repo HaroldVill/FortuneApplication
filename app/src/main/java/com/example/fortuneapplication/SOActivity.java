@@ -80,7 +80,6 @@ public class SOActivity extends AppCompatActivity {
         textnote = findViewById(R.id.textnote);
         profile = findViewById(R.id.profile);
 
-
         // Load the last saved reference number from SharedPreferences
         SharedPreferences sharedPreferencesb = getSharedPreferences(PREFS_KEY, MODE_PRIVATE);
         referenceNumber = sharedPreferencesb.getInt(REFERENCE_NUMBER_KEY, 0);
@@ -94,6 +93,7 @@ public class SOActivity extends AppCompatActivity {
 //ItemList Order Recycleview Display//
         recyclerViews.setLayoutManager(new LinearLayoutManager(this));
         mDatabaseHelper = new PazDatabaseHelper(this);
+
         itemList.addAll(mDatabaseHelper.getAllOrderItem());
         ADisplayItemAdapter adapter = new ADisplayItemAdapter(this, itemList, mDatabaseHelper);
         recyclerViews.setAdapter(adapter);
@@ -203,6 +203,8 @@ public class SOActivity extends AppCompatActivity {
         loc.setText(cola);
         location_id.setText(idloc);
         sales_id.setText(srid);
+        sales_id.setText(mDatabaseHelper.get_default_salesrep_id());
+        slr.setText(mDatabaseHelper.get_default_salesrep());
 
         adis.setOnClickListener(new View.OnClickListener() {
             @Override

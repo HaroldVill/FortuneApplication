@@ -48,6 +48,7 @@ public class Connections extends AppCompatActivity {
         connection_label = findViewById(R.id.connection_label);
         connection_label.setText(mdatabaseHelper.get_active_connection());
         sales_type_label.setText(mdatabaseHelper.get_active_salestype());
+        sales_rep_id_label.setText(mdatabaseHelper.get_default_salesrep());
         apply = findViewById(R.id.apply);
         ids = findViewById(R.id.ids);
         apply_sales_type=findViewById(R.id.apply_sales_type);
@@ -140,7 +141,7 @@ public class Connections extends AppCompatActivity {
                     public boolean onMenuItemClick(MenuItem item) {
                         int salesrepid = item.getItemId();
                         String salesrepname = item.getTitle().toString();
-                        select_sales_rep_id.setText(Integer.toString(salesrepid));
+//                        select_sales_rep_id.setText(Integer.toString(salesrepid));
                         sales_rep_id_label.setText(salesrepname);
                         update_sales_rep_id();
                         return true;
