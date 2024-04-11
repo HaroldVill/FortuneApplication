@@ -51,6 +51,15 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
     private static final String LATITUDE = "latitude";
     private static final String PIN_FLAG = "pin_flag";
 
+    //*CUSTOMER TABLE //*
+    protected static final String CUSTOMER_COVERAGE_TABLE = "customer_coverage_plan";
+    protected static final String COVERAGE_ID = "id";
+    protected static final String COVERAGE_CUSTOMER_ID = "customer_id";
+    protected static final String COVERAGE_SALESREP_ID = "salesrep_id";
+    protected static final String COVERAGE_FORECAST = "frequency";
+    protected static final String COVERAGE_FORECAST_WEEK_SCHEDULE = "frequency_week_schedule";
+
+
     //* SALES_REP_TABLE //*
     public static final String SALESREP_TABLE = "Sales_Rep_Table";
     static final String SALESREP_ID = "salesrep_id";
@@ -322,6 +331,14 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                 SYNC_HISTORY_TABLE_DATE+" TEXT "+
                 ")";
 
+        String CREATE_CUSTOMERS_COVERAGE_TABLE="CREATE TABLE " +CUSTOMER_COVERAGE_TABLE + " ("+
+                COVERAGE_ID+" INTEGER PRIMARY KEY AUTOINCREMENT, "+
+                COVERAGE_CUSTOMER_ID + " INTEGER, " +
+                COVERAGE_SALESREP_ID + " INTEGER, " +
+                COVERAGE_FORECAST + " TEXT, " +
+                COVERAGE_FORECAST_WEEK_SCHEDULE + " TEXT " +
+                ")";
+
         String INSERT_SYNC_HISTORY ="INSERT INTO "+SYNC_HISTORY_TABLE+" VALUES " +
                 "(NULL,'ITEM',''),"+
                 "(NULL,'CUSTOMER',''),"+
@@ -356,6 +373,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(INSERT_SYSTEM_SETTINGS);
         db.execSQL(CREATE_SYNC_HISTORY_TABLE);
         db.execSQL(INSERT_SYNC_HISTORY);
+        db.execSQL(CREATE_CUSTOMERS_COVERAGE_TABLE);
 //        db.execSQL(ALTER_ITEM_TABLE);
 
     }
