@@ -16,7 +16,7 @@ import android.widget.Toast;
 public class SyncDatas extends AppCompatActivity {
 
 
-    CardView z1, z2, z3, z4, z5, z6, z7, z8;
+    CardView z1, z2, z3, z4, z5, z6, z7, z8,z9;
     TextView blkhome, set, item_sync_history, cutomer_sync_history, location_sync_history, salesrep_sync_history, uom_sync_history, pterms_sync_history, plevel_sync_history, plevelines_sync_history,
     refresh;
 
@@ -35,6 +35,7 @@ public class SyncDatas extends AppCompatActivity {
         z6= findViewById(R.id.z6);
         z7 = findViewById(R.id.z7);
         z8 = findViewById(R.id.z8);
+        z9 = findViewById(R.id.z9);
         blkhome = findViewById(R.id.blkhome);
         set = findViewById(R.id.set);
         mdatabaseHelper = new PazDatabaseHelper(this);
@@ -190,6 +191,14 @@ z8.setOnClickListener(new View.OnClickListener() {
         Intent df = new Intent(SyncDatas.this,SyncPriceleveLines.class);
         startActivity(df);
 
+    }
+});
+
+z9.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+        Intent df = new Intent(SyncDatas.this,SyncCoverage.class);
+        startActivity(df);
     }
 });
 

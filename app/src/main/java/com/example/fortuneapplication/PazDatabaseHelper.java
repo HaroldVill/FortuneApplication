@@ -56,6 +56,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
     protected static final String COVERAGE_ID = "id";
     protected static final String COVERAGE_CUSTOMER_ID = "customer_id";
     protected static final String COVERAGE_SALESREP_ID = "salesrep_id";
+    protected static final String COVERAGE_DAY = "coverage_day";
     protected static final String COVERAGE_FORECAST = "frequency";
     protected static final String COVERAGE_FORECAST_WEEK_SCHEDULE = "frequency_week_schedule";
 
@@ -335,6 +336,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                 COVERAGE_ID+" INTEGER PRIMARY KEY AUTOINCREMENT, "+
                 COVERAGE_CUSTOMER_ID + " INTEGER, " +
                 COVERAGE_SALESREP_ID + " INTEGER, " +
+                COVERAGE_DAY + " TEXT, " +
                 COVERAGE_FORECAST + " TEXT, " +
                 COVERAGE_FORECAST_WEEK_SCHEDULE + " TEXT " +
                 ")";
@@ -347,7 +349,8 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                 "(NULL,'LOCATION',''),"+
                 "(NULL,'PRICELEVEL',''),"+
                 "(NULL,'PRICELEVELLINES',''),"+
-                "(NULL,'UOM','')"+
+                "(NULL,'UOM',''),"+
+                "(NULL,'COVERAGE','')"+
                 ""
                 ;
 //        String  ALTER_ITEM_TABLE = "ALTER TABLE " + SALES_ORDER_TABLE + " ADD COLUMN " +
@@ -454,6 +457,20 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         values.put(LONGITUDE, customer.getLongitude());
         values.put(LATITUDE,customer.getLatitude());
         db.insertWithOnConflict(CUSTOMER_TABLE, null, values,db.CONFLICT_REPLACE);
+        return false;
+    }
+
+    public boolean StoreCoverage(Coverage coverage) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(COVERAGE_ID, coverage.get_id());
+        values.put(COVERAGE_CUSTOMER_ID, coverage.get_customer_id());
+        values.put(COVERAGE_SALESREP_ID, coverage.get_salesrep_id());
+        values.put(COVERAGE_DAY, coverage.get_day());
+        values.put(COVERAGE_FORECAST, coverage.get_frequency());
+        values.put(COVERAGE_FORECAST_WEEK_SCHEDULE, coverage.get_frequency_week_schedule());
+        db.insertWithOnConflict(CUSTOMER_COVERAGE_TABLE, null, values,db.CONFLICT_REPLACE);
         return false;
     }
 

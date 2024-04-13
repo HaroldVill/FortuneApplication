@@ -46,7 +46,7 @@
 
 
             <TextView
-                android:id="@+id/cid"
+                android:id="@+id/coverage_id"
                 android:layout_below="@+id/header"
                 android:layout_marginTop="10dp"
                 android:textSize="17sp"
@@ -69,21 +69,34 @@
                 android:layout_marginLeft="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="CUSTOMER NAME:">
+                android:text="CUSTOMER ID:">
             </TextView>
 
 
             <TextView
                 android:textColor="#F44336"
-                android:id="@+id/cname"
+                android:id="@+id/customer_id"
                 android:layout_marginTop="5dp"
                 android:layout_below="@+id/ci"
                 android:textSize="17sp"
                 android:layout_marginLeft="190dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="CUSTOMER NAME:">
+                android:text="CUSTOMER ID:">
             </TextView>
+
+            <TextView
+                android:textColor="#F44336"
+                android:id="@+id/sales_rep_id"
+                android:layout_marginTop="5dp"
+                android:layout_below="@+id/customer_id"
+                android:textSize="17sp"
+                android:layout_marginLeft="190dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SALESREP ID:">
+            </TextView>
+
 
 
 
@@ -97,22 +110,13 @@
                 android:layout_marginLeft="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="ADDRESS:">
+                android:text="SALES REP ID:">
             </TextView>
 
 
 
 
-            <TextView
-                android:id="@+id/caddre"
-                android:layout_marginTop="5dp"
-                android:layout_below="@+id/cnn"
-                android:textSize="17sp"
-                android:layout_marginLeft="190dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="ADDRESS:">
-            </TextView>
+
 
 
 
@@ -126,7 +130,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="PHONE NO:">
+                android:text="COVERAGE:">
             </TextView>
 
             <TextView
@@ -138,7 +142,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="COVERAGE:">
+                android:text="FREQUENCY:">
             </TextView>
 
             <TextView
@@ -150,33 +154,20 @@
                 android:layout_marginLeft="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="FREQUENCY:">
+                android:text="WEEK SCHEDULE:">
             </TextView>
 
             <TextView
 
                 android:textColor="#F44336"
-                android:id="@+id/cphone"
+                android:id="@+id/coverage_day"
                 android:layout_marginTop="10dp"
                 android:layout_below="@+id/caddd"
                 android:textSize="17sp"
                 android:layout_marginLeft="190dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="PHONE NO:">
-            </TextView>
-
-            <TextView
-
-                android:textColor="#F44336"
-                android:id="@+id/coverage"
-                android:layout_marginTop="10dp"
-                android:layout_below="@+id/cphone"
-                android:textSize="17sp"
-                android:layout_marginLeft="190dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="COVERAGE:">
+                android:text="DAY:">
             </TextView>
 
             <TextView
@@ -184,12 +175,25 @@
                 android:textColor="#F44336"
                 android:id="@+id/frequency"
                 android:layout_marginTop="10dp"
-                android:layout_below="@+id/coverage"
+                android:layout_below="@+id/coverage_day"
                 android:textSize="17sp"
                 android:layout_marginLeft="190dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="FREQUENCY:">
+                android:text="FREQUNCY:">
+            </TextView>
+
+            <TextView
+
+                android:textColor="#F44336"
+                android:id="@+id/frequency_week_schedule"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/frequency"
+                android:textSize="17sp"
+                android:layout_marginLeft="190dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="FREQUENCY_WEEK:">
             </TextView>
 
 
