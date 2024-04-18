@@ -117,14 +117,13 @@
 
         <Button
             android:id="@+id/cl"
-            android:layout_width="130dp"
-            android:layout_marginTop="60dp"
+            android:layout_width="41dp"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="160dp"
-            android:alpha="0.0"
-            android:layout_height="wrap_content">
+            android:layout_marginTop="60dp"
+            android:alpha="0.0">
 
         </Button>
-
 
         <ImageView
             android:id="@+id/ll"
@@ -134,6 +133,14 @@
             android:layout_marginTop="73dp"
             app:srcCompat="@drawable/addicon">
         </ImageView>
+
+        <ImageView
+            android:id="@+id/customer_coverage_plan"
+            android:layout_width="39dp"
+            android:layout_height="33dp"
+            android:layout_marginLeft="213dp"
+            android:layout_marginTop="73dp"
+            app:srcCompat="@drawable/tao"></ImageView>
 
         <TextView
             android:id="@+id/ii"

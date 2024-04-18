@@ -7,10 +7,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -52,9 +55,13 @@ public class SOdisplayCustomer extends AppCompatActivity {
         sorecyle.setAdapter(soCustomerAdapter);
 
         mDatabaseHelper = new PazDatabaseHelper(this);
-        customers.addAll(mDatabaseHelper.getAllCustomer());
-        soCustomerAdapter.notifyDataSetChanged();
-
+        Intent intent = getIntent();
+        String type = intent.getStringExtra("Type");
+        Log.d("customerdisplaytype",type);
+        if(type.equals("All")) {
+            customers.addAll(mDatabaseHelper.getAllCustomer());
+            soCustomerAdapter.notifyDataSetChanged();
+        }
         String[] sortme = {"  SORT BY: ...........", "Customer Name", "Customer Address"};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, sortme);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -71,6 +78,7 @@ public class SOdisplayCustomer extends AppCompatActivity {
 
             }
         });
+
 
 //* SEARCH//*
         searchbar.addTextChangedListener(new TextWatcher() {

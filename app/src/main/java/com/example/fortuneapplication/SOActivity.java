@@ -39,7 +39,7 @@ public class SOActivity extends AppCompatActivity {
     TextView datess, sr1, sr2, autref, save, ii, cid, location_id, sales_id, sonotes, textnote;
     Button his;
 
-    ImageView profile;
+    ImageView profile,customer_coverage_plan;
     private RecyclerView recyclerViews;
     private List<Item2> itemList = new ArrayList<>();
 
@@ -79,6 +79,7 @@ public class SOActivity extends AppCompatActivity {
         sonotes = findViewById(R.id.sonotes);
         textnote = findViewById(R.id.textnote);
         profile = findViewById(R.id.profile);
+        customer_coverage_plan = findViewById(R.id.customer_coverage_plan);
 
         // Load the last saved reference number from SharedPreferences
         SharedPreferences sharedPreferencesb = getSharedPreferences(PREFS_KEY, MODE_PRIVATE);
@@ -219,6 +220,18 @@ public class SOActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 Intent P = new Intent(SOActivity.this, SOdisplayCustomer.class);
+                P.putExtra("Type","CoveragePlan");
+                startActivity(P);
+                finish();
+            }
+        });
+
+        customer_coverage_plan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent P = new Intent(SOActivity.this, SOdisplayCustomer.class);
+                P.putExtra("Type","All");
                 startActivity(P);
                 finish();
             }
