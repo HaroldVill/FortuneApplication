@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.LocationManager;
 import android.net.Uri;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,9 +21,13 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 public class SoCustomerAdapter extends RecyclerView.Adapter<SoCustomerAdapter.MyViewHolder> {
@@ -83,6 +88,8 @@ public class SoCustomerAdapter extends RecyclerView.Adapter<SoCustomerAdapter.My
             holder.longitude.setText(longitude2);
             holder.latitude.setText(latitude2);
             holder.save_coordinate.setVisibility(View.VISIBLE);
+//            holder.begin_order.setVisibility(View.VISIBLE);
+            holder.skip_order.setVisibility(View.VISIBLE);
             holder.save_coordinate.setText("LOCATE");
             holder.save_coordinate.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -101,6 +108,8 @@ public class SoCustomerAdapter extends RecyclerView.Adapter<SoCustomerAdapter.My
             holder.latitude.setText("0");
             holder.distance.setText("0");
             holder.save_coordinate.setVisibility(View.VISIBLE);
+            holder.begin_order.setVisibility(View.INVISIBLE);
+            holder.skip_order.setVisibility(View.INVISIBLE);
             holder.save_coordinate.setText("PIN");
             holder.save_coordinate.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -131,6 +140,10 @@ public class SoCustomerAdapter extends RecyclerView.Adapter<SoCustomerAdapter.My
                     editor.putString("CADD", customer.getPostaladdress());
                     editor.putString("prlvl", customer.getPricelevelid());
                     editor.putString("DI", customer.getPaymenTerm().getDescription());
+                    LocalDateTime date = LocalDateTime.now();
+                    DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+                    String formattedDate = date.format(myFormatObj);
+                    editor.putString("ORDER_BEGIN",date.toString());
                     editor.apply();
                     context.startActivity(tra);
                     ((Activity) context).finish();
@@ -140,6 +153,7 @@ public class SoCustomerAdapter extends RecyclerView.Adapter<SoCustomerAdapter.My
 
     }
 
+
     @Override
     public int getItemCount() {
         return customerList.size();
@@ -147,7 +161,7 @@ public class SoCustomerAdapter extends RecyclerView.Adapter<SoCustomerAdapter.My
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         TextView so1,so2,so3,so4,socontact,longitude,latitude,distance;
-        Button save_coordinate;
+        Button save_coordinate,begin_order,skip_order;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -161,6 +175,8 @@ public class SoCustomerAdapter extends RecyclerView.Adapter<SoCustomerAdapter.My
             latitude = itemView.findViewById(R.id.latitude);
             distance = itemView.findViewById(R.id.distance);
             save_coordinate = itemView.findViewById(R.id.save_coordinate);
+            begin_order = itemView.findViewById(R.id.begin_order);
+            skip_order = itemView.findViewById(R.id.skip_order);
         }
     }
 }

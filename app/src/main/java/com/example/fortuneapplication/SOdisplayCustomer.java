@@ -62,6 +62,10 @@ public class SOdisplayCustomer extends AppCompatActivity {
             customers.addAll(mDatabaseHelper.getAllCustomer());
             soCustomerAdapter.notifyDataSetChanged();
         }
+        else{
+            customers.addAll(mDatabaseHelper.getCustomerFromCoveragePlan());
+            soCustomerAdapter.notifyDataSetChanged();
+        }
         String[] sortme = {"  SORT BY: ...........", "Customer Name", "Customer Address"};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, sortme);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

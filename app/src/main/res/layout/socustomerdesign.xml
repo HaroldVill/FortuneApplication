@@ -228,21 +228,56 @@
                 android:layout_height="wrap_content"
                 android:text="DISTANCE">
             </TextView>
+
             <Button
                 android:id="@+id/save_coordinate"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:layout_below="@+id/distance"
-                android:layout_marginLeft="180dp"
+                android:layout_marginLeft="0dp"
                 android:layout_marginTop="10dp"
-                android:background="#009688"
-                android:backgroundTint="#009737"
+                android:background="#104B8C"
+                android:backgroundTint="#063171"
                 android:backgroundTintMode="screen"
                 android:text="PIN"
                 android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="13sp"
+
+                android:visibility="invisible"></Button>
+
+            <Button
+                android:id="@+id/begin_order"
+                android:layout_width="121dp"
+                android:layout_height="30dp"
+                android:layout_below="@+id/distance"
+                android:layout_marginLeft="140dp"
+                android:layout_marginTop="10dp"
+                android:background="#408E43"
+                android:backgroundTint="#21954B"
+                android:backgroundTintMode="screen"
+                android:text="BEGIN ORDER"
+                android:textAlignment="center"
                 android:textColor="@color/white"
-                android:textSize="18sp"
-                android:textStyle="italic"
+                android:textSize="13sp"
+
+                android:visibility="invisible"></Button>
+
+            <Button
+                android:id="@+id/skip_order"
+                android:layout_width="80dp"
+                android:layout_height="30dp"
+                android:layout_below="@+id/distance"
+                android:layout_marginLeft="300dp"
+                android:layout_marginTop="10dp"
+                android:background="#9E1910"
+                android:backgroundTint="#AA1228"
+                android:backgroundTintMode="screen"
+                android:text="SKIP"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="13sp"
+
                 android:visibility="invisible"></Button>
 
 

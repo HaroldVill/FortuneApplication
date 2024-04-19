@@ -36,7 +36,7 @@ public class SOActivity extends AppCompatActivity {
     Button cl, adis;
     EditText cname, ccontact, caddd, slr, loc, ptt;
     private EditText tot;
-    TextView datess, sr1, sr2, autref, save, ii, cid, location_id, sales_id, sonotes, textnote;
+    TextView datess, sr1, sr2, autref, save, ii, cid, location_id, sales_id, sonotes, textnote,BeginOrderTime;
     Button his;
 
     ImageView profile,customer_coverage_plan;
@@ -80,6 +80,7 @@ public class SOActivity extends AppCompatActivity {
         textnote = findViewById(R.id.textnote);
         profile = findViewById(R.id.profile);
         customer_coverage_plan = findViewById(R.id.customer_coverage_plan);
+        BeginOrderTime = findViewById(R.id.BeginOrderTime);
 
         // Load the last saved reference number from SharedPreferences
         SharedPreferences sharedPreferencesb = getSharedPreferences(PREFS_KEY, MODE_PRIVATE);
@@ -184,6 +185,7 @@ public class SOActivity extends AppCompatActivity {
         String firstCcontact = preferences.getString("CCONTACT", "");
         String firstCadd = preferences.getString("CADD", "");
         String rpt = preferences.getString("DI", "");
+        String order_begin = preferences.getString("ORDER_BEGIN","");
 
         String lvl = preferences.getString("prlvl", "");
         cname.setText(firstCname);
@@ -192,6 +194,8 @@ public class SOActivity extends AppCompatActivity {
         ptt.setText(rpt);
         ii.setText(lvl);
         cid.setText(iidd);
+        BeginOrderTime.setText(order_begin);
+
 
 //*FETCH DATA FROM SALES_REP//*
         SharedPreferences preferencess = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);

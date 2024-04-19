@@ -900,7 +900,10 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                 PAYMENT_TERMS_TABLE + "." + PTERMS_DESCRIPTION + ", " +
                 PAYMENT_TERMS_TABLE + "." + PTERMS_NET_DUE +
                 " FROM " + CUSTOMER_TABLE +
-                " LEFT JOIN " + PAYMENT_TERMS_TABLE +
+                " INNER JOIN CUSTOMER_COVERAGE_PLAN ON CUSTOMER_COVERAGE_PLAN.CUSTOMER_ID = CUSTOMER_TABLE.CUSTOMER_ID "
+                +"AND CUSTOMER_COVERAGE_PLAN.SALESREP_ID=(SELECT SALESREP_ID FROM SALES_REP_TABLE WHERE salesrep_name =(SELECT VALUE FROM SYSTEM_SETTINGS WHERE NAME='DEFAULT_SALES_REP_ID')) "
+                +"AND CUSTOMER_COVERAGE_PLAN.COVERAGE_DAY = (SELECT  strftime('%w', date('now')))"
+                +" LEFT JOIN " + PAYMENT_TERMS_TABLE +
                 " ON " + CUSTOMER_TABLE + "." + PAYMENT_TERMS_ID + " = " + PAYMENT_TERMS_TABLE + "." + PTERMS_ID;
 
         SQLiteDatabase db = this.getReadableDatabase();
