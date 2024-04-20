@@ -29,7 +29,7 @@ import java.util.ArrayList;
 
 public class Connections extends AppCompatActivity {
     TextView creatcon, ids;
-    TextView selection, connection_label, select_sales_type,sales_type_label,select_sales_rep_id,sales_rep_id_label;
+    TextView selection, connection_label, select_sales_type,sales_type_label,select_sales_rep_id,sales_rep_id_label,select_gps_mode,gps_label;
     Button apply,apply_sales_type,apply_sales_rep_id;
     private PazDatabaseHelper mdatabaseHelper;
 
@@ -53,6 +53,8 @@ public class Connections extends AppCompatActivity {
         ids = findViewById(R.id.ids);
         apply_sales_type=findViewById(R.id.apply_sales_type);
         apply_sales_rep_id = findViewById(R.id.apply_sales_rep_id);
+        select_gps_mode = findViewById(R.id.select_gps_mode);
+        gps_label = findViewById(R.id.gps_label);
         apply_sales_rep_id.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {}
@@ -91,6 +93,26 @@ public class Connections extends AppCompatActivity {
                         String sales_type = menuItem.getTitle().toString();
                         select_sales_type.setText(sales_type);
                         sales_type_label.setText(sales_type);
+                        return true;
+                    }
+                });
+                popupMenu.show();
+            }
+        });
+
+        select_gps_mode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PopupMenu popupMenu = new PopupMenu(Connections.this,select_gps_mode);
+                Menu menu = popupMenu.getMenu();
+                menu.add(Menu.NONE,Menu.NONE,Menu.NONE,"Allow");
+                menu.add(Menu.NONE,Menu.NONE,Menu.NONE,"Strict");
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        String gps_type = menuItem.getTitle().toString();
+
+                        gps_label.setText(gps_type);
                         return true;
                     }
                 });

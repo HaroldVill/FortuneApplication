@@ -29,212 +29,290 @@
         android:textSize="25dp"
         android:textStyle="italic"></TextView>
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/con"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginTop="70dp"
-        app:cardCornerRadius="15dp"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="200dp">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
 
-        <RelativeLayout
+        <GridLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-           >
-
-            <TextView
-                android:id="@+id/gggg"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="15dp"
-                android:text="SET DEFAULT CONNECTION:"
-                android:textSize="25sp"
-                android:textStyle="bold"></TextView>
-
-
-            <TextView
-                android:id="@+id/selection"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/gggg"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:drawableRight="@drawable/downboy"
-                android:text="Select Connection Address"
-                android:textColor="#3F51B5"
-                android:textSize="20sp"
-                android:textStyle="italic"></TextView>
-
-            <TextView
-                android:textColor="#EF4438"
-                android:layout_marginTop="10dp"
-                android:layout_below="@+id/selection"
-                android:layout_centerHorizontal="true"
-                android:id="@+id/connection_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-            </TextView>
-
-            <Button
-                android:textColor="#FDFCFC"
-                android:background="@drawable/buttondesign3"
-                android:id="@+id/apply"
-                android:layout_width="280dp"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/connection_label"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="10dp"
-                android:text="APPLY">
-
-            </Button>
-            <TextView
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="12dp"
-                android:layout_below="@+id/apply"
-                android:textColor="#000"
-                android:text="New Connection?"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-            </TextView>
-
-
-            <TextView
-                android:id="@+id/creatcon"
-                android:textStyle="bold"
-                android:layout_marginLeft="127dp"
-                android:layout_marginTop="5dp"
-                android:layout_below="@+id/apply"
-                android:textColor="#000"
-                android:text="CLICK HERE"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-            </TextView>
-        </RelativeLayout>
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/con2"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_below="@id/con"
-        app:cardCornerRadius="15dp"
-        android:layout_width="match_parent"
-        android:layout_height="190dp">
-        <RelativeLayout
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            >
-            <TextView
-                android:id="@+id/title2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="15dp"
-                android:text="SET SET SALES TYPE:"
-                android:textSize="25sp"
-                android:textStyle="bold"
-                ></TextView>
-            <TextView
-                android:id="@+id/select_sales_type"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/title2"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:drawableRight="@drawable/downboy"
-                android:text="Select Connection Address"
-                android:textColor="#3F51B5"
-                android:textSize="20sp"
-                android:textStyle="italic"></TextView>
-            <TextView
-                android:textColor="#EF4438"
-                android:layout_marginTop="10dp"
-                android:layout_below="@+id/select_sales_type"
-                android:layout_centerHorizontal="true"
-                android:id="@+id/sales_type_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-            </TextView>
-            <Button
-                android:textColor="#FDFCFC"
-                android:background="@drawable/buttondesign3"
-                android:id="@+id/apply_sales_type"
-                android:layout_width="280dp"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/sales_type_label"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="100dp"
-                android:text="APPLY">
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:columnCount="1"
+            android:rowCount="4">
 
-            </Button>
-        </RelativeLayout>
-    </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
+                android:id="@+id/con"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="70dp"
+                android:layout_marginEnd="10dp"
+                app:cardCornerRadius="15dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/gggg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="15dp"
+                        android:text="SET DEFAULT CONNECTION:"
+                        android:textSize="25sp"
+                        android:textStyle="bold"></TextView>
 
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/con3"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_below="@id/con2"
-        app:cardCornerRadius="15dp"
-        android:layout_width="match_parent"
-        android:layout_height="190dp">
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            >
-            <TextView
-                android:id="@+id/title3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="15dp"
-                android:text="SET DEFAULT SALES REP:"
-                android:textSize="25sp"
-                android:textStyle="bold"
-                ></TextView>
-            <TextView
-                android:id="@+id/select_sales_rep_id"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/title3"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:drawableRight="@drawable/downboy"
-                android:text="Select Sales Rep"
-                android:textColor="#3F51B5"
-                android:textSize="20sp"
-                android:textStyle="italic"></TextView>
-            <TextView
-                android:textColor="#EF4438"
-                android:layout_marginTop="10dp"
-                android:layout_below="@+id/select_sales_rep_id"
-                android:layout_centerHorizontal="true"
-                android:id="@+id/sales_rep_id_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-            </TextView>
-            <Button
-                android:textColor="#FDFCFC"
-                android:background="@drawable/buttondesign3"
-                android:id="@+id/apply_sales_rep_id"
-                android:layout_width="280dp"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/sales_rep_id_label"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="100dp"
-                android:text="APPLY">
+                    <TextView
+                        android:id="@+id/selection"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/gggg"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"
+                        android:drawableRight="@drawable/downboy"
+                        android:text="Select Connection Address"
+                        android:textColor="#3F51B5"
+                        android:textSize="20sp"
+                        android:textStyle="italic"></TextView>
 
-            </Button>
-        </RelativeLayout>
-    </androidx.cardview.widget.CardView>
+                    <TextView
+                        android:id="@+id/connection_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/selection"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="10dp"
+                        android:textColor="#EF4438"></TextView>
+
+                    <Button
+                        android:id="@+id/apply"
+                        android:layout_width="280dp"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/connection_label"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/buttondesign3"
+                        android:text="APPLY"
+                        android:textColor="#FDFCFC">
+
+                    </Button>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/apply"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginTop="5dp"
+                        android:text="New Connection?"
+                        android:textColor="#000"></TextView>
 
 
+                    <TextView
+                        android:id="@+id/creatcon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/apply"
+                        android:layout_marginLeft="127dp"
+                        android:layout_marginTop="5dp"
+                        android:text="CLICK HERE"
+                        android:textColor="#000"
+                        android:textStyle="bold">
+
+                    </TextView>
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/con2"
+                android:layout_width="match_parent"
+                android:layout_height="190dp"
+                android:layout_below="@id/con"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                app:cardCornerRadius="15dp">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/title2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="15dp"
+                        android:text="SET SET SALES TYPE:"
+                        android:textSize="25sp"
+                        android:textStyle="bold"></TextView>
+
+                    <TextView
+                        android:id="@+id/select_sales_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/title2"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"
+                        android:drawableRight="@drawable/downboy"
+                        android:text="Select Connection Address"
+                        android:textColor="#3F51B5"
+                        android:textSize="20sp"
+                        android:textStyle="italic"></TextView>
+
+                    <TextView
+                        android:id="@+id/sales_type_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/select_sales_type"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="10dp"
+                        android:textColor="#EF4438"></TextView>
+
+                    <Button
+                        android:id="@+id/apply_sales_type"
+                        android:layout_width="280dp"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/sales_type_label"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginLeft="100dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/buttondesign3"
+                        android:text="APPLY"
+                        android:textColor="#FDFCFC">
+
+                    </Button>
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/con3"
+                android:layout_width="match_parent"
+                android:layout_height="190dp"
+                android:layout_below="@id/con2"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                app:cardCornerRadius="15dp">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/title3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="15dp"
+                        android:text="SET DEFAULT SALES REP:"
+                        android:textSize="25sp"
+                        android:textStyle="bold"></TextView>
+
+                    <TextView
+                        android:id="@+id/select_sales_rep_id"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/title3"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"
+                        android:drawableRight="@drawable/downboy"
+                        android:text="Select Sales Rep"
+                        android:textColor="#3F51B5"
+                        android:textSize="20sp"
+                        android:textStyle="italic"></TextView>
+
+                    <TextView
+                        android:id="@+id/sales_rep_id_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/select_sales_rep_id"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="10dp"
+                        android:textColor="#EF4438"></TextView>
+
+                    <Button
+                        android:id="@+id/apply_sales_rep_id"
+                        android:layout_width="280dp"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/sales_rep_id_label"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginLeft="100dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/buttondesign3"
+                        android:text="APPLY"
+                        android:textColor="#FDFCFC">
+
+                    </Button>
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/con4"
+                android:layout_width="match_parent"
+                android:layout_height="190dp"
+                android:layout_below="@id/con3"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                app:cardCornerRadius="15dp">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/title4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="15dp"
+                        android:text="SET STRICT GPS:"
+                        android:textSize="25sp"
+                        android:textStyle="bold"></TextView>
+
+                    <TextView
+                        android:id="@+id/select_gps_mode"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/title4"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"
+                        android:drawableRight="@drawable/downboy"
+                        android:text="Select GPS MODE"
+                        android:textColor="#3F51B5"
+                        android:textSize="20sp"
+                        android:textStyle="italic"></TextView>
+
+                    <TextView
+                        android:id="@+id/gps_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/select_gps_mode"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="10dp"
+                        android:textColor="#EF4438"></TextView>
+
+                    <Button
+                        android:id="@+id/apply_gps_mode"
+                        android:layout_width="280dp"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/gps_label"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginLeft="100dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/buttondesign3"
+                        android:text="APPLY"
+                        android:textColor="#FDFCFC">
+
+                    </Button>
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+        </GridLayout>
+    </ScrollView>
 </RelativeLayout>
