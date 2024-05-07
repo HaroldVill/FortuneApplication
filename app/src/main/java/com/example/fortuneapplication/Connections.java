@@ -318,4 +318,29 @@ public class Connections extends AppCompatActivity {
 //            finish();
         }
     }
+
+    public void update_coverage_type() {
+
+        String coverage_type = gps_label.getText().toString();
+
+        SQLiteDatabase db = mdatabaseHelper.getWritableDatabase();
+        ContentValues specificRowValues = new ContentValues();
+        specificRowValues.put("VALUE", coverage_type);
+
+        String whereClause = SYSTEM_SETTINGS_NAME + " = ?";
+        String[] whereArgs = {"ALLOW_STRICT_COVERAGE"};
+
+        int numSpecificRowUpdated = db.update(SYSTEM_SETTINGS, specificRowValues, whereClause, whereArgs);
+        db.close();
+
+        if (numSpecificRowUpdated > 0) {
+            Toast.makeText(this, "Successfully Coverage Type Set", Toast.LENGTH_SHORT).show();
+//            selection.setText("");
+//            connection_label.setText("");
+
+//            Intent nanay = new Intent(Connections.this, SyncDatas.class);
+//            startActivity(nanay);
+//            finish();
+        }
+    }
 }

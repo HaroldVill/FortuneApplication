@@ -357,7 +357,8 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
 //                "posted" + " INTEGER DEFAULT 0";
 
         String INSERT_SYSTEM_SETTINGS ="INSERT INTO "+SYSTEM_SETTINGS+" VALUES (NULL,'SALES_TYPE',''), "
-                +"(NULL,'DEFAULT_SALES_REP_ID','')";
+                +"(NULL,'DEFAULT_SALES_REP_ID',''),"
+                +"(NULL,'ALLOW_STRICT_COVERAGE','Allow')";
 
         db.execSQL(CREATE_CONNECTIONTABLE);
         db.execSQL(CREATE_DASHBOARDTABLE);
@@ -1744,6 +1745,18 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
     public String get_default_salesrep(){
         String value="";
         String query ="SELECT ifnull(VALUE,'') VALUE FROM SYSTEM_SETTINGS WHERE  id=2";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query,null);
+        if(cursor.moveToFirst()){
+            value=cursor.getString(0);
+//            Log.d("sales_type",sales_type);
+        }
+        return value;
+    }
+
+    public String get_coverage_type(){
+        String value="";
+        String query ="SELECT ifnull(VALUE,'') VALUE FROM SYSTEM_SETTINGS WHERE  id=3";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(query,null);
         if(cursor.moveToFirst()){

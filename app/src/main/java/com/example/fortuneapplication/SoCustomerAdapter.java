@@ -89,7 +89,6 @@ public class SoCustomerAdapter extends RecyclerView.Adapter<SoCustomerAdapter.My
             holder.latitude.setText(latitude2);
             holder.save_coordinate.setVisibility(View.VISIBLE);
 //            holder.begin_order.setVisibility(View.VISIBLE);
-            holder.skip_order.setVisibility(View.VISIBLE);
             holder.save_coordinate.setText("LOCATE");
             holder.save_coordinate.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -102,6 +101,43 @@ public class SoCustomerAdapter extends RecyclerView.Adapter<SoCustomerAdapter.My
             });
             getDistance get_distance = new getDistance(Double.parseDouble(longitude1),Double.parseDouble(longitude2),Double.parseDouble(latitude1),Double.parseDouble(latitude2),0,0);
             holder.distance.setText(Double.toString(get_distance.get_distance()));
+            if(get_distance.get_distance()>20) {
+                holder.skip_order.setVisibility(View.VISIBLE);
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(Double.parseDouble(longitude2) == 0|| Double.parseDouble(latitude2) == 0){
+                            Toast.makeText(context, "Please PIN customer first.", Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            Intent tra = new Intent(context, SOActivity.class);
+                            SharedPreferences preferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = preferences.edit();
+                            editor.putString("CID", customer.getId());
+                            editor.putString("CNAME", customer.getCustomername());
+                            editor.putString("CCONTACT", customer.getMobilenumber());
+                            editor.putString("CADD", customer.getPostaladdress());
+                            editor.putString("prlvl", customer.getPricelevelid());
+                            editor.putString("DI", customer.getPaymenTerm().getDescription());
+                            LocalDateTime date = LocalDateTime.now();
+                            DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+                            String formattedDate = date.format(myFormatObj);
+                            editor.putString("ORDER_BEGIN",date.toString());
+                            editor.apply();
+                            context.startActivity(tra);
+                            ((Activity) context).finish();
+                        }
+                    }
+                });
+            }
+            else{
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(context, "Must be within 20 meters of the outlet area.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
         }
         if(Double.parseDouble(longitude2) == 0|| Double.parseDouble(latitude2) == 0){
             holder.longitude.setText("0");
@@ -111,6 +147,14 @@ public class SoCustomerAdapter extends RecyclerView.Adapter<SoCustomerAdapter.My
             holder.begin_order.setVisibility(View.INVISIBLE);
             holder.skip_order.setVisibility(View.INVISIBLE);
             holder.save_coordinate.setText("PIN");
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(Double.parseDouble(longitude2) == 0|| Double.parseDouble(latitude2) == 0){
+                        Toast.makeText(context, "Please PIN customer first.", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
             holder.save_coordinate.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -124,32 +168,7 @@ public class SoCustomerAdapter extends RecyclerView.Adapter<SoCustomerAdapter.My
             });
         }
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(Double.parseDouble(longitude2) == 0|| Double.parseDouble(latitude2) == 0){
-                    Toast.makeText(context, "Please PIN customer first.", Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    Intent tra = new Intent(context, SOActivity.class);
-                    SharedPreferences preferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = preferences.edit();
-                    editor.putString("CID", customer.getId());
-                    editor.putString("CNAME", customer.getCustomername());
-                    editor.putString("CCONTACT", customer.getMobilenumber());
-                    editor.putString("CADD", customer.getPostaladdress());
-                    editor.putString("prlvl", customer.getPricelevelid());
-                    editor.putString("DI", customer.getPaymenTerm().getDescription());
-                    LocalDateTime date = LocalDateTime.now();
-                    DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-                    String formattedDate = date.format(myFormatObj);
-                    editor.putString("ORDER_BEGIN",date.toString());
-                    editor.apply();
-                    context.startActivity(tra);
-                    ((Activity) context).finish();
-                }
-            }
-        });
+
 
     }
 
