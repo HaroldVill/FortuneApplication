@@ -30,7 +30,7 @@ import java.util.ArrayList;
 public class Connections extends AppCompatActivity {
     TextView creatcon, ids;
     TextView selection, connection_label, select_sales_type,sales_type_label,select_sales_rep_id,sales_rep_id_label,select_gps_mode,gps_label;
-    Button apply,apply_sales_type,apply_sales_rep_id;
+    Button apply,apply_sales_type,apply_sales_rep_id,apply_gps_mode;
     private PazDatabaseHelper mdatabaseHelper;
 
     @Override
@@ -55,6 +55,8 @@ public class Connections extends AppCompatActivity {
         apply_sales_rep_id = findViewById(R.id.apply_sales_rep_id);
         select_gps_mode = findViewById(R.id.select_gps_mode);
         gps_label = findViewById(R.id.gps_label);
+        gps_label.setText(mdatabaseHelper.get_coverage_type());
+        apply_gps_mode = findViewById(R.id.apply_gps_mode);
         apply_sales_rep_id.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {}
@@ -71,6 +73,14 @@ public class Connections extends AppCompatActivity {
                 updatemen();
             }
         });
+
+        apply_gps_mode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                update_coverage_type();
+            }
+        });
+
 
         creatcon.setOnClickListener(new View.OnClickListener() {
             @Override

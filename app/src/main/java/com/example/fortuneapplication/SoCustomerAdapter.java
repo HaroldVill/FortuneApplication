@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -101,7 +102,8 @@ public class SoCustomerAdapter extends RecyclerView.Adapter<SoCustomerAdapter.My
             });
             getDistance get_distance = new getDistance(Double.parseDouble(longitude1),Double.parseDouble(longitude2),Double.parseDouble(latitude1),Double.parseDouble(latitude2),0,0);
             holder.distance.setText(Double.toString(get_distance.get_distance()));
-            if(get_distance.get_distance()>20) {
+            if(get_distance.get_distance()<20) {
+                Log.d("Distance", Double.toString(get_distance.get_distance()));
                 holder.skip_order.setVisibility(View.VISIBLE);
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
