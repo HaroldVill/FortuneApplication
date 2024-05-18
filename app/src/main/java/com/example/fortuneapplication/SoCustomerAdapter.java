@@ -102,7 +102,10 @@ public class SoCustomerAdapter extends RecyclerView.Adapter<SoCustomerAdapter.My
             });
             getDistance get_distance = new getDistance(Double.parseDouble(longitude1),Double.parseDouble(longitude2),Double.parseDouble(latitude1),Double.parseDouble(latitude2),0,0);
             holder.distance.setText(Double.toString(get_distance.get_distance()));
-            if(get_distance.get_distance()<20) {
+            String coverage_type ;
+            coverage_type = db.get_coverage_type();
+            Log.d("coverage_type", coverage_type);
+            if(get_distance.get_distance()<20 || coverage_type.equals("Allow")) {
                 Log.d("Distance", Double.toString(get_distance.get_distance()));
                 holder.skip_order.setVisibility(View.VISIBLE);
                 holder.itemView.setOnClickListener(new View.OnClickListener() {

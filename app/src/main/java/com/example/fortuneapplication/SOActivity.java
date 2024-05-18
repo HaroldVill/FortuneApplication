@@ -189,11 +189,11 @@ public class SOActivity extends AppCompatActivity {
 
         String lvl = preferences.getString("prlvl", "");
         cname.setText(firstCname);
+        cid.setText(iidd);
         ccontact.setText(firstCcontact);
         caddd.setText(firstCadd);
         ptt.setText(rpt);
         ii.setText(lvl);
-        cid.setText(iidd);
         BeginOrderTime.setText(order_begin);
 
 
@@ -312,11 +312,20 @@ public class SOActivity extends AppCompatActivity {
                 // Save the new reference number to SharedPreferences
                 SharedPreferences sharedPreferences = getSharedPreferences(PREFS_KEY, MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
+                SharedPreferences MyPrefs = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+                MyPrefs.edit().remove("CID").apply();
+                MyPrefs.edit().remove("CNAME").apply();
+                MyPrefs.edit().remove("CCONTACT").apply();
+                MyPrefs.edit().remove("CADD").apply();
+                MyPrefs.edit().remove("ORDER_BEGIN").apply();
+                MyPrefs.edit().remove("prlvl").apply();
+                MyPrefs.edit().remove("DI").apply();
                 editor.putInt(REFERENCE_NUMBER_KEY, referenceNumber);
                 editor.apply();
                 Toast.makeText(SOActivity.this, "Successfully Order Save", Toast.LENGTH_LONG).show();
                 long insert = mDatabaseHelper.insertDataIDAndITEMSO();
-
+//                cname.setText("");
+//                cid.setText("");
                 PazDatabaseHelper databaseHelper = new PazDatabaseHelper(getApplicationContext());
                 databaseHelper.deleOrderSample();
 //                recyclerViews.setLayoutManager(new LinearLayoutManager(this));
