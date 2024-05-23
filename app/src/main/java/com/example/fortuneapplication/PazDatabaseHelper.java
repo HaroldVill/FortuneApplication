@@ -182,6 +182,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
     protected static final String CUSTOMER_SKIP_TABLE_ID = "id";
     protected static final String  CUSTOMER_SKIP_TABLE_CUSTOMER_ID = "customer_id";
     protected static final String  CUSTOMER_SKIP_TABLE_DATETIME = "datetime";
+    protected static final String  CUSTOMER_SKIP_TABLE_REASON = "reason";
 
 
     public PazDatabaseHelper(@Nullable Context context) {
@@ -353,8 +354,9 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         String CREATE_CUSTOMER_SKIP_TABLE ="CREATE TABLE " +CUSTOMER_SKIP_TABLE  + " ("+
                 CUSTOMER_SKIP_TABLE_ID+" INTEGER PRIMARY KEY AUTOINCREMENT, "+
                 CUSTOMER_SKIP_TABLE_CUSTOMER_ID + " INTEGER, " +
-                CUSTOMER_SKIP_TABLE_DATETIME + " TEXT " +
-                ")";
+                CUSTOMER_SKIP_TABLE_DATETIME + " TEXT, " +
+                CUSTOMER_SKIP_TABLE_REASON + " TEXT, " +
+                "status TEXT DEFAULT '0')";
 
 
         String INSERT_SYNC_HISTORY ="INSERT INTO "+SYNC_HISTORY_TABLE+" VALUES " +
