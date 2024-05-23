@@ -134,6 +134,8 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
     private static final String CUSTOM_FIELD3 = "custom_field3";
     private static final String CUSTOM_FIELD4 = "custom_field4";
     private static final String CUSTOM_FIELD5 = "custom_field5";
+    private static final String BEGIN_ORDER = "begin_order";
+    private static final String END_ORDER = "end_order";
     private static final String POSTED = "posted";
 
     // SALES ORDER ITEMS //
@@ -175,6 +177,11 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
     protected static final String SYSTEM_SETTINGS_NAME = "NAME";
     protected static final String SYSTEM_SETTINGS_VALUE = "VALUE";
 
+
+    protected static final String CUSTOMER_SKIP_TABLE  = "customer_skip_table";
+    protected static final String CUSTOMER_SKIP_TABLE_ID = "id";
+    protected static final String  CUSTOMER_SKIP_TABLE_CUSTOMER_ID = "customer_id";
+    protected static final String  CUSTOMER_SKIP_TABLE_DATETIME = "datetime";
 
 
     public PazDatabaseHelper(@Nullable Context context) {
@@ -281,6 +288,8 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                 CUSTOM_FIELD3 + " TEXT, " +
                 CUSTOM_FIELD4 + " TEXT, " +
                 CUSTOM_FIELD5 + " TEXT, " +
+                BEGIN_ORDER + " TEXT, " +
+                END_ORDER + " TEXT, "+
                 "status INTEGER DEFAULT '0'," +
                 "posted INTEGER DEFAULT '0')";
 
@@ -341,6 +350,13 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                 COVERAGE_FORECAST_WEEK_SCHEDULE + " TEXT " +
                 ")";
 
+        String CREATE_CUSTOMER_SKIP_TABLE ="CREATE TABLE " +CUSTOMER_SKIP_TABLE  + " ("+
+                CUSTOMER_SKIP_TABLE_ID+" INTEGER PRIMARY KEY AUTOINCREMENT, "+
+                CUSTOMER_SKIP_TABLE_CUSTOMER_ID + " INTEGER, " +
+                CUSTOMER_SKIP_TABLE_DATETIME + " TEXT " +
+                ")";
+
+
         String INSERT_SYNC_HISTORY ="INSERT INTO "+SYNC_HISTORY_TABLE+" VALUES " +
                 "(NULL,'ITEM',''),"+
                 "(NULL,'CUSTOMER',''),"+
@@ -378,6 +394,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_SYNC_HISTORY_TABLE);
         db.execSQL(INSERT_SYNC_HISTORY);
         db.execSQL(CREATE_CUSTOMERS_COVERAGE_TABLE);
+        db.execSQL(CREATE_CUSTOMER_SKIP_TABLE);
 //        db.execSQL(ALTER_ITEM_TABLE);
 
     }
@@ -397,6 +414,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + SALES_ORDER_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + SALES_ORDER_ITEMS_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + SYSTEM_SETTINGS);
+        db.execSQL("DROP TABLE IF EXISTS " + CUSTOMER_SKIP_TABLE);
         onCreate(db);
     }
 
@@ -596,6 +614,8 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         values.put(CUSTOM_FIELD3, salesorder.getCustom3());
         values.put(CUSTOM_FIELD4, salesorder.getCustom4());
         values.put(CUSTOM_FIELD5, salesorder.getCustom5());
+        values.put(BEGIN_ORDER, salesorder.get_begin_order());
+        values.put(END_ORDER,salesorder.get_end_order());
         long sioid = db.insert(SALES_ORDER_TABLE, null, values);
         return sioid;
 
@@ -623,6 +643,15 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         long soiitemid = db.insert(SALES_ORDER_ITEMS_TABLE, null, values);
         return soiitemid;
 
+    }
+    public void SkipCustomerOrder(SALESORDER salesorder){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        //  values.put(SALES_ORDERID, salesorder.getSalesorderid());
+        Log.d("SkipCustomerId", salesorder.get_end_order());
+        values.put(CUSTOMER_SKIP_TABLE_CUSTOMER_ID, salesorder.getCustomerid());
+        values.put(CUSTOMER_SKIP_TABLE_DATETIME,salesorder.get_end_order());
+        db.insert(CUSTOMER_SKIP_TABLE,null,values);
     }
 
     @SuppressLint("Range")

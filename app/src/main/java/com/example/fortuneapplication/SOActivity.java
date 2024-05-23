@@ -25,6 +25,8 @@ import android.widget.Toast;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -303,6 +305,13 @@ public class SOActivity extends AppCompatActivity {
                 dataModel.setLocationid(Integer.parseInt(idlocation));
                 dataModel.setCustomerid(Integer.parseInt(custoid));
                 dataModel.setDate(currentDate);
+                dataModel.set_begin_order(BeginOrderTime.getText().toString());
+                Log.d("BeginOrderTime", BeginOrderTime.getText().toString());
+                LocalDateTime date = LocalDateTime.now();
+                DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+                String formattedDate = date.format(myFormatObj);
+                String end_order_time = formattedDate.toString();
+                dataModel.set_end_order(end_order_time.toString());
                 mDatabaseHelper.inserSO(dataModel);
 
                 Toast.makeText(SOActivity.this, "Saving", Toast.LENGTH_SHORT).show();

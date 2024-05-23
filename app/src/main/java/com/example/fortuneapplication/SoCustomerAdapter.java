@@ -5,10 +5,12 @@ import static androidx.core.content.ContextCompat.startActivity;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.LocationManager;
 import android.net.Uri;
+import android.provider.Settings;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -38,6 +41,7 @@ public class SoCustomerAdapter extends RecyclerView.Adapter<SoCustomerAdapter.My
     Activity activity;
     private static final int REQUEST_LOCATION = 1;
     LocationManager locationManager;
+    PazDatabaseHelper mdatabasehelper;
 
     public SoCustomerAdapter(Context context, ArrayList<Customer> customerList,Activity activity, LocationManager locationManager) {
         this.context = context;
@@ -127,11 +131,47 @@ public class SoCustomerAdapter extends RecyclerView.Adapter<SoCustomerAdapter.My
                             LocalDateTime date = LocalDateTime.now();
                             DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
                             String formattedDate = date.format(myFormatObj);
-                            editor.putString("ORDER_BEGIN",date.toString());
+                            editor.putString("ORDER_BEGIN",formattedDate.toString());
                             editor.apply();
                             context.startActivity(tra);
                             ((Activity) context).finish();
                         }
+                    }
+                });
+
+                holder.skip_order.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if(Double.parseDouble(longitude2) == 0|| Double.parseDouble(latitude2) == 0){
+                            Toast.makeText(context, "Please PIN customer first.", Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            final AlertDialog.Builder builder= new AlertDialog.Builder(context);
+
+                            builder.setMessage("Are you sure you want to skip this customer?").setCancelable(false).setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    SALESORDER dataModel = new SALESORDER();
+                                    dataModel.setCustomerid(Integer.parseInt(customer.getId()));
+                                    LocalDateTime date = LocalDateTime.now();
+                                    DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+                                    String formattedDate = date.format(myFormatObj);
+                                    String end_order_time = formattedDate.toString();
+                                    dataModel.set_end_order(end_order_time.toString());
+                                    mdatabasehelper  = new PazDatabaseHelper(context);
+                                    mdatabasehelper.SkipCustomerOrder(dataModel);
+                                }
+                            }).setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                    dialog.cancel();
+                                }
+                            });
+                            final AlertDialog alertDialog=builder.create();
+                            alertDialog.show();
+                        }
+
                     }
                 });
             }
