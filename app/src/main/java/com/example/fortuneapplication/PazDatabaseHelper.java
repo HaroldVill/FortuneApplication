@@ -653,6 +653,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         Log.d("SkipCustomerId", salesorder.get_end_order());
         values.put(CUSTOMER_SKIP_TABLE_CUSTOMER_ID, salesorder.getCustomerid());
         values.put(CUSTOMER_SKIP_TABLE_DATETIME,salesorder.get_end_order());
+        values.put(CUSTOMER_SKIP_TABLE_REASON,"");
         db.insert(CUSTOMER_SKIP_TABLE,null,values);
     }
 
@@ -1414,6 +1415,28 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         return customer_id;
     }
 
+    public int get_unsynced_skipped_orders(){
+        int customer_skip_id =0;
+        try {
+            SQLiteDatabase db = this.getReadableDatabase();
+            String query = "SELECT ID FROM CUSTOMER_SKIP_TABLE WHERE STATUS =0 LIMIT 1";
+            Cursor cursor = db.rawQuery(query,null);
+            if (cursor.moveToFirst()) {
+                customer_skip_id = cursor.getInt(0);
+            }
+            cursor.close();
+//            db.close();
+            return customer_skip_id;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        finally {
+
+        }
+        return customer_skip_id;
+    }
+
     public int get_so_status(int so_id){
         int status =0;
         try {
@@ -1534,6 +1557,8 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                     SALES_ORDER_TABLE + "." + DATE + ", " +
                     SALES_ORDER_TABLE + "." + SALES_REP_ID + ", " +
                     SALES_ORDER_TABLE + "." + LOCATION_ID + ", " +
+                    SALES_ORDER_TABLE + "." + BEGIN_ORDER + ", " +
+                    SALES_ORDER_TABLE + "." + END_ORDER + ", " +
                     CUSTOMER_TABLE + "." + CUSTOMER_ID + ", " +
                     SALESREP_TABLE + "." + SALESREP_NAME + ", " +
                     CUSTOMER_TABLE + "." + CUSTOMER_NAME +
@@ -1552,6 +1577,8 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                     SALES_ORDER_TABLE + "." + DATE + ", " +
                     SALES_ORDER_TABLE + "." + SALES_REP_ID + ", " +
                     SALES_ORDER_TABLE + "." + LOCATION_ID + ", " +
+                    SALES_ORDER_TABLE + "." + BEGIN_ORDER + ", " +
+                    SALES_ORDER_TABLE + "." + END_ORDER + ", " +
                     CUSTOMER_TABLE + "." + CUSTOMER_ID + ", " +
                     SALESREP_TABLE + "." + SALESREP_NAME + ", " +
                     CUSTOMER_TABLE + "." + CUSTOMER_NAME +
@@ -1586,6 +1613,8 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                 salesorder.setLocationid(Integer.parseInt(location.getLocid()));
                 salesorder.set_sales_rep_name(cursor.getString(cursor.getColumnIndex(SALESREP_NAME)));
                 salesorder.set_customer_name(cursor.getString(cursor.getColumnIndex(CUSTOMER_NAME)));
+                salesorder.set_begin_order(cursor.getString(cursor.getColumnIndex(BEGIN_ORDER)));
+                salesorder.set_begin_order(cursor.getString(cursor.getColumnIndex(END_ORDER)));
 
                 salesorder.setCustomer(customerR);
                 salesORlist.add(salesorder);

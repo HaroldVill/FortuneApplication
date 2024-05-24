@@ -343,6 +343,8 @@ public class History extends AppCompatActivity {
                                         params.put("date", salesOrder.getDate());
                                         params.put("sales_rep_id", Integer.toString(salesOrder.getSalesrepid()));
                                         params.put("location_id",Integer.toString(salesOrder.getLocationid()));
+                                        params.put("begin_order", salesOrder.get_begin_order());
+                                        params.put("end_order", salesOrder.get_end_order());
                                         params.put("sales_order_items", json_soitems.toString());
                                         return params;
                                     }
