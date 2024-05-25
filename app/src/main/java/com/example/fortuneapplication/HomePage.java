@@ -409,52 +409,33 @@ public class HomePage extends AppCompatActivity implements LocationListener {
 
                 }
                 if(i%5==0){
-                    int sales_order_id = mDatabaseHelper.get_unsynced_skipped_orders();
-                    if(sales_order_id !=0){
+                    int customer_skip_id = mDatabaseHelper.get_unsynced_skipped_orders();
+                    String default_salesrep_id = mDatabaseHelper.get_default_salesrep_id();
+                    if(customer_skip_id !=0){
                         try {
                             ArrayList<CONNECT> connectList2 = mDatabaseHelper.SelectUPDT();
                             if (!connectList2.isEmpty()) {
                                 x = connectList2.get(0).getIp(); // Assuming the first IP address is what you need
                                 String sales_type = mDatabaseHelper.sales_type();
                                 Log.d("sales_type",sales_type);
-                                api_url = "http://" + x + "/MobileAPI/"+sales_type;
+                                api_url = "http://" + x + "/MobileAPI/sync_customer_skip.php";
                             }
 //                            PazDatabaseHelper dbHelper = new PazDatabaseHelper(context);
-                            List<SALESORDER> salesOrderList = mDatabaseHelper.getSlsorder(sales_order_id);
+                            List<SALESORDER> salesOrderList = mDatabaseHelper.get_customer_skip_order(customer_skip_id);
                             for (SALESORDER salesOrder : salesOrderList) {
-                                JSONArray json_soitems = new JSONArray();
-                                List<SALESORDERITEMS> salesOrderItemList = mDatabaseHelper.getSlsorderitems(sales_order_id);
-                                for (SALESORDERITEMS salesOrderItems : salesOrderItemList) {
-
-                                    JSONObject jsonObject = new JSONObject();
-                                    jsonObject.put("item_id", salesOrderItems.getSoiitemid());
-                                    jsonObject.put("quantity", salesOrderItems.getSoiquantity());
-                                    jsonObject.put("rate", salesOrderItems.getSoirate());
-                                    jsonObject.put("amount", salesOrderItems.getSoiamount());
-                                    jsonObject.put("unit_base_qty", salesOrderItems.getSoiunitbasequantity());
-                                    jsonObject.put("uom", salesOrderItems.getUom());
-                                    jsonObject.put("price_level_id", salesOrderItems.getSoipricelevelid());
-                                    jsonObject.put("location", salesOrderItems.getLocationId());
-                                    json_soitems.put(jsonObject);
-                                }
                                 StringRequest send_invoices = new StringRequest(Request.Method.POST, api_url,
                                         response -> {Log.d("Success","Success");
                                             if(response.contains("succesfully") || response.contains("has already been")){
-                                                mDatabaseHelper.update_so_status(sales_order_id);}},
+                                                mDatabaseHelper.update_so_status(customer_skip_id);}},
                                         error -> Log.d("Error","Connection Error")){
 
                                     @Override
                                     protected Map<String, String> getParams() throws AuthFailureError {
                                         Map<String, String> params =new HashMap<>();
-                                        params.put("refno", salesOrder.getCode().toString());
-                                        params.put("customer_id", salesOrder.getCustomer().getId().toString());
-                                        params.put("total", salesOrder.getAmount().toString());
-                                        params.put("date", salesOrder.getDate());
-                                        params.put("sales_rep_id", Integer.toString(salesOrder.getSalesrepid()));
-                                        params.put("location_id",Integer.toString(salesOrder.getLocationid()));
-                                        params.put("begin_order", salesOrder.get_begin_order());
-                                        params.put("end_order", salesOrder.get_end_order());
-                                        params.put("sales_order_items", json_soitems.toString());
+                                        params.put("customer_id", Integer.toString(salesOrder.getCustomerid()));
+                                        params.put("sales_rep_id", default_salesrep_id);
+                                        params.put("datetime", salesOrder.get_end_order());
+                                        params.put("reason", salesOrder.get_reason());
                                         return params;
                                     }
                                 };

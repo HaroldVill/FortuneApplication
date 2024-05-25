@@ -29,9 +29,9 @@ public class SALESORDER {
     private String drop_size;
     private String begin_order;
     private String end_order;
+    private String reason;
 
-
-    public SALESORDER(int salesorderid, String code, String date, int customerid, int locationid, int salesrepid, String dateneeded, int ponumber, int shipvia, String amount, String notes, String custom1, String custom2, String custom3, String custom4, String custom5, Customer customer, SALESORDERITEMS salesorderitems, Item item, Location location, SalesRepList salesRepList, String sales_rep_name,String item_group, String customer_name, String buying_accts, String drop_size, String begin_order, String end_order) {
+    public SALESORDER(int salesorderid, String code, String date, int customerid, int locationid, int salesrepid, String dateneeded, int ponumber, int shipvia, String amount, String notes, String custom1, String custom2, String custom3, String custom4, String custom5, Customer customer, SALESORDERITEMS salesorderitems, Item item, Location location, SalesRepList salesRepList, String sales_rep_name,String item_group, String customer_name, String buying_accts, String drop_size, String begin_order, String end_order, String reason) {
         this.salesorderid = salesorderid;
         this.code = code;
         this.date = date;
@@ -59,6 +59,7 @@ public class SALESORDER {
         this.drop_size = drop_size;
         this.begin_order=begin_order;
         this.end_order= end_order;
+        this.reason = reason;
     }
     public  SALESORDER(){
 
@@ -244,6 +245,8 @@ public class SALESORDER {
     public String get_begin_order(){return begin_order;}
     public void set_end_order(String end_order){this.end_order=end_order;}
     public String get_end_order(){return end_order;}
+    public void set_reason(String reason){this.reason=reason;}
+    public String get_reason(){return reason;}
 
     public void set_customer_name(String customer_name){this.customer_name=customer_name;}
     public String get_customer_name(){return customer_name;}
