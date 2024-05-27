@@ -653,7 +653,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         Log.d("SkipCustomerId", salesorder.get_end_order());
         values.put(CUSTOMER_SKIP_TABLE_CUSTOMER_ID, salesorder.getCustomerid());
         values.put(CUSTOMER_SKIP_TABLE_DATETIME,salesorder.get_end_order());
-        values.put(CUSTOMER_SKIP_TABLE_REASON,"");
+        values.put(CUSTOMER_SKIP_TABLE_REASON,salesorder.get_reason());
         db.insert(CUSTOMER_SKIP_TABLE,null,values);
     }
 
@@ -1302,6 +1302,22 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         return 0;
     }
 
+    public int update_customer_skip_status(int customer_skip_id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String update_query = "UPDATE CUSTOMER_SKIP_TABLE SET STATUS = 1 where ID = "+customer_skip_id;
+        try{
+            db.execSQL(update_query);
+            //db.setTransactionSuccessful();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        finally {
+            //db.endTransaction();
+        }
+        return 0;
+    }
+
     public int update_customer_coordinates(int id,String longitude,String latitude){
         SQLiteDatabase db = this.getWritableDatabase();
         String update_query = "UPDATE CUSTOMER_TABLE SET LONGITUDE='"+longitude+"'," +
@@ -1633,7 +1649,8 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                     CUSTOMER_SKIP_TABLE + "." + CUSTOMER_SKIP_TABLE_ID + ", " +
                     CUSTOMER_SKIP_TABLE + "." + CUSTOMER_SKIP_TABLE_REASON + ", " +
                     CUSTOMER_SKIP_TABLE + "." + CUSTOMER_SKIP_TABLE_DATETIME + ", " +
-                    CUSTOMER_TABLE + "." + CUSTOMER_SKIP_TABLE_CUSTOMER_ID +
+                    CUSTOMER_SKIP_TABLE + "." + CUSTOMER_SKIP_TABLE_DATETIME + ", " +
+                    CUSTOMER_SKIP_TABLE + "." + CUSTOMER_SKIP_TABLE_CUSTOMER_ID +
                     " FROM " + CUSTOMER_SKIP_TABLE +
                     " INNER JOIN " + CUSTOMER_TABLE +
                     " ON " + CUSTOMER_SKIP_TABLE + "." + CUSTOMER_SKIP_TABLE_CUSTOMER_ID + " = " + CUSTOMER_TABLE + "." + CUSTOMER_ID +
@@ -1649,7 +1666,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                     SALESORDER salesorder = new SALESORDER();
                     salesorder.setCustomerid(cursor.getInt(cursor.getColumnIndex(CUSTOMER_SKIP_TABLE_CUSTOMER_ID)));
                     salesorder.set_reason(cursor.getString(cursor.getColumnIndex(CUSTOMER_SKIP_TABLE_REASON)));
-                    salesorder.set_end_order(cursor.getString(cursor.getColumnIndex(END_ORDER)));
+                    salesorder.set_end_order(cursor.getString(cursor.getColumnIndex(CUSTOMER_SKIP_TABLE_DATETIME)));
 
                     salesORlist.add(salesorder);
                 } while (cursor.moveToNext());

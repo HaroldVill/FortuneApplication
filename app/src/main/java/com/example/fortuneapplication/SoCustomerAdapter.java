@@ -11,12 +11,15 @@ import android.content.SharedPreferences;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.provider.Settings;
+import android.text.InputType;
+import android.text.TextUtils;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -147,19 +150,14 @@ public class SoCustomerAdapter extends RecyclerView.Adapter<SoCustomerAdapter.My
                         }
                         else{
                             final AlertDialog.Builder builder= new AlertDialog.Builder(context);
-
+                            final EditText input = new EditText(context);
+                            input.setInputType(InputType.TYPE_CLASS_TEXT);
+                            input.setHint("Please input reason for skipping this customer");
+                            builder.setView(input);
                             builder.setMessage("Are you sure you want to skip this customer?").setCancelable(false).setPositiveButton("YES", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    SALESORDER dataModel = new SALESORDER();
-                                    dataModel.setCustomerid(Integer.parseInt(customer.getId()));
-                                    LocalDateTime date = LocalDateTime.now();
-                                    DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-                                    String formattedDate = date.format(myFormatObj);
-                                    String end_order_time = formattedDate.toString();
-                                    dataModel.set_end_order(end_order_time.toString());
-                                    mdatabasehelper  = new PazDatabaseHelper(context);
-                                    mdatabasehelper.SkipCustomerOrder(dataModel);
+
                                 }
                             }).setNegativeButton("NO", new DialogInterface.OnClickListener() {
                                 @Override
@@ -170,6 +168,29 @@ public class SoCustomerAdapter extends RecyclerView.Adapter<SoCustomerAdapter.My
                             });
                             final AlertDialog alertDialog=builder.create();
                             alertDialog.show();
+                            alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener()
+                            {
+                                @Override
+                                public void onClick(View v)
+                                {
+                                    if(TextUtils.isEmpty(input.getText())){
+                                        Toast.makeText(context, "Reason for skipping is required.", Toast.LENGTH_LONG).show();
+                                    }
+                                    else {
+                                        SALESORDER dataModel = new SALESORDER();
+                                        dataModel.setCustomerid(Integer.parseInt(customer.getId()));
+                                        LocalDateTime date = LocalDateTime.now();
+                                        DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+                                        String formattedDate = date.format(myFormatObj);
+                                        String end_order_time = formattedDate.toString();
+                                        dataModel.set_end_order(end_order_time.toString());
+                                        dataModel.set_reason(input.getText().toString());
+                                        mdatabasehelper = new PazDatabaseHelper(context);
+                                        mdatabasehelper.SkipCustomerOrder(dataModel);
+                                        alertDialog.dismiss();
+                                    }
+                                }
+                            });
                         }
 
                     }
