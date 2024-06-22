@@ -302,7 +302,7 @@ public class TemporaryData extends AppCompatActivity implements PrintingCallback
         for (SALESORDERITEMS salesOrderItems : salesOrderItemList) {
             title.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
             title.setColor(ContextCompat.getColor(this, R.color.white));
-            title.setTextSize(7);
+            title.setTextSize(9);
             title.setTextAlign(Paint.Align.RIGHT);
             String quantity = Integer.toString(salesOrderItems.getSoiquantity())+" "+salesOrderItems.getUom()+" @ "
                     +Double.toString(salesOrderItems.getSoirate());
@@ -310,7 +310,7 @@ public class TemporaryData extends AppCompatActivity implements PrintingCallback
 
             title.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
             title.setColor(ContextCompat.getColor(this, R.color.white));
-            title.setTextSize(7);
+            title.setTextSize(9);
             title.setTextAlign(Paint.Align.RIGHT);
             Double amount = salesOrderItems.getSoirate() * salesOrderItems.getSoiquantity();
 //            String amount = Double.toString(salesOrderItems.getSoiamount());
@@ -318,25 +318,25 @@ public class TemporaryData extends AppCompatActivity implements PrintingCallback
 
             title.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
             title.setColor(ContextCompat.getColor(this, R.color.white));
-            title.setTextSize(7);
+            title.setTextSize(9);
             title.setTextAlign(Paint.Align.LEFT);
             String itemdesc = salesOrderItems.getitemdesc();
             canvas.drawText(itemdesc, 1, initial_pageHeight-13, title);
-            initial_pageHeight+=20;
+            initial_pageHeight+=25;
         }
         title.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
         title.setColor(ContextCompat.getColor(this, R.color.white));
-        canvas.drawText("_____________________", 165, initial_pageHeight-9, title);
+        canvas.drawText("_____________________", 165, initial_pageHeight-33, title);
         title.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
         title.setColor(ContextCompat.getColor(this, R.color.white));
         title.setTextSize(8);
         title.setTextAlign(Paint.Align.RIGHT);
-        canvas.drawText(total, 160, initial_pageHeight-7, title);
+        canvas.drawText(total, 160, initial_pageHeight-13, title);
         title.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
         title.setColor(ContextCompat.getColor(this, R.color.white));
-        title.setTextSize(7);
+        title.setTextSize(9);
         title.setTextAlign(Paint.Align.LEFT);
-        canvas.drawText("Salesrep: "+salesrep, 10, initial_pageHeight-5, title);
+        canvas.drawText("Salesrep: "+salesrep, 10, initial_pageHeight-10, title);
 
 
         // after adding all attributes to our
