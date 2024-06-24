@@ -116,9 +116,10 @@ public class UpdateDelete extends AppCompatActivity {
                 String[] whereArgs = {idi};
 
                 int numRowsUpdated = db.update(SALES_ORDER_ITEMS_TABLE, values, whereClause, whereArgs);
-                db.rawQuery("UPDATE Sales_Order_table inner join sales_order_items_table on sa set amount = ",null);
               // db.close();
                 if (numRowsUpdated > 0) {
+                    Cursor cursor = db.rawQuery("UPDATE Sales_Order_table set amount = (SELECT SUM(rate * quantity) from Sales_Order_Items_Table where sales_order_id = (SELECT sales_order_id FROM Sales_Order_Items_Table where id ="+idi+")) where Sales_OrderID =(SELECT sales_order_id FROM Sales_Order_Items_Table where id ="+idi+")",null);
+                    cursor.moveToFirst();
                     Toast.makeText(UpdateDelete.this, "Successfully Updated", Toast.LENGTH_SHORT).show();
                     Toast.makeText(UpdateDelete.this, "Please Save the data after Updating ", Toast.LENGTH_LONG).show();
 
