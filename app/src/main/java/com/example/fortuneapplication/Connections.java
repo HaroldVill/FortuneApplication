@@ -29,8 +29,8 @@ import java.util.ArrayList;
 
 public class Connections extends AppCompatActivity {
     TextView creatcon, ids;
-    TextView selection, connection_label, select_sales_type,sales_type_label,select_sales_rep_id,sales_rep_id_label,select_gps_mode,gps_label;
-    Button apply,apply_sales_type,apply_sales_rep_id,apply_gps_mode;
+    TextView selection, connection_label, select_sales_type,sales_type_label,select_sales_rep_id,sales_rep_id_label,select_gps_mode,gps_label,select_verify_mode,verify_label;
+    Button apply,apply_sales_type,apply_sales_rep_id,apply_gps_mode,apply_verify_mode;
     private PazDatabaseHelper mdatabaseHelper;
 
     @Override
@@ -54,9 +54,12 @@ public class Connections extends AppCompatActivity {
         apply_sales_type=findViewById(R.id.apply_sales_type);
         apply_sales_rep_id = findViewById(R.id.apply_sales_rep_id);
         select_gps_mode = findViewById(R.id.select_gps_mode);
+        select_verify_mode = findViewById(R.id.select_verify_mode);
         gps_label = findViewById(R.id.gps_label);
+        verify_label = findViewById(R.id.verify_label);
         gps_label.setText(mdatabaseHelper.get_coverage_type());
         apply_gps_mode = findViewById(R.id.apply_gps_mode);
+        apply_verify_mode = findViewById(R.id.apply_verify_mode);
         apply_sales_rep_id.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {}
@@ -78,6 +81,13 @@ public class Connections extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 update_coverage_type();
+            }
+        });
+
+        apply_verify_mode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                update_verify_type();
             }
         });
 
@@ -123,6 +133,25 @@ public class Connections extends AppCompatActivity {
                         String gps_type = menuItem.getTitle().toString();
 
                         gps_label.setText(gps_type);
+                        return true;
+                    }
+                });
+                popupMenu.show();
+            }
+        });
+        select_verify_mode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PopupMenu popupMenu = new PopupMenu(Connections.this,select_verify_mode);
+                Menu menu = popupMenu.getMenu();
+                menu.add(Menu.NONE,Menu.NONE,Menu.NONE,"1");
+                menu.add(Menu.NONE,Menu.NONE,Menu.NONE,"0");
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        String verify_type = menuItem.getTitle().toString();
+
+                        verify_label.setText(verify_type);
                         return true;
                     }
                 });
@@ -345,6 +374,30 @@ public class Connections extends AppCompatActivity {
 
         if (numSpecificRowUpdated > 0) {
             Toast.makeText(this, "Successfully Coverage Type Set", Toast.LENGTH_SHORT).show();
+//            selection.setText("");
+//            connection_label.setText("");
+
+//            Intent nanay = new Intent(Connections.this, SyncDatas.class);
+//            startActivity(nanay);
+//            finish();
+        }
+    }
+    public void update_verify_type() {
+
+        String verify_type = verify_label.getText().toString();
+
+        SQLiteDatabase db = mdatabaseHelper.getWritableDatabase();
+        ContentValues specificRowValues = new ContentValues();
+        specificRowValues.put("VALUE", verify_type);
+
+        String whereClause = SYSTEM_SETTINGS_NAME + " = ?";
+        String[] whereArgs = {"ALLOW_PIN_VERIFY"};
+
+        int numSpecificRowUpdated = db.update(SYSTEM_SETTINGS, specificRowValues, whereClause, whereArgs);
+        db.close();
+
+        if (numSpecificRowUpdated > 0) {
+            Toast.makeText(this, "Successfull Verify Type Set", Toast.LENGTH_SHORT).show();
 //            selection.setText("");
 //            connection_label.setText("");
 

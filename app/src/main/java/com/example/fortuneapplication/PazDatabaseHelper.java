@@ -376,6 +376,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
 
         String INSERT_SYSTEM_SETTINGS ="INSERT INTO "+SYSTEM_SETTINGS+" VALUES (NULL,'SALES_TYPE',''), "
                 +"(NULL,'DEFAULT_SALES_REP_ID',''),"
+                +"(NULL,'ALLOW_PIN_VERIFY','0'),"
                 +"(NULL,'ALLOW_STRICT_COVERAGE','Allow')";
 
         db.execSQL(CREATE_CONNECTIONTABLE);
