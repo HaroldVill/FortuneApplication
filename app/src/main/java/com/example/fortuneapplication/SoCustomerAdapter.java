@@ -98,6 +98,30 @@ public class SoCustomerAdapter extends RecyclerView.Adapter<SoCustomerAdapter.My
             holder.save_coordinate.setVisibility(View.VISIBLE);
 //            holder.begin_order.setVisibility(View.VISIBLE);
             holder.save_coordinate.setText("LOCATE");
+            String verify_type = db.get_verify_type();
+            Log.d("verify_type", verify_type);
+            if(verify_type.equals("1")){
+                holder.verify_pin.setVisibility(View.VISIBLE);
+                holder.remove_pin.setVisibility(View.VISIBLE);
+                holder.verify_pin.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        db.VerifyPin(customer_id);
+                        notifyDataSetChanged();
+                    }
+                });
+                holder.remove_pin.setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick(View view) {
+
+                        db.update_customer_coordinates(customer_id, longitude1, latitude1);
+                        holder.longitude.setText(longitude1);
+                        holder.latitude.setText(latitude1);
+                        holder.save_coordinate.setVisibility(View.INVISIBLE);
+                        notifyDataSetChanged();
+                    }
+                });
+            }
             holder.save_coordinate.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -210,7 +234,7 @@ public class SoCustomerAdapter extends RecyclerView.Adapter<SoCustomerAdapter.My
             holder.latitude.setText("0");
             holder.distance.setText("0");
             holder.save_coordinate.setVisibility(View.VISIBLE);
-            holder.begin_order.setVisibility(View.INVISIBLE);
+            holder.verify_pin.setVisibility(View.INVISIBLE);
             holder.skip_order.setVisibility(View.INVISIBLE);
             holder.save_coordinate.setText("PIN");
             holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -246,7 +270,7 @@ public class SoCustomerAdapter extends RecyclerView.Adapter<SoCustomerAdapter.My
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         TextView so1,so2,so3,so4,socontact,longitude,latitude,distance;
-        Button save_coordinate,begin_order,skip_order;
+        Button save_coordinate,verify_pin,skip_order,remove_pin;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -260,8 +284,9 @@ public class SoCustomerAdapter extends RecyclerView.Adapter<SoCustomerAdapter.My
             latitude = itemView.findViewById(R.id.latitude);
             distance = itemView.findViewById(R.id.distance);
             save_coordinate = itemView.findViewById(R.id.save_coordinate);
-            begin_order = itemView.findViewById(R.id.begin_order);
+            verify_pin = itemView.findViewById(R.id.verify_pin);
             skip_order = itemView.findViewById(R.id.skip_order);
+            remove_pin = itemView.findViewById(R.id.remove_pin);
         }
     }
 }

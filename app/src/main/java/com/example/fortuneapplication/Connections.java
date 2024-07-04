@@ -383,24 +383,19 @@ public class Connections extends AppCompatActivity {
         }
     }
     public void update_verify_type() {
-
         String verify_type = verify_label.getText().toString();
-
         SQLiteDatabase db = mdatabaseHelper.getWritableDatabase();
         ContentValues specificRowValues = new ContentValues();
         specificRowValues.put("VALUE", verify_type);
-
         String whereClause = SYSTEM_SETTINGS_NAME + " = ?";
         String[] whereArgs = {"ALLOW_PIN_VERIFY"};
 
         int numSpecificRowUpdated = db.update(SYSTEM_SETTINGS, specificRowValues, whereClause, whereArgs);
         db.close();
-
         if (numSpecificRowUpdated > 0) {
             Toast.makeText(this, "Successfull Verify Type Set", Toast.LENGTH_SHORT).show();
 //            selection.setText("");
 //            connection_label.setText("");
-
 //            Intent nanay = new Intent(Connections.this, SyncDatas.class);
 //            startActivity(nanay);
 //            finish();

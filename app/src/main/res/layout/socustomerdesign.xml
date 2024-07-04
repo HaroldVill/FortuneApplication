@@ -247,18 +247,35 @@
                 android:visibility="invisible"></Button>
 
             <Button
-                android:id="@+id/begin_order"
-                android:layout_width="121dp"
+                android:id="@+id/verify_pin"
+                android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:layout_below="@+id/distance"
-                android:layout_marginLeft="140dp"
+                android:layout_marginLeft="100dp"
                 android:layout_marginTop="10dp"
-                android:background="#408E43"
-                android:backgroundTint="#21954B"
+                android:background="#1c5728"
+                android:backgroundTint="#1c5728"
                 android:backgroundTintMode="screen"
-                android:text="BEGIN ORDER"
+                android:text="VERIFY"
                 android:textAlignment="center"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
+                android:textSize="13sp"
+
+                android:visibility="invisible"></Button>
+
+            <Button
+                android:id="@+id/remove_pin"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_below="@+id/distance"
+                android:layout_marginLeft="200dp"
+                android:layout_marginTop="10dp"
+                android:background="#193f5c"
+                android:backgroundTint="#193f5c"
+                android:backgroundTintMode="screen"
+                android:text="REPIN"
+                android:textAlignment="center"
+                android:textColor="@color/black"
                 android:textSize="13sp"
 
                 android:visibility="invisible"></Button>

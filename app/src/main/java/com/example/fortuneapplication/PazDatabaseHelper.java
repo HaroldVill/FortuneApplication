@@ -50,6 +50,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
     private static final String LONGITUDE = "longitude";
     private static final String LATITUDE = "latitude";
     private static final String PIN_FLAG = "pin_flag";
+    private static final String VERIFY = "verify";
 
     //*CUSTOMER TABLE //*
     protected static final String CUSTOMER_COVERAGE_TABLE = "customer_coverage_plan";
@@ -218,7 +219,8 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                 PRICE_LEVEL_ID + " INTEGER," +
                 LONGITUDE + " TEXT,"+
                 LATITUDE + " TEXT,"+
-                PIN_FLAG + " INT DEFAULT 0"+
+                PIN_FLAG + " INT DEFAULT 0,"+
+                VERIFY + " INT DEFAULT 0"+
                 ")";
 
         String createTableQuery = "CREATE TABLE " + SALESREP_TABLE + " (" +
@@ -1818,6 +1820,21 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    public void VerifyPin(Integer id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String update_query = "UPDATE CUSTOMER_TABLE SET verify = 1,PIN_FLAG=1 where CUSTOMER_ID ="+ id.toString();
+        try{
+            db.execSQL(update_query);
+            //db.setTransactionSuccessful();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        finally {
+            //db.endTransaction();
+        }
+    }
+
     public String get_sync_history(Integer id){
         String value="";
         String query ="SELECT DATE FROM SYNC_HISTORY WHERE  id ="+id.toString();
@@ -1867,6 +1884,18 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
     }
 
     public String get_coverage_type(){
+        String value="";
+        String query ="SELECT ifnull(VALUE,'') VALUE FROM SYSTEM_SETTINGS WHERE  id=4";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query,null);
+        if(cursor.moveToFirst()){
+            value=cursor.getString(0);
+//            Log.d("sales_type",sales_type);
+        }
+        return value;
+    }
+
+    public String get_verify_type(){
         String value="";
         String query ="SELECT ifnull(VALUE,'') VALUE FROM SYSTEM_SETTINGS WHERE  id=3";
         SQLiteDatabase db = this.getReadableDatabase();
