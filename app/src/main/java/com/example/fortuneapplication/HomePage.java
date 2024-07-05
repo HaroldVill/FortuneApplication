@@ -459,6 +459,7 @@ public class HomePage extends AppCompatActivity implements LocationListener {
                             }
                             String longitude=mDatabaseHelper.get_customer_longitude(customer_id);
                             String latitude=mDatabaseHelper.get_customer_latitude(customer_id);
+                            String verify_pin= mDatabaseHelper.get_verify_pin(customer_id);
                             StringRequest send_customer_pin = new StringRequest(Request.Method.POST, api_url,
                                     response -> {Log.d("Success","Success");
                                         if(response.contains("succesfully") || response.contains("has already been")){
@@ -470,6 +471,7 @@ public class HomePage extends AppCompatActivity implements LocationListener {
                                     params.put("customer_id", Integer.toString(customer_id));
                                     params.put("longitude", longitude);
                                     params.put("latitude", latitude);
+                                    params.put("verify", verify_pin);
                                     return params;
                                 }
                             };

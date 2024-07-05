@@ -1412,6 +1412,28 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         return latitude;
     }
 
+    public String get_verify_pin(int id){
+        String verify_pin ="";
+        try {
+            SQLiteDatabase db = this.getReadableDatabase();
+            String query = "SELECT VERIFY FROM CUSTOMER_TABLE WHERE CUSTOMER_ID="+id;
+            Cursor cursor = db.rawQuery(query,null);
+            if (cursor.moveToFirst()) {
+                verify_pin = cursor.getString(0);
+            }
+            cursor.close();
+//            db.close();
+            return verify_pin;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        finally {
+
+        }
+        return verify_pin;
+    }
+
     public int get_customer_pin_flag(){
         int customer_id =0;
         try {
