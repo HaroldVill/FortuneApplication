@@ -30,7 +30,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothSocket;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -58,6 +62,7 @@ import com.mazenrashed.printooth.utilities.Printing;
 import com.mazenrashed.printooth.Printooth;
 import com.mazenrashed.printooth.utilities.PrintingCallback;
 
+import java.io.OutputStream;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -86,6 +91,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
+import java.util.logging.Handler;
 
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
@@ -94,14 +101,20 @@ import org.json.JSONObject;
 
 
 public class TemporaryData extends AppCompatActivity implements PrintingCallback {
-    TextView ref, names,moreinfo,notesam,dt;
-    ImageView hm,print;
+    TextView ref, names, moreinfo, notesam, dt;
+    ImageView hm, print;
     EditText supertot;
     RecyclerView datadisp;
     Printing print_receipt;
-//    ImageView printbutton;
+    //    ImageView printbutton;
     private PazDatabaseHelper mDatabaseHelper;
     private TempoDataAdapter tempoDataAdapter;
+
+    private BluetoothAdapter bluetoothAdapter;
+    private BluetoothDevice bluetoothDevice;
+    private BluetoothSocket bluetoothSocket;
+    private OutputStream outputStream;
+    private UUID uuid = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
     ArrayList<SALESORDERITEMS> orderItemss;
 
     FloatingActionButton arayba;
@@ -118,7 +131,7 @@ public class TemporaryData extends AppCompatActivity implements PrintingCallback
     private static final int PERMISSION_REQUEST_CODE = 200;
 
 
-   // Button update ;
+    // Button update ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -147,17 +160,15 @@ public class TemporaryData extends AppCompatActivity implements PrintingCallback
         datadisp.setAdapter(tempoDataAdapter);
 
         SharedPreferences preferences = getSharedPreferences("HISTORY", Context.MODE_PRIVATE);
-        String oid = preferences.getString("REFID","");
+        String oid = preferences.getString("REFID", "");
         String nameses = preferences.getString("CN", "");
-      //  String sprt = preferences.getString("TOT", "");
+        //  String sprt = preferences.getString("TOT", "");
         int salesOrderId = preferences.getInt("SID", 0);
 
         String salesOrderIdString = String.valueOf(salesOrderId);
         ref.setText(salesOrderIdString);
         names.setText(nameses);
-       //supertot.setText(sprt);
-
-
+        //supertot.setText(sprt);
 
 
         hm.setOnClickListener(new View.OnClickListener() {
@@ -209,10 +220,55 @@ public class TemporaryData extends AppCompatActivity implements PrintingCallback
             public void onClick(View v) {
                 // calling method to
                 // generate our PDF file.
-                generatePDF(salesOrderId);
+//                generatePDF(salesOrderId);
+                connectBluetooth("86:67:7A:7B:29:34");
             }
         });
-   }
+    }
+
+
+    public void connectBluetooth(String macAddress) {
+
+        try {
+            Log.d("bluetoothtest", macAddress);
+            bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+            bluetoothDevice = bluetoothAdapter.getRemoteDevice(macAddress);
+
+            // Ouverture du socket Bluetooth et connexion à l'appareil
+            if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(TemporaryData.this,new String[]
+                        {Manifest.permission.BLUETOOTH_CONNECT},1);
+            }
+            else {
+                bluetoothSocket = bluetoothDevice.createRfcommSocketToServiceRecord(uuid);
+                bluetoothSocket.connect();
+
+                // Récupération de l'output stream pour envoyer des données à l'appareil
+                outputStream = bluetoothSocket.getOutputStream();
+
+                // Configuration du rouleau d'étiquettes
+                String labelConfig = "SIZE 4,2\nGAP 0.12,0\n";
+                outputStream.write(labelConfig.getBytes());
+
+                // Commande pour écrire du texte centré
+                String textCommand = "Hello World";
+                outputStream.write(textCommand.getBytes());
+
+                // Commande pour imprimer et terminer l'impression
+//                String printCommand = "PRINT 1\n";
+//                outputStream.write(printCommand.getBytes());
+//                String endCommand = "END\n";
+//                outputStream.write(endCommand.getBytes());
+
+                // Fermeture du socket Bluetooth
+                bluetoothSocket.close();
+            }
+
+        } catch (IOException ex) {
+            // Envoi du message d'erreur de connexion
+//            handler.obtainMessage(1).sendToTarget();
+        }
+    }
 
     private void generatePDF(int so_id) {
         int pageHeight = 55;
