@@ -221,13 +221,13 @@ public class TemporaryData extends AppCompatActivity implements PrintingCallback
                 // calling method to
                 // generate our PDF file.
 //                generatePDF(salesOrderId);
-                connectBluetooth("86:67:7A:7B:29:34");
+                connectBluetooth("86:67:7A:7B:29:34",salesOrderId);
             }
         });
     }
 
 
-    public void connectBluetooth(String macAddress) {
+    public void connectBluetooth(String macAddress, Integer so_id) {
 
         try {
             Log.d("bluetoothtest", macAddress);
@@ -243,16 +243,53 @@ public class TemporaryData extends AppCompatActivity implements PrintingCallback
                 bluetoothSocket = bluetoothDevice.createRfcommSocketToServiceRecord(uuid);
                 bluetoothSocket.connect();
 
+
+                mDatabaseHelper = new PazDatabaseHelper(TemporaryData.this);
+                List<SALESORDERITEMS> salesOrderItemList = mDatabaseHelper.getSlsorderitems(so_id);
+                for (SALESORDERITEMS salesOrderItems : salesOrderItemList) {
+    //            String quantity = Integer.toString(salesOrderItems.getSoiquantity());
+    //            String rate = Double.toString(salesOrderItems.getSoirate())+"/"+salesOrderItems.getUom();
+//                    pageHeight+=20;
+                }
+                String customer_name = "";
+                String refno = "";
+                String date = "";
+                String total="";
+                String salesrep="";
+                List<SALESORDER> salesOrderList = mDatabaseHelper.getSlsorder(so_id);
+                for (SALESORDER salesOrder : salesOrderList) {
+                    customer_name =salesOrder.getCustomer().getCustomername().toString();
+                    refno=salesOrder.getCode().toString();
+                    date=salesOrder.getDate().toString();
+                    total = salesOrder.getAmount().toString();
+                    salesrep= salesOrder.get_sales_rep_name().toString();
+                }
+
                 // Récupération de l'output stream pour envoyer des données à l'appareil
                 outputStream = bluetoothSocket.getOutputStream();
 
                 // Configuration du rouleau d'étiquettes
+//                String printCommand = "TEXT 0,0,\"0\",0,0,0,\"\"\n";
+//                outputStream.write(printCommand.getBytes());
                 String labelConfig = "SIZE 4,2\nGAP 0.12,0\n";
-                outputStream.write(labelConfig.getBytes());
+//                outputStream.write(labelConfig.getBytes());
+                String CompanyName = "     PAZ DISTRIBUTION INC.";
+                outputStream.write(CompanyName.getBytes());
+                outputStream.write(" \n".getBytes());
+                outputStream.write(" \n".getBytes());
+                outputStream.write(" \n".getBytes());
+                for (SALESORDERITEMS salesOrderItems : salesOrderItemList) {
+                    // Commande pour écrire du texte centré
+                    String Itemdesc = salesOrderItems.getitemdesc()+"\n";
+                    outputStream.write(Itemdesc.getBytes());
+                    Double amount = salesOrderItems.getSoirate() * salesOrderItems.getSoiquantity();
+                    String quantity = Integer.toString(salesOrderItems.getSoiquantity())+" "+salesOrderItems.getUom()+" @ "
+                            +Double.toString(salesOrderItems.getSoirate())+"         "+Double.toString(amount)+"\n";
+                    outputStream.write(quantity.getBytes());
+                    outputStream.write(" \n".getBytes());
 
-                // Commande pour écrire du texte centré
-                String textCommand = "Hello World";
-                outputStream.write(textCommand.getBytes());
+                }
+
 
                 // Commande pour imprimer et terminer l'impression
 //                String printCommand = "PRINT 1\n";
