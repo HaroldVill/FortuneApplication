@@ -480,6 +480,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         values.put(PRICE_LEVEL_ID, customer.getPricelevelid());
         values.put(LONGITUDE, customer.getLongitude());
         values.put(LATITUDE,customer.getLatitude());
+        values.put(VERIFY,customer.getValidated());
         db.insertWithOnConflict(CUSTOMER_TABLE, null, values,db.CONFLICT_REPLACE);
         return false;
     }
@@ -1936,6 +1937,19 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(query,null);
         if(cursor.moveToFirst()){
             value=cursor.getString(0);
+//            Log.d("sales_type",sales_type);
+        }
+        return value;
+    }
+
+    public Integer get_customer_verification(Integer id){
+        Log.d("customer_id", id.toString());
+        Integer value=0;
+        String query ="SELECT verify FROM customer_table where customer_id ="+id;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query,null);
+        if(cursor.moveToFirst()){
+            value=cursor.getInt(0);
 //            Log.d("sales_type",sales_type);
         }
         return value;

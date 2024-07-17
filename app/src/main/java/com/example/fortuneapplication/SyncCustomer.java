@@ -115,7 +115,8 @@ public class SyncCustomer extends AppCompatActivity {
                                 String cpricelevel = jsonObject.getString("PRICE_LEVEL_ID");
                                 String longitude = jsonObject.getString("LONGITUDE");
                                 String latitude = jsonObject.getString("LATITUDE");
-                                Customer customer = new Customer(code,cname,caddres,cperson,ctelephone,cmobile,cpaymentterm,csalesrep,cpricelevel,longitude,latitude);
+                                String validated = jsonObject.getString("PIN_VALIDATED");
+                                Customer customer = new Customer(code,cname,caddres,cperson,ctelephone,cmobile,cpaymentterm,csalesrep,cpricelevel,longitude,latitude,validated);
 
                                 boolean isStored = databaseHelper.StroreCustomer(customer);
                                 customerList.add(customer);

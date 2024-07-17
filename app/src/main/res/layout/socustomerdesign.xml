@@ -186,6 +186,17 @@
             </TextView>
 
             <TextView
+                android:id="@+id/verified_label"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/distance_label"
+                android:textSize="15sp"
+                android:layout_marginLeft="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="VERIFICATION:">
+            </TextView>
+
+            <TextView
                 android:id="@+id/socontact"
                 android:layout_marginTop="10dp"
                 android:layout_below="@+id/kk"
@@ -229,11 +240,22 @@
                 android:text="DISTANCE">
             </TextView>
 
+            <TextView
+                android:id="@+id/verfication"
+                android:layout_marginTop="20dp"
+                android:layout_below="@+id/distance"
+                android:textSize="12sp"
+                android:layout_marginLeft="190dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="VERIFICATION">
+            </TextView>
+
             <Button
                 android:id="@+id/save_coordinate"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
-                android:layout_below="@+id/distance"
+                android:layout_below="@+id/verfication"
                 android:layout_marginLeft="0dp"
                 android:layout_marginTop="10dp"
                 android:background="#104B8C"
@@ -250,7 +272,7 @@
                 android:id="@+id/verify_pin"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
-                android:layout_below="@+id/distance"
+                android:layout_below="@+id/verfication"
                 android:layout_marginLeft="100dp"
                 android:layout_marginTop="10dp"
                 android:background="#1c5728"
@@ -267,7 +289,7 @@
                 android:id="@+id/remove_pin"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
-                android:layout_below="@+id/distance"
+                android:layout_below="@+id/verfication"
                 android:layout_marginLeft="200dp"
                 android:layout_marginTop="10dp"
                 android:background="#193f5c"
@@ -284,7 +306,7 @@
                 android:id="@+id/skip_order"
                 android:layout_width="80dp"
                 android:layout_height="30dp"
-                android:layout_below="@+id/distance"
+                android:layout_below="@+id/verfication"
                 android:layout_marginLeft="300dp"
                 android:layout_marginTop="10dp"
                 android:background="#9E1910"

@@ -86,6 +86,14 @@ public class SoCustomerAdapter extends RecyclerView.Adapter<SoCustomerAdapter.My
         holder.socontact.setText(customer.getContactperson());
         PazDatabaseHelper db = new PazDatabaseHelper(context);
         int customer_id = Integer.parseInt(customer.getId());
+//        Log.d("customer_id", customer_id);
+        Integer verification = db.get_customer_verification(customer_id);
+        String verification_description = "Pending";
+        if(verification !=0){
+            verification_description = "Verified";
+        }
+        holder.verification.setText(verification_description);
+
         GetGPSLocation gps = new GetGPSLocation(context,activity,locationManager);
         String longitude1 = gps.get_longitude();
         String latitude1 = gps.get_latitude();
@@ -269,7 +277,7 @@ public class SoCustomerAdapter extends RecyclerView.Adapter<SoCustomerAdapter.My
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView so1,so2,so3,so4,socontact,longitude,latitude,distance;
+        TextView so1,so2,so3,so4,socontact,longitude,latitude,distance,verification;
         Button save_coordinate,verify_pin,skip_order,remove_pin;
 
         public MyViewHolder(@NonNull View itemView) {
@@ -287,6 +295,7 @@ public class SoCustomerAdapter extends RecyclerView.Adapter<SoCustomerAdapter.My
             verify_pin = itemView.findViewById(R.id.verify_pin);
             skip_order = itemView.findViewById(R.id.skip_order);
             remove_pin = itemView.findViewById(R.id.remove_pin);
+            verification = itemView.findViewById(R.id.verfication);
         }
     }
 }

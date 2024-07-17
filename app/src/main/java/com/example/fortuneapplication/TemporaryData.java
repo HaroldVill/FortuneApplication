@@ -234,7 +234,6 @@ public class TemporaryData extends AppCompatActivity implements PrintingCallback
             bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
             bluetoothDevice = bluetoothAdapter.getRemoteDevice(macAddress);
 
-            // Ouverture du socket Bluetooth et connexion à l'appareil
             if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(TemporaryData.this,new String[]
                         {Manifest.permission.BLUETOOTH_CONNECT},1);
@@ -258,51 +257,47 @@ public class TemporaryData extends AppCompatActivity implements PrintingCallback
                 String salesrep="";
                 List<SALESORDER> salesOrderList = mDatabaseHelper.getSlsorder(so_id);
                 for (SALESORDER salesOrder : salesOrderList) {
-                    customer_name =salesOrder.getCustomer().getCustomername().toString();
-                    refno=salesOrder.getCode().toString();
-                    date=salesOrder.getDate().toString();
+                    customer_name ="Customer: "+salesOrder.getCustomer().getCustomername().toString();
+                    refno="Ref#: "+salesOrder.getCode().toString();
+                    date="Date: "+salesOrder.getDate().toString();
                     total = salesOrder.getAmount().toString();
-                    salesrep= salesOrder.get_sales_rep_name().toString();
+                    salesrep= "Salesrep: " +salesOrder.get_sales_rep_name().toString();
                 }
 
-                // Récupération de l'output stream pour envoyer des données à l'appareil
                 outputStream = bluetoothSocket.getOutputStream();
 
-                // Configuration du rouleau d'étiquettes
 //                String printCommand = "TEXT 0,0,\"0\",0,0,0,\"\"\n";
 //                outputStream.write(printCommand.getBytes());
                 String labelConfig = "SIZE 4,2\nGAP 0.12,0\n";
 //                outputStream.write(labelConfig.getBytes());
-                String CompanyName = "     PAZ DISTRIBUTION INC.";
+                String CompanyName = "       PAZ DISTRIBUTION INC.\n";
                 outputStream.write(CompanyName.getBytes());
+                outputStream.write(customer_name.getBytes());
                 outputStream.write(" \n".getBytes());
+                outputStream.write(salesrep.getBytes());
+                outputStream.write(" \n".getBytes());
+                outputStream.write(refno.getBytes());
+                outputStream.write(" \n".getBytes());
+                outputStream.write(date.getBytes());
                 outputStream.write(" \n".getBytes());
                 outputStream.write(" \n".getBytes());
                 for (SALESORDERITEMS salesOrderItems : salesOrderItemList) {
-                    // Commande pour écrire du texte centré
+
                     String Itemdesc = salesOrderItems.getitemdesc()+"\n";
                     outputStream.write(Itemdesc.getBytes());
                     Double amount = salesOrderItems.getSoirate() * salesOrderItems.getSoiquantity();
                     String quantity = Integer.toString(salesOrderItems.getSoiquantity())+" "+salesOrderItems.getUom()+" @ "
-                            +Double.toString(salesOrderItems.getSoirate())+"         "+Double.toString(amount)+"\n";
+                            +Double.toString(salesOrderItems.getSoirate())+"\n";
+                    String lineTotal = "                       "+Double.toString(amount)+"\n";
                     outputStream.write(quantity.getBytes());
-                    outputStream.write(" \n".getBytes());
-
+                    outputStream.write(lineTotal.getBytes());
+//                    outputStream.write(" \n".getBytes());
                 }
 
-
-                // Commande pour imprimer et terminer l'impression
-//                String printCommand = "PRINT 1\n";
-//                outputStream.write(printCommand.getBytes());
-//                String endCommand = "END\n";
-//                outputStream.write(endCommand.getBytes());
-
-                // Fermeture du socket Bluetooth
                 bluetoothSocket.close();
             }
 
         } catch (IOException ex) {
-            // Envoi du message d'erreur de connexion
 //            handler.obtainMessage(1).sendToTarget();
         }
     }
