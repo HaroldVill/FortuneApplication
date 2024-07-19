@@ -103,8 +103,8 @@ public class NewPriceLEVEl extends AppCompatActivity {
 //                                databaseHelper.storepriceLevel(newPriceLvl);
 //                                newPriceLvls.add(newPriceLvl);
                             }
-                            databaseHelper.UpdateSyncHistory(7);
-                            sync_datetime.setText(mdatabaseHelper.get_sync_history(7));
+                            databaseHelper.UpdateSyncHistory(6);
+                            sync_datetime.setText(mdatabaseHelper.get_sync_history(6));
                             NewPriveLvlAdapter adapter = new NewPriveLvlAdapter(newPriceLvls,getApplicationContext());
                             newp.setAdapter(adapter);
 

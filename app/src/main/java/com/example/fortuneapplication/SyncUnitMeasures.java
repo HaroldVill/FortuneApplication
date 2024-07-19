@@ -93,8 +93,8 @@ public class SyncUnitMeasures extends AppCompatActivity {
                                 boolean isStored = databaseHelper.storeUm(unit);
                                 unitList.add(unit);
                             }
-                            databaseHelper.UpdateSyncHistory(5);
-                            sync_datetime.setText(mdatabaseHelper.get_sync_history(5));
+                            databaseHelper.UpdateSyncHistory(8);
+                            sync_datetime.setText(mdatabaseHelper.get_sync_history(8));
                            SyncUMadapter adapter = new SyncUMadapter(unitList,getApplicationContext());
                             listum.setAdapter(adapter);
 

@@ -72,6 +72,7 @@ public class HomePage extends AppCompatActivity implements LocationListener {
     private String api_url, x;
     RequestQueue request_queue;
     Criteria criteria;
+    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,7 +94,7 @@ public class HomePage extends AppCompatActivity implements LocationListener {
         sfa_button = findViewById(R.id.imageView4);
         coordinates = findViewById(R.id.coordinates);
         startThread();
-
+        mDatabaseHelper = new PazDatabaseHelper(this.context);
         ActivityCompat.requestPermissions(this, new String[]
                 {Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -257,6 +258,11 @@ public class HomePage extends AppCompatActivity implements LocationListener {
         c1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String check_sync = mDatabaseHelper.get_max_sync_history();
+                if(check_sync!=""){
+                    Toast.makeText(HomePage.this, "Please sync "+check_sync+".", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 Intent f = new Intent(HomePage.this,CustoDisplay.class );
                 startActivity(f);
@@ -268,6 +274,11 @@ public class HomePage extends AppCompatActivity implements LocationListener {
         c2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String check_sync = mDatabaseHelper.get_max_sync_history();
+                if(check_sync!=""){
+                    Toast.makeText(HomePage.this, "Please sync "+check_sync+".", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 Intent P = new Intent(HomePage.this,ItemListDisplay.class );
                 startActivity(P);
@@ -277,6 +288,11 @@ public class HomePage extends AppCompatActivity implements LocationListener {
         c3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String check_sync = mDatabaseHelper.get_max_sync_history();
+                if(check_sync!=""){
+                    Toast.makeText(HomePage.this, "Please sync "+check_sync+".", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 Intent PO = new Intent(HomePage.this,SOActivity.class );
                 startActivity(PO);
@@ -287,6 +303,11 @@ public class HomePage extends AppCompatActivity implements LocationListener {
         c4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String check_sync = mDatabaseHelper.get_max_sync_history();
+                if(check_sync!=""){
+                    Toast.makeText(HomePage.this, "Please sync "+check_sync+".", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 Intent nb = new Intent(HomePage.this,History.class);
                 startActivity(nb);
 

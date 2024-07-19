@@ -366,7 +366,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                 "(NULL,'CUSTOMER',''),"+
                 "(NULL,'LOCATION',''),"+
                 "(NULL,'SALESREP',''),"+
-                "(NULL,'LOCATION',''),"+
+                "(NULL,'PAYMENTTERMS',''),"+
                 "(NULL,'PRICELEVEL',''),"+
                 "(NULL,'PRICELEVELLINES',''),"+
                 "(NULL,'UOM',''),"+
@@ -1953,6 +1953,25 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
 //            Log.d("sales_type",sales_type);
         }
         return value;
+    }
+
+    public String get_max_sync_history(){
+
+        String value="";
+        int difference = 0;
+        String query ="SELECT ifnull(julianday(date('now'))- julianday(date(strftime('%Y-%m-%d',min(date) ))),2) mindate,tabe_name FROM sync_history";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query,null);
+        if(cursor.moveToFirst()){
+            value=cursor.getString(1);
+            difference=cursor.getInt(0);
+        }
+        if(difference >0) {
+            return value;
+        }
+        else{
+            return "";
+        }
     }
 
     }

@@ -66,10 +66,10 @@ public class SyncDatas extends AppCompatActivity {
                  cutomer_sync_history.setText(mdatabaseHelper.get_sync_history(2));
                  location_sync_history.setText(mdatabaseHelper.get_sync_history(3));
                  salesrep_sync_history.setText(mdatabaseHelper.get_sync_history(4));
-                 uom_sync_history.setText(mdatabaseHelper.get_sync_history(5));
-                 pterms_sync_history.setText(mdatabaseHelper.get_sync_history(6));
-                 plevel_sync_history.setText(mdatabaseHelper.get_sync_history(7));
-                 plevelines_sync_history.setText(mdatabaseHelper.get_sync_history(8));
+                 uom_sync_history.setText(mdatabaseHelper.get_sync_history(8));
+                 pterms_sync_history.setText(mdatabaseHelper.get_sync_history(5));
+                 plevel_sync_history.setText(mdatabaseHelper.get_sync_history(6));
+                 plevelines_sync_history.setText(mdatabaseHelper.get_sync_history(7));
              }
          });
         set.setOnClickListener(new View.OnClickListener() {

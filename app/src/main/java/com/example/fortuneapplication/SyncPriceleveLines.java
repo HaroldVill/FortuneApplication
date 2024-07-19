@@ -98,8 +98,8 @@ public void getDatalines() {
                         }
                             PlvlinesAdapter adapter = new PlvlinesAdapter(plevelLines_lists, getApplicationContext());
                             plines.setAdapter(adapter);
-                            databaseHelper.UpdateSyncHistory(8);
-                        sync_datetime.setText(mdatabaseHelper.get_sync_history(8));
+                            databaseHelper.UpdateSyncHistory(7);
+                        sync_datetime.setText(mdatabaseHelper.get_sync_history(7));
                             Toast.makeText(SyncPriceleveLines.this, "Successfully Sync Data", Toast.LENGTH_SHORT).show();
 
                     } catch (JSONException e) {

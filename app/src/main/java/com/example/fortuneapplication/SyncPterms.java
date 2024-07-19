@@ -104,8 +104,8 @@ public class SyncPterms extends AppCompatActivity {
                                 paymenTerms.add(paymenTerm);
 
                             }
-                            databaseHelper.UpdateSyncHistory(6);
-                            sync_datetime.setText(mdatabaseHelper.get_sync_history(6));
+                            databaseHelper.UpdateSyncHistory(5);
+                            sync_datetime.setText(mdatabaseHelper.get_sync_history(5));
                             SyncPayemTAdapter adapter = new SyncPayemTAdapter(paymenTerms, getApplicationContext());
                             plist.setAdapter(adapter);
 
