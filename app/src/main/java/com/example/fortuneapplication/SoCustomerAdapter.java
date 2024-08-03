@@ -144,7 +144,7 @@ public class SoCustomerAdapter extends RecyclerView.Adapter<SoCustomerAdapter.My
             String coverage_type ;
             coverage_type = db.get_coverage_type();
             Log.d("coverage_type", coverage_type);
-            if(get_distance.get_distance()<20 || coverage_type.equals("Allow")) {
+            if(get_distance.get_distance()<20 || coverage_type.equals("Allow") || customer_id ==1) {
                 Log.d("Distance", Double.toString(get_distance.get_distance()));
                 holder.skip_order.setVisibility(View.VISIBLE);
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
