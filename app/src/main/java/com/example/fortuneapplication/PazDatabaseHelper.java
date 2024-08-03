@@ -1955,6 +1955,19 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         return value;
     }
 
+    public Integer check_customer_skip(Integer id){
+        Log.d("customer_id", id.toString());
+        Integer value=0;
+        String query ="select customer_id from customer_skip_table where date(datetime) = date('now') and customer_id ="+id;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query,null);
+        if(cursor.moveToFirst()){
+            value=cursor.getInt(0);
+//            Log.d("sales_type",sales_type);
+        }
+        return value;
+    }
+
     public String get_max_sync_history(){
 
         String value="";

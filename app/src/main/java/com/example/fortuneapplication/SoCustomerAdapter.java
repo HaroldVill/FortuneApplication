@@ -205,19 +205,22 @@ public class SoCustomerAdapter extends RecyclerView.Adapter<SoCustomerAdapter.My
                                 @Override
                                 public void onClick(View v)
                                 {
+                                    mdatabasehelper = new PazDatabaseHelper(context);
                                     if(TextUtils.isEmpty(input.getText())){
                                         Toast.makeText(context, "Reason for skipping is required.", Toast.LENGTH_LONG).show();
+                                    }
+                                    else if(mdatabasehelper.check_customer_skip(Integer.parseInt(customer.getId())) > 0){
+                                        Toast.makeText(context, "Customer already skipped", Toast.LENGTH_LONG).show();
                                     }
                                     else {
                                         SALESORDER dataModel = new SALESORDER();
                                         dataModel.setCustomerid(Integer.parseInt(customer.getId()));
                                         LocalDateTime date = LocalDateTime.now();
-                                        DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+                                        DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                                         String formattedDate = date.format(myFormatObj);
                                         String end_order_time = formattedDate.toString();
                                         dataModel.set_end_order(end_order_time.toString());
                                         dataModel.set_reason(input.getText().toString());
-                                        mdatabasehelper = new PazDatabaseHelper(context);
                                         mdatabasehelper.SkipCustomerOrder(dataModel);
                                         alertDialog.dismiss();
                                     }
