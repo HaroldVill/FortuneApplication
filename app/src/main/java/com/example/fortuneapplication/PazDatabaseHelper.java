@@ -932,7 +932,6 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                 CUSTOMER_TABLE + "." + PAYMENT_TERMS_ID + ", " +
                 CUSTOMER_TABLE + "." + SALES_REP_ID + ", " +
                 CUSTOMER_TABLE + "." + PRICE_LEVEL_ID + ", " +
-
                 PAYMENT_TERMS_TABLE + "." + PTERMS_CODE + ", " +
                 PAYMENT_TERMS_TABLE + "." + PTERMS_DESCRIPTION + ", " +
                 PAYMENT_TERMS_TABLE + "." + PTERMS_NET_DUE +
@@ -941,7 +940,28 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                 +"AND CUSTOMER_COVERAGE_PLAN.SALESREP_ID=(SELECT SALESREP_ID FROM SALES_REP_TABLE WHERE salesrep_name =(SELECT VALUE FROM SYSTEM_SETTINGS WHERE NAME='DEFAULT_SALES_REP_ID')) "
                 +"AND CUSTOMER_COVERAGE_PLAN.COVERAGE_DAY = (SELECT  strftime('%w', date('now')))"
                 +" LEFT JOIN " + PAYMENT_TERMS_TABLE +
-                " ON " + CUSTOMER_TABLE + "." + PAYMENT_TERMS_ID + " = " + PAYMENT_TERMS_TABLE + "." + PTERMS_ID;
+                "  ON " + CUSTOMER_TABLE + "." + PAYMENT_TERMS_ID + " = " + PAYMENT_TERMS_TABLE + "." + PTERMS_ID
+                +" GROUP BY "+CUSTOMER_TABLE + "." + CUSTOMER_ID
+
+                +" UNION ALL "
+
+                +"SELECT " +
+                CUSTOMER_TABLE + "." + CUSTOMER_ID + ", " +
+                CUSTOMER_TABLE + "." + CUSTOMER_NAME + ", " +
+                CUSTOMER_TABLE + "." + CUSTOMER_ADDRESS + ", " +
+                CUSTOMER_TABLE + "." + CONTACT_PERSON + ", " +
+                CUSTOMER_TABLE + "." + MOBILE_NO + ", " +
+                CUSTOMER_TABLE + "." + TELEPHONE_NO + ", " +
+                CUSTOMER_TABLE + "." + PAYMENT_TERMS_ID + ", " +
+                CUSTOMER_TABLE + "." + SALES_REP_ID + ", " +
+                CUSTOMER_TABLE + "." + PRICE_LEVEL_ID + ", " +
+                PAYMENT_TERMS_TABLE + "." + PTERMS_CODE + ", " +
+                PAYMENT_TERMS_TABLE + "." + PTERMS_DESCRIPTION + ", " +
+                PAYMENT_TERMS_TABLE + "." + PTERMS_NET_DUE +
+                " FROM " + CUSTOMER_TABLE
+                +" LEFT JOIN " + PAYMENT_TERMS_TABLE +
+                " ON " + CUSTOMER_TABLE + "." + PAYMENT_TERMS_ID + " = " + PAYMENT_TERMS_TABLE + "." + PTERMS_ID
+                +" WHERE CUSTOMER_TABLE"+"."+"CUSTOMER_ID"+"="+"1";
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(query, null);
