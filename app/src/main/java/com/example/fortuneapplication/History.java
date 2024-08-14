@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -15,6 +16,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -46,10 +48,15 @@ import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import okhttp3.MediaType;
@@ -66,6 +73,8 @@ public class History extends AppCompatActivity {
     TextView booktot, numcustomer;
     FloatingActionButton aray;
     Button principal_breakdown;
+    EditText history_datepicker;
+    final Calendar history_calendar= Calendar.getInstance();
 
     RequestQueue request_queue;
     EditText searchbaritem;
@@ -91,15 +100,18 @@ public class History extends AppCompatActivity {
         aray = findViewById(R.id.aray);
         principal_breakdown = findViewById(R.id.principal_breakdown);
         searchbaritem = findViewById(R.id.searchbaritem);
+        history_datepicker = findViewById(R.id.history_datepicker);
         // sinkme = findViewById(R.id.sinkme);
 
+        LocalDateTime datenow = LocalDateTime.now();
+        DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String formattedDate = datenow.format(myFormatObj);
+        String end_order_time = formattedDate.toString();
+        history_datepicker.setText(end_order_time);
+        populate_table(end_order_time);
 
-        mDatabaseHelper = new PazDatabaseHelper(this);
-        ArrayList<SALESORDER> salesOrderList = mDatabaseHelper.getSlsorder(0);
-        ArrayList<SALESORDERITEMS> salesOrderItemsList = mDatabaseHelper.getSlsorderitems(0);
-        historyAdapter = new HistoryAdapter(salesOrderList, this,salesOrderItemsList);
-        histview.setLayoutManager(new LinearLayoutManager(this));
-        histview.setAdapter(historyAdapter);
+
+
         filter_history.addAll(mDatabaseHelper.getSlsorder(0));
         historyAdapter.notifyDataSetChanged();
         startThread();
@@ -130,6 +142,25 @@ public class History extends AppCompatActivity {
 
             }
         });
+        DatePickerDialog.OnDateSetListener date =new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int day) {
+                history_calendar.set(Calendar.YEAR, year);
+                history_calendar.set(Calendar.MONTH,month);
+                history_calendar.set(Calendar.DAY_OF_MONTH,day);
+                updateLabel();
+                Log.d("check_date_changed", history_datepicker.getText().toString());
+                populate_table(history_datepicker.getText().toString());
+            }
+        };
+        history_datepicker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new DatePickerDialog(History.this,date,history_calendar.get(Calendar.YEAR),history_calendar.get(Calendar.MONTH),history_calendar.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
+
+
 
         principal_breakdown.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -238,6 +269,22 @@ public class History extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    public void populate_table(String date){
+        Log.d("check_date_value", date);
+        mDatabaseHelper = new PazDatabaseHelper(this);
+        ArrayList<SALESORDER> salesOrderList = mDatabaseHelper.history_getSlsorder(date);
+        ArrayList<SALESORDERITEMS> salesOrderItemsList = mDatabaseHelper.getSlsorderitems(0);
+        historyAdapter = new HistoryAdapter(salesOrderList, this,salesOrderItemsList);
+        histview.setLayoutManager(new LinearLayoutManager(this));
+        histview.setAdapter(historyAdapter);
+    }
+
+    private void updateLabel(){
+        String myFormat="yyyy-MM-dd";
+        SimpleDateFormat dateFormat=new SimpleDateFormat(myFormat, Locale.TAIWAN);
+        history_datepicker.setText(dateFormat.format(history_calendar.getTime()));
     }
 
     public void filterList(String text) {

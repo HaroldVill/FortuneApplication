@@ -1687,6 +1687,63 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         return salesORlist;
         }
 
+    public ArrayList<SALESORDER> history_getSlsorder(String date) {
+        ArrayList<SALESORDER> salesORlist = new ArrayList<>();
+        String query ="";
+            query = " SELECT " +
+                    SALES_ORDER_TABLE + "." + SALES_ORDERID + ", " +
+                    SALES_ORDER_TABLE + "." + CODE + ", " +
+                    SALES_ORDER_TABLE + "." + AMOUNT + ", " +
+                    SALES_ORDER_TABLE + "." + DATE + ", " +
+                    SALES_ORDER_TABLE + "." + SALES_REP_ID + ", " +
+                    SALES_ORDER_TABLE + "." + LOCATION_ID + ", " +
+                    SALES_ORDER_TABLE + "." + BEGIN_ORDER + ", " +
+                    SALES_ORDER_TABLE + "." + END_ORDER + ", " +
+                    CUSTOMER_TABLE + "." + CUSTOMER_ID + ", " +
+                    SALESREP_TABLE + "." + SALESREP_NAME + ", " +
+                    CUSTOMER_TABLE + "." + CUSTOMER_NAME +
+                    " FROM " + SALES_ORDER_TABLE +
+                    " INNER JOIN " + SALESREP_TABLE +
+                    " ON " + SALESREP_TABLE + "." + SALESREP_ID + " = " + SALES_ORDER_TABLE + "." + SALES_REP_ID +
+                    " INNER JOIN " + CUSTOMER_TABLE +
+                    " ON " + SALES_ORDER_TABLE + "." + CUSTOMER_ID + " = " + CUSTOMER_TABLE + "." + CUSTOMER_ID +
+                    " WHERE "+ SALES_ORDER_TABLE+"."+ DATE+"=STRFTIME('%d/%m/%Y','"+date+
+                    "') ORDER BY " + SALES_ORDERID + " ASC";
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                SALESORDER salesorder = new SALESORDER();
+                salesorder.setSalesorderid(cursor.getInt(cursor.getColumnIndex(SALES_ORDERID)));
+                salesorder.setCode(cursor.getString(cursor.getColumnIndex(CODE)));
+                salesorder.setAmount(cursor.getString(cursor.getColumnIndex(AMOUNT)));
+                salesorder.setDate(cursor.getString(cursor.getColumnIndex(DATE)));
+                salesorder.setSalesrepid(cursor.getInt(cursor.getColumnIndex(SALES_REP_ID)));
+
+                Customer customerR = new Customer();
+                customerR.setCustomername(cursor.getString(cursor.getColumnIndex(CUSTOMER_NAME)));
+                customerR.setId(cursor.getString(cursor.getColumnIndex(CUSTOMER_ID)));
+
+                Location location = new Location();
+                location.setLocid(cursor.getString(cursor.getColumnIndex(LOCATION_ID)));
+
+                salesorder.setLocationid(Integer.parseInt(location.getLocid()));
+                salesorder.set_sales_rep_name(cursor.getString(cursor.getColumnIndex(SALESREP_NAME)));
+                salesorder.set_customer_name(cursor.getString(cursor.getColumnIndex(CUSTOMER_NAME)));
+                salesorder.set_begin_order(cursor.getString(cursor.getColumnIndex(BEGIN_ORDER)));
+                salesorder.set_end_order(cursor.getString(cursor.getColumnIndex(END_ORDER)));
+
+                salesorder.setCustomer(customerR);
+                salesORlist.add(salesorder);
+            } while (cursor.moveToNext());
+        }
+//        cursor.close();
+//        db.close();
+        return salesORlist;
+    }
+
         @SuppressLint("Range")
         public ArrayList<SALESORDER> get_customer_skip_order(int id) {
             ArrayList<SALESORDER> salesORlist = new ArrayList<>();

@@ -50,13 +50,30 @@
         android:layout_below="@+id/head"
         android:hint="Search ...."></EditText>
 
+    <EditText
+        android:paddingLeft="10dp"
+        android:id="@+id/history_datepicker"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/searchbaritem"
+        android:drawableLeft="@drawable/calen"
+        android:background="@drawable/searchmestyle"
+        android:clickable="false"
+        android:cursorVisible="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:hint="  YYYY-MM-DD"></EditText>
+
+
 
     <RelativeLayout
         android:id="@+id/rells"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/searchbaritem"
+        android:layout_below="@+id/history_datepicker"
         android:layout_marginTop="0dp">
+
 
         <Button
             android:id="@+id/principal_breakdown"
