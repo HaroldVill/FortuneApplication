@@ -1,6 +1,7 @@
 package com.example.fortuneapplication;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,7 +25,9 @@ public class print_form extends AppCompatActivity {
         principal_list = findViewById(R.id.datadisp);
 
         mDatabaseHelper = new PazDatabaseHelper(this);
-        ArrayList<SALESORDER> principal_performance = mDatabaseHelper.get_principal_performance();
+        Intent prev_intent = getIntent();
+        String date = prev_intent.getStringExtra("date");
+        ArrayList<SALESORDER> principal_performance = mDatabaseHelper.get_principal_performance(date);
         principal_adapter = new principal_adapter(this, principal_performance);
         Log.d("check_result", principal_performance.toString());
         principal_list.setLayoutManager(new LinearLayoutManager(this));

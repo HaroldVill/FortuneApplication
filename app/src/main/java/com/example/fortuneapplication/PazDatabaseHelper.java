@@ -1183,10 +1183,11 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public double getBookTotal() {
+    public double getBookTotal(String date) {
         double total = 0;
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT " + AMOUNT + " FROM " + SALES_ORDER_TABLE, null);
+        Cursor cursor = db.rawQuery("SELECT " + AMOUNT + " FROM " + SALES_ORDER_TABLE+" WHERE "+ SALES_ORDER_TABLE+"."+ DATE+"=STRFTIME('%d/%m/%Y','"+date+
+                "') ", null);
 
         while (cursor.moveToNext()) {
             String amountString = cursor.getString(cursor.getColumnIndex(AMOUNT));
@@ -1233,10 +1234,11 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
 //        return total;
 //    }
 
-    public int countData() {
+    public int countData(String date) {
         SQLiteDatabase db = this.getReadableDatabase();
         int count = 0;
-        Cursor cursor = db.rawQuery("SELECT COUNT(" + SOCUSTOMER_ID + ") FROM " + SALES_ORDER_TABLE, null);
+        Cursor cursor = db.rawQuery("SELECT COUNT(" + SOCUSTOMER_ID + ") FROM " + SALES_ORDER_TABLE+" WHERE "+ SALES_ORDER_TABLE+"."+ DATE+"=STRFTIME('%d/%m/%Y','"+date+
+                "') ", null);
         if (cursor.moveToFirst()) {
             count = cursor.getInt(0);
         }
@@ -1879,12 +1881,13 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
     }
 
     @SuppressLint("Range")
-    public ArrayList<SALESORDER> get_principal_performance(){
+    public ArrayList<SALESORDER> get_principal_performance(String date){
         ArrayList<SALESORDER> pr = new ArrayList<>();
-        String query="SELECT ITEM_GROUP,printf('%,d',ROUND(SUM(SALES_ORDER_ITEMS_TABLE.AMOUNT),0)) AMOUNT,COUNT(DISTINCT(CUSTOMER_ID)) BUYING_ACCTS,printf('%,d',ROUND(SUM(SALES_ORDER_ITEMS_TABLE.AMOUNT)/COUNT(DISTINCT(CUSTOMER_ID)),2)) DROP_SIZE,ROUND(SUM(SALES_ORDER_ITEMS_TABLE.AMOUNT)) AMOUNTNUMBER FROM Sales_Order_Items_Table " +
+        String query="SELECT ITEM_GROUP,printf('%,d',ROUND(SUM(SALES_ORDER_ITEMS_TABLE.AMOUNT),2)) AMOUNT,COUNT(DISTINCT(CUSTOMER_ID)) BUYING_ACCTS,printf('%,d',ROUND(SUM(SALES_ORDER_ITEMS_TABLE.AMOUNT)/COUNT(DISTINCT(CUSTOMER_ID)),2)) DROP_SIZE,ROUND(SUM(SALES_ORDER_ITEMS_TABLE.AMOUNT)) AMOUNTNUMBER FROM Sales_Order_Items_Table " +
                 "INNER JOIN ITEM_TABLE ON ITEM_TABLE.item_id = SALES_ORDER_ITEMS_TABLE.item_id " +
                 "INNER JOIN SALES_ORDER_TABLE ON SALES_ORDER_TABLE.SALES_ORDERID = SALES_ORDER_ITEMS_TABLE.SALES_ORDER_ID " +
-                "GROUP BY ITEM_GROUP ORDER BY AMOUNTNUMBER DESC";
+                " WHERE SALES_ORDER_TABLE.DATE=STRFTIME('%d/%m/%Y','"+date+
+                "') GROUP BY ITEM_GROUP ORDER BY AMOUNTNUMBER DESC";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(query,  null);
         if(cursor.moveToFirst()){
@@ -2056,7 +2059,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
             value=cursor.getString(1);
             difference=cursor.getInt(0);
         }
-        if(difference >0) {
+        if(difference >1) {
             return value;
         }
         else{

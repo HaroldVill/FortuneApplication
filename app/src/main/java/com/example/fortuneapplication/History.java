@@ -112,18 +112,11 @@ public class History extends AppCompatActivity {
 
 
 
-        filter_history.addAll(mDatabaseHelper.getSlsorder(0));
+        filter_history.addAll(mDatabaseHelper.history_getSlsorder(history_datepicker.getText().toString()));
         historyAdapter.notifyDataSetChanged();
         startThread();
 
-        //get total booking
-        double totalAmount = mDatabaseHelper.getBookTotal();
-        DecimalFormat decimalFormat = new DecimalFormat("#,###.00");
-        String formattedTotal = decimalFormat.format(totalAmount);
-        booktot.setText(formattedTotal);
 
-        int listdata = mDatabaseHelper.countData();
-        numcustomer.setText(String.valueOf(listdata));
 
         searchbaritem.addTextChangedListener(new TextWatcher() {
             @Override
@@ -133,6 +126,9 @@ public class History extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                filter_history.clear();
+                filter_history.addAll(mDatabaseHelper.history_getSlsorder(history_datepicker.getText().toString()));
+                historyAdapter.notifyDataSetChanged();
                 filterList(s.toString());
                 Log.d("search", s.toString());
             }
@@ -166,6 +162,7 @@ public class History extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent open_principal_breakdown  = new Intent(History.this,print_form.class);
+                open_principal_breakdown.putExtra("date",history_datepicker.getText().toString());
                 startActivity(open_principal_breakdown);
             }
         });
@@ -279,6 +276,14 @@ public class History extends AppCompatActivity {
         historyAdapter = new HistoryAdapter(salesOrderList, this,salesOrderItemsList);
         histview.setLayoutManager(new LinearLayoutManager(this));
         histview.setAdapter(historyAdapter);
+        //get total booking
+        double totalAmount = mDatabaseHelper.getBookTotal(date);
+        DecimalFormat decimalFormat = new DecimalFormat("#,###.00");
+        String formattedTotal = decimalFormat.format(totalAmount);
+        booktot.setText(formattedTotal);
+
+        int listdata = mDatabaseHelper.countData(date);
+        numcustomer.setText(String.valueOf(listdata));
     }
 
     private void updateLabel(){
