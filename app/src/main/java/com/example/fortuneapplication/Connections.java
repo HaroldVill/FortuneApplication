@@ -9,10 +9,14 @@ import static com.example.fortuneapplication.PazDatabaseHelper.SYSTEM_SETTINGS_N
 import static com.example.fortuneapplication.PazDatabaseHelper.SYSTEM_SETTINGS_VALUE;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.bluetooth.BluetoothAdapter;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -29,7 +33,7 @@ import java.util.ArrayList;
 
 public class Connections extends AppCompatActivity {
     TextView creatcon, ids;
-    TextView selection, connection_label, select_sales_type,sales_type_label,select_sales_rep_id,sales_rep_id_label,select_gps_mode,gps_label,select_verify_mode,verify_label;
+    TextView selection, connection_label, select_sales_type,sales_type_label,select_sales_rep_id,sales_rep_id_label,select_gps_mode,gps_label,select_verify_mode,verify_label,select_bluetooth_device;
     Button apply,apply_sales_type,apply_sales_rep_id,apply_gps_mode,apply_verify_mode;
     private PazDatabaseHelper mdatabaseHelper;
 
@@ -58,8 +62,10 @@ public class Connections extends AppCompatActivity {
         gps_label = findViewById(R.id.gps_label);
         verify_label = findViewById(R.id.verify_label);
         gps_label.setText(mdatabaseHelper.get_coverage_type());
+        verify_label.setText(mdatabaseHelper.get_verify_type());
         apply_gps_mode = findViewById(R.id.apply_gps_mode);
         apply_verify_mode = findViewById(R.id.apply_verify_mode);
+        select_bluetooth_device = findViewById(R.id.select_bluetooth_device);
         apply_sales_rep_id.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {}
@@ -209,6 +215,22 @@ public class Connections extends AppCompatActivity {
                     }
                 });
                 popupMenu.show();
+            }
+        });
+        select_bluetooth_device.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int requestCode = 1;
+                if (ActivityCompat.checkSelfPermission(Connections.this, android.Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(Connections.this,new String[]
+                            {Manifest.permission.BLUETOOTH_CONNECT},1);
+                }
+                else {
+                    Intent discoverableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
+                    discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
+                    startActivityForResult(discoverableIntent, requestCode);
+                    onActivityResult(requestCode,300,discoverableIntent);
+                }
             }
         });
     }
