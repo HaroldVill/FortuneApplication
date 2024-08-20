@@ -14,12 +14,17 @@ import androidx.core.app.ActivityCompat;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothManager;
+import android.content.BroadcastReceiver;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,11 +35,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 public class Connections extends AppCompatActivity {
     TextView creatcon, ids;
-    TextView selection, connection_label, select_sales_type,sales_type_label,select_sales_rep_id,sales_rep_id_label,select_gps_mode,gps_label,select_verify_mode,verify_label,select_bluetooth_device;
-    Button apply,apply_sales_type,apply_sales_rep_id,apply_gps_mode,apply_verify_mode;
+    TextView selection, connection_label, select_sales_type,sales_type_label,select_sales_rep_id,sales_rep_id_label,select_gps_mode,gps_label,select_verify_mode,verify_label,select_bluetooth_device,bluetooth_macaddress;
+    Button apply,apply_sales_type,apply_sales_rep_id,apply_gps_mode,apply_verify_mode,apply_bluetooth;
     private PazDatabaseHelper mdatabaseHelper;
 
     @Override
@@ -66,6 +72,9 @@ public class Connections extends AppCompatActivity {
         apply_gps_mode = findViewById(R.id.apply_gps_mode);
         apply_verify_mode = findViewById(R.id.apply_verify_mode);
         select_bluetooth_device = findViewById(R.id.select_bluetooth_device);
+        bluetooth_macaddress = findViewById(R.id.bluetooh_macaddress);
+        bluetooth_macaddress.setText(mdatabaseHelper.get_bluetooth_device());
+        apply_bluetooth = findViewById(R.id.apply_bluetooth);
         apply_sales_rep_id.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {}
@@ -96,6 +105,14 @@ public class Connections extends AppCompatActivity {
                 update_verify_type();
             }
         });
+
+        apply_bluetooth.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                update_bluetooth_device();
+            }
+        });
+
 
 
         creatcon.setOnClickListener(new View.OnClickListener() {
@@ -219,22 +236,70 @@ public class Connections extends AppCompatActivity {
         });
         select_bluetooth_device.setOnClickListener(new View.OnClickListener() {
             @Override
+
             public void onClick(View view) {
                 int requestCode = 1;
+                BluetoothManager bluetoothManager = getSystemService(BluetoothManager.class);
+                BluetoothAdapter bluetoothAdapter = bluetoothManager.getAdapter();
                 if (ActivityCompat.checkSelfPermission(Connections.this, android.Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions(Connections.this,new String[]
                             {Manifest.permission.BLUETOOTH_CONNECT},1);
                 }
                 else {
-                    Intent discoverableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
-                    discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
-                    startActivityForResult(discoverableIntent, requestCode);
-                    onActivityResult(requestCode,300,discoverableIntent);
+                    if (!bluetoothAdapter.isEnabled()) {
+                        Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                        startActivityForResult(enableBtIntent, 0);
+                    }
+                    else {
+//                    onActivityResult(requestCode,300,discoverableIntent);
+                        Set<BluetoothDevice> pairedDevices = bluetoothAdapter.getBondedDevices();
+
+                        if (pairedDevices.size() > 0) {
+                            // There are paired devices. Get the name and address of each paired device.
+
+                            PopupMenu popupMenu = new PopupMenu(Connections.this, select_bluetooth_device);
+                            Menu menu = popupMenu.getMenu();
+
+                            for (BluetoothDevice device : pairedDevices) {
+                                String deviceName = device.getName();
+                                String deviceHardwareAddress = device.getAddress(); // MAC address
+                                Log.d("DEVICE_NAME", deviceName);
+                                Log.d("DEVICE_ADDRESS", deviceHardwareAddress);
+                                menu.add(Menu.NONE, Menu.NONE, Menu.NONE, deviceName + " = " + deviceHardwareAddress);
+                            }
+                            popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                                @Override
+                                public boolean onMenuItemClick(MenuItem menuItem) {
+                                    String bluetooth_device = menuItem.getTitle().toString();
+                                    bluetooth_macaddress.setText(bluetooth_device);
+                                    return true;
+                                }
+                            });
+                            popupMenu.show();
+                        }
+                    }
                 }
             }
         });
     }
 
+    private final BroadcastReceiver receiver = new BroadcastReceiver() {
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (BluetoothDevice.ACTION_FOUND.equals(action)) {
+                // Discovery has found a device. Get the BluetoothDevice
+                // object and its info from the Intent.
+                BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+                String deviceName = device.getName();
+                String deviceHardwareAddress = device.getAddress(); // MAC address
+            }
+        }
+    };
+    protected void onDestroy() {
+        super.onDestroy();
+        // Don't forget to unregister the ACTION_FOUND receiver.
+        unregisterReceiver(receiver);
+    }
     @SuppressLint("Range")
     public ArrayList<CONNECT> displayselect() {
         ArrayList<CONNECT> connectlist = new ArrayList<>();
@@ -416,6 +481,27 @@ public class Connections extends AppCompatActivity {
         db.close();
         if (numSpecificRowUpdated > 0) {
             Toast.makeText(this, "Successfull Verify Type Set", Toast.LENGTH_SHORT).show();
+//            selection.setText("");
+//            connection_label.setText("");
+//            Intent nanay = new Intent(Connections.this, SyncDatas.class);
+//            startActivity(nanay);
+//            finish();
+        }
+    }
+
+
+    public void update_bluetooth_device() {
+        String bluetooth_device = bluetooth_macaddress.getText().toString();
+        SQLiteDatabase db = mdatabaseHelper.getWritableDatabase();
+        ContentValues specificRowValues = new ContentValues();
+        specificRowValues.put("VALUE", bluetooth_device);
+        String whereClause = SYSTEM_SETTINGS_NAME + " = ?";
+        String[] whereArgs = {"BLUETOOTH_DEVICE"};
+
+        int numSpecificRowUpdated = db.update(SYSTEM_SETTINGS, specificRowValues, whereClause, whereArgs);
+        db.close();
+        if (numSpecificRowUpdated > 0) {
+            Toast.makeText(this, "Successfull Bluetooth Connection", Toast.LENGTH_SHORT).show();
 //            selection.setText("");
 //            connection_label.setText("");
 //            Intent nanay = new Intent(Connections.this, SyncDatas.class);

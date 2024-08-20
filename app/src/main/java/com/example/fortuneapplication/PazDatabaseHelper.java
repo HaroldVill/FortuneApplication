@@ -379,7 +379,8 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         String INSERT_SYSTEM_SETTINGS ="INSERT INTO "+SYSTEM_SETTINGS+" VALUES (NULL,'SALES_TYPE',''), "
                 +"(NULL,'DEFAULT_SALES_REP_ID',''),"
                 +"(NULL,'ALLOW_PIN_VERIFY','0'),"
-                +"(NULL,'ALLOW_STRICT_COVERAGE','Allow')";
+                +"(NULL,'ALLOW_STRICT_COVERAGE','Allow'),"
+                +"(NULL,'BLUETOOTH_DEVICE','')";
 
         db.execSQL(CREATE_CONNECTIONTABLE);
         db.execSQL(CREATE_DASHBOARDTABLE);
@@ -1989,6 +1990,18 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
     public String get_coverage_type(){
         String value="";
         String query ="SELECT ifnull(VALUE,'') VALUE FROM SYSTEM_SETTINGS WHERE  id=4";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query,null);
+        if(cursor.moveToFirst()){
+            value=cursor.getString(0);
+//            Log.d("sales_type",sales_type);
+        }
+        return value;
+    }
+
+    public String get_bluetooth_device(){
+        String value="";
+        String query ="SELECT ifnull(VALUE,'') VALUE FROM SYSTEM_SETTINGS WHERE  id=5";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(query,null);
         if(cursor.moveToFirst()){
