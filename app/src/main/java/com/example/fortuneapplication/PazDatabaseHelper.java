@@ -12,6 +12,8 @@ import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -184,6 +186,13 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
     protected static final String  CUSTOMER_SKIP_TABLE_CUSTOMER_ID = "customer_id";
     protected static final String  CUSTOMER_SKIP_TABLE_DATETIME = "datetime";
     protected static final String  CUSTOMER_SKIP_TABLE_REASON = "reason";
+
+    protected static final String REQUEST_REPIN_TABLE  = "request_repin_table";
+    protected static final String REQUEST_REPIN_ID = "id";
+    protected static final String REQUEST_REPIN_CUSTOMER_ID = "customer_id";
+    protected static final String REQUEST_REPIN_DATE = "date";
+    protected static final String REQUEST_REPIN_STATUS = "status";
+    LocalDate datenow = LocalDate.now();
 
 
     public PazDatabaseHelper(@Nullable Context context) {
@@ -360,6 +369,12 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                 CUSTOMER_SKIP_TABLE_REASON + " TEXT, " +
                 "status TEXT DEFAULT '0')";
 
+        String CREATE_REQUEST_REPIN_TABLE ="CREATE TABLE " +REQUEST_REPIN_TABLE  + " ("+
+                REQUEST_REPIN_ID+" INTEGER PRIMARY KEY AUTOINCREMENT, "+
+                REQUEST_REPIN_CUSTOMER_ID + " INTEGER, " +
+                REQUEST_REPIN_DATE + " TEXT, " +
+                REQUEST_REPIN_STATUS + " TEXT) ";
+
 
         String INSERT_SYNC_HISTORY ="INSERT INTO "+SYNC_HISTORY_TABLE+" VALUES " +
                 "(NULL,'ITEM',''),"+
@@ -401,6 +416,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(INSERT_SYNC_HISTORY);
         db.execSQL(CREATE_CUSTOMERS_COVERAGE_TABLE);
         db.execSQL(CREATE_CUSTOMER_SKIP_TABLE);
+        db.execSQL(CREATE_REQUEST_REPIN_TABLE);
 //        db.execSQL(ALTER_ITEM_TABLE);
 
     }
@@ -421,6 +437,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + SALES_ORDER_ITEMS_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + SYSTEM_SETTINGS);
         db.execSQL("DROP TABLE IF EXISTS " + CUSTOMER_SKIP_TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + REQUEST_REPIN_STATUS);
         onCreate(db);
     }
 
@@ -2078,6 +2095,102 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         else{
             return "";
         }
+    }
+
+    public boolean request_repin(Integer customer_id){
+        try {
+            SQLiteDatabase db = this.getWritableDatabase();
+            ContentValues values = new ContentValues();
+
+            //  values.put(SALES_ORDERID, salesorder.getSalesorderid());
+            values.put(REQUEST_REPIN_CUSTOMER_ID, customer_id);
+            values.put(REQUEST_REPIN_DATE, datenow.toString());
+            values.put(REQUEST_REPIN_STATUS, "0");
+            db.insert(REQUEST_REPIN_TABLE, null, values);
+            return true;
+        }
+        catch (Exception e){
+            return false;
+        }
+    }
+
+    public Integer count_request_repin(Integer customer_id){
+        Integer value=0;
+
+        String query ="SELECT ifnull(count(id),0) FROM request_repin_table where date = date('now') and customer_id ="+customer_id.toString();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query,null);
+        if(cursor.moveToFirst()){
+            value=cursor.getInt(0);
+        }
+
+        return value;
+    }
+
+    public int get_unsynced_request_repin(){
+        int customer_repin_id =0;
+        try {
+            SQLiteDatabase db = this.getReadableDatabase();
+            String query = "SELECT CUSTOMER_ID FROM REQUEST_REPIN_TABLE WHERE STATUS =0 LIMIT 1";
+            Cursor cursor = db.rawQuery(query,null);
+            if (cursor.moveToFirst()) {
+                customer_repin_id = cursor.getInt(0);
+            }
+            cursor.close();
+//            db.close();
+            return customer_repin_id;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        finally {
+
+        }
+        return customer_repin_id;
+    }
+
+    public ArrayList<SALESORDER> get_repin_customer(int id) {
+        ArrayList<SALESORDER> salesORlist = new ArrayList<>();
+        String query ="";
+        query = " SELECT " +
+                REQUEST_REPIN_TABLE + "." + REQUEST_REPIN_CUSTOMER_ID + ", " +
+                REQUEST_REPIN_TABLE + "." + REQUEST_REPIN_DATE +
+                " FROM " + REQUEST_REPIN_TABLE +
+                " WHERE "+ REQUEST_REPIN_TABLE+"."+ CUSTOMER_ID+"="+id+
+                " ORDER BY " + CUSTOMER_SKIP_TABLE_ID + " ASC LIMIT 1";
+
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                SALESORDER salesorder = new SALESORDER();
+                salesorder.setCustomerid(cursor.getInt(cursor.getColumnIndex(REQUEST_REPIN_CUSTOMER_ID)));
+                salesorder.set_end_order(cursor.getString(cursor.getColumnIndex(REQUEST_REPIN_DATE)));
+
+                salesORlist.add(salesorder);
+            } while (cursor.moveToNext());
+        }
+        //        cursor.close();
+        //        db.close();
+        return salesORlist;
+    }
+
+    public int update_customer_repin_status(int customer_skip_id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String update_query = "UPDATE REQUEST_REPIN_TABLE SET STATUS = 1 where date = date('now') and CUSTOMER_ID = "+customer_skip_id+"";
+        try{
+            db.execSQL(update_query);
+            //db.setTransactionSuccessful();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        finally {
+            //db.endTransaction();
+        }
+        return 0;
     }
 
     }

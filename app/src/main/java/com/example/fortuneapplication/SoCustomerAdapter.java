@@ -100,6 +100,52 @@ public class SoCustomerAdapter extends RecyclerView.Adapter<SoCustomerAdapter.My
         String longitude2 = db.get_customer_longitude(customer_id);
         String latitude2 = db.get_customer_latitude(customer_id);
 
+        holder.request_repin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(Double.parseDouble(longitude2) > 0|| Double.parseDouble(latitude2) > 0) {
+
+                    final AlertDialog.Builder builder= new AlertDialog.Builder(context);
+                    builder.setMessage("Request repin for this customer?").setCancelable(false).setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    }).setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            dialog.cancel();
+                        }
+                    });
+                    final AlertDialog alertDialog=builder.create();
+                    alertDialog.show();
+                    alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener()
+                    {
+                        @Override
+                        public void onClick(View v)
+                        {
+                            mdatabasehelper = new PazDatabaseHelper(context);
+                            if(mdatabasehelper.count_request_repin(customer_id) >0){
+                                Toast.makeText(context, "Request for re-pin for this customer has already been sent.", Toast.LENGTH_LONG).show();
+                                return;
+                            }
+                            if(mdatabasehelper.request_repin(customer_id)){
+                                Toast.makeText(context, "Request for re-pin successfully sent.", Toast.LENGTH_LONG).show();
+                                alertDialog.dismiss();
+                            }else{
+                                Toast.makeText(context, "An internal error has occurred please contact IT admin.", Toast.LENGTH_LONG).show();
+                            }
+                        }
+
+                    });
+                }
+                else{
+                    Toast.makeText(context, "Cannot request repin customer with no pin.", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
         if(Double.parseDouble(longitude2) > 0|| Double.parseDouble(latitude2) > 0) {
             holder.longitude.setText(longitude2);
             holder.latitude.setText(latitude2);
@@ -281,7 +327,7 @@ public class SoCustomerAdapter extends RecyclerView.Adapter<SoCustomerAdapter.My
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         TextView so1,so2,so3,so4,socontact,longitude,latitude,distance,verification;
-        Button save_coordinate,verify_pin,skip_order,remove_pin;
+        Button save_coordinate,verify_pin,skip_order,remove_pin,request_repin;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -299,6 +345,7 @@ public class SoCustomerAdapter extends RecyclerView.Adapter<SoCustomerAdapter.My
             skip_order = itemView.findViewById(R.id.skip_order);
             remove_pin = itemView.findViewById(R.id.remove_pin);
             verification = itemView.findViewById(R.id.verfication);
+            request_repin  =itemView.findViewById(R.id.request_repin);
         }
     }
 }

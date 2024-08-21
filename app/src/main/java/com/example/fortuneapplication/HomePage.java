@@ -469,6 +469,44 @@ public class HomePage extends AppCompatActivity implements LocationListener {
                         }
                     }
                 }
+                if(i%5==0){
+                    int customer_repin_id = mDatabaseHelper.get_unsynced_request_repin();
+                    if(customer_repin_id !=0){
+                        try {
+                            ArrayList<CONNECT> connectList2 = mDatabaseHelper.SelectUPDT();
+                            if (!connectList2.isEmpty()) {
+                                x = connectList2.get(0).getIp(); // Assuming the first IP address is what you need
+                                String sales_type = mDatabaseHelper.sales_type();
+                                Log.d("sales_type",sales_type);
+                                api_url = "http://" + x + "/MobileAPI/sync_request_repin.php";
+                            }
+//                            PazDatabaseHelper dbHelper = new PazDatabaseHelper(context);
+                            List<SALESORDER> salesOrderList = mDatabaseHelper.get_repin_customer(customer_repin_id);
+                            for (SALESORDER salesOrder : salesOrderList) {
+                                Log.d(TAG, Integer.toString(salesOrder.getCustomerid()));
+                                StringRequest send_invoices = new StringRequest(Request.Method.POST, api_url,
+                                        response -> {Log.d("Success","Success");
+                                            if(response.contains("succesfully") || response.contains("has already been")){
+                                                mDatabaseHelper.update_customer_repin_status(customer_repin_id);}},
+                                        error -> Log.d("Error","Connection Error")){
+
+                                    @Override
+                                    protected Map<String, String> getParams() throws AuthFailureError {
+                                        Map<String, String> params =new HashMap<>();
+                                        params.put("customer_id", Integer.toString(salesOrder.getCustomerid()));
+                                        params.put("date", salesOrder.get_end_order());
+                                        return params;
+                                    }
+                                };
+                                request_queue = Volley.newRequestQueue(HomePage.this);
+                                request_queue.add(send_invoices);
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            Log.d("Exception",e.getMessage());
+                        }
+                    }
+                }
                 if(i%10 == 0){
                     int customer_id = mDatabaseHelper.get_customer_pin_flag();
                     if(customer_id !=0){
