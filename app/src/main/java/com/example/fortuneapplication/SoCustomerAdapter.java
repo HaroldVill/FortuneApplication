@@ -28,6 +28,15 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -35,7 +44,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SoCustomerAdapter extends RecyclerView.Adapter<SoCustomerAdapter.MyViewHolder> {
     private Context context;
@@ -45,6 +56,8 @@ public class SoCustomerAdapter extends RecyclerView.Adapter<SoCustomerAdapter.My
     private static final int REQUEST_LOCATION = 1;
     LocationManager locationManager;
     PazDatabaseHelper mdatabasehelper;
+    RequestQueue request_queue;
+    private volatile boolean stopThread = false;
 
     public SoCustomerAdapter(Context context, ArrayList<Customer> customerList,Activity activity, LocationManager locationManager) {
         this.context = context;
@@ -346,6 +359,119 @@ public class SoCustomerAdapter extends RecyclerView.Adapter<SoCustomerAdapter.My
             remove_pin = itemView.findViewById(R.id.remove_pin);
             verification = itemView.findViewById(R.id.verfication);
             request_repin  =itemView.findViewById(R.id.request_repin);
+        }
+    }
+
+    public void startThread() {
+        stopThread = true;
+        stopThread = false;
+        SoCustomerAdapter.ExampleRunnable runnable = new SoCustomerAdapter.ExampleRunnable(30000);
+        new Thread(runnable).start();
+        Log.d("Test", "1");
+        /*
+        ExampleThread thread = new ExampleThread(10);
+        thread.start();
+        */
+        /*
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                //work
+            }
+        }).start();
+        */
+    }
+
+
+
+    class ExampleRunnable implements Runnable {
+        int seconds;
+        private Context context1;
+        private String api_url;
+        private String x;
+        private PazDatabaseHelper mDatabaseHelper;
+
+        ExampleRunnable(int seconds) {
+            this.seconds = seconds;
+        }
+
+        @Override
+        public void run() {
+            Log.d("StartThread", Integer.toString(seconds));
+            mDatabaseHelper = new PazDatabaseHelper(context);
+            for (int i = 1; i < seconds; i++) {
+                String JSON_URL="";
+                ArrayList<CONNECT> connectList = mDatabaseHelper.SelectUPDT();
+                if (!connectList.isEmpty()) {
+                    x = connectList.get(0).getIp();
+                    JSON_URL = "http://" + x + "/MobileAPI/items.php";
+                }
+                if (i % 15 == 0) {
+                    int sales_order_id = mDatabaseHelper.get_open_sales_order();
+                    if(sales_order_id !=0){
+                        try {
+                            ArrayList<CONNECT> connectList2 = mDatabaseHelper.SelectUPDT();
+                            if (!connectList2.isEmpty()) {
+                                x = connectList2.get(0).getIp(); // Assuming the first IP address is what you need
+                                String sales_type = mDatabaseHelper.sales_type();
+                                Log.d("sales_type",sales_type);
+                                api_url = "http://" + x + "/MobileAPI/"+sales_type;
+                            }
+//                            PazDatabaseHelper dbHelper = new PazDatabaseHelper(context);
+                            List<SALESORDER> salesOrderList = mDatabaseHelper.getSlsorder(sales_order_id);
+                            for (SALESORDER salesOrder : salesOrderList) {
+                                JSONArray json_soitems = new JSONArray();
+                                List<SALESORDERITEMS> salesOrderItemList = mDatabaseHelper.getSlsorderitems(sales_order_id);
+                                for (SALESORDERITEMS salesOrderItems : salesOrderItemList) {
+
+                                    JSONObject jsonObject = new JSONObject();
+                                    jsonObject.put("item_id", salesOrderItems.getSoiitemid());
+                                    jsonObject.put("quantity", salesOrderItems.getSoiquantity());
+                                    jsonObject.put("rate", salesOrderItems.getSoirate());
+                                    jsonObject.put("amount", salesOrderItems.getSoiamount());
+                                    jsonObject.put("unit_base_qty", salesOrderItems.getSoiunitbasequantity());
+                                    jsonObject.put("uom", salesOrderItems.getUom());
+                                    jsonObject.put("price_level_id", salesOrderItems.getSoipricelevelid());
+                                    json_soitems.put(jsonObject);
+                                }
+                                StringRequest send_invoices = new StringRequest(Request.Method.POST, api_url,
+                                        response -> {Log.d("Success","Success");
+                                            if(response.contains("succesfully") || response.contains("has already been")){
+                                                mDatabaseHelper.update_so_status(sales_order_id);}},
+                                        error -> Log.d("Error","Connection Error")){
+
+                                    @Override
+                                    protected Map<String, String> getParams() throws AuthFailureError {
+                                        Map<String, String> params =new HashMap<>();
+                                        params.put("refno", salesOrder.getCode().toString());
+                                        params.put("customer_id", salesOrder.getCustomer().getId().toString());
+                                        params.put("total", salesOrder.getAmount().toString());
+                                        params.put("date", salesOrder.getDate());
+                                        params.put("sales_rep_id", Integer.toString(salesOrder.getSalesrepid()));
+                                        params.put("location_id",Integer.toString(salesOrder.getLocationid()));
+                                        params.put("begin_order", salesOrder.get_begin_order());
+                                        params.put("end_order", salesOrder.get_end_order());
+                                        params.put("sales_order_items", json_soitems.toString());
+                                        return params;
+                                    }
+                                };
+                                request_queue = Volley.newRequestQueue(context);
+                                request_queue.add(send_invoices);
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            Log.d("Exception",e.getMessage());
+                        }
+                    }
+
+                }
+                Log.d("Threadticker", "ThreadTicker: " + i);
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 }

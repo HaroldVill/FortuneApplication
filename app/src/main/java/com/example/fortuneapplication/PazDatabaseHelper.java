@@ -2131,7 +2131,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         int customer_repin_id =0;
         try {
             SQLiteDatabase db = this.getReadableDatabase();
-            String query = "SELECT CUSTOMER_ID FROM REQUEST_REPIN_TABLE WHERE STATUS =0 LIMIT 1";
+            String query = "SELECT ID FROM REQUEST_REPIN_TABLE WHERE STATUS =0 LIMIT 1";
             Cursor cursor = db.rawQuery(query,null);
             if (cursor.moveToFirst()) {
                 customer_repin_id = cursor.getInt(0);
@@ -2150,14 +2150,15 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
     }
 
     public ArrayList<SALESORDER> get_repin_customer(int id) {
+        Log.d("repin_id", Integer.toString(id));
         ArrayList<SALESORDER> salesORlist = new ArrayList<>();
         String query ="";
         query = " SELECT " +
                 REQUEST_REPIN_TABLE + "." + REQUEST_REPIN_CUSTOMER_ID + ", " +
                 REQUEST_REPIN_TABLE + "." + REQUEST_REPIN_DATE +
                 " FROM " + REQUEST_REPIN_TABLE +
-                " WHERE "+ REQUEST_REPIN_TABLE+"."+ CUSTOMER_ID+"="+id+
-                " ORDER BY " + CUSTOMER_SKIP_TABLE_ID + " ASC LIMIT 1";
+                " WHERE "+ REQUEST_REPIN_TABLE+"."+ REQUEST_REPIN_ID+"="+id+
+                " ORDER BY " + REQUEST_REPIN_ID + " ASC LIMIT 1";
 
 
         SQLiteDatabase db = this.getReadableDatabase();
@@ -2179,7 +2180,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
 
     public int update_customer_repin_status(int customer_skip_id){
         SQLiteDatabase db = this.getWritableDatabase();
-        String update_query = "UPDATE REQUEST_REPIN_TABLE SET STATUS = 1 where date = date('now') and CUSTOMER_ID = "+customer_skip_id+"";
+        String update_query = "UPDATE REQUEST_REPIN_TABLE SET STATUS = 1 where date = date('now') and ID = "+customer_skip_id+"";
         try{
             db.execSQL(update_query);
             //db.setTransactionSuccessful();
