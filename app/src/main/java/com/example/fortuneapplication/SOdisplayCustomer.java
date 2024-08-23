@@ -224,17 +224,17 @@ public class SOdisplayCustomer extends AppCompatActivity {
                                         for (int i = 0 ; i < customerArray.length(); i++){
                                             JSONObject jsonObject = customerArray.getJSONObject(i);
                                             String code = jsonObject.getString("id");
-                                            String longitude = jsonObject.getString("LONGITUDE");
-                                            String latitude = jsonObject.getString("LATITUDE");
-                                            String validated = jsonObject.getString("PIN_VALIDATED");
+                                            String longitude = jsonObject.getString("longitude");
+                                            String latitude = jsonObject.getString("latitude");
+                                            String validated = jsonObject.getString("pin_validated");
 
                                             SQLiteDatabase db = mDatabaseHelper.getWritableDatabase();
                                             ContentValues specificRowValues = new ContentValues();
                                             specificRowValues.put("LONGITUDE", longitude);
                                             specificRowValues.put("LATITUDE", latitude);
                                             specificRowValues.put("VERIFY", validated);
-                                            String whereClause = "Customer_Table" + " = ?";
-                                            String[] whereArgs = {code};
+                                            String whereClause = "customer_id" + " = ?"+"and pin_flag" + " = ?";
+                                            String[] whereArgs = {code,"0"};
 
                                             int numSpecificRowUpdated = db.update("Customer_Table", specificRowValues, whereClause, whereArgs);
                                             db.close();
@@ -262,7 +262,7 @@ public class SOdisplayCustomer extends AppCompatActivity {
                     requestQueue.add(stringRequest);
 
                 }
-                Log.d("Threadticker", "ThreadTicker: " + i);
+                Log.d("CustomerThreadticker", "CustomerThreadTicker: " + i);
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {

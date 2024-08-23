@@ -2117,7 +2117,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
     public Integer count_request_repin(Integer customer_id){
         Integer value=0;
 
-        String query ="SELECT ifnull(count(id),0) FROM request_repin_table where date = date('now') and customer_id ="+customer_id.toString();
+        String query ="SELECT ifnull(count(id),0) FROM request_repin_table where date = date('now') and status = 0 and customer_id ="+customer_id.toString();
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(query,null);
         if(cursor.moveToFirst()){
