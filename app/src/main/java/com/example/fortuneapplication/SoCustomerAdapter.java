@@ -116,6 +116,14 @@ public class SoCustomerAdapter extends RecyclerView.Adapter<SoCustomerAdapter.My
             verification_description = "Verified";
         }
         holder.verification.setText(verification_description);
+        LocalDateTime current_date = LocalDateTime.now();
+        DateTimeFormatter datenow = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        if(db.check_customer_skip(Integer.parseInt(customer.getId()))>0){
+            holder.is_visited.setText("SKIPPED");
+        }
+        else if(db.check_customer_order(Integer.parseInt(customer.getId()),current_date.format(datenow))>0){
+            holder.is_visited.setText("ORDERED");
+        }
 
         GetGPSLocation gps = new GetGPSLocation(context,activity,locationManager);
         String longitude1 = gps.get_longitude();
@@ -349,7 +357,7 @@ public class SoCustomerAdapter extends RecyclerView.Adapter<SoCustomerAdapter.My
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView so1,so2,so3,so4,socontact,longitude,latitude,distance,verification;
+        TextView so1,so2,so3,so4,socontact,longitude,latitude,distance,verification,is_visited;
         Button save_coordinate,verify_pin,skip_order,remove_pin,request_repin;
 
         public MyViewHolder(@NonNull View itemView) {
@@ -369,6 +377,7 @@ public class SoCustomerAdapter extends RecyclerView.Adapter<SoCustomerAdapter.My
             remove_pin = itemView.findViewById(R.id.remove_pin);
             verification = itemView.findViewById(R.id.verfication);
             request_repin  =itemView.findViewById(R.id.request_repin);
+            is_visited = itemView.findViewById(R.id.is_visited);
         }
     }
 

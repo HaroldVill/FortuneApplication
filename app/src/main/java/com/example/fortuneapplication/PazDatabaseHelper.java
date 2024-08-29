@@ -2194,6 +2194,30 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         return 0;
     }
 
+    public int check_customer_order(int customer_id,String datenow){
+        int sales_order_id = 0;
+        Log.d(TAG, "check_so_date: "+datenow.toString());
+        try {
+            SQLiteDatabase db = this.getReadableDatabase();
+            String query = "SELECT sales_orderid FROM sales_order_table WHERE date = '"+datenow+"' and customer_id="+customer_id+" LIMIT 1";
+            Cursor cursor = db.rawQuery(query,null);
+            if (cursor.moveToFirst()) {
+                sales_order_id = cursor.getInt(0);
+            }
+            cursor.close();
+//            db.close();
+            return sales_order_id;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        finally {
+
+        }
+
+        return sales_order_id;
+    }
+
     }
 
 
