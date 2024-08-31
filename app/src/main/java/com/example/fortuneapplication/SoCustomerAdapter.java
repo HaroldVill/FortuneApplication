@@ -118,6 +118,7 @@ public class SoCustomerAdapter extends RecyclerView.Adapter<SoCustomerAdapter.My
         holder.verification.setText(verification_description);
         LocalDateTime current_date = LocalDateTime.now();
         DateTimeFormatter datenow = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        holder.is_visited.setText("UNVISITED");
         if(db.check_customer_skip(Integer.parseInt(customer.getId()))>0){
             holder.is_visited.setText("SKIPPED");
         }

@@ -10,6 +10,7 @@ import static com.example.fortuneapplication.PazDatabaseHelper.SYSTEM_SETTINGS_V
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -20,6 +21,7 @@ import android.content.BroadcastReceiver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -42,6 +44,7 @@ public class Connections extends AppCompatActivity {
     TextView selection, connection_label, select_sales_type,sales_type_label,select_sales_rep_id,sales_rep_id_label,select_gps_mode,gps_label,select_verify_mode,verify_label,select_bluetooth_device,bluetooth_macaddress;
     Button apply,apply_sales_type,apply_sales_rep_id,apply_gps_mode,apply_verify_mode,apply_bluetooth;
     private PazDatabaseHelper mdatabaseHelper;
+    public static final String RECEIVE_latLng = "com.bustracker.RECEIVE_latLng";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +78,10 @@ public class Connections extends AppCompatActivity {
         bluetooth_macaddress = findViewById(R.id.bluetooh_macaddress);
         bluetooth_macaddress.setText(mdatabaseHelper.get_bluetooth_device());
         apply_bluetooth = findViewById(R.id.apply_bluetooth);
+        LocalBroadcastManager bManager = LocalBroadcastManager.getInstance(this);
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(RECEIVE_latLng);
+        bManager.registerReceiver(receiver, intentFilter);
         apply_sales_rep_id.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {}
@@ -296,9 +303,10 @@ public class Connections extends AppCompatActivity {
         }
     };
     protected void onDestroy() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
         super.onDestroy();
         // Don't forget to unregister the ACTION_FOUND receiver.
-        unregisterReceiver(receiver);
+//        unregisterReceiver(receiver);
     }
     @SuppressLint("Range")
     public ArrayList<CONNECT> displayselect() {
