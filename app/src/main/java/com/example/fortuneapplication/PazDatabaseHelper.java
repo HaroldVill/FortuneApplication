@@ -14,6 +14,8 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -1709,6 +1711,10 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
 
     public ArrayList<SALESORDER> history_getSlsorder(String date) {
         ArrayList<SALESORDER> salesORlist = new ArrayList<>();
+        LocalDateTime datenow = LocalDateTime.now();
+        DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("d-m-yy");
+        String formattedDate = datenow.format(myFormatObj);
+        String date_now = formattedDate.toString();
         String query ="";
             query = " SELECT " +
                     SALES_ORDER_TABLE + "." + SALES_ORDERID + ", " +
@@ -1727,10 +1733,11 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                     " ON " + SALESREP_TABLE + "." + SALESREP_ID + " = " + SALES_ORDER_TABLE + "." + SALES_REP_ID +
                     " INNER JOIN " + CUSTOMER_TABLE +
                     " ON " + SALES_ORDER_TABLE + "." + CUSTOMER_ID + " = " + CUSTOMER_TABLE + "." + CUSTOMER_ID +
-//                    " WHERE "+ SALES_ORDER_TABLE+"."+ DATE+"=STRFTIME('%d/%m/%Y','"+date+
-//                    "') ORDER BY " + SALES_ORDERID + " ASC";
-                  " WHERE "+ SALES_ORDER_TABLE+"."+ DATE+"="+"substr(strftime('%d/%m/', '"+date+"'),2,5)    || substr(strftime('%Y', '"+date+"'), 3, 2)"+" ORDER BY " + SALES_ORDERID + " ASC";
+                    " WHERE "+ SALES_ORDER_TABLE+"."+ DATE+"=STRFTIME('%d/%m/%Y','"+date+
+                    "') ORDER BY " + SALES_ORDERID + " ASC";
+//                  " WHERE "+ SALES_ORDER_TABLE+"."+ DATE+"="+"substr(strftime('%m/', '"+date+"'),2,5)     || substr(strftime('%d/', '"+date+"'),2,5) || substr(strftime('%Y', '"+date+"'), 3, 2)"+" ORDER BY " + SALES_ORDERID + " ASC";
 
+        Log.d(TAG, "history_getSlsorder: "+"substr(strftime('%d/%m/', '"+date+"'),2,5)    || substr(strftime('%Y', '"+date+"'), 3, 2)");
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(query, null);
 
