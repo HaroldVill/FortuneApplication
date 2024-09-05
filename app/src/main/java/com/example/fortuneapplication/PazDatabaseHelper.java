@@ -1729,7 +1729,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                     " ON " + SALES_ORDER_TABLE + "." + CUSTOMER_ID + " = " + CUSTOMER_TABLE + "." + CUSTOMER_ID +
 //                    " WHERE "+ SALES_ORDER_TABLE+"."+ DATE+"=STRFTIME('%d/%m/%Y','"+date+
 //                    "') ORDER BY " + SALES_ORDERID + " ASC";
-                  " WHERE "+ SALES_ORDER_TABLE+"."+ DATE+"="+"substr(strftime('%m/%d/', '"+date+"'),2,5)    || substr(strftime('%Y', '"+date+"'), 3, 2)"+" ORDER BY " + SALES_ORDERID + " ASC";
+                  " WHERE "+ SALES_ORDER_TABLE+"."+ DATE+"="+"substr(strftime('%d/%m/', '"+date+"'),2,5)    || substr(strftime('%Y', '"+date+"'), 3, 2)"+" ORDER BY " + SALES_ORDERID + " ASC";
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(query, null);
