@@ -959,6 +959,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                 " INNER JOIN CUSTOMER_COVERAGE_PLAN ON CUSTOMER_COVERAGE_PLAN.CUSTOMER_ID = CUSTOMER_TABLE.CUSTOMER_ID "
                 +"AND CUSTOMER_COVERAGE_PLAN.SALESREP_ID=(SELECT SALESREP_ID FROM SALES_REP_TABLE WHERE salesrep_name =(SELECT VALUE FROM SYSTEM_SETTINGS WHERE NAME='DEFAULT_SALES_REP_ID')) "
                 +"AND CUSTOMER_COVERAGE_PLAN.COVERAGE_DAY = (SELECT  strftime('%w', date('now')))"
+                +"AND CUSTOMER_COVERAGE_PLAN.FREQUENCY_WEEK_SCHEDULE LIKE '%' || substr(strftime('%d/', date('now')),2,5) || '%'"
                 +" LEFT JOIN " + PAYMENT_TERMS_TABLE +
                 "  ON " + CUSTOMER_TABLE + "." + PAYMENT_TERMS_ID + " = " + PAYMENT_TERMS_TABLE + "." + PTERMS_ID
                 +" GROUP BY "+CUSTOMER_TABLE + "." + CUSTOMER_ID
@@ -1733,9 +1734,9 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                     " ON " + SALESREP_TABLE + "." + SALESREP_ID + " = " + SALES_ORDER_TABLE + "." + SALES_REP_ID +
                     " INNER JOIN " + CUSTOMER_TABLE +
                     " ON " + SALES_ORDER_TABLE + "." + CUSTOMER_ID + " = " + CUSTOMER_TABLE + "." + CUSTOMER_ID +
-                    " WHERE "+ SALES_ORDER_TABLE+"."+ DATE+"=STRFTIME('%d/%m/%Y','"+date+
-                    "') ORDER BY " + SALES_ORDERID + " ASC";
-//                  " WHERE "+ SALES_ORDER_TABLE+"."+ DATE+"="+"substr(strftime('%m/', '"+date+"'),2,5)     || substr(strftime('%d/', '"+date+"'),2,5) || substr(strftime('%Y', '"+date+"'), 3, 2)"+" ORDER BY " + SALES_ORDERID + " ASC";
+//                    " WHERE "+ SALES_ORDER_TABLE+"."+ DATE+"=STRFTIME('%d/%m/%Y','"+date+
+//                    "') ORDER BY " + SALES_ORDERID + " ASC";
+                  " WHERE "+ SALES_ORDER_TABLE+"."+ DATE+"="+"substr(strftime('%m/', '"+date+"'),2,5)     || substr(strftime('%d/', '"+date+"'),2,5) || substr(strftime('%Y', '"+date+"'), 3, 2)"+" ORDER BY " + SALES_ORDERID + " ASC";
 
         Log.d(TAG, "history_getSlsorder: "+"substr(strftime('%d/%m/', '"+date+"'),2,5)    || substr(strftime('%Y', '"+date+"'), 3, 2)");
         SQLiteDatabase db = this.getReadableDatabase();
