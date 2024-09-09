@@ -221,7 +221,7 @@ public class TemporaryData extends AppCompatActivity implements PrintingCallback
                 // calling method to
                 // generate our PDF file.
 //                generatePDF(salesOrderId);
-                connectBluetooth("86:67:7A:7B:29:34",salesOrderId);
+                connectBluetooth(mDatabaseHelper.get_bluetooth_device(),salesOrderId);
             }
         });
     }

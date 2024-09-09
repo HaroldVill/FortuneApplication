@@ -2027,7 +2027,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
 
     public String get_bluetooth_device(){
         String value="";
-        String query ="SELECT ifnull(VALUE,'') VALUE FROM SYSTEM_SETTINGS WHERE  id=5";
+        String query ="SELECT ifnull(substr(VALUE,-17),'') VALUE FROM SYSTEM_SETTINGS WHERE  id=5";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(query,null);
         if(cursor.moveToFirst()){
