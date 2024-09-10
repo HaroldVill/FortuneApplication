@@ -288,8 +288,10 @@ public class TemporaryData extends AppCompatActivity implements PrintingCallback
                     Double amount = salesOrderItems.getSoirate() * salesOrderItems.getSoiquantity();
                     String quantity = Integer.toString(salesOrderItems.getSoiquantity())+" "+salesOrderItems.getUom()+" @ "
                             +Double.toString(salesOrderItems.getSoirate())+"\n";
+                    byte[] PRINT_RIGHT = {27, 70, 86};
                     String lineTotal = "                       "+Double.toString(amount)+"\n";
                     outputStream.write(quantity.getBytes());
+                    outputStream.write(PRINT_RIGHT);
                     outputStream.write(lineTotal.getBytes());
 //                    outputStream.write(" \n".getBytes());
                 }
