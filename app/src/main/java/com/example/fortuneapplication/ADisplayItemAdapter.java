@@ -54,7 +54,7 @@ public class ADisplayItemAdapter extends RecyclerView.Adapter<ADisplayItemAdapte
                 if (position >= 0 && position < itemList.size()) {
                     Item2 item = itemList.get(position);
                     // Get the item code
-                    String code = item.getCode();
+                    String code = item.getId();
 
                     // Call the deleteItem method from the PazDatabaseHelper
                     if (database != null) {

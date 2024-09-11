@@ -46,7 +46,7 @@ import java.util.ArrayList;
 public class InputQuantity extends AppCompatActivity {
     EditText q1, q2, q3, q4, q5, q6;
     TextView balik, ps, itemid, idlvl, untbase, samvalue, datasam,basihan,dew;
-    Button itemsave;
+    Button itemsave,itemfree;
 
     Spinner spinner6;
     private PazDatabaseHelper mdatabaseHelper;
@@ -65,6 +65,7 @@ public class InputQuantity extends AppCompatActivity {
         q6 = findViewById(R.id.q6);
         balik = findViewById(R.id.balik);
         itemsave = findViewById(R.id.itemsave);
+        itemfree = findViewById(R.id.itemfree);
         ps = findViewById(R.id.ps);
         itemid = findViewById(R.id.itemid);
         idlvl = findViewById(R.id.idlvl);
@@ -228,6 +229,49 @@ public class InputQuantity extends AppCompatActivity {
                     Toast.makeText(InputQuantity.this, "Please Check All Details", Toast.LENGTH_SHORT).show();
                 }
 
+            }
+        });
+
+        itemfree.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PazDatabaseHelper databaseHelper = new PazDatabaseHelper(getApplicationContext());
+                //  Intent qa = new Intent(InputQuantity.this, ItemPricelvlChoiceDisplay.class);
+
+                if (q3.getText().toString().equals("0")) {
+                    Toast.makeText(InputQuantity.this, "Out of Stock Please Select Another Item", Toast.LENGTH_SHORT).show();
+                } else if (!q5.getText().toString().isEmpty() && !q6.getText().toString().isEmpty()) {
+
+                    // String cqa = untbase.getText().toString();
+                    String dataa = idlvl.getText().toString();
+                    String data0 = itemid.getText().toString();
+                    String data1 = q1.getText().toString();
+                    String data2 = q2.getText().toString();
+                    String datass = dew.getText().toString();
+                    String data3 = q3.getText().toString();
+                    String data4 = q4.getText().toString();
+                    String data5 = q5.getText().toString();
+                    String data6 = q6.getText().toString();
+                    String asd = basihan.getText().toString();
+
+                    Item2 item2 = new Item2(asd,dataa, data0, data1, data2,datass, data3, "0.00", data5, "0.00");
+                    //long itemId = databaseHelper.storeOrderItem(item2);
+                    databaseHelper.storeOrderItem(item2);
+                    Toast.makeText(InputQuantity.this, "Item Added Successfully", Toast.LENGTH_SHORT).show();
+
+                    idlvl.setText("");
+                    q1.setText("");
+                    q2.setText("");
+                    q3.setText("");
+                    q4.setText("");
+                    q5.setText("");
+                    q6.setText("");
+                    itemid.setText("");
+                    // startActivity(qa);
+                    finish();
+                } else {
+                    Toast.makeText(InputQuantity.this, "Please Check All Details", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

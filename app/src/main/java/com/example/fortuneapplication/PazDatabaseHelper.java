@@ -80,7 +80,8 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
 
     //* ORDER ITEM TABLE//*
     private static final String ORDER_ITEM_TABLE = "Order_Item_Table";
-    private static final String ORDER_ITEM_ID = "id";
+    private static final String ORDER_ID = "id";
+    private static final String ORDER_ITEM_ID = "item_id";
     private static final String ORDER_PRICELEVEL_ID = "price_level_id";
     private static final String ORDER_ITEM_CODE = "order_item_code";
     private static final String ORDER_ITEM_DESCRIPTION = "order_item_description";
@@ -246,7 +247,8 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                 LOCATION_NAME + " TEXT)";
 
         String createItem = "CREATE TABLE " + ORDER_ITEM_TABLE + "(" +
-                ORDER_ITEM_ID + " INTEGER PRIMARY KEY," +
+                ORDER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                ORDER_ITEM_ID + " INTEGER ," +
                 ORDER_PRICELEVEL_ID + " INTEGER, " +
                 ORDER_ITEM_CODE + " TEXT NOT NULL," +
                 ORDER_ITEM_DESCRIPTION + " TEXT NOT NULL," +
@@ -872,6 +874,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
 
             do {
                 Item2 item2 = new Item2();
+                item2.setId(cursor.getString(cursor.getColumnIndex(ORDER_ID)));
                 item2.setCode(cursor.getString(cursor.getColumnIndex(ORDER_ITEM_CODE)));
                 item2.setDescription(cursor.getString(cursor.getColumnIndex(ORDER_ITEM_DESCRIPTION)));
                 item2.setUnitmeasure(cursor.getString(cursor.getColumnIndex(ORDER_ITEM_UOM)));
@@ -1132,7 +1135,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
 
     public void deleteItem(String code) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete("Order_Item_Table", "order_item_code = ?", new String[]{code});
+        db.delete("Order_Item_Table", "id = ?", new String[]{code});
 //        db.close();
 
     }
