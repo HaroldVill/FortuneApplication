@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -51,6 +52,7 @@ public class InputQuantity extends AppCompatActivity {
     Spinner spinner6;
     private PazDatabaseHelper mdatabaseHelper;
     ArrayList<Unit> units;
+    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -194,12 +196,10 @@ public class InputQuantity extends AppCompatActivity {
                 PazDatabaseHelper databaseHelper = new PazDatabaseHelper(getApplicationContext());
               //  Intent qa = new Intent(InputQuantity.this, ItemPricelvlChoiceDisplay.class);
 
-                if (q3.getText().toString().equals("0")) {
-                    Toast.makeText(InputQuantity.this, "Out of Stock Please Select Another Item", Toast.LENGTH_SHORT).show();
-                } else if (!q5.getText().toString().isEmpty() && !q6.getText().toString().isEmpty()) {
-
-                   // String cqa = untbase.getText().toString();
-                    String dataa = idlvl.getText().toString();
+//                if (q3.getText().toString().equals("0")) {
+//                    Toast.makeText(InputQuantity.this, "Out of Stock Please Select Another Item", Toast.LENGTH_SHORT).show();
+//                } else
+                if (!q5.getText().toString().isEmpty() && !q6.getText().toString().isEmpty() && itemid.getText().toString().equals("19080")) { String dataa = idlvl.getText().toString();
                     String data0 = itemid.getText().toString();
                     String data1 = q1.getText().toString();
                     String data2 = q2.getText().toString();
@@ -210,51 +210,7 @@ public class InputQuantity extends AppCompatActivity {
                     String data6 = q6.getText().toString();
                     String asd = basihan.getText().toString();
 
-                    Item2 item2 = new Item2(asd,dataa, data0, data1, data2,datass, data3, data4, data5, data6);
-                    //long itemId = databaseHelper.storeOrderItem(item2);
-                    databaseHelper.storeOrderItem(item2);
-                    Toast.makeText(InputQuantity.this, "Item Added Successfully", Toast.LENGTH_SHORT).show();
-
-                    idlvl.setText("");
-                    q1.setText("");
-                    q2.setText("");
-                    q3.setText("");
-                    q4.setText("");
-                    q5.setText("");
-                    q6.setText("");
-                    itemid.setText("");
-                   // startActivity(qa);
-                    finish();
-                } else {
-                    Toast.makeText(InputQuantity.this, "Please Check All Details", Toast.LENGTH_SHORT).show();
-                }
-
-            }
-        });
-
-        itemfree.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                PazDatabaseHelper databaseHelper = new PazDatabaseHelper(getApplicationContext());
-                //  Intent qa = new Intent(InputQuantity.this, ItemPricelvlChoiceDisplay.class);
-
-                if (q3.getText().toString().equals("0")) {
-                    Toast.makeText(InputQuantity.this, "Out of Stock Please Select Another Item", Toast.LENGTH_SHORT).show();
-                } else if (!q5.getText().toString().isEmpty() && !q6.getText().toString().isEmpty()) {
-
-                    // String cqa = untbase.getText().toString();
-                    String dataa = idlvl.getText().toString();
-                    String data0 = itemid.getText().toString();
-                    String data1 = q1.getText().toString();
-                    String data2 = q2.getText().toString();
-                    String datass = dew.getText().toString();
-                    String data3 = q3.getText().toString();
-                    String data4 = q4.getText().toString();
-                    String data5 = q5.getText().toString();
-                    String data6 = q6.getText().toString();
-                    String asd = basihan.getText().toString();
-
-                    Item2 item2 = new Item2(asd,dataa, data0, data1, data2,datass, data3, "0.00", data5, "0.00");
+                    Item2 item2 = new Item2(asd,dataa, data0, data1, data2,datass, "-1", data5, "-1", data6);
                     //long itemId = databaseHelper.storeOrderItem(item2);
                     databaseHelper.storeOrderItem(item2);
                     Toast.makeText(InputQuantity.this, "Item Added Successfully", Toast.LENGTH_SHORT).show();
@@ -269,6 +225,105 @@ public class InputQuantity extends AppCompatActivity {
                     itemid.setText("");
                     // startActivity(qa);
                     finish();
+                    return;
+                }
+                if (!q5.getText().toString().isEmpty() && !q6.getText().toString().isEmpty()) {
+
+                           // String cqa = untbase.getText().toString();
+                            String dataa = idlvl.getText().toString();
+                            String data0 = itemid.getText().toString();
+                            String data1 = q1.getText().toString();
+                            String data2 = q2.getText().toString();
+                            String datass = dew.getText().toString();
+                            String data3 = q3.getText().toString();
+                            String data4 = q4.getText().toString();
+                            String data5 = q5.getText().toString();
+                            String data6 = q6.getText().toString();
+                            String asd = basihan.getText().toString();
+
+                            Item2 item2 = new Item2(asd,dataa, data0, data1, data2,datass, data3, data4, data5, data6);
+                            //long itemId = databaseHelper.storeOrderItem(item2);
+                            databaseHelper.storeOrderItem(item2);
+                            Toast.makeText(InputQuantity.this, "Item Added Successfully", Toast.LENGTH_SHORT).show();
+
+                            idlvl.setText("");
+                            q1.setText("");
+                            q2.setText("");
+                            q3.setText("");
+                            q4.setText("");
+                            q5.setText("");
+                            q6.setText("");
+                            itemid.setText("");
+                           // startActivity(qa);
+                            finish();
+
+                } else {
+                    Toast.makeText(InputQuantity.this, "Please Check All Details", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+
+        itemfree.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PazDatabaseHelper databaseHelper = new PazDatabaseHelper(getApplicationContext());
+                //  Intent qa = new Intent(InputQuantity.this, ItemPricelvlChoiceDisplay.class);
+
+//                if (q3.getText().toString().equals("0")) {
+//                    Toast.makeText(InputQuantity.this, "Out of Stock Please Select Another Item", Toast.LENGTH_SHORT).show();
+//                }
+//                else
+                if (!q5.getText().toString().isEmpty() && !q6.getText().toString().isEmpty()) {
+                    final AlertDialog.Builder builder= new AlertDialog.Builder(InputQuantity.this);
+                            builder.setMessage("You are about to add this item for free. Would you want to proceed?").setCancelable(false).setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                            }).setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                            dialog.cancel();
+                            }
+                            });
+                    final AlertDialog alertDialog=builder.create();
+                            alertDialog.show();
+                            alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener()
+                    {
+                    @Override
+                    public void onClick(View v)
+                    {
+                        // String cqa = untbase.getText().toString();
+                        String dataa = idlvl.getText().toString();
+                        String data0 = itemid.getText().toString();
+                        String data1 = q1.getText().toString();
+                        String data2 = q2.getText().toString();
+                        String datass = dew.getText().toString();
+                        String data3 = q3.getText().toString();
+                        String data4 = q4.getText().toString();
+                        String data5 = q5.getText().toString();
+                        String data6 = q6.getText().toString();
+                        String asd = basihan.getText().toString();
+
+                        Item2 item2 = new Item2(asd,dataa, data0, data1, data2,datass, data3, "0.00", data5, "0.00");
+                        //long itemId = databaseHelper.storeOrderItem(item2);
+                        databaseHelper.storeOrderItem(item2);
+                        Toast.makeText(InputQuantity.this, "Item Added Successfully", Toast.LENGTH_SHORT).show();
+
+                        idlvl.setText("");
+                        q1.setText("");
+                        q2.setText("");
+                        q3.setText("");
+                        q4.setText("");
+                        q5.setText("");
+                        q6.setText("");
+                        itemid.setText("");
+                        // startActivity(qa);
+                        finish();
+                    }
+                    });
                 } else {
                     Toast.makeText(InputQuantity.this, "Please Check All Details", Toast.LENGTH_SHORT).show();
                 }
