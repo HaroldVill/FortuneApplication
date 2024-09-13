@@ -86,21 +86,29 @@ public class SyncItemActivity extends AppCompatActivity {
           public void onClick(View v) {
                 //  * DELETE THE DATA IN DATBASE//*
 //              PazDatabaseHelper databaseHelper = new PazDatabaseHelper(getApplicationContext());
-//             databaseHelper.deleteExistingData();
-              fetchdatafromJson();
+//
               progressBar1.setVisibility(View.VISIBLE);
+              fetchdatafromJson();
+
           }
       });
     }
     public void fetchdatafromJson(){
         final PazDatabaseHelper databaseHelper = new PazDatabaseHelper(getApplicationContext());
-        String sales_rep_id = databaseHelper.get_active_connection();
+        String sales_rep_id = databaseHelper.get_default_salesrep_id();
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, JSON_URL+"?sales_rep_id=12",
+        if(sales_rep_id.equals("")){
+            Toast.makeText(SyncItemActivity.this, "There must be a default sales rep.", Toast.LENGTH_SHORT).show();
+            progressBar1.setVisibility(View.GONE);
+            return;
+        }
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, JSON_URL+"?sales_rep_id="+sales_rep_id,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         try {
+                            databaseHelper.deleteExistingData();
                             JSONObject obj = new JSONObject(response);
                             JSONArray itemArray = obj.getJSONArray("data");
 
