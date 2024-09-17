@@ -259,9 +259,11 @@ public class SOActivity extends AppCompatActivity {
         if (!cname.getText().toString().isEmpty()) {
             adis.setEnabled(true);
             String value = ii.getText().toString();
+            String customer_id = cid.getText().toString();
 
             Intent ik = new Intent(SOActivity.this, ItemPricelvlChoiceDisplay.class);
             ik.putExtra("PRI", value);
+            ik.putExtra("CUSTOMER_ID", customer_id);
             startActivity(ik);
             finish();
 

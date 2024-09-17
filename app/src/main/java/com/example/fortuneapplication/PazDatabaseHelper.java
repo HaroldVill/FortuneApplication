@@ -50,7 +50,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
     private static final String TELEPHONE_NO = "telephone_no";
     private static final String PAYMENT_TERMS_ID = "payment_terms_id";
     private static final String SALES_REP_ID = "sales_rep_id";
-    private static final String PRICE_LEVEL_ID = "price_level_id";
+    protected static final String PRICE_LEVEL_ID = "price_level_id";
     private static final String LONGITUDE = "longitude";
     private static final String LATITUDE = "latitude";
     private static final String PIN_FLAG = "pin_flag";

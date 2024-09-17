@@ -232,6 +232,8 @@ public class SoCustomerAdapter extends RecyclerView.Adapter<SoCustomerAdapter.My
                             Toast.makeText(context, "Please PIN customer first.", Toast.LENGTH_SHORT).show();
                         }
                         else {
+                            mdatabasehelper = new PazDatabaseHelper(context);
+                            mdatabasehelper.deleOrderSample();
                             Intent tra = new Intent(context, SOActivity.class);
                             SharedPreferences preferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
                             SharedPreferences.Editor editor = preferences.edit();
