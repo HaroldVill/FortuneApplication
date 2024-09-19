@@ -281,6 +281,8 @@ public class TemporaryData extends AppCompatActivity implements PrintingCallback
                 outputStream.write(date.getBytes());
                 outputStream.write(" \n".getBytes());
                 outputStream.write(" \n".getBytes());
+                Double TotalAmount = 0.00;
+                Double TotalQuantity = 0.00;
                 for (SALESORDERITEMS salesOrderItems : salesOrderItemList) {
 
                     String Itemdesc = salesOrderItems.getitemdesc()+"\n";
@@ -291,10 +293,15 @@ public class TemporaryData extends AppCompatActivity implements PrintingCallback
                     byte[] PRINT_RIGHT = {27, 70, 86};
                     String lineTotal = "                       "+Double.toString(amount)+"\n";
                     outputStream.write(quantity.getBytes());
-                    outputStream.write(PRINT_RIGHT);
+//                    outputStream.write(PRINT_RIGHT);
                     outputStream.write(lineTotal.getBytes());
 //                    outputStream.write(" \n".getBytes());
+                    TotalAmount= TotalAmount + amount;
+                    TotalQuantity = TotalQuantity + salesOrderItems.getSoiquantity();
                 }
+                String AmountTotal = "\n"+"                TOTAL: "+Double.toString(TotalAmount)+"\n";
+                outputStream.write(AmountTotal.getBytes());
+//                outputStream.write("________________________________".getBytes());
 
                 bluetoothSocket.close();
             }
