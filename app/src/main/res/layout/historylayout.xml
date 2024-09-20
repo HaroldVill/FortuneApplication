@@ -78,7 +78,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:src="@drawable/sinkicon"
-            android:visibility="invisible"></ImageView>
+            ></ImageView>
 
     </TableRow>
 

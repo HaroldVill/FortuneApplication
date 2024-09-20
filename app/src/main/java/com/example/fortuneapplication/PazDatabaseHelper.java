@@ -1676,6 +1676,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                     " INNER JOIN " + CUSTOMER_TABLE +
                     " ON " + SALES_ORDER_TABLE + "." + CUSTOMER_ID + " = " + CUSTOMER_TABLE + "." + CUSTOMER_ID +
                     " WHERE "+ SALES_ORDER_TABLE+"."+ SALES_ORDERID+"="+sales_order_id+
+                    " AND "+SALES_ORDER_TABLE+"."+POSTED+"=1"+
                     " ORDER BY " + SALES_ORDERID + " ASC";
         }
 

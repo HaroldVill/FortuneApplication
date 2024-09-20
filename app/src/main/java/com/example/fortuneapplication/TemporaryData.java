@@ -268,7 +268,7 @@ public class TemporaryData extends AppCompatActivity implements PrintingCallback
 
 //                String printCommand = "TEXT 0,0,\"0\",0,0,0,\"\"\n";
 //                outputStream.write(printCommand.getBytes());
-                String labelConfig = "SIZE 4,2\nGAP 0.12,0\n";
+                String labelConfig = "SIZE 3,2\nGAP 0.11,0\n";
 //                outputStream.write(labelConfig.getBytes());
                 String CompanyName = "       PAZ DISTRIBUTION INC.\n";
                 outputStream.write(CompanyName.getBytes());
@@ -291,15 +291,16 @@ public class TemporaryData extends AppCompatActivity implements PrintingCallback
                     String quantity = Integer.toString(salesOrderItems.getSoiquantity())+" "+salesOrderItems.getUom()+" @ "
                             +Double.toString(salesOrderItems.getSoirate())+"\n";
                     byte[] PRINT_RIGHT = {27, 70, 86};
-                    String lineTotal = "                       "+Double.toString(amount)+"\n";
+                    String lineTotal = String.format("%1$"+30+ "s", Double.toString(amount))+"\n";
                     outputStream.write(quantity.getBytes());
-//                    outputStream.write(PRINT_RIGHT);
                     outputStream.write(lineTotal.getBytes());
+//                    outputStream.write(PRINT_RIGHT);
+//                    outputStream.write(lineTotal.getBytes());
 //                    outputStream.write(" \n".getBytes());
                     TotalAmount= TotalAmount + amount;
                     TotalQuantity = TotalQuantity + salesOrderItems.getSoiquantity();
                 }
-                String AmountTotal = "\n"+"                TOTAL: "+Double.toString(TotalAmount)+"\n";
+                String AmountTotal = String.format("\n"+"%1$"+30+ "s", "TOTAL: "+Double.toString(TotalAmount))+"\n";
                 outputStream.write(AmountTotal.getBytes());
 //                outputStream.write("________________________________".getBytes());
 
