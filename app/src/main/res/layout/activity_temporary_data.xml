@@ -28,10 +28,10 @@
             android:src="@drawable/deletedako"></ImageView>
         <ImageView
             android:id="@+id/print"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="102dp"
-            android:layout_marginLeft="60dp"
+            android:layout_marginLeft="50dp"
             android:src="@drawable/car_ui_icon_chevron"></ImageView>
 
         <TextView

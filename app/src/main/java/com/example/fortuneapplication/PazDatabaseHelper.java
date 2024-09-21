@@ -1569,6 +1569,32 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         return status;
     }
 
+    public int get_so_items_posted_flag(int so_id){
+        int status =0;
+        Log.d(TAG, "get_so_items_posted_flag: "+Integer.toString(so_id));
+        try {
+            SQLiteDatabase db = this.getReadableDatabase();
+            String query = "SELECT POSTED FROM SALES_ORDER_TABLE WHERE SALES_ORDERID=(SELECT SALES_ORDER_ID FROM SALES_ORDER_ITEMS_TABLE WHERE ID = "+so_id+")";
+            Log.d(TAG, "get_so_items_posted_flag_query: "+query);
+            Cursor cursor = db.rawQuery(query,null);
+            if (cursor.moveToFirst()) {
+                status = cursor.getInt(0);
+            }
+            cursor.close();
+//            db.close();
+            Log.d(TAG, "get_so_items_posted_flag_Status: " +status);
+            return status;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            Log.d(TAG, "get_so_items_posted_flag_exception: "+e);
+        }
+        finally {
+
+        }
+        return status;
+    }
+
 // INSERT DATA INTO DASHBOARD TABLE
 
     public long insertDataIntoDashboard() {
@@ -2229,6 +2255,37 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         }
 
         return sales_order_id;
+    }
+
+    public int delete_so(int so_id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String delete_query = "DELETE FROM SALES_ORDER_TABLE  where SALES_ORDERID = "+so_id;
+        try{
+            db.execSQL(delete_query);
+            //db.setTransactionSuccessful();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        finally {
+            //db.endTransaction();
+        }
+        return 0;
+    }
+    public int delete_so_items(int so_id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String delete_query = "DELETE FROM SALES_ORDER_ITEMS_TABLE  where SALES_ORDER_ID = "+so_id;
+        try{
+            db.execSQL(delete_query);
+            //db.setTransactionSuccessful();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        finally {
+            //db.endTransaction();
+        }
+        return 0;
     }
 
     }

@@ -102,7 +102,7 @@ import org.json.JSONObject;
 
 public class TemporaryData extends AppCompatActivity implements PrintingCallback {
     TextView ref, names, moreinfo, notesam, dt;
-    ImageView hm, print;
+    ImageView hm, print,deletebutton;
     EditText supertot;
     RecyclerView datadisp;
     Printing print_receipt;
@@ -119,6 +119,7 @@ public class TemporaryData extends AppCompatActivity implements PrintingCallback
 
     FloatingActionButton arayba;
     AlertDialog.Builder builder;
+    Context context;
 
     // declaring width and height
     // for our PDF file.
@@ -149,6 +150,7 @@ public class TemporaryData extends AppCompatActivity implements PrintingCallback
         print = findViewById(R.id.print);
         builder = new AlertDialog.Builder(this);
         Printooth.INSTANCE.init(this);
+        deletebutton = findViewById(R.id.deletebutton);
 
 
         mDatabaseHelper = new PazDatabaseHelper(this);
@@ -156,7 +158,7 @@ public class TemporaryData extends AppCompatActivity implements PrintingCallback
 
         datadisp.setLayoutManager(new LinearLayoutManager(this));
         ArrayList<SALESORDERITEMS> salesorderitems = displayOrderItem();
-        tempoDataAdapter = new TempoDataAdapter(salesorderitems);
+        tempoDataAdapter = new TempoDataAdapter(salesorderitems,this);
         datadisp.setAdapter(tempoDataAdapter);
 
         SharedPreferences preferences = getSharedPreferences("HISTORY", Context.MODE_PRIVATE);
@@ -221,7 +223,43 @@ public class TemporaryData extends AppCompatActivity implements PrintingCallback
                 // calling method to
                 // generate our PDF file.
 //                generatePDF(salesOrderId);
-                connectBluetooth(mDatabaseHelper.get_bluetooth_device(),salesOrderId);
+                if(mDatabaseHelper.get_so_posted_flag(salesOrderId)  == 0){
+                    Toast.makeText(print.getContext(), "Order must be posted before printing", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    connectBluetooth(mDatabaseHelper.get_bluetooth_device(), salesOrderId);
+                }
+            }
+        });
+        deletebutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(mDatabaseHelper.get_so_posted_flag(salesOrderId)  > 0){
+                    Toast.makeText(print.getContext(), "Cannot delete a posted order.", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    builder.setTitle("WARNING")
+                            .setMessage("Do you want to delete this transaction?")
+                            .setCancelable(true)
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    //save data to dashboard
+                                    mDatabaseHelper.delete_so(salesOrderId);
+                                    mDatabaseHelper.delete_so_items(salesOrderId);
+                                    Toast.makeText(print.getContext(), "Order succesfully deleted.", Toast.LENGTH_SHORT).show();
+                                    finish();
+                                }
+                            })
+                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.cancel();
+                                }
+                            })
+                            .show();
+
+                }
             }
         });
     }
@@ -273,6 +311,7 @@ public class TemporaryData extends AppCompatActivity implements PrintingCallback
                 String CompanyName = "       PAZ DISTRIBUTION INC.\n";
                 outputStream.write(CompanyName.getBytes());
                 outputStream.write(customer_name.getBytes());
+                Log.d("", "connectBluetooth: "+customer_name);
                 outputStream.write(" \n".getBytes());
                 outputStream.write(salesrep.getBytes());
                 outputStream.write(" \n".getBytes());

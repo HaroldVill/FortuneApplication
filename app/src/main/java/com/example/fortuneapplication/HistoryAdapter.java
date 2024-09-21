@@ -152,6 +152,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
 
                 editor.apply();
                context.startActivity(transfer);
+               ((History) context).finish();
             }
         });
 
