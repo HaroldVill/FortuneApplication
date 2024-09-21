@@ -1927,7 +1927,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
     public int get_open_sales_order(){
         int sales_order_id = 0;
         String query ="SELECT "+SALES_ORDERID +" FROM "+ SALES_ORDER_TABLE +
-                " WHERE STATUS = 0 LIMIT 1";
+                " WHERE POSTED = 1 and STATUS = 0 LIMIT 1";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(query,null);
         if(cursor.moveToFirst()){

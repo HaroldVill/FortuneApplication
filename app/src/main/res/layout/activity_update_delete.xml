@@ -273,6 +273,7 @@
                 android:textSize="17sp"
                 android:textStyle="bold"></TextView>
 
+
             <EditText
                 android:id="@+id/q5"
                 android:layout_width="80dp"
@@ -280,11 +281,11 @@
                 android:layout_below="@+id/um"
                 android:layout_alignParentRight="true"
 
-                android:layout_marginTop="35dp"
+                android:layout_marginTop="39dp"
+                android:layout_marginRight="0dp"
                 android:inputType="number"
                 android:textAlignment="center"
                 android:textColor="#F44336"></EditText>
-
 
             <TextView
                 android:layout_width="wrap_content"

@@ -74,13 +74,27 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
     public void onBindViewHolder(@NonNull HistoryAdapter.ViewHolder holder, int position) {
         SALESORDER salesOrder = salesOrderList.get(position);
         PazDatabaseHelper db = new PazDatabaseHelper(context);
-        int posted = db.get_so_status(salesOrder.getSalesorderid());
-        if(posted !=0){
+        int status = db.get_so_status(salesOrder.getSalesorderid());
+        int posted = db.get_so_posted_flag(salesOrder.getSalesorderid());
+        holder.removes.setVisibility(View.VISIBLE);
+        if(status !=0){
 
             holder.sam1.setTextColor(Color.rgb(0,89,27));
             holder.sam2.setTextColor(Color.rgb(0,89,27));
             holder.sam4.setTextColor(Color.rgb(0,89,27));
-//            holder.removes.setEnabled(false);
+            holder.removes.setVisibility(View.INVISIBLE);
+            holder.sam1.setTypeface(Typeface.DEFAULT_BOLD);
+            holder.sam2.setTypeface(Typeface.DEFAULT_BOLD);
+            holder.sam3.setTypeface(Typeface.DEFAULT_BOLD);
+            holder.sam4.setTypeface(Typeface.DEFAULT_BOLD);
+
+        }
+        if(posted !=0){
+
+//            holder.sam1.setTextColor(Color.rgb(0,89,27));
+//            holder.sam2.setTextColor(Color.rgb(0,89,27));
+//            holder.sam4.setTextColor(Color.rgb(0,89,27));
+            holder.removes.setVisibility(View.INVISIBLE);
             holder.sam1.setTypeface(Typeface.DEFAULT_BOLD);
             holder.sam2.setTypeface(Typeface.DEFAULT_BOLD);
             holder.sam3.setTypeface(Typeface.DEFAULT_BOLD);
@@ -112,13 +126,26 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
                                     PazDatabaseHelper db = new PazDatabaseHelper(context);
                                     db.update_so_posted_flag(salesOrderId);
                                     Toast.makeText(context, salesOrder.getCode().toString() +" Succesfully Posted.", Toast.LENGTH_LONG).show();
-                                    int posted = db.get_so_status(salesOrder.getSalesorderid());
-                                    if(posted !=0){
+                                    int status = db.get_so_status(salesOrder.getSalesorderid());
+                                    int posted = db.get_so_posted_flag(salesOrder.getSalesorderid());
+                                    if(status !=0){
 
                                         holder.sam1.setTextColor(Color.rgb(0,89,27));
                                         holder.sam2.setTextColor(Color.rgb(0,89,27));
                                         holder.sam4.setTextColor(Color.rgb(0,89,27));
-//                                      holder.removes.setEnabled(false);
+                                        holder.removes.setVisibility(View.INVISIBLE);
+                                        holder.sam1.setTypeface(Typeface.DEFAULT_BOLD);
+                                        holder.sam2.setTypeface(Typeface.DEFAULT_BOLD);
+                                        holder.sam3.setTypeface(Typeface.DEFAULT_BOLD);
+                                        holder.sam4.setTypeface(Typeface.DEFAULT_BOLD);
+
+                                    }
+                                    if(posted !=0){
+
+                            //            holder.sam1.setTextColor(Color.rgb(0,89,27));
+                            //            holder.sam2.setTextColor(Color.rgb(0,89,27));
+                            //            holder.sam4.setTextColor(Color.rgb(0,89,27));
+                                        holder.removes.setVisibility(View.INVISIBLE);
                                         holder.sam1.setTypeface(Typeface.DEFAULT_BOLD);
                                         holder.sam2.setTypeface(Typeface.DEFAULT_BOLD);
                                         holder.sam3.setTypeface(Typeface.DEFAULT_BOLD);

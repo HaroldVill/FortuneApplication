@@ -171,6 +171,7 @@ public class UpdateDelete extends AppCompatActivity {
 
                         String quantityString = selectedMenuItemText.replaceAll("[^0-9.]", "");
                         double quantity = Double.parseDouble(quantityString);
+                        int int_quantity = Integer.parseInt(q5.getText().toString());
 
                         String agaynurse = datasam.getText().toString();
                         double X = Double.parseDouble(agaynurse);
@@ -179,6 +180,19 @@ public class UpdateDelete extends AppCompatActivity {
                         DecimalFormat decimalFormat = new DecimalFormat("#.00");
                         String formattedResult = decimalFormat.format(result);
                         q4.setText(formattedResult);
+
+                        if (!quantityString.isEmpty()) {
+
+                            double price = Double.parseDouble(q4.getText().toString());
+                            double computedValue = iphadong(int_quantity, price);
+
+                            NumberFormat numberFormat = new DecimalFormat("#,###.00");
+                            String formattedValue = numberFormat.format(computedValue);
+                            q6.setText(formattedValue);
+
+                        } else {
+                            q6.setText("");
+                        }
 
                         return true;
                     }

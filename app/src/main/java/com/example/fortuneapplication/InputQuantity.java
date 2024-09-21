@@ -203,7 +203,7 @@ public class InputQuantity extends AppCompatActivity {
                     String data0 = itemid.getText().toString();
                     String data1 = q1.getText().toString();
                     String data2 = q2.getText().toString();
-                    String datass = dew.getText().toString();
+                    String datass = "";
                     String data3 = q3.getText().toString();
                     String data4 = q4.getText().toString();
                     String data5 = q5.getText().toString();

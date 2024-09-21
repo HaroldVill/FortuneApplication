@@ -186,22 +186,25 @@ public class TemporaryData extends AppCompatActivity implements PrintingCallback
             @Override
             public void onClick(View v) {
 
-                builder.setTitle("WARNING!")
-                        .setMessage("Do you want to Save the Updated Data ?")
-                        .setCancelable(true)
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                updateton();
-                            }
-                        })
-                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                dialogInterface.cancel();
-                            }
-                        })
-                        .show();
+//                builder.setTitle("WARNING!")
+//                        .setMessage("Do you want to Save the Updated Data ?")
+//                        .setCancelable(true)
+//                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialogInterface, int i) {
+//                                updateton();
+//                            }
+//                        })
+//                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialogInterface, int i) {
+//                                dialogInterface.cancel();
+//                            }
+//                        })
+//                        .show();
+                    Intent uliboy = new Intent(TemporaryData.this, History.class);
+                    startActivity(uliboy);
+                    finish();
             }
         });
 
