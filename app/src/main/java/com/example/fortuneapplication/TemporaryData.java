@@ -331,9 +331,9 @@ public class TemporaryData extends AppCompatActivity implements PrintingCallback
                     outputStream.write(Itemdesc.getBytes());
                     Double amount = salesOrderItems.getSoirate() * salesOrderItems.getSoiquantity();
                     String quantity = Integer.toString(salesOrderItems.getSoiquantity())+" "+salesOrderItems.getUom()+" @ "
-                            +Double.toString(salesOrderItems.getSoirate())+"\n";
+                            +String.format( "%,.2f",Float.parseFloat(Double.toString(salesOrderItems.getSoirate())))+"\n";
                     byte[] PRINT_RIGHT = {27, 70, 86};
-                    String lineTotal = String.format("%1$"+30+ "s", Double.toString(amount))+"\n";
+                    String lineTotal = String.format("%1$"+30+ "s", String.format( "%,.2f",Float.parseFloat(Double.toString(amount))))+"\n";
                     outputStream.write(quantity.getBytes());
                     outputStream.write(lineTotal.getBytes());
 //                    outputStream.write(PRINT_RIGHT);
@@ -342,7 +342,7 @@ public class TemporaryData extends AppCompatActivity implements PrintingCallback
                     TotalAmount= TotalAmount + amount;
                     TotalQuantity = TotalQuantity + salesOrderItems.getSoiquantity();
                 }
-                String AmountTotal = String.format("\n"+"%1$"+30+ "s", "TOTAL: "+Double.toString(TotalAmount))+"\n";
+                String AmountTotal = String.format("\n"+"%1$"+30+ "s", "TOTAL: "+String.format( "%,.2f",Float.parseFloat(Double.toString(TotalAmount))))+"\n";
                 outputStream.write(AmountTotal.getBytes());
 //                outputStream.write("________________________________".getBytes());
 

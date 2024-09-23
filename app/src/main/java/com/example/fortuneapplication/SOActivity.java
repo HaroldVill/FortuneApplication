@@ -160,9 +160,9 @@ public class SOActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent lll = new Intent(SOActivity.this, Locations.class);
-                startActivity(lll);
-                finish();
+//                Intent lll = new Intent(SOActivity.this, Locations.class);
+//                startActivity(lll);
+//                finish();
             }
         });
         //*DATES//*
@@ -207,8 +207,8 @@ public class SOActivity extends AppCompatActivity {
         String cola = preferencess.getString("LOC", "");
 
         slr.setText(namesr);
-        loc.setText(cola);
-        location_id.setText(idloc);
+        loc.setText("OBEX - E (B)");
+        location_id.setText("151");
         sales_id.setText(srid);
         sales_id.setText(mDatabaseHelper.get_default_salesrep_id());
         slr.setText(mDatabaseHelper.get_default_salesrep());
