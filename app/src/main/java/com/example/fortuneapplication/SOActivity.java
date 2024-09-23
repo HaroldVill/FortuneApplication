@@ -207,8 +207,8 @@ public class SOActivity extends AppCompatActivity {
         String cola = preferencess.getString("LOC", "");
 
         slr.setText(namesr);
-        loc.setText("");
-        location_id.setText("");
+        loc.setText(cola);
+        location_id.setText(idloc);
         sales_id.setText(srid);
         sales_id.setText(mDatabaseHelper.get_default_salesrep_id());
         slr.setText(mDatabaseHelper.get_default_salesrep());
