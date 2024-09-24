@@ -439,6 +439,116 @@
                     </Button>
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
+                android:id="@+id/con7"
+                android:layout_width="match_parent"
+                android:layout_height="190dp"
+                android:layout_below="@id/con6"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                app:cardCornerRadius="15dp">
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/title7"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="15dp"
+                        android:text="SETUP DEFAULT LOCATION:"
+                        android:textSize="25sp"
+                        android:textStyle="bold"></TextView>
+                    <TextView
+                        android:id="@+id/select_default_location"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/title7"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"
+                        android:drawableRight="@drawable/downboy"
+                        android:text="SELECT LOCATION"
+                        android:textColor="#3F51B5"
+                        android:textSize="20sp"
+                        android:textStyle="italic"></TextView>
+                    <TextView
+                        android:id="@+id/default_location"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/select_default_location"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="10dp"
+                        android:textColor="#EF4438"></TextView>
+                    <Button
+                        android:id="@+id/apply_default_location"
+                        android:layout_width="280dp"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/default_location"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginLeft="100dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/buttondesign3"
+                        android:text="APPLY"
+                        android:textColor="#FDFCFC">
+                    </Button>
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
+                android:id="@+id/con8"
+                android:layout_width="match_parent"
+                android:layout_height="190dp"
+                android:layout_below="@id/con7"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                app:cardCornerRadius="15dp">
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/title8"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="15dp"
+                        android:text="SETUP LOCATION SETTINGS:"
+                        android:textSize="25sp"
+                        android:textStyle="bold"></TextView>
+                    <TextView
+                        android:id="@+id/select_change_location"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/title8"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"
+                        android:drawableRight="@drawable/downboy"
+                        android:text="LOCATION SETTINGS"
+                        android:textColor="#3F51B5"
+                        android:textSize="20sp"
+                        android:textStyle="italic"></TextView>
+                    <TextView
+                        android:id="@+id/change_location"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/select_change_location"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="10dp"
+                        android:textColor="#EF4438"></TextView>
+                    <Button
+                        android:id="@+id/apply_change_location"
+                        android:layout_width="280dp"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/change_location"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginLeft="100dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/buttondesign3"
+                        android:text="APPLY"
+                        android:textColor="#FDFCFC">
+                    </Button>
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
         </GridLayout>
     </ScrollView>
 </RelativeLayout>

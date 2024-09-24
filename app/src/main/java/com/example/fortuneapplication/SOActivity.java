@@ -83,6 +83,8 @@ public class SOActivity extends AppCompatActivity {
         profile = findViewById(R.id.profile);
         customer_coverage_plan = findViewById(R.id.customer_coverage_plan);
         BeginOrderTime = findViewById(R.id.BeginOrderTime);
+        mDatabaseHelper = new PazDatabaseHelper(this);
+
 
         // Load the last saved reference number from SharedPreferences
         SharedPreferences sharedPreferencesb = getSharedPreferences(PREFS_KEY, MODE_PRIVATE);
@@ -96,7 +98,7 @@ public class SOActivity extends AppCompatActivity {
 
 //ItemList Order Recycleview Display//
         recyclerViews.setLayoutManager(new LinearLayoutManager(this));
-        mDatabaseHelper = new PazDatabaseHelper(this);
+
 
         itemList.addAll(mDatabaseHelper.getAllOrderItem());
         ADisplayItemAdapter adapter = new ADisplayItemAdapter(this, itemList, mDatabaseHelper);
@@ -207,8 +209,18 @@ public class SOActivity extends AppCompatActivity {
         String cola = preferencess.getString("LOC", "");
 
         slr.setText(namesr);
-        loc.setText("OBEX - E (B)");
-        location_id.setText("151");
+        if(mDatabaseHelper.get_location_settings().equals("Strict")) {
+            loc.setText(mDatabaseHelper.get_default_location_name(Integer.parseInt(mDatabaseHelper.get_default_location_id())));
+            location_id.setText(mDatabaseHelper.get_default_location_id());
+        }
+        else if(mDatabaseHelper.get_location_settings().equals("Allow") && idloc.equals("")){
+            loc.setText(mDatabaseHelper.get_default_location_name(Integer.parseInt(mDatabaseHelper.get_default_location_id())));
+            location_id.setText(mDatabaseHelper.get_default_location_id());
+        }
+        else{
+            loc.setText(cola);
+            location_id.setText(idloc);
+        }
         sales_id.setText(srid);
         sales_id.setText(mDatabaseHelper.get_default_salesrep_id());
         slr.setText(mDatabaseHelper.get_default_salesrep());

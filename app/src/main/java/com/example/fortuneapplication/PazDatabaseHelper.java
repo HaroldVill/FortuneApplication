@@ -399,7 +399,9 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                 +"(NULL,'DEFAULT_SALES_REP_ID',''),"
                 +"(NULL,'ALLOW_PIN_VERIFY','0'),"
                 +"(NULL,'ALLOW_STRICT_COVERAGE','Allow'),"
-                +"(NULL,'BLUETOOTH_DEVICE','')";
+                +"(NULL,'BLUETOOTH_DEVICE',''),"
+                +"(NULL,'DEFAULT_LOCATION_ID','0'),"
+                +"(NULL,'ALLOW_CHANGE_LOCATION','Allow')";
 
         db.execSQL(CREATE_CONNECTIONTABLE);
         db.execSQL(CREATE_DASHBOARDTABLE);
@@ -2042,6 +2044,29 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         }
         return value;
     }
+    public String get_default_location_id(){
+        String value="";
+        String query ="SELECT ifnull(VALUE,0) VALUE FROM SYSTEM_SETTINGS WHERE  id=6";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query,null);
+        if(cursor.moveToFirst()){
+            value=cursor.getString(0);
+//            Log.d("sales_type",sales_type);
+        }
+        return value;
+    }
+
+    public String get_default_location_name(Integer id){
+        String value="";
+        String query ="SELECT location_name FROM location_table WHERE  location_id="+id;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query,null);
+        if(cursor.moveToFirst()){
+            value=cursor.getString(0);
+//            Log.d("sales_type",sales_type);
+        }
+        return value;
+    }
 
     public String get_coverage_type(){
         String value="";
@@ -2070,6 +2095,18 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
     public String get_verify_type(){
         String value="";
         String query ="SELECT ifnull(VALUE,'') VALUE FROM SYSTEM_SETTINGS WHERE  id=3";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query,null);
+        if(cursor.moveToFirst()){
+            value=cursor.getString(0);
+//            Log.d("sales_type",sales_type);
+        }
+        return value;
+    }
+
+    public String get_location_settings(){
+        String value="";
+        String query ="SELECT ifnull(VALUE,'') VALUE FROM SYSTEM_SETTINGS WHERE  id=7";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(query,null);
         if(cursor.moveToFirst()){

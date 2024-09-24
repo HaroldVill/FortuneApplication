@@ -41,7 +41,7 @@ import java.util.Set;
 
 public class Connections extends AppCompatActivity {
     TextView creatcon, ids;
-    TextView selection, connection_label, select_sales_type,sales_type_label,select_sales_rep_id,sales_rep_id_label,select_gps_mode,gps_label,select_verify_mode,verify_label,select_bluetooth_device,bluetooth_macaddress;
+    TextView selection, connection_label, select_sales_type,sales_type_label,select_sales_rep_id,sales_rep_id_label,select_gps_mode,gps_label,select_verify_mode,verify_label,select_bluetooth_device,bluetooth_macaddress,select_default_location,default_location,select_change_location,change_location;
     Button apply,apply_sales_type,apply_sales_rep_id,apply_gps_mode,apply_verify_mode,apply_bluetooth;
     private PazDatabaseHelper mdatabaseHelper;
     public static final String RECEIVE_latLng = "com.bustracker.RECEIVE_latLng";
@@ -57,11 +57,17 @@ public class Connections extends AppCompatActivity {
         sales_type_label = findViewById(R.id.sales_type_label);
         select_sales_rep_id = findViewById(R.id.select_sales_rep_id);
         sales_rep_id_label = findViewById(R.id.sales_rep_id_label);
+        select_default_location = findViewById(R.id.select_default_location);
+        default_location = findViewById(R.id.default_location);
+        select_change_location = findViewById(R.id.select_change_location);
+        change_location = findViewById(R.id.change_location);
         mdatabaseHelper = new PazDatabaseHelper(this);
         connection_label = findViewById(R.id.connection_label);
         connection_label.setText(mdatabaseHelper.get_active_connection());
         sales_type_label.setText(mdatabaseHelper.get_active_salestype());
         sales_rep_id_label.setText(mdatabaseHelper.get_default_salesrep());
+        default_location.setText(mdatabaseHelper.get_default_location_name(Integer.parseInt(mdatabaseHelper.get_default_location_id())));
+        change_location.setText(mdatabaseHelper.get_location_settings());
         apply = findViewById(R.id.apply);
         ids = findViewById(R.id.ids);
         apply_sales_type=findViewById(R.id.apply_sales_type);
@@ -241,6 +247,53 @@ public class Connections extends AppCompatActivity {
                 popupMenu.show();
             }
         });
+
+        select_default_location.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PopupMenu popupMenu = new PopupMenu(Connections.this, selection);
+                Menu menu = popupMenu.getMenu();
+                ArrayList<Location> locationlists = displaylocation();
+
+                for (Location locationlist : locationlists) {
+                    menu.add(Menu.NONE, Integer.parseInt(locationlist.getLocid().toString()), Menu.NONE, locationlist.getLocname().toString());
+                }
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        int locationid = item.getItemId();
+//                        String salesrepname = item.getItemId();
+//                        select_sales_rep_id.setText(Integer.toString(salesrepid));
+                        default_location.setText(Integer.toString(locationid));
+                        update_location_id();
+                        return true;
+                    }
+                });
+                popupMenu.show();
+
+            }
+        });
+
+        select_change_location.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PopupMenu popupMenu = new PopupMenu(Connections.this,select_change_location);
+                Menu menu = popupMenu.getMenu();
+                menu.add(Menu.NONE,Menu.NONE,Menu.NONE,"Allow");
+                menu.add(Menu.NONE,Menu.NONE,Menu.NONE,"Strict");
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        String gps_type = menuItem.getTitle().toString();
+                        change_location.setText(gps_type);
+                        update_change_location();
+                        return true;
+                    }
+                });
+                popupMenu.show();
+            }
+        });
+
         select_bluetooth_device.setOnClickListener(new View.OnClickListener() {
             @Override
 
@@ -360,6 +413,27 @@ public class Connections extends AppCompatActivity {
 
     }
 
+    public ArrayList<Location> displaylocation() {
+        ArrayList<Location> Locationlist = new ArrayList<>();
+
+        String query = "SELECT location_id,location_name from location_table";
+
+        SQLiteDatabase db = mdatabaseHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor.moveToFirst()) {
+            do {
+                Location location = new Location();
+                location.setLocid(cursor.getString(0));
+                location.setLocname(cursor.getString(1));
+                Locationlist.add(location);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return Locationlist;
+
+    }
+
     private String getIpForConnectionId(int connectionId, ArrayList<CONNECT> connects) {
         for (CONNECT connect : connects) {
             if (connect.getId() == connectionId) {
@@ -443,7 +517,7 @@ public class Connections extends AppCompatActivity {
         db.close();
 
         if (numSpecificRowUpdated > 0) {
-            Toast.makeText(this, "Successfully Sales Rep Set", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Successfull Sales Rep Set", Toast.LENGTH_SHORT).show();
 //            selection.setText("");
 //            connection_label.setText("");
 
@@ -452,6 +526,57 @@ public class Connections extends AppCompatActivity {
 //            finish();
         }
     }
+
+    public void update_location_id() {
+
+        String location_id = default_location.getText().toString();
+
+        SQLiteDatabase db = mdatabaseHelper.getWritableDatabase();
+        ContentValues specificRowValues = new ContentValues();
+        specificRowValues.put("VALUE", location_id);
+
+        String whereClause = SYSTEM_SETTINGS_NAME + " = ?";
+        String[] whereArgs = {"DEFAULT_LOCATION_ID"};
+
+        int numSpecificRowUpdated = db.update(SYSTEM_SETTINGS, specificRowValues, whereClause, whereArgs);
+        db.close();
+
+        if (numSpecificRowUpdated > 0) {
+            Toast.makeText(this, "Successfull Location Set", Toast.LENGTH_SHORT).show();
+//            selection.setText("");
+//            connection_label.setText("");
+
+//            Intent nanay = new Intent(Connections.this, SyncDatas.class);
+//            startActivity(nanay);
+//            finish();
+        }
+    }
+
+    public void update_change_location() {
+
+        String location_id = change_location.getText().toString();
+
+        SQLiteDatabase db = mdatabaseHelper.getWritableDatabase();
+        ContentValues specificRowValues = new ContentValues();
+        specificRowValues.put("VALUE", location_id);
+
+        String whereClause = SYSTEM_SETTINGS_NAME + " = ?";
+        String[] whereArgs = {"ALLOW_CHANGE_LOCATION"};
+
+        int numSpecificRowUpdated = db.update(SYSTEM_SETTINGS, specificRowValues, whereClause, whereArgs);
+        db.close();
+
+        if (numSpecificRowUpdated > 0) {
+            Toast.makeText(this, "Successfull Location Set", Toast.LENGTH_SHORT).show();
+//            selection.setText("");
+//            connection_label.setText("");
+
+//            Intent nanay = new Intent(Connections.this, SyncDatas.class);
+//            startActivity(nanay);
+//            finish();
+        }
+    }
+
 
     public void update_coverage_type() {
 
