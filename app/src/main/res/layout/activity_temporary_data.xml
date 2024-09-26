@@ -27,12 +27,19 @@
             android:layout_marginLeft="0dp"
             android:src="@drawable/deletedako"></ImageView>
         <ImageView
+            android:id="@+id/print_picklist"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="102dp"
+            android:layout_marginLeft="50dp"
+            android:src="@drawable/sales"></ImageView>
+        <ImageView
             android:id="@+id/print"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="102dp"
-            android:layout_marginLeft="50dp"
-            android:src="@drawable/car_ui_icon_chevron"></ImageView>
+            android:layout_marginLeft="120dp"
+            android:src="@drawable/saveitem"></ImageView>
 
         <TextView
             android:id="@+id/ref"

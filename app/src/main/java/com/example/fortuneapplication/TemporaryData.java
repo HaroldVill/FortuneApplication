@@ -102,7 +102,7 @@ import org.json.JSONObject;
 
 public class TemporaryData extends AppCompatActivity implements PrintingCallback {
     TextView ref, names, moreinfo, notesam, dt;
-    ImageView hm, print,deletebutton;
+    ImageView hm, print,deletebutton,print_picklist;
     EditText supertot;
     RecyclerView datadisp;
     Printing print_receipt;
@@ -148,6 +148,7 @@ public class TemporaryData extends AppCompatActivity implements PrintingCallback
         dt = findViewById(R.id.dt);
         arayba = findViewById(R.id.arayba);
         print = findViewById(R.id.print);
+        print_picklist = findViewById(R.id.print_picklist);
         builder = new AlertDialog.Builder(this);
         Printooth.INSTANCE.init(this);
         deletebutton = findViewById(R.id.deletebutton);
@@ -227,10 +228,24 @@ public class TemporaryData extends AppCompatActivity implements PrintingCallback
                 // generate our PDF file.
 //                generatePDF(salesOrderId);
                 if(mDatabaseHelper.get_so_posted_flag(salesOrderId)  == 0){
-                    Toast.makeText(print.getContext(), "Order must be posted before printing", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(print.getContext(), "Order must be posted before printing receipt", Toast.LENGTH_SHORT).show();
                 }
                 else {
                     connectBluetooth(mDatabaseHelper.get_bluetooth_device(), salesOrderId);
+                }
+            }
+        });
+        print_picklist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // calling method to
+                // generate our PDF file.
+//                generatePDF(salesOrderId);
+                if(mDatabaseHelper.get_so_posted_flag(salesOrderId)  > 0){
+                    Toast.makeText(print.getContext(), "Cannot picklist a posted order.", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    connectBluetooth_PrintPicklist(mDatabaseHelper.get_bluetooth_device(), salesOrderId);
                 }
             }
         });
@@ -344,6 +359,91 @@ public class TemporaryData extends AppCompatActivity implements PrintingCallback
                 }
                 String AmountTotal = String.format("\n"+"%1$"+30+ "s", "TOTAL: "+String.format( "%,.2f",Float.parseFloat(Double.toString(TotalAmount))))+"\n";
                 outputStream.write(AmountTotal.getBytes());
+//                outputStream.write("________________________________".getBytes());
+
+                bluetoothSocket.close();
+            }
+
+        } catch (IOException ex) {
+//            handler.obtainMessage(1).sendToTarget();
+        }
+    }
+
+    public void connectBluetooth_PrintPicklist(String macAddress, Integer so_id) {
+
+        try {
+            Log.d("bluetoothtest", macAddress);
+            bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+            bluetoothDevice = bluetoothAdapter.getRemoteDevice(macAddress);
+
+            if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(TemporaryData.this,new String[]
+                        {Manifest.permission.BLUETOOTH_CONNECT},1);
+            }
+            else {
+                bluetoothSocket = bluetoothDevice.createRfcommSocketToServiceRecord(uuid);
+                bluetoothSocket.connect();
+
+
+                mDatabaseHelper = new PazDatabaseHelper(TemporaryData.this);
+                List<SALESORDERITEMS> salesOrderItemList = mDatabaseHelper.getSlsorderitems(so_id);
+                for (SALESORDERITEMS salesOrderItems : salesOrderItemList) {
+                    //            String quantity = Integer.toString(salesOrderItems.getSoiquantity());
+                    //            String rate = Double.toString(salesOrderItems.getSoirate())+"/"+salesOrderItems.getUom();
+//                    pageHeight+=20;
+                }
+                String customer_name = "";
+                String refno = "";
+                String date = "";
+                String total="";
+                String salesrep="";
+                List<SALESORDER> salesOrderList = mDatabaseHelper.getSlsorder(so_id);
+                for (SALESORDER salesOrder : salesOrderList) {
+                    customer_name ="Customer: "+salesOrder.getCustomer().getCustomername().toString();
+                    refno="Ref#: "+salesOrder.getCode().toString();
+                    date="Date: "+salesOrder.getDate().toString();
+                    total = salesOrder.getAmount().toString();
+                    salesrep= "Salesrep: " +salesOrder.get_sales_rep_name().toString();
+                }
+
+                outputStream = bluetoothSocket.getOutputStream();
+
+//                String printCommand = "TEXT 0,0,\"0\",0,0,0,\"\"\n";
+//                outputStream.write(printCommand.getBytes());
+                String labelConfig = "SIZE 3,2\nGAP 0.11,0\n";
+//                outputStream.write(labelConfig.getBytes());
+                String CompanyName = "       PAZ DISTRIBUTION INC.\n";
+                outputStream.write(CompanyName.getBytes());
+                outputStream.write(customer_name.getBytes());
+                Log.d("", "connectBluetooth: "+customer_name);
+                outputStream.write(" \n".getBytes());
+                outputStream.write(salesrep.getBytes());
+                outputStream.write(" \n".getBytes());
+                outputStream.write(refno.getBytes());
+                outputStream.write(" \n".getBytes());
+                outputStream.write(date.getBytes());
+                outputStream.write(" \n".getBytes());
+                outputStream.write(" \n".getBytes());
+                Double TotalAmount = 0.00;
+                Double TotalQuantity = 0.00;
+                for (SALESORDERITEMS salesOrderItems : salesOrderItemList) {
+
+                    String Itemdesc = salesOrderItems.getitemdesc()+"\n";
+                    outputStream.write(Itemdesc.getBytes());
+                    Double amount = salesOrderItems.getSoirate() * salesOrderItems.getSoiquantity();
+                    String quantity = Integer.toString(salesOrderItems.getSoiquantity())+" "+salesOrderItems.getUom()+"\n";
+                    byte[] PRINT_RIGHT = {27, 70, 86};
+//                    String lineTotal = String.format("%1$"+30+ "s", String.format( "%,.2f",Float.parseFloat(Double.toString(amount))))+"\n";
+                    outputStream.write(quantity.getBytes());
+//                    outputStream.write(lineTotal.getBytes());
+//                    outputStream.write(PRINT_RIGHT);
+//                    outputStream.write(lineTotal.getBytes());
+//                    outputStream.write(" \n".getBytes());
+                    TotalAmount= TotalAmount + amount;
+                    TotalQuantity = TotalQuantity + salesOrderItems.getSoiquantity();
+                }
+//                String AmountTotal = String.format("\n"+"%1$"+30+ "s", "TOTAL: "+String.format( "%,.2f",Float.parseFloat(Double.toString(TotalAmount))))+"\n";
+//                outputStream.write(AmountTotal.getBytes());
 //                outputStream.write("________________________________".getBytes());
 
                 bluetoothSocket.close();
