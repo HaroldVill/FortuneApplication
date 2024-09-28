@@ -168,8 +168,10 @@ public class SOActivity extends AppCompatActivity {
             }
         });
         //*DATES//*
-        String currentDate = getCurrentDate();
-        datess.setText(currentDate);
+        LocalDateTime currentdate = LocalDateTime.now();
+        DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        String formattedDate = currentdate.format(myFormatObj);
+        datess.setText(formattedDate.toString());
 
 
         his.setOnClickListener(new View.OnClickListener() {
@@ -258,9 +260,10 @@ public class SOActivity extends AppCompatActivity {
 
     // GET date//
     private String getCurrentDate() {
-        Date currentDate = new Date();
-        DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.SHORT);
-        return dateFormat.format(currentDate);
+        LocalDateTime currentdate = LocalDateTime.now();
+        DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        String formattedDate = currentdate.format(myFormatObj);
+        return formattedDate.toString();
     }
 
     public void updateTotalPayable(double totalPayable) {
