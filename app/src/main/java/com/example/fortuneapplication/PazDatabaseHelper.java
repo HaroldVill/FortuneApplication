@@ -400,7 +400,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                 +"(NULL,'ALLOW_PIN_VERIFY','0'),"
                 +"(NULL,'ALLOW_STRICT_COVERAGE','Allow'),"
                 +"(NULL,'BLUETOOTH_DEVICE',''),"
-                +"(NULL,'DEFAULT_LOCATION_ID','0'),"
+                +"(NULL,'DEFAULT_LOCATION_ID','1'),"
                 +"(NULL,'ALLOW_CHANGE_LOCATION','Allow')";
 
         db.execSQL(CREATE_CONNECTIONTABLE);

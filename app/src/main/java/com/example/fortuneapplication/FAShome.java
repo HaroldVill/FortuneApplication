@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
@@ -15,8 +16,10 @@ import android.location.LocationManager;
 import android.location.LocationRequest;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -31,8 +34,11 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.CompletableFuture;
 
 public class FAShome extends AppCompatActivity {
@@ -47,6 +53,9 @@ public class FAShome extends AppCompatActivity {
     LocationRequest locationRequest;
     private Location location;
     LocationListener locationListener;
+    final Calendar history_calendar= Calendar.getInstance();
+    final Calendar history_calendar_to= Calendar.getInstance();
+    EditText date_from,date_to;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +66,8 @@ public class FAShome extends AppCompatActivity {
         irate = findViewById(R.id.irate);
         iquant = findViewById(R.id.iquant);
         grp = findViewById(R.id.grp);
+        date_from = findViewById(R.id.date_from);
+        date_to = findViewById(R.id.date_to);
 //        coordinates = findViewById(R.id.coordinates);
 
 
@@ -96,6 +107,53 @@ public class FAShome extends AppCompatActivity {
 //            String coordinates=gl.get_location();
         }
 
+        DatePickerDialog.OnDateSetListener date =new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int day) {
+                history_calendar.set(Calendar.YEAR, year);
+                history_calendar.set(Calendar.MONTH,month);
+                history_calendar.set(Calendar.DAY_OF_MONTH,day);
+                update_datefrom();
+                Log.d("check_date_changed", date_from.getText().toString());
+//                populate_table(date_from.getText().toString());
+            }
+        };
+
+        DatePickerDialog.OnDateSetListener dialog_date_to =new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int day) {
+                history_calendar_to.set(Calendar.YEAR, year);
+                history_calendar_to.set(Calendar.MONTH,month);
+                history_calendar_to.set(Calendar.DAY_OF_MONTH,day);
+                update_date_to();
+                Log.d("check_date_changed", date_to.getText().toString());
+//                populate_table(date_from.getText().toString());
+            }
+        };
+        date_from.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new DatePickerDialog(FAShome.this,date,history_calendar.get(Calendar.YEAR),history_calendar.get(Calendar.MONTH),history_calendar.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
+        date_to.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new DatePickerDialog(FAShome.this,dialog_date_to,history_calendar_to.get(Calendar.YEAR),history_calendar_to.get(Calendar.MONTH),history_calendar_to.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
+
 
     }
+    private void update_datefrom(){
+        String myFormat="yyyy-MM-dd";
+        SimpleDateFormat dateFormat=new SimpleDateFormat(myFormat, Locale.TAIWAN);
+        date_from.setText(dateFormat.format(history_calendar.getTime()));
+    }
+    private void update_date_to(){
+        String myFormat="yyyy-MM-dd";
+        SimpleDateFormat dateFormat=new SimpleDateFormat(myFormat, Locale.TAIWAN);
+        date_to.setText(dateFormat.format(history_calendar_to.getTime()));
+    }
+
 }

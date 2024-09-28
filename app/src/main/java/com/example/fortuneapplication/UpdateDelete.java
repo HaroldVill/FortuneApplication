@@ -261,11 +261,14 @@ public class UpdateDelete extends AppCompatActivity {
     }
     public void deleteItem() {
         String ddd = menid.getText().toString();
+        SQLiteDatabase db2 = mDatabaseHelper.getReadableDatabase();
+        Cursor cursor = db2.rawQuery("UPDATE Sales_Order_table set amount = (SELECT SUM(rate * quantity) from Sales_Order_Items_Table where sales_order_id = (SELECT sales_order_id FROM Sales_Order_Items_Table where id ="+ddd+") and id != "+ddd+") where Sales_OrderID =(SELECT sales_order_id FROM Sales_Order_Items_Table where id ="+ddd+")",null);
+        cursor.moveToFirst();
         SQLiteDatabase db = mDatabaseHelper.getReadableDatabase();
         String query = "DELETE FROM " + SALES_ORDER_ITEMS_TABLE + " WHERE " + SOIID + " = ?";
         db.execSQL(query, new String[]{ddd});
-        Toast.makeText(this, "Please Save the Data After Deleting", Toast.LENGTH_LONG).show();
-        Intent balik = new Intent(UpdateDelete.this,TemporaryData.class);
+        Toast.makeText(this, "Item succesfully deleted.", Toast.LENGTH_LONG).show();
+        Intent balik = new Intent(UpdateDelete.this, HomePage.class);
         startActivity(balik);
         finish();
     }
