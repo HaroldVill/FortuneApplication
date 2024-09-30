@@ -47,7 +47,7 @@ public class FAShome extends AppCompatActivity {
     TextView icode,ides,irate,iquant,grp,coordinates;
 
     private static final int REQUEST_LOCATION = 1;
-    Button getlocationBtn;
+    Button getlocationBtn,generate_valuation;
     String latitude, longitude;
     LocationManager locationManager;
     LocationRequest locationRequest;
@@ -68,6 +68,7 @@ public class FAShome extends AppCompatActivity {
         grp = findViewById(R.id.grp);
         date_from = findViewById(R.id.date_from);
         date_to = findViewById(R.id.date_to);
+        generate_valuation = findViewById(R.id.generate_valuation);
 //        coordinates = findViewById(R.id.coordinates);
 
 
@@ -142,6 +143,17 @@ public class FAShome extends AppCompatActivity {
                 new DatePickerDialog(FAShome.this,dialog_date_to,history_calendar_to.get(Calendar.YEAR),history_calendar_to.get(Calendar.MONTH),history_calendar_to.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
+        generate_valuation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent open_valuation_breakdown  = new Intent(FAShome.this,ItemValuationDetail.class);
+                open_valuation_breakdown.putExtra("code",icode.getText().toString());
+                open_valuation_breakdown.putExtra("description",ides.getText().toString());
+                open_valuation_breakdown.putExtra("date_from",date_from.getText().toString());
+                open_valuation_breakdown.putExtra("date_to",date_to.getText().toString());
+                startActivity(open_valuation_breakdown);
+            }
+        });
 
 
     }
@@ -155,5 +167,6 @@ public class FAShome extends AppCompatActivity {
         SimpleDateFormat dateFormat=new SimpleDateFormat(myFormat, Locale.TAIWAN);
         date_to.setText(dateFormat.format(history_calendar_to.getTime()));
     }
+
 
 }
