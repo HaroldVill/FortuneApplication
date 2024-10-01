@@ -60,10 +60,10 @@ public class ItemValuationDetail extends AppCompatActivity {
         ArrayList<CONNECT> connectList = SelectUPDT();
         if (!connectList.isEmpty()) {
             x = connectList.get(0).getIp();
-            JSON_URL = "http://" + x + "/MobileAPI/items.php";
+            JSON_URL = "http://" + x + "/MobileAPI/get_item_valuation/detail.php";
         }
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, JSON_URL+"?item_code="+code+"&location_id="+location_id,
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, JSON_URL+"?item_code="+code+"&location_id="+location_id+"&date_from="+date_from+"&date_to="+date_to,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
