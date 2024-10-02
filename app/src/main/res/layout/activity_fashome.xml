@@ -208,7 +208,7 @@
 
                 android:layout_marginLeft="10dp"
                 android:textStyle="bold"
-                android:id="@+id/title"
+                android:id="@+id/title2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="INVENTORY HISTORY "
@@ -222,7 +222,7 @@
                 android:id="@+id/date_from_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/title"
+                android:layout_below="@id/title2"
                 android:text="DATE FROM: "
                 android:layout_marginTop="25dp"
                 android:textSize="15sp"></TextView>
@@ -232,7 +232,7 @@
                 android:id="@+id/date_from"
                 android:layout_width="200dp"
                 android:layout_height="22dp"
-                android:layout_below="@+id/title"
+                android:layout_below="@+id/title2"
                 android:layout_marginLeft="-1dp"
                 android:layout_marginTop="25dp"
                 android:layout_toRightOf="@id/date_from_label"

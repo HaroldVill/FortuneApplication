@@ -46,21 +46,23 @@ public class ItemValuationDetail extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_item_valuation_detail);
         Intent intent = getIntent();
         String code = intent.getStringExtra("code");
         String description = intent.getStringExtra("description");
         String date_from = intent.getStringExtra("date_from");
         String date_to = intent.getStringExtra("date_to");
         item_history = findViewById(R.id.datadisp);
-        title = findViewById(R.id.title);
+        title = findViewById(R.id.item_valuation_title);
+        Log.d("ds", "ItemValuationTitle: "+description+"\n"+date_from+" - "+date_to);
         title.setText(description+"\n"+date_from+" - "+date_to);
         final PazDatabaseHelper databaseHelper = new PazDatabaseHelper(getApplicationContext());
         String location_id = databaseHelper.get_default_location_id();
 
-        ArrayList<CONNECT> connectList = SelectUPDT();
+        ArrayList<CONNECT> connectList = databaseHelper.SelectUPDT();
         if (!connectList.isEmpty()) {
             x = connectList.get(0).getIp();
-            JSON_URL = "http://" + x + "/MobileAPI/get_item_valuation/detail.php";
+            JSON_URL = "http://" + x + "/MobileAPI/get_item_valuation_detail.php";
         }
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, JSON_URL+"?item_code="+code+"&location_id="+location_id+"&date_from="+date_from+"&date_to="+date_to,
@@ -79,7 +81,7 @@ public class ItemValuationDetail extends AppCompatActivity {
                                 JSONObject jsonObject = itemArray.getJSONObject(i);
                                 String type = jsonObject.getString("type");
                                 String refno = jsonObject.getString("refno");
-                                String name = jsonObject.getString("name");
+                                String name = jsonObject.getString("name")+"\n"+jsonObject.getString("source_ref_date");
                                 String quantity = jsonObject.getString("quantity");
                                 String ENDING_QUANTITY = jsonObject.getString("ENDING_QUANTITY");
 
