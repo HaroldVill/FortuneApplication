@@ -107,6 +107,11 @@ public class SoCustomerAdapter extends RecyclerView.Adapter<SoCustomerAdapter.My
         holder.so3.setText(customer.getPostaladdress());
         holder.so4.setText(customer.getMobilenumber());
         holder.socontact.setText(customer.getContactperson());
+        String price_level = customer.getPricelevelid();
+        if(customer.getPricelevelid().equals("0")) {
+            price_level = "WHOLESALE";
+        }
+        holder.price_level.setText(price_level);
         PazDatabaseHelper db = new PazDatabaseHelper(context);
         int customer_id = Integer.parseInt(customer.getId());
 //        Log.d("customer_id", customer_id);
@@ -360,7 +365,7 @@ public class SoCustomerAdapter extends RecyclerView.Adapter<SoCustomerAdapter.My
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView so1,so2,so3,so4,socontact,longitude,latitude,distance,verification,is_visited;
+        TextView so1,so2,so3,so4,socontact,longitude,latitude,distance,verification,is_visited,price_level;
         Button save_coordinate,verify_pin,skip_order,remove_pin,request_repin;
 
         public MyViewHolder(@NonNull View itemView) {
@@ -381,6 +386,7 @@ public class SoCustomerAdapter extends RecyclerView.Adapter<SoCustomerAdapter.My
             verification = itemView.findViewById(R.id.verfication);
             request_repin  =itemView.findViewById(R.id.request_repin);
             is_visited = itemView.findViewById(R.id.is_visited);
+            price_level = itemView.findViewById(R.id.price_level);
         }
     }
 

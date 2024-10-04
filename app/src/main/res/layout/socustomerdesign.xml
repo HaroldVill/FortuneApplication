@@ -180,11 +180,21 @@
                 android:layout_height="wrap_content"
                 android:text="CONTACT PERSON">
             </TextView>
+            <TextView
+                android:id="@+id/p_level_label"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/sok"
+                android:textSize="15sp"
+                android:layout_marginLeft="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="PRICE LEVEL">
+            </TextView>
 
             <TextView
                 android:id="@+id/longitude_label"
                 android:layout_marginTop="10dp"
-                android:layout_below="@+id/sok"
+                android:layout_below="@+id/p_level_label"
                 android:textSize="15sp"
                 android:layout_marginLeft="10dp"
                 android:layout_width="wrap_content"
@@ -237,9 +247,20 @@
             </TextView>
 
             <TextView
-                android:id="@+id/longitude"
+                android:id="@+id/price_level"
                 android:layout_marginTop="10dp"
                 android:layout_below="@+id/socontact"
+                android:textSize="12sp"
+                android:layout_marginLeft="190dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="PRICE LEVEL">
+            </TextView>
+
+            <TextView
+                android:id="@+id/longitude"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/price_level"
                 android:textSize="12sp"
                 android:layout_marginLeft="190dp"
                 android:layout_width="wrap_content"

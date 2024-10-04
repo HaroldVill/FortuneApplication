@@ -80,7 +80,7 @@ public class SyncCustomer extends AppCompatActivity {
             public void onClick(View v) {
 //                //* DELETE THE DATA IN DATBASE//*
 //                PazDatabaseHelper databaseHelper = new PazDatabaseHelper(getApplicationContext());
-//                databaseHelper.deleteCustomerData();
+//
                 fetchCustomerList();
                 progressBar.setVisibility(View.VISIBLE);
 
@@ -100,6 +100,7 @@ public class SyncCustomer extends AppCompatActivity {
 
                             // Delete existing data from the table before syncing new data
 //                            databaseHelper.deleteCustomerData();
+                            databaseHelper.deleteCustomerData();
 
                             for (int i = 0 ; i < customerArray.length(); i++){
                                 JSONObject jsonObject = customerArray.getJSONObject(i);
