@@ -314,7 +314,7 @@ public class History extends AppCompatActivity {
     public void startThread() {
         stopThread = true;
         stopThread = false;
-        ExampleRunnable runnable = new ExampleRunnable(60);
+        ExampleRunnable runnable = new ExampleRunnable(20);
         new Thread(runnable).start();
         Log.d("Test", "1");
         /*

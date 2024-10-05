@@ -397,7 +397,7 @@ public class TemporaryData extends AppCompatActivity implements PrintingCallback
                 String date = "";
                 String total="";
                 String salesrep="";
-                List<SALESORDER> salesOrderList = mDatabaseHelper.getSlsorder(so_id);
+                List<SALESORDER> salesOrderList = mDatabaseHelper.getSlsorder_unposted(so_id);
                 for (SALESORDER salesOrder : salesOrderList) {
                     customer_name ="Customer: "+salesOrder.getCustomer().getCustomername().toString();
                     refno="Ref#: "+salesOrder.getCode().toString();
@@ -423,6 +423,8 @@ public class TemporaryData extends AppCompatActivity implements PrintingCallback
                 outputStream.write(" \n".getBytes());
                 outputStream.write(date.getBytes());
                 outputStream.write(" \n".getBytes());
+                outputStream.write(" \n".getBytes());
+                outputStream.write("NOTE: THIS IS A PICKLIST NOT A SALES RECEIPT. \n".getBytes());
                 outputStream.write(" \n".getBytes());
                 Double TotalAmount = 0.00;
                 Double TotalQuantity = 0.00;
