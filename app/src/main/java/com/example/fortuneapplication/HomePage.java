@@ -509,7 +509,7 @@ public class HomePage extends AppCompatActivity implements LocationListener {
                 }
                 if(i%10 == 0){
                     int customer_id = mDatabaseHelper.get_customer_pin_flag();
-                    if(customer_id !=0){
+                    if(customer_id >=0){
                         try {
                             ArrayList<CONNECT> connectList2 = mDatabaseHelper.SelectUPDT();
                             if (!connectList2.isEmpty()) {
