@@ -102,17 +102,18 @@ public class SoCustomerAdapter extends RecyclerView.Adapter<SoCustomerAdapter.My
     @Override
     public void onBindViewHolder(@NonNull SoCustomerAdapter.MyViewHolder holder, int position) {
         Customer customer = customerList.get(position);
+        PazDatabaseHelper db = new PazDatabaseHelper(context);
         holder.so1.setText(customer.getId());
         holder.so2.setText(customer.getCustomername());
         holder.so3.setText(customer.getPostaladdress());
         holder.so4.setText(customer.getMobilenumber());
         holder.socontact.setText(customer.getContactperson());
-        String price_level = customer.getPricelevelid();
-        if(customer.getPricelevelid().equals("0")) {
-            price_level = "WHOLESALE";
-        }
+        String price_level = db.get_price_level_name(Integer.parseInt(customer.getPricelevelid()));
+//        if(customer.getPricelevelid().equals("0")) {
+//            price_level = "WHOLESALE";
+//        }
         holder.price_level.setText(price_level);
-        PazDatabaseHelper db = new PazDatabaseHelper(context);
+
         int customer_id = Integer.parseInt(customer.getId());
 //        Log.d("customer_id", customer_id);
         Integer verification = db.get_customer_verification(customer_id);

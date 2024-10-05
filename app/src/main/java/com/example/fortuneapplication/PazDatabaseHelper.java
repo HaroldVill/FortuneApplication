@@ -2068,6 +2068,18 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         return value;
     }
 
+    public String get_price_level_name(Integer id){
+        String value="WHOLE-A";
+        String query ="SELECT price_level_des FROM price_level_table WHERE  price_level_id="+id;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query,null);
+        if(cursor.moveToFirst()){
+            value=cursor.getString(0);
+//            Log.d("sales_type",sales_type);
+        }
+        return value;
+    }
+
     public String get_coverage_type(){
         String value="";
         String query ="SELECT ifnull(VALUE,'') VALUE FROM SYSTEM_SETTINGS WHERE  id=4";
