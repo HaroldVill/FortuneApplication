@@ -47,7 +47,7 @@ public class FAShome extends AppCompatActivity {
     TextView icode,ides,irate,iquant,grp,coordinates;
 
     private static final int REQUEST_LOCATION = 1;
-    Button getlocationBtn,generate_valuation;
+    Button getlocationBtn,generate_valuation,generate_open_orders;
     String latitude, longitude;
     LocationManager locationManager;
     LocationRequest locationRequest;
@@ -69,6 +69,7 @@ public class FAShome extends AppCompatActivity {
         date_from = findViewById(R.id.date_from);
         date_to = findViewById(R.id.date_to);
         generate_valuation = findViewById(R.id.generate_valuation);
+        generate_open_orders = findViewById(R.id.generate_open_orders);
 //        coordinates = findViewById(R.id.coordinates);
 
 
@@ -147,6 +148,18 @@ public class FAShome extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent open_valuation_breakdown  = new Intent(FAShome.this,ItemValuationDetail.class);
+                open_valuation_breakdown.putExtra("code",icode.getText().toString());
+                open_valuation_breakdown.putExtra("description",ides.getText().toString());
+                open_valuation_breakdown.putExtra("date_from",date_from.getText().toString());
+                open_valuation_breakdown.putExtra("date_to",date_to.getText().toString());
+                startActivity(open_valuation_breakdown);
+            }
+        });
+
+        generate_open_orders.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent open_valuation_breakdown  = new Intent(FAShome.this,OpenSalesOrder.class);
                 open_valuation_breakdown.putExtra("code",icode.getText().toString());
                 open_valuation_breakdown.putExtra("description",ides.getText().toString());
                 open_valuation_breakdown.putExtra("date_from",date_from.getText().toString());
