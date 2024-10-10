@@ -79,11 +79,11 @@ public class OpenSalesOrder extends AppCompatActivity {
 
                             for (int i = 0; i < itemArray.length(); i++) {
                                 JSONObject jsonObject = itemArray.getJSONObject(i);
-                                String type = jsonObject.getString("type");
-                                String refno = jsonObject.getString("refno");
-                                String name = jsonObject.getString("name")+"\n"+jsonObject.getString("source_ref_date");
+                                String type = jsonObject.getString("refno");
+                                String refno = jsonObject.getString("source_ref_date");
+                                String name = jsonObject.getString("name");
                                 String quantity = jsonObject.getString("quantity");
-                                String ENDING_QUANTITY = jsonObject.getString("ENDING_QUANTITY");
+                                String ENDING_QUANTITY = jsonObject.getString("uom");
 
                                 Item item =new Item(type, refno, name, quantity, ENDING_QUANTITY,"","","","");
                                 itemList.add(item);
