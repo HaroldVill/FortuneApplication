@@ -161,10 +161,16 @@ public class SOActivity extends AppCompatActivity {
         sr2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(mDatabaseHelper.get_location_settings().equals("Strict")) {
+//                    loc.setText(mDatabaseHelper.get_default_location_name(Integer.parseInt(mDatabaseHelper.get_default_location_id())));
+//                    location_id.setText(mDatabaseHelper.get_default_location_id());
+                }
+                else {
 
-                Intent lll = new Intent(SOActivity.this, Locations.class);
-                startActivity(lll);
-                finish();
+                    Intent lll = new Intent(SOActivity.this, Locations.class);
+                    startActivity(lll);
+                    finish();
+                }
             }
         });
         //*DATES//*
