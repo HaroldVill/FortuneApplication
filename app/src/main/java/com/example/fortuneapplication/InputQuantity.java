@@ -47,7 +47,7 @@ import java.util.ArrayList;
 public class InputQuantity extends AppCompatActivity {
     EditText q1, q2, q3, q4, q5, q6;
     TextView balik, ps, itemid, idlvl, untbase, samvalue, datasam,basihan,dew;
-    Button itemsave,itemfree;
+    Button itemsave,itemfree,lessbo;
 
     Spinner spinner6;
     private PazDatabaseHelper mdatabaseHelper;
@@ -75,6 +75,7 @@ public class InputQuantity extends AppCompatActivity {
         samvalue = findViewById(R.id.samvalue);
          datasam = findViewById(R.id.datasam);
          basihan = findViewById(R.id.basihan);
+         lessbo = findViewById(R.id.lessbo);
          dew = findViewById(R.id.dew);
 
 
@@ -329,6 +330,73 @@ public class InputQuantity extends AppCompatActivity {
                 }
             }
         });
+
+        lessbo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PazDatabaseHelper databaseHelper = new PazDatabaseHelper(getApplicationContext());
+                //  Intent qa = new Intent(InputQuantity.this, ItemPricelvlChoiceDisplay.class);
+
+//                if (q3.getText().toString().equals("0")) {
+//                    Toast.makeText(InputQuantity.this, "Out of Stock Please Select Another Item", Toast.LENGTH_SHORT).show();
+//                }
+//                else
+                if (!q5.getText().toString().isEmpty() && !q6.getText().toString().isEmpty()) {
+                    final AlertDialog.Builder builder= new AlertDialog.Builder(InputQuantity.this);
+                    builder.setMessage("You are about to add this item as less bo. Would you want to proceed?").setCancelable(false).setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    }).setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            dialog.cancel();
+                        }
+                    });
+                    final AlertDialog alertDialog=builder.create();
+                    alertDialog.show();
+                    alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener()
+                    {
+                        @Override
+                        public void onClick(View v)
+                        {
+                            // String cqa = untbase.getText().toString();
+                            String dataa = idlvl.getText().toString();
+                            String data0 = itemid.getText().toString();
+                            String data1 = q1.getText().toString();
+                            String data2 = q2.getText().toString();
+                            String datass = dew.getText().toString();
+                            String data3 = q3.getText().toString();
+                            String data4 = q4.getText().toString();
+                            String data5 = Integer.toString(Integer.parseInt(q5.getText().toString())*-1);
+                            String data6 = Double.toString(Double.parseDouble(q6.getText().toString())*-1.00);
+                            String asd = basihan.getText().toString();
+
+                            Item2 item2 = new Item2(asd,dataa, data0, data1, data2,datass, data3, data4, data5, data6);
+                            //long itemId = databaseHelper.storeOrderItem(item2);
+                            databaseHelper.storeOrderItem(item2);
+                            Toast.makeText(InputQuantity.this, "Item Added Successfully", Toast.LENGTH_SHORT).show();
+
+                            idlvl.setText("");
+                            q1.setText("");
+                            q2.setText("");
+                            q3.setText("");
+                            q4.setText("");
+                            q5.setText("");
+                            q6.setText("");
+                            itemid.setText("");
+                            // startActivity(qa);
+                            finish();
+                        }
+                    });
+                } else {
+                    Toast.makeText(InputQuantity.this, "Please Check All Details", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
 
         q5.addTextChangedListener(new TextWatcher() {
             @Override

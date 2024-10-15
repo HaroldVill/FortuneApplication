@@ -79,7 +79,7 @@ public class CustomerSalesHistory extends AppCompatActivity {
 
                             for (int i = 0; i < itemArray.length(); i++) {
                                 JSONObject jsonObject = itemArray.getJSONObject(i);
-                                String date = jsonObject.getString("date");
+                                String date = jsonObject.getString("date")+"\n"+jsonObject.getString("location");
                                 String refno = jsonObject.getString("refno");
                                 String itemdesc = jsonObject.getString("itemdesc");
                                 String quantity = jsonObject.getString("quantity");

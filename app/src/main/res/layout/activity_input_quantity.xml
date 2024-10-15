@@ -85,6 +85,19 @@
         android:layout_height="wrap_content">
     </Button>
 
+    <Button
+        android:id="@+id/lessbo"
+        android:drawableLeft="@drawable/delete"
+        android:layout_marginTop="85dp"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/itemfree"
+        android:text="LESSBO"
+        android:textSize="18sp"
+        android:background="@color/teal"
+        android:layout_width="125dp"
+        android:layout_height="wrap_content">
+    </Button>
+
 
     <androidx.cardview.widget.CardView
         android:layout_marginStart="10dp"
