@@ -68,7 +68,7 @@ public class SoCustomerAdapter extends RecyclerView.Adapter<SoCustomerAdapter.My
     LocationManager locationManager;
     PazDatabaseHelper mdatabasehelper;
     RequestQueue request_queue;
-    FloatingActionButton open_customer_history;
+
     private volatile boolean stopThread = false;
 
     public SoCustomerAdapter(Context context, ArrayList<Customer> customerList,Activity activity, LocationManager locationManager) {
@@ -117,6 +117,7 @@ public class SoCustomerAdapter extends RecyclerView.Adapter<SoCustomerAdapter.My
         holder.price_level.setText(price_level);
 
         int customer_id = Integer.parseInt(customer.getId());
+        String customer_name = customer.getCustomername();
 //        Log.d("customer_id", customer_id);
         Integer verification = db.get_customer_verification(customer_id);
         String verification_description = "Pending";
@@ -139,13 +140,14 @@ public class SoCustomerAdapter extends RecyclerView.Adapter<SoCustomerAdapter.My
         String latitude1 = gps.get_latitude();
         String longitude2 = db.get_customer_longitude(customer_id);
         String latitude2 = db.get_customer_latitude(customer_id);
-        open_customer_history.setOnClickListener(new View.OnClickListener() {
+        holder.open_customer_history.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.d("", "customer: "+customer.getCustomername()+" "+customer.getId());
                 Intent open_valuation_breakdown  = new Intent(context,CustomerSalesHistory.class);
-                open_valuation_breakdown.putExtra("customerid",customer.getId());
-                open_valuation_breakdown.putExtra("customername",customer.getCustomername());
-                startActivity(context,open_valuation_breakdown,null);
+                open_valuation_breakdown.putExtra("customerid",Integer.toString(customer_id));
+                open_valuation_breakdown.putExtra("customername",customer_name);
+                context.startActivity(open_valuation_breakdown);
             }
         });
 
@@ -380,6 +382,7 @@ public class SoCustomerAdapter extends RecyclerView.Adapter<SoCustomerAdapter.My
     public class MyViewHolder extends RecyclerView.ViewHolder {
         TextView so1,so2,so3,so4,socontact,longitude,latitude,distance,verification,is_visited,price_level;
         Button save_coordinate,verify_pin,skip_order,remove_pin,request_repin;
+        FloatingActionButton open_customer_history;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
