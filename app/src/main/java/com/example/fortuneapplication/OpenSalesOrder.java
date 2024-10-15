@@ -102,7 +102,7 @@ public class OpenSalesOrder extends AppCompatActivity {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(OpenSalesOrder.this, "Network Error, Please Sync Again", Toast.LENGTH_SHORT).show();
+                Toast.makeText(OpenSalesOrder.this, "Network Error, Please check tailscale or mobile data", Toast.LENGTH_SHORT).show();
             }
         });
 

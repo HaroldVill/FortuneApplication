@@ -36,22 +36,22 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class ItemValuationDetail extends AppCompatActivity {
+public class CustomerSalesHistory extends AppCompatActivity {
     TextView title;
     private PazDatabaseHelper mdatabaseHelper;
     private String JSON_URL;
     RecyclerView item_history;
-    ItemValuationAdapter itemValuationAdapter;
+    SalesHistoryAdapter salesHistoryAdapter;
     private String x;
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_item_valuation_detail);
+        setContentView(R.layout.activity_sales_history);
         Intent intent = getIntent();
-        String code = intent.getStringExtra("code");
-        String description = intent.getStringExtra("description");
-        String date_from = intent.getStringExtra("date_from");
-        String date_to = intent.getStringExtra("date_to");
+        String code = intent.getStringExtra("customerid");
+        String description = intent.getStringExtra("customername");
+        String date_from = "";
+        String date_to = "";
         item_history = findViewById(R.id.datadisp);
         title = findViewById(R.id.item_valuation_title);
         Log.d("ds", "ItemValuationTitle: "+description+"\n"+date_from+" - "+date_to);
@@ -62,10 +62,10 @@ public class ItemValuationDetail extends AppCompatActivity {
         ArrayList<CONNECT> connectList = databaseHelper.SelectUPDT();
         if (!connectList.isEmpty()) {
             x = connectList.get(0).getIp();
-            JSON_URL = "http://" + x + "/MobileAPI/get_item_valuation_detail.php";
+            JSON_URL = "http://" + x + "/MobileAPI/get_customersales_history.php";
         }
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, JSON_URL+"?item_code="+code+"&location_id="+location_id+"&date_from="+date_from+"&date_to="+date_to,
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, JSON_URL+"?customer_id="+code+"&location_id="+location_id+"&date_from="+date_from+"&date_to="+date_to,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -79,20 +79,20 @@ public class ItemValuationDetail extends AppCompatActivity {
 
                             for (int i = 0; i < itemArray.length(); i++) {
                                 JSONObject jsonObject = itemArray.getJSONObject(i);
-                                String type = jsonObject.getString("type");
+                                String date = jsonObject.getString("date");
                                 String refno = jsonObject.getString("refno");
-                                String name = jsonObject.getString("name")+"\n"+jsonObject.getString("source_ref_date");
+                                String itemdesc = jsonObject.getString("itemdesc");
                                 String quantity = jsonObject.getString("quantity");
-                                String ENDING_QUANTITY = jsonObject.getString("ENDING_QUANTITY");
+                                String uom = jsonObject.getString("uom");
 
-                                Item item =new Item(type, refno, name, quantity, ENDING_QUANTITY,"","","","");
+                                Item item =new Item(date, refno, itemdesc, quantity, uom,"","","","");
                                 itemList.add(item);
 
                             }
 
-                            itemValuationAdapter = new ItemValuationAdapter(ItemValuationDetail.this,itemList);
-                            item_history.setLayoutManager(new LinearLayoutManager(ItemValuationDetail.this));
-                            item_history.setAdapter(itemValuationAdapter);
+                            salesHistoryAdapter = new SalesHistoryAdapter(CustomerSalesHistory.this,itemList);
+                            item_history.setLayoutManager(new LinearLayoutManager(CustomerSalesHistory.this));
+                            item_history.setAdapter(salesHistoryAdapter);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -102,7 +102,7 @@ public class ItemValuationDetail extends AppCompatActivity {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(ItemValuationDetail.this, "Network Error, Please check tailscale or mobile data", Toast.LENGTH_SHORT).show();
+                Toast.makeText(CustomerSalesHistory.this, "Network Error, Please check tailscale or mobile data", Toast.LENGTH_SHORT).show();
             }
         });
 

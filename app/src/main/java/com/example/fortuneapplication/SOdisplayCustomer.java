@@ -68,7 +68,7 @@ public class SOdisplayCustomer extends AppCompatActivity {
         ActivityCompat.requestPermissions(SOdisplayCustomer.this,new String[]
                 {Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
         locationManager=(LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        soCustomerAdapter = new SoCustomerAdapter(this, customers,this,locationManager);
+        soCustomerAdapter = new SoCustomerAdapter(SOdisplayCustomer.this, customers,this,locationManager);
         sorecyle.setAdapter(soCustomerAdapter);
 
         mDatabaseHelper = new PazDatabaseHelper(this);

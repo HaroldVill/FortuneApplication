@@ -42,6 +42,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -67,6 +68,7 @@ public class SoCustomerAdapter extends RecyclerView.Adapter<SoCustomerAdapter.My
     LocationManager locationManager;
     PazDatabaseHelper mdatabasehelper;
     RequestQueue request_queue;
+    FloatingActionButton open_customer_history;
     private volatile boolean stopThread = false;
 
     public SoCustomerAdapter(Context context, ArrayList<Customer> customerList,Activity activity, LocationManager locationManager) {
@@ -137,6 +139,15 @@ public class SoCustomerAdapter extends RecyclerView.Adapter<SoCustomerAdapter.My
         String latitude1 = gps.get_latitude();
         String longitude2 = db.get_customer_longitude(customer_id);
         String latitude2 = db.get_customer_latitude(customer_id);
+        open_customer_history.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent open_valuation_breakdown  = new Intent(context,CustomerSalesHistory.class);
+                open_valuation_breakdown.putExtra("customerid",customer.getId());
+                open_valuation_breakdown.putExtra("customername",customer.getCustomername());
+                startActivity(context,open_valuation_breakdown,null);
+            }
+        });
 
         holder.request_repin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -183,6 +194,7 @@ public class SoCustomerAdapter extends RecyclerView.Adapter<SoCustomerAdapter.My
                 }
             }
         });
+
 
         if(Double.parseDouble(longitude2) > 0|| Double.parseDouble(latitude2) > 0) {
             holder.longitude.setText(longitude2);
@@ -388,6 +400,7 @@ public class SoCustomerAdapter extends RecyclerView.Adapter<SoCustomerAdapter.My
             request_repin  =itemView.findViewById(R.id.request_repin);
             is_visited = itemView.findViewById(R.id.is_visited);
             price_level = itemView.findViewById(R.id.price_level);
+            open_customer_history = itemView.findViewById(R.id.open_customer_history);
         }
     }
 

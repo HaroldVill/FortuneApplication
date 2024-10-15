@@ -184,6 +184,9 @@
             android:name=".OpenSalesOrder"
             android:exported="false" />
         <activity
+            android:name=".CustomerSalesHistory"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
