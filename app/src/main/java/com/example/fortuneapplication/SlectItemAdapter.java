@@ -23,10 +23,12 @@ public class SlectItemAdapter extends RecyclerView.Adapter<SlectItemAdapter.MyVi
     private ArrayList<Item> itemLista;
     private Context context;
     private Comparator<Item> currentComparator;
+    String customer_id;
 
-    public SlectItemAdapter(ArrayList<Item> itemLista, Context context) {
+    public SlectItemAdapter(ArrayList<Item> itemLista, Context context,String customer_id) {
         this.itemLista = itemLista;
         this.context = context;
+        this.customer_id = customer_id;
 
     }
     public void setFilterdList(List<Item> filterdList){
@@ -97,6 +99,7 @@ public class SlectItemAdapter extends RecyclerView.Adapter<SlectItemAdapter.MyVi
                 editor.putString("UNITM", item.getUnit().getQuantity());
                 editor.putString("name", item.getUnit().getName());
                 editor.putString("PLVL", item.getNewPriceLvl().getPid());
+                editor.putString("customer_id", customer_id);
 
                 editor.apply();
                 context.startActivity(tra);

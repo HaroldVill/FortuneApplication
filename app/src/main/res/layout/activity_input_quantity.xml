@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
    android:background="#2038C1"
-    android:layout_height="620dp"
+    android:layout_height="720dp"
     tools:context=".InputQuantity">
 
     <TextView
@@ -205,7 +205,7 @@
         app:cardCornerRadius="15dp"
         android:layout_below="@+id/crd"
         android:layout_width="match_parent"
-        android:layout_height="230dp">
+        android:layout_height="250dp">
 
 
         <RelativeLayout
@@ -349,7 +349,16 @@
                 android:textColor="#F44336">
 
             </EditText>
-
+            <TextView
+                android:id="@+id/salesrate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/q6"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="6dp"
+                android:text="SALESRATE: "
+                android:textSize="18sp"
+                android:textStyle="bold"></TextView>
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 

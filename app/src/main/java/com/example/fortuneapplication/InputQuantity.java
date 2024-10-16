@@ -12,6 +12,7 @@ import static com.example.fortuneapplication.PazDatabaseHelper.UNIT_MEASURE_TABL
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -39,6 +40,17 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -46,8 +58,10 @@ import java.util.ArrayList;
 
 public class InputQuantity extends AppCompatActivity {
     EditText q1, q2, q3, q4, q5, q6;
-    TextView balik, ps, itemid, idlvl, untbase, samvalue, datasam,basihan,dew;
+    TextView balik, ps, itemid, idlvl, untbase, samvalue, datasam,basihan,dew,salesrate;
     Button itemsave,itemfree,lessbo;
+    private String JSON_URL;
+    private String x;
 
     Spinner spinner6;
     private PazDatabaseHelper mdatabaseHelper;
@@ -77,6 +91,7 @@ public class InputQuantity extends AppCompatActivity {
          basihan = findViewById(R.id.basihan);
          lessbo = findViewById(R.id.lessbo);
          dew = findViewById(R.id.dew);
+         salesrate = findViewById(R.id.salesrate);
 
 
 
@@ -105,7 +120,47 @@ public class InputQuantity extends AppCompatActivity {
         String cquantity = preferences.getString("UNITM", "");
         String Uname = preferences.getString("name", "");
         String plvlid = preferences.getString("PLVL", "");
-        // Toast.makeText(this, "value"+ plvlid, Toast.LENGTH_SHORT).show();
+
+        String customer_id =  preferences.getString("customer_id", "");
+        String description = "";
+        String date_from = "";
+        String date_to = "";
+
+
+        ArrayList<CONNECT> connectList = mdatabaseHelper.SelectUPDT();
+        if (!connectList.isEmpty()) {
+            x = connectList.get(0).getIp();
+            JSON_URL = "http://" + x + "/MobileAPI/get_item_salesrate.php";
+        }
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, JSON_URL+"?customer_id="+customer_id+"&item_code="+icode+"&date_from="+date_from+"&date_to="+date_to,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject obj = new JSONObject(response);
+                            JSONArray itemArray = obj.getJSONArray("data");
+
+                            for (int i = 0; i < itemArray.length(); i++) {
+                                JSONObject jsonObject = itemArray.getJSONObject(i);
+                                String salesrate_label = jsonObject.getString("salesrate");
+                                salesrate.setText(salesrate_label);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        } finally {
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+//                Toast.makeText(InputQuantity.this, "Salesrate unavailable, Please check tailscale or mobile data", Toast.LENGTH_SHORT).show();
+                salesrate.setText("Salesrate unavailable, Please check tailscale or mobile data");
+            }
+        });
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
 
        // Toast.makeText(this, ""+Uname, Toast.LENGTH_SHORT).show();
 
@@ -118,6 +173,7 @@ public class InputQuantity extends AppCompatActivity {
         itemid.setText(oid);
         idlvl.setText(plvlid);
         datasam.setText(irate);
+
 
         ps.setOnClickListener(new View.OnClickListener() {
             @Override

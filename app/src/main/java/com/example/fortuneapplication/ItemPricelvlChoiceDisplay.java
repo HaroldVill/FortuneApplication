@@ -98,7 +98,7 @@ public class ItemPricelvlChoiceDisplay extends AppCompatActivity {
         customer_id.setText(intent.getStringExtra("CUSTOMER_ID"));
 
         ress.setLayoutManager(new LinearLayoutManager(this));
-        slectItemAdapter = new SlectItemAdapter(itemLista, this);
+        slectItemAdapter = new SlectItemAdapter(itemLista, this,customer_id.getText().toString());
         ress.setAdapter(slectItemAdapter);
         mDatabaseHelper = new PazDatabaseHelper(this);
         checkvalue();
