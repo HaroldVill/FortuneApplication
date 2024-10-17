@@ -2416,6 +2416,30 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         return 0;
     }
 
+    public String get_customer_name(int customer_id){
+        String customer_name = "";
+        try {
+            SQLiteDatabase db = this.getReadableDatabase();
+            String query = "SELECT customer_name from Customer_Table where customer_id="+customer_id;
+            Cursor cursor = db.rawQuery(query,null);
+            if (cursor.moveToFirst()) {
+               customer_name = cursor.getString(0);
+            }
+            cursor.close();
+//            db.close();
+            return customer_name;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        finally {
+
+        }
+
+        return customer_name;
+
+    }
+
     }
 
 

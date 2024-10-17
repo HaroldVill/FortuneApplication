@@ -187,6 +187,9 @@
             android:name=".CustomerSalesHistory"
             android:exported="false" />
         <activity
+            android:name=".CustomerSalesByItemHistory"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

@@ -122,6 +122,7 @@ public class InputQuantity extends AppCompatActivity {
         String plvlid = preferences.getString("PLVL", "");
 
         String customer_id =  preferences.getString("customer_id", "");
+        String customer_name = mdatabaseHelper.get_customer_name(Integer.parseInt(customer_id));
         String description = "";
         String date_from = "";
         String date_to = "";
@@ -156,6 +157,16 @@ public class InputQuantity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
 //                Toast.makeText(InputQuantity.this, "Salesrate unavailable, Please check tailscale or mobile data", Toast.LENGTH_SHORT).show();
                 salesrate.setText("Salesrate unavailable, Please check tailscale or mobile data");
+            }
+        });
+        salesrate.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public  void onClick(View v){
+                Intent open_valuation_breakdown  = new Intent(InputQuantity.this,CustomerSalesByItemHistory.class);
+                open_valuation_breakdown.putExtra("customerid",customer_id);
+                open_valuation_breakdown.putExtra("customername",customer_name);
+                open_valuation_breakdown.putExtra("itemcode",icode);
+                startActivity(open_valuation_breakdown);
             }
         });
 
