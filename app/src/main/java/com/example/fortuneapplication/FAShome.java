@@ -55,6 +55,7 @@ public class FAShome extends AppCompatActivity {
     LocationListener locationListener;
     final Calendar history_calendar= Calendar.getInstance();
     final Calendar history_calendar_to= Calendar.getInstance();
+    PazDatabaseHelper mdatabasehelper;
     EditText date_from,date_to;
 
     @Override
@@ -70,6 +71,9 @@ public class FAShome extends AppCompatActivity {
         date_to = findViewById(R.id.date_to);
         generate_valuation = findViewById(R.id.generate_valuation);
         generate_open_orders = findViewById(R.id.generate_open_orders);
+        mdatabasehelper = new PazDatabaseHelper(FAShome.this);
+        date_from.setText(mdatabasehelper.get_date_from());
+        date_to.setText(mdatabasehelper.get_date_to());
 //        coordinates = findViewById(R.id.coordinates);
 
 
@@ -174,11 +178,13 @@ public class FAShome extends AppCompatActivity {
         String myFormat="yyyy-MM-dd";
         SimpleDateFormat dateFormat=new SimpleDateFormat(myFormat, Locale.TAIWAN);
         date_from.setText(dateFormat.format(history_calendar.getTime()));
+        mdatabasehelper.update_date_from(dateFormat.format(history_calendar.getTime()));
     }
     private void update_date_to(){
         String myFormat="yyyy-MM-dd";
         SimpleDateFormat dateFormat=new SimpleDateFormat(myFormat, Locale.TAIWAN);
         date_to.setText(dateFormat.format(history_calendar_to.getTime()));
+        mdatabasehelper.update_date_to(dateFormat.format(history_calendar_to.getTime()));
     }
 
 

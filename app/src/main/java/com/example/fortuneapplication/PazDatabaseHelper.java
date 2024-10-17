@@ -401,7 +401,9 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                 +"(NULL,'ALLOW_STRICT_COVERAGE','Allow'),"
                 +"(NULL,'BLUETOOTH_DEVICE',''),"
                 +"(NULL,'DEFAULT_LOCATION_ID','1'),"
-                +"(NULL,'ALLOW_CHANGE_LOCATION','Allow')";
+                +"(NULL,'ALLOW_CHANGE_LOCATION','Allow'),"
+                +"(NULL,'DATE_FROM',''),"
+                +"(NULL,'DATE_TO','')";
 
         db.execSQL(CREATE_CONNECTIONTABLE);
         db.execSQL(CREATE_DASHBOARDTABLE);
@@ -2438,6 +2440,64 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
 
         return customer_name;
 
+    }
+
+    public String get_date_from(){
+        String value="";
+        String query ="SELECT VALUE FROM SYSTEM_SETTINGS WHERE  id=8";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query,null);
+        if(cursor.moveToFirst()){
+            value=cursor.getString(0);
+//            Log.d("sales_type",sales_type);
+        }
+        return value;
+    }
+
+    public int update_date_from(String date){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String update_query = "UPDATE SYSTEM_SETTINGS SET date_from = "+"'"+date+"'"+" where ID = 8";
+        try{
+            db.execSQL(update_query);
+            //db.setTransactionSuccessful();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        finally {
+            //db.endTransaction();
+        }
+        return 0;
+    }
+
+
+
+    public String get_date_to(){
+        String value="";
+        String query ="SELECT VALUE FROM SYSTEM_SETTINGS WHERE  id=9";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query,null);
+        if(cursor.moveToFirst()){
+            value=cursor.getString(0);
+//            Log.d("sales_type",sales_type);
+        }
+        return value;
+    }
+
+    public int update_date_to(String date){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String update_query = "UPDATE SYSTEM_SETTINGS SET date_to = "+"'"+date+"'"+" where ID = 9";
+        try{
+            db.execSQL(update_query);
+            //db.setTransactionSuccessful();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        finally {
+            //db.endTransaction();
+        }
+        return 0;
     }
 
     }
