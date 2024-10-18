@@ -2456,7 +2456,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
 
     public int update_date_from(String date){
         SQLiteDatabase db = this.getWritableDatabase();
-        String update_query = "UPDATE SYSTEM_SETTINGS SET date_from = "+"'"+date+"'"+" where ID = 8";
+        String update_query = "UPDATE SYSTEM_SETTINGS SET VALUE = "+"'"+date+"'"+" where ID = 8";
         try{
             db.execSQL(update_query);
             //db.setTransactionSuccessful();
@@ -2486,7 +2486,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
 
     public int update_date_to(String date){
         SQLiteDatabase db = this.getWritableDatabase();
-        String update_query = "UPDATE SYSTEM_SETTINGS SET date_to = "+"'"+date+"'"+" where ID = 9";
+        String update_query = "UPDATE SYSTEM_SETTINGS SET VALUE = "+"'"+date+"'"+" where ID = 9";
         try{
             db.execSQL(update_query);
             //db.setTransactionSuccessful();

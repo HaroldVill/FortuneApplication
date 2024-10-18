@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -34,6 +35,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.PopupMenu;
 import android.widget.Spinner;
@@ -54,12 +56,15 @@ import org.json.JSONObject;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Locale;
 
 public class InputQuantity extends AppCompatActivity {
     EditText q1, q2, q3, q4, q5, q6;
     TextView balik, ps, itemid, idlvl, untbase, samvalue, datasam,basihan,dew,salesrate;
-    Button itemsave,itemfree,lessbo;
+    Button itemsave,itemfree,lessbo,generate_valuation,generate_open_orders;
     private String JSON_URL;
     private String x;
 
@@ -67,12 +72,15 @@ public class InputQuantity extends AppCompatActivity {
     private PazDatabaseHelper mdatabaseHelper;
     ArrayList<Unit> units;
     Context context;
+    final Calendar history_calendar= Calendar.getInstance();
+    final Calendar history_calendar_to= Calendar.getInstance();
+    EditText date_from,date_to;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_input_quantity);
-
+        mdatabaseHelper = new PazDatabaseHelper(this);
         q1 = findViewById(R.id.q1);
         q2 = findViewById(R.id.q2);
         q3 = findViewById(R.id.q3);
@@ -92,10 +100,16 @@ public class InputQuantity extends AppCompatActivity {
          lessbo = findViewById(R.id.lessbo);
          dew = findViewById(R.id.dew);
          salesrate = findViewById(R.id.salesrate);
+        date_from = findViewById(R.id.date_from);
+        date_to = findViewById(R.id.date_to);
+        generate_valuation = findViewById(R.id.generate_valuation);
+        generate_open_orders = findViewById(R.id.generate_open_orders);
+        date_from.setText(mdatabaseHelper.get_date_from());
+        date_to.setText(mdatabaseHelper.get_date_to());
 
 
 
-        mdatabaseHelper = new PazDatabaseHelper(this);
+
         units = new ArrayList<>();
 
         ArrayList<Item> itemList = displayUOM();
@@ -124,8 +138,8 @@ public class InputQuantity extends AppCompatActivity {
         String customer_id =  preferences.getString("customer_id", "");
         String customer_name = mdatabaseHelper.get_customer_name(Integer.parseInt(customer_id));
         String description = "";
-        String date_from = "";
-        String date_to = "";
+        String date_from_ = "";
+        String date_to_ = "";
 
 
         ArrayList<CONNECT> connectList = mdatabaseHelper.SelectUPDT();
@@ -134,7 +148,7 @@ public class InputQuantity extends AppCompatActivity {
             JSON_URL = "http://" + x + "/MobileAPI/get_item_salesrate.php";
         }
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, JSON_URL+"?customer_id="+customer_id+"&item_code="+icode+"&date_from="+date_from+"&date_to="+date_to,
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, JSON_URL+"?customer_id="+customer_id+"&item_code="+icode+"&date_from="+date_from_+"&date_to="+date_to_,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -496,6 +510,66 @@ public class InputQuantity extends AppCompatActivity {
             }
         });
 
+        DatePickerDialog.OnDateSetListener date =new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int day) {
+                history_calendar.set(Calendar.YEAR, year);
+                history_calendar.set(Calendar.MONTH,month);
+                history_calendar.set(Calendar.DAY_OF_MONTH,day);
+                update_datefrom();
+                Log.d("check_date_changed", date_from.getText().toString());
+//                populate_table(date_from.getText().toString());
+            }
+        };
+
+        DatePickerDialog.OnDateSetListener dialog_date_to =new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int day) {
+                history_calendar_to.set(Calendar.YEAR, year);
+                history_calendar_to.set(Calendar.MONTH,month);
+                history_calendar_to.set(Calendar.DAY_OF_MONTH,day);
+                update_date_to();
+                Log.d("check_date_changed", date_to.getText().toString());
+//                populate_table(date_from.getText().toString());
+            }
+        };
+        date_from.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new DatePickerDialog(InputQuantity.this,date,history_calendar.get(Calendar.YEAR),history_calendar.get(Calendar.MONTH),history_calendar.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
+        date_to.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new DatePickerDialog(InputQuantity.this,dialog_date_to,history_calendar_to.get(Calendar.YEAR),history_calendar_to.get(Calendar.MONTH),history_calendar_to.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
+        generate_valuation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent open_valuation_breakdown  = new Intent(InputQuantity.this,ItemValuationDetail.class);
+                open_valuation_breakdown.putExtra("code",q1.getText().toString());
+                open_valuation_breakdown.putExtra("description",q2.getText().toString());
+                open_valuation_breakdown.putExtra("date_from",date_from.getText().toString());
+                open_valuation_breakdown.putExtra("date_to",date_to.getText().toString());
+                startActivity(open_valuation_breakdown);
+            }
+        });
+
+        generate_open_orders.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent open_valuation_breakdown  = new Intent(InputQuantity.this,OpenSalesOrder.class);
+                open_valuation_breakdown.putExtra("code",q1.getText().toString());
+                open_valuation_breakdown.putExtra("description",q2.getText().toString());
+                open_valuation_breakdown.putExtra("date_from",date_from.getText().toString());
+                open_valuation_breakdown.putExtra("date_to",date_to.getText().toString());
+                startActivity(open_valuation_breakdown);
+            }
+        });
+
+
     }
 
     //* FORMULA IN COMPUTING THE TOTAL PAYABLE IN THE S/O //*
@@ -545,6 +619,18 @@ public class InputQuantity extends AppCompatActivity {
         cursor.close();
         db.close();
         return itemhist;
+    }
+    private void update_datefrom(){
+        String myFormat="yyyy-MM-dd";
+        SimpleDateFormat dateFormat=new SimpleDateFormat(myFormat, Locale.TAIWAN);
+        date_from.setText(dateFormat.format(history_calendar.getTime()));
+        mdatabaseHelper.update_date_from(dateFormat.format(history_calendar.getTime()));
+    }
+    private void update_date_to(){
+        String myFormat="yyyy-MM-dd";
+        SimpleDateFormat dateFormat=new SimpleDateFormat(myFormat, Locale.TAIWAN);
+        date_to.setText(dateFormat.format(history_calendar_to.getTime()));
+        mdatabaseHelper.update_date_to(dateFormat.format(history_calendar_to.getTime()));
     }
     // i want every time i select in pupup  it perform
 }
