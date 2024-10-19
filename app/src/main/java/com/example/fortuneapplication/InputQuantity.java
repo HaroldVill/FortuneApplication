@@ -452,7 +452,7 @@ public class InputQuantity extends AppCompatActivity {
                             String data3 = q3.getText().toString();
                             String data4 = q4.getText().toString();
                             String data5 = Integer.toString(Integer.parseInt(q5.getText().toString())*-1);
-                            String data6 = Double.toString(Double.parseDouble(q6.getText().toString())*-1.00);
+                            String data6 = Double.toString(Double.parseDouble(q6.getText().toString().replace(",",""))*-1.00);
                             String asd = basihan.getText().toString();
 
                             Item2 item2 = new Item2(asd,dataa, data0, data1, data2,datass, data3, data4, data5, data6);
