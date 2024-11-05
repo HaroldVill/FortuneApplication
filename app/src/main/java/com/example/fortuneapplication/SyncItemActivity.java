@@ -150,7 +150,7 @@ public class SyncItemActivity extends AppCompatActivity {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(SyncItemActivity.this, "Network Error, Please Sync Again", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SyncItemActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
                 progressBar1.setVisibility(View.GONE);
             }
         });
