@@ -22,6 +22,7 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
@@ -152,6 +153,25 @@ public class SyncItemActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(SyncItemActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
                 progressBar1.setVisibility(View.GONE);
+            }
+        });
+
+        stringRequest.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                // Here goes the new timeout 3 minutes
+                return 3*60*1000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                // The max number of attempts
+                return 5;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+
             }
         });
 
