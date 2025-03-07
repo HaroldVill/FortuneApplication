@@ -106,7 +106,7 @@ public class HomePage extends AppCompatActivity implements LocationListener {
         else
         {
             //GPS is already On then
-            new Timer().scheduleAtFixedRate(new TimerTask(){
+            new Timer().schedule(new TimerTask(){
                 @Override
                 public void run(){
                     runOnUiThread(new Runnable() {
@@ -392,8 +392,12 @@ public class HomePage extends AppCompatActivity implements LocationListener {
                                 }
                                 StringRequest send_invoices = new StringRequest(Request.Method.POST, api_url,
                                         response -> {Log.d("Success","Success");
-                                            if(response.contains("succesfully") || response.contains("has already been")){
-                                                mDatabaseHelper.update_so_status(sales_order_id);}},
+                                                if(response.contains("succesfully") || response.contains("has already been")){
+                                                    mDatabaseHelper.update_so_status(sales_order_id);}
+                                                else{
+                                                    mDatabaseHelper.update_so_status_error(sales_order_id);
+                                                }
+                                            },
                                         error -> Log.d("Error","Connection Error")){
 
                                     @Override

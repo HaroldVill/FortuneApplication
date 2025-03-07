@@ -382,8 +382,12 @@ public class History extends AppCompatActivity {
                                 }
                                 StringRequest send_invoices = new StringRequest(Request.Method.POST, api_url,
                                         response -> {Log.d("Success","Success");
-                                            if(response.contains("succesfully") || response.contains("has already been")){
-                                                mDatabaseHelper.update_so_status(sales_order_id);}},
+                                                if(response.contains("succesfully") || response.contains("has already been")){
+                                                    mDatabaseHelper.update_so_status(sales_order_id);}
+                                                else{
+                                                    mDatabaseHelper.update_so_status_error(sales_order_id);
+                                                }
+                                            },
                                         error -> Log.d("Error","Connection Error")){
 
                                     @Override

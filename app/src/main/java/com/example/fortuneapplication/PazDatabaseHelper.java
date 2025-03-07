@@ -1356,6 +1356,22 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         return 0;
     }
 
+    public int update_so_status_error(int so_id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String update_query = "UPDATE SALES_ORDER_TABLE SET STATUS = 2 where SALES_ORDERID = "+so_id;
+        try{
+            db.execSQL(update_query);
+            //db.setTransactionSuccessful();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        finally {
+            //db.endTransaction();
+        }
+        return 0;
+    }
+
     public int update_customer_skip_status(int customer_skip_id){
         SQLiteDatabase db = this.getWritableDatabase();
         String update_query = "UPDATE CUSTOMER_SKIP_TABLE SET STATUS = 1 where ID = "+customer_skip_id;
@@ -1666,7 +1682,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
     @SuppressLint("Range")
     public ArrayList<SALESORDER> getSlsorder(int sales_order_id) {
         ArrayList<SALESORDER> salesORlist = new ArrayList<>();
-        String query ="";
+        String query;
         if(sales_order_id == 0) {
                 query = " SELECT " +
                     SALES_ORDER_TABLE + "." + SALES_ORDERID + ", " +
@@ -1739,14 +1755,14 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                 salesORlist.add(salesorder);
             } while (cursor.moveToNext());
         }
-//        cursor.close();
+        cursor.close();
 //        db.close();
         return salesORlist;
         }
 
     public ArrayList<SALESORDER> getSlsorder_unposted(int sales_order_id) {
         ArrayList<SALESORDER> salesORlist = new ArrayList<>();
-        String query ="";
+        String query;
         if(sales_order_id == 0) {
             query = " SELECT " +
                     SALES_ORDER_TABLE + "." + SALES_ORDERID + ", " +
@@ -1818,7 +1834,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                 salesORlist.add(salesorder);
             } while (cursor.moveToNext());
         }
-//        cursor.close();
+        cursor.close();
 //        db.close();
         return salesORlist;
     }
@@ -1829,8 +1845,8 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("d-m-yy");
         String formattedDate = datenow.format(myFormatObj);
         String date_now = formattedDate.toString();
-        String query ="";
-            query = " SELECT " +
+
+        String query = " SELECT " +
                     SALES_ORDER_TABLE + "." + SALES_ORDERID + ", " +
                     SALES_ORDER_TABLE + "." + CODE + ", " +
                     SALES_ORDER_TABLE + "." + AMOUNT + ", " +
@@ -1889,8 +1905,8 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         @SuppressLint("Range")
         public ArrayList<SALESORDER> get_customer_skip_order(int id) {
             ArrayList<SALESORDER> salesORlist = new ArrayList<>();
-            String query ="";
-            query = " SELECT " +
+
+            String query = " SELECT " +
                     CUSTOMER_SKIP_TABLE + "." + CUSTOMER_SKIP_TABLE_ID + ", " +
                     CUSTOMER_SKIP_TABLE + "." + CUSTOMER_SKIP_TABLE_REASON + ", " +
                     CUSTOMER_SKIP_TABLE + "." + CUSTOMER_SKIP_TABLE_DATETIME + ", " +
@@ -2010,7 +2026,11 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
     public int get_open_sales_order(){
         int sales_order_id = 0;
         String query ="SELECT "+SALES_ORDERID +" FROM "+ SALES_ORDER_TABLE +
-                " WHERE POSTED = 1 and STATUS = 0 LIMIT 1";
+                        " INNER JOIN " + SALESREP_TABLE +
+                " ON " + SALESREP_TABLE + "." + SALESREP_ID + " = " + SALES_ORDER_TABLE + "." + SALES_REP_ID +
+                        " INNER JOIN " + CUSTOMER_TABLE +
+                " ON " + SALES_ORDER_TABLE + "." + CUSTOMER_ID + " = " + CUSTOMER_TABLE + "." + CUSTOMER_ID +
+                " WHERE POSTED = 1 and STATUS = 0  LIMIT 1";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(query,null);
         if(cursor.moveToFirst()){
@@ -2321,8 +2341,8 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
     public ArrayList<SALESORDER> get_repin_customer(int id) {
         Log.d("repin_id", Integer.toString(id));
         ArrayList<SALESORDER> salesORlist = new ArrayList<>();
-        String query ="";
-        query = " SELECT " +
+
+        String query = " SELECT " +
                 REQUEST_REPIN_TABLE + "." + REQUEST_REPIN_CUSTOMER_ID + ", " +
                 REQUEST_REPIN_TABLE + "." + REQUEST_REPIN_DATE +
                 " FROM " + REQUEST_REPIN_TABLE +
