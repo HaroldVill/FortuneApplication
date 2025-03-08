@@ -913,7 +913,8 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                 PAYMENT_TERMS_TABLE + "." + PTERMS_NET_DUE +
                 " FROM " + CUSTOMER_TABLE +
                 " LEFT JOIN " + PAYMENT_TERMS_TABLE +
-                " ON " + CUSTOMER_TABLE + "." + PAYMENT_TERMS_ID + " = " + PAYMENT_TERMS_TABLE + "." + PTERMS_ID;
+                " ON " + CUSTOMER_TABLE + "." + PAYMENT_TERMS_ID + " = " + PAYMENT_TERMS_TABLE + "." + PTERMS_ID
+                +" WHERE "+CUSTOMER_TABLE + "." + CUSTOMER_NAME + " NOT LIKE '%IS INACTIVE%'";
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(query, null);
