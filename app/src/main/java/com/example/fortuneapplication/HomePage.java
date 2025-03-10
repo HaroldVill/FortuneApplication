@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 
+
+
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -53,7 +55,7 @@ public class HomePage extends AppCompatActivity implements LocationListener {
     private static final long MIN_TIME_BW_UPDATES = 1000;
     private static final float MIN_DISTANCE_CHANGE_FOR_UPDATES = 1;
     ImageView ie, bots1, bots2, bots3, bots4, sin;
-    CardView c1, c2, c3, c4;
+    CardView c1, c2, c3, c4,sfaid;
     AlertDialog.Builder builder;
     private static final String PREFS_NAME = "MyPrefs";
     private static final String PREF_USERNAME = "username";
@@ -91,6 +93,7 @@ public class HomePage extends AppCompatActivity implements LocationListener {
         c3 = findViewById(R.id.c3);
         c4 = findViewById(R.id.c4);
         ie = findViewById(R.id.ie);
+        sfaid = findViewById(R.id.sfaid);
         sfa_button = findViewById(R.id.imageView4);
         coordinates = findViewById(R.id.coordinates);
         startThread();
@@ -314,7 +317,23 @@ public class HomePage extends AppCompatActivity implements LocationListener {
             }
         });
 
+        sfaid.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String check_sync = mDatabaseHelper.get_max_sync_history();
+                if(check_sync!=""){
+                    Toast.makeText(HomePage.this, "Please sync "+check_sync+".", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Intent nb = new Intent(HomePage.this, SFAItemDisplay.class);
+                startActivity(nb);
+
+            }
+        });
+
     }
+
+
 
     public void startThread() {
         stopThread = true;

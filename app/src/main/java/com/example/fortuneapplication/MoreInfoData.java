@@ -12,7 +12,7 @@ import static com.example.fortuneapplication.PazDatabaseHelper.MOBILE_NO;
 import static com.example.fortuneapplication.PazDatabaseHelper.SALESREP_ID;
 import static com.example.fortuneapplication.PazDatabaseHelper.SALESREP_NAME;
 import static com.example.fortuneapplication.PazDatabaseHelper.SALESREP_TABLE;
-import static com.example.fortuneapplication.PazDatabaseHelper.SALES_ORDERID;;
+import static com.example.fortuneapplication.PazDatabaseHelper.SALES_ORDERID;
 import static com.example.fortuneapplication.PazDatabaseHelper.SALES_ORDER_TABLE;
 import static com.example.fortuneapplication.PazDatabaseHelper.SOCUSTOMER_ID;
 import static com.example.fortuneapplication.PazDatabaseHelper.SOLOCATION_ID;
