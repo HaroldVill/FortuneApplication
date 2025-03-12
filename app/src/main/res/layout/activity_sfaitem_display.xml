@@ -5,23 +5,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".SFAItemDisplay">
-
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    android:id="@+id/search_layout"
+    android:orientation="horizontal">
     <EditText
         android:paddingLeft="10dp"
         android:drawableLeft="@drawable/iconasearch"
         android:background="@drawable/searchmestyle"
         android:id="@+id/searchbaritems"
-        android:layout_width="360dp"
-        android:layout_height="55dp"
+        android:layout_width="match_parent"
+        android:layout_height="27dp"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginEnd="7dp"
         android:layout_marginBottom="10dp"
+        android:layout_weight="2"
         android:hint="Search ...."></EditText>
 
     <TextView
         android:layout_marginLeft="10dp"
         android:id="@+id/dsp"
+        android:visibility="invisible"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
     </TextView>
@@ -29,31 +35,32 @@
 
 
     <Spinner
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="5dp"
         android:layout_alignParentRight="true"
         android:id="@+id/spinner5"
+        android:layout_below="@+id/searchbaritems"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1">
     </Spinner>
-
+</LinearLayout>
 
     <androidx.cardview.widget.CardView
         app:cardBackgroundColor="#4CAF50"
-        android:layout_below="@+id/searchbaritems"
+        android:layout_below="@+id/search_layout"
         android:id="@+id/cards"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginTop="1dp"
         android:layout_width="match_parent"
-        android:layout_height="49dp">
+        android:layout_height="35dp">
 
         <TableRow
             android:layout_below="@+id/sr"
             android:id="@+id/table2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="0dp"
             >
 
             <TextView
@@ -66,24 +73,24 @@
                 android:textAlignment="center"
                 android:visibility="invisible"
                 android:textColor="@color/black"
-                android:textSize="15sp" />
+                android:textSize="12sp" />
 
 
             <TextView
                 android:id="@+id/des2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="5"
+                android:layout_weight="2"
                 android:padding="10sp"
                 android:text="@string/hd2"
-                android:textAlignment="center"
+
                 android:textColor="@color/black"
-                android:textSize="15sp" />
+                android:textSize="12sp" />
 
 
             <TextView
                 android:id="@+id/des3"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ellipsize="end"
@@ -91,29 +98,42 @@
                 android:text="@string/hd3"
                 android:textAlignment="center"
                 android:textColor="#FFFDFD"
-                android:textSize="15sp" />
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/des4"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="3"
+                android:layout_weight="1"
                 android:padding="10sp"
-                android:text="@string/hd4"
+                android:text="QTY"
                 android:textAlignment="center"
                 android:textColor="#FDFBFB"
-                android:textSize="15sp" />
+                android:textSize="12sp" />
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
+                android:layout_weight="1"
                 android:padding="10sp"
-                android:text="@string/hd5"
-                android:textAlignment="center"
+                android:text="GRP"
+
                 android:textColor="#FDFBFB"
-                android:textSize="15sp">
+                android:textSize="12sp">
             </TextView>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="10sp"
+                android:text="WSR"
+
+                android:textColor="#FDFBFB"
+                android:textSize="12sp">
+            </TextView>
+
+
 
 
 

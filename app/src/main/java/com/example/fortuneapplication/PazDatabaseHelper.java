@@ -2041,6 +2041,23 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         return sales_order_id;
     }
 
+    public int get_open_sales_order_witherror(){
+        int sales_order_id = 0;
+        String query ="SELECT "+SALES_ORDERID +" FROM "+ SALES_ORDER_TABLE +
+                " INNER JOIN " + SALESREP_TABLE +
+                " ON " + SALESREP_TABLE + "." + SALESREP_ID + " = " + SALES_ORDER_TABLE + "." + SALES_REP_ID +
+                " INNER JOIN " + CUSTOMER_TABLE +
+                " ON " + SALES_ORDER_TABLE + "." + CUSTOMER_ID + " = " + CUSTOMER_TABLE + "." + CUSTOMER_ID +
+                " WHERE POSTED = 1 and STATUS = 2  LIMIT 1";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query,null);
+        if(cursor.moveToFirst()){
+            sales_order_id=cursor.getInt(cursor.getColumnIndex(SALES_ORDERID));
+            Log.d("sales_order_id", Integer.toString(sales_order_id));
+        }
+        return sales_order_id;
+    }
+
     @SuppressLint("Range")
     public ArrayList<SALESORDER> get_principal_performance(String date){
         ArrayList<SALESORDER> pr = new ArrayList<>();

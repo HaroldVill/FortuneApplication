@@ -77,7 +77,11 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         int status = db.get_so_status(salesOrder.getSalesorderid());
         int posted = db.get_so_posted_flag(salesOrder.getSalesorderid());
         holder.removes.setVisibility(View.VISIBLE);
-        if(status !=0){
+        holder.sam1.setTypeface(Typeface.DEFAULT);
+        holder.sam2.setTypeface(Typeface.DEFAULT);
+        holder.sam3.setTypeface(Typeface.DEFAULT);
+        holder.sam4.setTypeface(Typeface.DEFAULT);
+        if(status == 1){
 
             holder.sam1.setTextColor(Color.rgb(0,89,27));
             holder.sam2.setTextColor(Color.rgb(0,89,27));
@@ -89,7 +93,19 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
             holder.sam4.setTypeface(Typeface.DEFAULT_BOLD);
 
         }
-        if(posted !=0){
+        if(status == 2){
+
+            holder.sam1.setTextColor(Color.rgb(110,0,16));
+            holder.sam2.setTextColor(Color.rgb(110,0,16));
+            holder.sam4.setTextColor(Color.rgb(110,0,16));
+            holder.removes.setVisibility(View.INVISIBLE);
+            holder.sam1.setTypeface(Typeface.DEFAULT_BOLD);
+            holder.sam2.setTypeface(Typeface.DEFAULT_BOLD);
+            holder.sam3.setTypeface(Typeface.DEFAULT_BOLD);
+            holder.sam4.setTypeface(Typeface.DEFAULT_BOLD);
+
+        }
+        if(posted ==1){
 
 //            holder.sam1.setTextColor(Color.rgb(0,89,27));
 //            holder.sam2.setTextColor(Color.rgb(0,89,27));

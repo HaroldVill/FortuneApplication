@@ -56,7 +56,7 @@ public class SFAItemDisplay extends AppCompatActivity {
 
         // mItemList.addAll(mDatabaseHelper.getAllItems());
 
-        String [] sortme = { "  SORT BY: ............","Sort by item OnHand","Sort by Description"};
+        String [] sortme = { "SORT..","OnHand","Description"};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,sortme);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner5.setAdapter(adapter);
@@ -103,7 +103,7 @@ public class SFAItemDisplay extends AppCompatActivity {
         Comparator<Item> comparator = null;
 
         switch (selectedChoice) {
-            case "Sort by item OnHand":
+            case "OnHand":
                 comparator = new Comparator<Item>() {
                     @Override
                     public int compare(Item item1, Item item2) {
@@ -114,7 +114,7 @@ public class SFAItemDisplay extends AppCompatActivity {
                 };
 
                 break;
-            case "Sort by Description":
+            case "Description":
                 comparator = new Comparator<Item>() {
                     @Override
                     public int compare(Item item1, Item item2) {

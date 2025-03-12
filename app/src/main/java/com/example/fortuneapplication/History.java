@@ -415,6 +415,70 @@ public class History extends AppCompatActivity {
                     }
 
                 }
+
+                if (i % 25 == 0) {
+                    int sales_order_id = mDatabaseHelper.get_open_sales_order_witherror();
+                    if(sales_order_id !=0){
+                        try {
+                            ArrayList<CONNECT> connectList2 = mDatabaseHelper.SelectUPDT();
+                            if (!connectList2.isEmpty()) {
+                                x = connectList2.get(0).getIp(); // Assuming the first IP address is what you need
+                                String sales_type = mDatabaseHelper.sales_type();
+                                Log.d("sales_type",sales_type);
+                                api_url = "http://" + x + "/MobileAPI/"+sales_type;
+                            }
+//                            PazDatabaseHelper dbHelper = new PazDatabaseHelper(context);
+                            List<SALESORDER> salesOrderList = mDatabaseHelper.getSlsorder(sales_order_id);
+                            for (SALESORDER salesOrder : salesOrderList) {
+                                JSONArray json_soitems = new JSONArray();
+                                List<SALESORDERITEMS> salesOrderItemList = mDatabaseHelper.getSlsorderitems(sales_order_id);
+                                for (SALESORDERITEMS salesOrderItems : salesOrderItemList) {
+
+                                    JSONObject jsonObject = new JSONObject();
+                                    jsonObject.put("item_id", salesOrderItems.getSoiitemid());
+                                    jsonObject.put("quantity", salesOrderItems.getSoiquantity());
+                                    jsonObject.put("rate", salesOrderItems.getSoirate());
+                                    jsonObject.put("amount", salesOrderItems.getSoiamount());
+                                    jsonObject.put("unit_base_qty", salesOrderItems.getSoiunitbasequantity());
+                                    jsonObject.put("uom", salesOrderItems.getUom());
+                                    jsonObject.put("price_level_id", salesOrderItems.getSoipricelevelid());
+                                    json_soitems.put(jsonObject);
+                                }
+                                StringRequest send_invoices = new StringRequest(Request.Method.POST, api_url,
+                                        response -> {Log.d("Success","Success");
+                                            if(response.contains("succesfully") || response.contains("has already been")){
+                                                mDatabaseHelper.update_so_status(sales_order_id);}
+                                            else{
+                                                mDatabaseHelper.update_so_status_error(sales_order_id);
+                                            }
+                                        },
+                                        error -> Log.d("Error","Connection Error")){
+
+                                    @Override
+                                    protected Map<String, String> getParams() throws AuthFailureError {
+                                        Map<String, String> params =new HashMap<>();
+                                        params.put("refno", salesOrder.getCode().toString());
+                                        params.put("customer_id", salesOrder.getCustomer().getId().toString());
+                                        params.put("total", salesOrder.getAmount().toString());
+                                        params.put("date", salesOrder.getDate());
+                                        params.put("sales_rep_id", Integer.toString(salesOrder.getSalesrepid()));
+                                        params.put("location_id",Integer.toString(salesOrder.getLocationid()));
+                                        params.put("begin_order", salesOrder.get_begin_order());
+                                        params.put("end_order", salesOrder.get_end_order());
+                                        params.put("sales_order_items", json_soitems.toString());
+                                        return params;
+                                    }
+                                };
+                                request_queue = Volley.newRequestQueue(History.this);
+                                request_queue.add(send_invoices);
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            Log.d("Exception",e.getMessage());
+                        }
+                    }
+
+                }
                 Log.d(TAG, "ThreadTicker: " + i);
                 try {
                     Thread.sleep(1000);
