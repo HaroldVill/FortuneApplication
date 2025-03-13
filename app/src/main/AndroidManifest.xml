@@ -193,6 +193,9 @@
             android:name=".SFAItemDisplay"
             android:exported="false" />
         <activity
+            android:name=".SFAActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
