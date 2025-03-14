@@ -379,6 +379,14 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                 REQUEST_REPIN_DATE + " TEXT, " +
                 REQUEST_REPIN_STATUS + " TEXT) ";
 
+        String CREATE_CUSTOMER_WSR_TABLE ="CREATE TABLE CUSTOMER_WSR (" +
+                "ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "CUSTOMER_ID INTEGER, " +
+                "ITEM_ID INTEGER, " +
+                "WEEKLY_SALES_RATE DOUBLE," +
+                "SYNC_DATE TEXT" +
+                ")";
+
 
         String INSERT_SYNC_HISTORY ="INSERT INTO "+SYNC_HISTORY_TABLE+" VALUES " +
                 "(NULL,'ITEM',''),"+
@@ -389,8 +397,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                 "(NULL,'PRICELEVEL',''),"+
                 "(NULL,'PRICELEVELLINES',''),"+
                 "(NULL,'UOM',''),"+
-                "(NULL,'COVERAGE','')"+
-                ""
+                "(NULL,'COVERAGE','')"
                 ;
 //        String  ALTER_ITEM_TABLE = "ALTER TABLE " + SALES_ORDER_TABLE + " ADD COLUMN " +
 //                "posted" + " INTEGER DEFAULT 0";
@@ -425,6 +432,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_CUSTOMERS_COVERAGE_TABLE);
         db.execSQL(CREATE_CUSTOMER_SKIP_TABLE);
         db.execSQL(CREATE_REQUEST_REPIN_TABLE);
+        db.execSQL(CREATE_CUSTOMER_WSR_TABLE);
 //        db.execSQL(ALTER_ITEM_TABLE);
 
     }
@@ -446,6 +454,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + SYSTEM_SETTINGS);
         db.execSQL("DROP TABLE IF EXISTS " + CUSTOMER_SKIP_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + REQUEST_REPIN_STATUS);
+        db.execSQL("DROP TABLE IF EXISTS CUSTOMER_WSR");
         onCreate(db);
     }
 
@@ -598,6 +607,23 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         values.put(PRICE_LEVEL_DESCRIPTION, newPriceLvl.getPdescription());
         db.insert(PRICE_LEVEL_TABLE, null, values);
         return false;
+    }
+
+    public boolean storecustomerwsr(String [] customer_wsr){
+        try {
+            SQLiteDatabase db = this.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put("CUSTOMER_ID", customer_wsr[0]);
+            values.put("ITEM_ID", customer_wsr[1]);
+            values.put("WEEKLY_SALES_RATE", customer_wsr[2]);
+            values.put("SYNC_DATE", customer_wsr[3]);
+            db.insert("CUSTOMER_WSR", null, values);
+
+            return true;
+        }
+        catch (Exception e) {
+            return false;
+        }
     }
 
     public boolean storePLVLines(PlevelLines_list plevelLines_list) {
@@ -2440,6 +2466,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         }
         return 0;
     }
+
     public int delete_so_items(int so_id){
         SQLiteDatabase db = this.getWritableDatabase();
         String delete_query = "DELETE FROM SALES_ORDER_ITEMS_TABLE  where SALES_ORDER_ID = "+so_id;

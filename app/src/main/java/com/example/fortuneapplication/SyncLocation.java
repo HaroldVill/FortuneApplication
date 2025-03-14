@@ -62,7 +62,7 @@ public class SyncLocation extends AppCompatActivity {
 
         ArrayList<CONNECT> connectList = SelectUPDT();
         if (!connectList.isEmpty()) {
-            x = connectList.get(0).getIp(); // Assuming the first IP address is what you need
+            x = connectList.get(0).getIp();
             JSON_URL = "http://" + x + "/MobileAPI/LOCATION.php";
         }
 

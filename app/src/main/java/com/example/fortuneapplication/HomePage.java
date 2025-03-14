@@ -325,7 +325,7 @@ public class HomePage extends AppCompatActivity implements LocationListener {
                     Toast.makeText(HomePage.this, "Please sync "+check_sync+".", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                Intent nb = new Intent(HomePage.this, SFAItemDisplay.class);
+                Intent nb = new Intent(HomePage.this, SFAActivity.class);
                 startActivity(nb);
 
             }

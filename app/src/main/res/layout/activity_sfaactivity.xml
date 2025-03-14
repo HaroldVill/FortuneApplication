@@ -6,6 +6,15 @@
     tools:ignore="MissingPrefix"
     android:layout_height="wrap_content"
     tools:context=".SFAActivity">
+    <ProgressBar
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/progressBar3"
+        android:visibility="invisible"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="160dp"
+        android:layout_height="160dp" >
+    </ProgressBar>
 
     <RelativeLayout
         android:background="#233EDA"
@@ -62,6 +71,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:orientation="vertical">
+
 
         <TextView
             android:textColor="#1430CA"
@@ -240,11 +250,11 @@
             android:layout_height="33dp"
             android:layout_below="@+id/custd"
             android:layout_marginLeft="5dp"
-            android:layout_marginTop="3dp"
+            android:layout_marginTop="2dp"
            android:layout_toRightOf="@id/cusn"
             android:enabled="false"
             android:text="TEST"
-            android:textColor="#000000"
+            android:textColor="#3F51B5"
             android:textSize="12dp" />
 
 
@@ -259,9 +269,9 @@
             android:text="CONTACT:" />
 
         <EditText
-            android:layout_marginTop="6dp"
-            android:textSize="12sp"
-            android:textColor="#000000"
+            android:layout_marginTop="5dp"
+            android:textSize="12dp"
+            android:textColor="#3F51B5"
             android:enabled="false"
 
             android:id="@+id/ccontact"
@@ -283,8 +293,8 @@
             android:text="ADDRESS:" />
 
         <EditText
-            android:textSize="12sp"
-            android:textColor="#000000"
+            android:textSize="12dp"
+            android:textColor="#3F51B5"
             android:enabled="false"
             android:text="TEST"
             android:id="@+id/caddd"
@@ -293,7 +303,7 @@
             android:layout_below="@+id/contact_label"
             android:layout_marginLeft="5dp"
             android:layout_toRightOf="@id/cadds"
-            android:layout_marginTop="6dp" />
+            android:layout_marginTop="5dp" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -309,21 +319,21 @@
                 android:layout_marginLeft="0dp"
                 android:layout_marginTop="10dp"
                 android:text="SALES REP:"
-                android:textSize="12sp"
+                android:textSize="12dp"
                 android:textStyle="bold"></TextView>
 
             <EditText
-                android:textColor="#000000"
+                android:textColor="#3F51B5"
                 android:id="@+id/slr"
                 android:enabled="false"
                 android:layout_width="500dp"
                 android:layout_height="33dp"
                 android:layout_marginLeft="5dp"
                 android:layout_toRightOf="@id/sr1"
-                android:layout_marginTop="3dp"
+                android:layout_marginTop="2dp"
                 android:text="TEST"
 
-                android:textSize="12sp"
+                android:textSize="12dp"
                 android:textStyle=""></EditText>
 
             <TextView
@@ -334,11 +344,11 @@
                 android:layout_marginLeft="0dp"
                 android:layout_marginTop="12dp"
                 android:text="LOCATION:"
-                android:textSize="12sp"
+                android:textSize="12dp"
                 android:textStyle="bold"></TextView>
 
             <EditText
-                android:textColor="#000000"
+                android:textColor="#3F51B5"
                 android:enabled="false"
                 android:layout_marginTop="6dp"
                 android:id="@+id/loc"
@@ -348,7 +358,7 @@
                 android:layout_toRightOf="@id/sr2"
                 android:layout_marginLeft="5dp"
                 android:text="OBEX - E(B)"
-                android:textSize="12sp"
+                android:textSize="12dp"
                 android:textStyle="italic">
             </EditText>
 
@@ -356,10 +366,10 @@
             <TextView
                 android:id="@+id/notes"
                 android:textStyle="bold"
-                android:textSize="12sp"
-                android:layout_marginLeft="5dp"
+                android:textSize="12dp"
+                android:layout_marginLeft="0dp"
                 android:text="PAYMENT TERM:"
-                android:layout_marginTop="12sp"
+                android:layout_marginTop="12dp"
                 android:layout_below="@+id/sr2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
@@ -367,8 +377,8 @@
 
             <EditText
 
-                android:textSize="12sp"
-                android:layout_marginTop="6dp"
+                android:textSize="12dp"
+                android:layout_marginTop="5dp"
 
                 android:textColor="#3F51B5"
                 android:enabled="false"
@@ -387,8 +397,8 @@
                 android:drawablePadding="0dp"
                 android:drawableRight="@drawable/notes"
                 android:textStyle="bold"
-                android:layout_marginLeft="5dp"
-                android:textSize="12sp"
+                android:layout_marginLeft="0dp"
+                android:textSize="12dp"
                 android:text="NOTE:"
                 android:layout_marginTop="10dp"
                 android:layout_below="@+id/notes"
@@ -448,6 +458,16 @@
 
         android:text="ITEM LIST:">
     </TextView>
+
+        <ImageView
+
+            android:id="@+id/sync_wsr"
+            android:layout_toRightOf="@id/adis"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/sinkicon"
+            ></ImageView>
 
 
     <TextView
