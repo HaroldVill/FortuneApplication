@@ -237,8 +237,12 @@ public class SFAActivity extends AppCompatActivity {
         adis.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkCustomer();
-
+                if(mDatabaseHelper.check_customer_wsr(cid.getText().toString())>0){
+                    checkCustomer();
+                }
+                else {
+                    Toast.makeText(SFAActivity. this, "Sync customer data first to order.", Toast.LENGTH_SHORT).show();
+                }
 
             }
         });
@@ -266,54 +270,58 @@ public class SFAActivity extends AppCompatActivity {
 
         sync_wsr.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onClick(View v){
-                progressBar3.setVisibility(View.VISIBLE);
-                PazDatabaseHelper databaseHelper = new PazDatabaseHelper(getApplicationContext());
-                ArrayList<CONNECT> connectList = databaseHelper.SelectUPDT();
-                String ip = connectList.get(0).getIp();
-                String JSON_URL = "http://" + ip + "/MobileAPI/SFA.php?customer_id="+cid.getText().toString();
-                StringRequest stringRequest = new StringRequest(Request.Method.GET, JSON_URL,
-                        new Response.Listener<String>() {
-                            @Override
-                            public void onResponse(String response) {
-                                try {
-                                    JSONObject obj = new JSONObject(response);
-                                    JSONArray locationArray = obj.getJSONArray("data");
-                                    for (int i=0; i < locationArray.length(); i++){
-                                        JSONObject jsonObject = locationArray.getJSONObject(i);
-                                        String customer_id = cid.getText().toString();
-                                        String item_id= jsonObject.getString("item_id");
+            public void onClick(View v) {
+                if (mDatabaseHelper.check_customer_wsr(cid.getText().toString()) > 0) {
+                    Toast.makeText(SFAActivity.this, "Customer weekly sales rate already synced.", Toast.LENGTH_SHORT).show();
+                } else {
+                    progressBar3.setVisibility(View.VISIBLE);
+                    PazDatabaseHelper databaseHelper = new PazDatabaseHelper(getApplicationContext());
+                    ArrayList<CONNECT> connectList = databaseHelper.SelectUPDT();
+                    String ip = connectList.get(0).getIp();
+                    String JSON_URL = "http://" + ip + "/MobileAPI/SFA.php?customer_id=" + cid.getText().toString();
+                    StringRequest stringRequest = new StringRequest(Request.Method.GET, JSON_URL,
+                            new Response.Listener<String>() {
+                                @Override
+                                public void onResponse(String response) {
+                                    try {
+                                        JSONObject obj = new JSONObject(response);
+                                        JSONArray locationArray = obj.getJSONArray("data");
+                                        for (int i = 0; i < locationArray.length(); i++) {
+                                            JSONObject jsonObject = locationArray.getJSONObject(i);
+                                            String customer_id = cid.getText().toString();
+                                            String item_id = jsonObject.getString("item_id");
 
-                                        String wsr = jsonObject.getString("WEEKLY_SALES_RATE");
-                                        String date = jsonObject.getString("date");
-                                        String [] customer_wsr = {customer_id,item_id,wsr,date};
-                                        boolean isStored = databaseHelper.storecustomerwsr(customer_wsr);
-                                        if (isStored) {
-                                            Toast.makeText(SFAActivity. this, "Successfully Sync Data", Toast.LENGTH_SHORT).show();
+                                            String wsr = jsonObject.getString("WEEKLY_SALES_RATE");
+                                            String date = jsonObject.getString("date");
+                                            String[] customer_wsr = {customer_id, item_id, wsr, date};
+                                            boolean isStored = databaseHelper.storecustomerwsr(customer_wsr);
+                                            if (isStored) {
+                                                Toast.makeText(SFAActivity.this, "Successfully Sync Data", Toast.LENGTH_SHORT).show();
+                                            }
                                         }
+
+
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+
+                                    } finally {
+                                        // Hide the progress bar
+                                        progressBar3.setVisibility(View.GONE);
                                     }
 
 
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-
-                                } finally {
-                                    // Hide the progress bar
-                                    progressBar3.setVisibility(View.GONE);
                                 }
+                            }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(SFAActivity.this, "Network Error Pleas Sync Again", Toast.LENGTH_SHORT).show();
+                            progressBar3.setVisibility(View.GONE);
 
-
-                            }
-                        }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(SFAActivity.this, "Network Error Pleas Sync Again", Toast.LENGTH_SHORT).show();
-                        progressBar3.setVisibility(View.GONE);
-
-                    }
-                });
-                RequestQueue requestQueue = Volley.newRequestQueue(SFAActivity.this);
-                requestQueue.add(stringRequest);
+                        }
+                    });
+                    RequestQueue requestQueue = Volley.newRequestQueue(SFAActivity.this);
+                    requestQueue.add(stringRequest);
+                }
             }
         });
     }

@@ -14,7 +14,6 @@
         android:layout_alignParentRight="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
-
     </TextView>
 
     <TextView
@@ -26,14 +25,14 @@
         android:layout_marginTop="10dp"
         android:text="SYSTEM SETUP"
         android:textColor="#FAFAFB"
-        android:textSize="25dp"
-        android:textStyle="italic"></TextView>
+        android:textSize="25sp"
+        android:textStyle="italic">
+    </TextView>
 
     <ScrollView
         android:layout_marginTop="60dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="wrap_content">
 
         <GridLayout
             android:layout_width="match_parent"
@@ -66,7 +65,8 @@
                         android:layout_marginTop="15dp"
                         android:text="SET DEFAULT CONNECTION:"
                         android:textSize="25sp"
-                        android:textStyle="bold"></TextView>
+                        android:textStyle="bold">
+                    </TextView>
 
 
                     <TextView
@@ -80,7 +80,8 @@
                         android:text="Select Connection Address"
                         android:textColor="#3F51B5"
                         android:textSize="20sp"
-                        android:textStyle="italic"></TextView>
+                        android:textStyle="italic">
+                    </TextView>
 
                     <TextView
                         android:id="@+id/connection_label"
@@ -89,7 +90,8 @@
                         android:layout_below="@+id/selection"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="10dp"
-                        android:textColor="#EF4438"></TextView>
+                        android:textColor="#EF4438">
+                    </TextView>
 
                     <Button
                         android:id="@+id/apply"
@@ -101,7 +103,6 @@
                         android:background="@drawable/buttondesign3"
                         android:text="APPLY"
                         android:textColor="#FDFCFC">
-
                     </Button>
 
                     <TextView
@@ -111,7 +112,8 @@
                         android:layout_marginLeft="12dp"
                         android:layout_marginTop="5dp"
                         android:text="New Connection?"
-                        android:textColor="#000"></TextView>
+                        android:textColor="#000">
+                    </TextView>
 
 
                     <TextView
@@ -124,8 +126,8 @@
                         android:text="CLICK HERE"
                         android:textColor="#000"
                         android:textStyle="bold">
-
                     </TextView>
+
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
 
@@ -149,9 +151,10 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:layout_marginTop="15dp"
-                        android:text="SET SET SALES TYPE:"
+                        android:text="SET SALES TYPE:"
                         android:textSize="25sp"
-                        android:textStyle="bold"></TextView>
+                        android:textStyle="bold">
+                    </TextView>
 
                     <TextView
                         android:id="@+id/select_sales_type"
@@ -164,7 +167,8 @@
                         android:text="Select Connection Address"
                         android:textColor="#3F51B5"
                         android:textSize="20sp"
-                        android:textStyle="italic"></TextView>
+                        android:textStyle="italic">
+                    </TextView>
 
                     <TextView
                         android:id="@+id/sales_type_label"
@@ -173,7 +177,8 @@
                         android:layout_below="@+id/select_sales_type"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="10dp"
-                        android:textColor="#EF4438"></TextView>
+                        android:textColor="#EF4438">
+                    </TextView>
 
                     <Button
                         android:id="@+id/apply_sales_type"
@@ -186,8 +191,8 @@
                         android:background="@drawable/buttondesign3"
                         android:text="APPLY"
                         android:textColor="#FDFCFC">
-
                     </Button>
+
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
 
@@ -214,7 +219,8 @@
                         android:layout_marginTop="15dp"
                         android:text="SET DEFAULT SALES REP:"
                         android:textSize="25sp"
-                        android:textStyle="bold"></TextView>
+                        android:textStyle="bold">
+                    </TextView>
 
                     <TextView
                         android:id="@+id/select_sales_rep_id"
@@ -227,7 +233,8 @@
                         android:text="Select Sales Rep"
                         android:textColor="#3F51B5"
                         android:textSize="20sp"
-                        android:textStyle="italic"></TextView>
+                        android:textStyle="italic">
+                    </TextView>
 
                     <TextView
                         android:id="@+id/sales_rep_id_label"
@@ -236,7 +243,8 @@
                         android:layout_below="@+id/select_sales_rep_id"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="10dp"
-                        android:textColor="#EF4438"></TextView>
+                        android:textColor="#EF4438">
+                    </TextView>
 
                     <Button
                         android:id="@+id/apply_sales_rep_id"
@@ -249,8 +257,8 @@
                         android:background="@drawable/buttondesign3"
                         android:text="APPLY"
                         android:textColor="#FDFCFC">
-
                     </Button>
+
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
 
@@ -276,7 +284,8 @@
                         android:layout_marginTop="15dp"
                         android:text="SET STRICT GPS:"
                         android:textSize="25sp"
-                        android:textStyle="bold"></TextView>
+                        android:textStyle="bold">
+                    </TextView>
 
                     <TextView
                         android:id="@+id/select_gps_mode"
@@ -289,7 +298,8 @@
                         android:text="Select GPS MODE"
                         android:textColor="#3F51B5"
                         android:textSize="20sp"
-                        android:textStyle="italic"></TextView>
+                        android:textStyle="italic">
+                    </TextView>
 
                     <TextView
                         android:id="@+id/gps_label"
@@ -298,7 +308,8 @@
                         android:layout_below="@+id/select_gps_mode"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="10dp"
-                        android:textColor="#EF4438"></TextView>
+                        android:textColor="#EF4438">
+                    </TextView>
 
                     <Button
                         android:id="@+id/apply_gps_mode"
@@ -311,8 +322,8 @@
                         android:background="@drawable/buttondesign3"
                         android:text="APPLY"
                         android:textColor="#FDFCFC">
-
                     </Button>
+
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
 
@@ -338,7 +349,8 @@
                         android:layout_marginTop="15dp"
                         android:text="ALLOW VERIFY PIN:"
                         android:textSize="25sp"
-                        android:textStyle="bold"></TextView>
+                        android:textStyle="bold">
+                    </TextView>
 
                     <TextView
                         android:id="@+id/select_verify_mode"
@@ -351,7 +363,8 @@
                         android:text="SELECT VERIFY MODE"
                         android:textColor="#3F51B5"
                         android:textSize="20sp"
-                        android:textStyle="italic"></TextView>
+                        android:textStyle="italic">
+                    </TextView>
 
                     <TextView
                         android:id="@+id/verify_label"
@@ -360,7 +373,8 @@
                         android:layout_below="@+id/select_verify_mode"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="10dp"
-                        android:textColor="#EF4438"></TextView>
+                        android:textColor="#EF4438">
+                    </TextView>
 
                     <Button
                         android:id="@+id/apply_verify_mode"
@@ -373,8 +387,8 @@
                         android:background="@drawable/buttondesign3"
                         android:text="APPLY"
                         android:textColor="#FDFCFC">
-
                     </Button>
+
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
 
@@ -400,7 +414,8 @@
                         android:layout_marginTop="15dp"
                         android:text="SETUP BLUETOOTH DEVICE:"
                         android:textSize="25sp"
-                        android:textStyle="bold"></TextView>
+                        android:textStyle="bold">
+                    </TextView>
 
                     <TextView
                         android:id="@+id/select_bluetooth_device"
@@ -413,7 +428,8 @@
                         android:text="SELECT DEVICE"
                         android:textColor="#3F51B5"
                         android:textSize="20sp"
-                        android:textStyle="italic"></TextView>
+                        android:textStyle="italic">
+                    </TextView>
 
                     <TextView
                         android:id="@+id/bluetooh_macaddress"
@@ -422,7 +438,8 @@
                         android:layout_below="@+id/select_bluetooth_device"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="10dp"
-                        android:textColor="#EF4438"></TextView>
+                        android:textColor="#EF4438">
+                    </TextView>
 
                     <Button
                         android:id="@+id/apply_bluetooth"
@@ -435,10 +452,11 @@
                         android:background="@drawable/buttondesign3"
                         android:text="APPLY"
                         android:textColor="#FDFCFC">
-
                     </Button>
+
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
+
             <androidx.cardview.widget.CardView
                 android:id="@+id/con7"
                 android:layout_width="match_parent"
@@ -459,7 +477,9 @@
                         android:layout_marginTop="15dp"
                         android:text="SETUP DEFAULT LOCATION:"
                         android:textSize="25sp"
-                        android:textStyle="bold"></TextView>
+                        android:textStyle="bold">
+                    </TextView>
+
                     <TextView
                         android:id="@+id/select_default_location"
                         android:layout_width="wrap_content"
@@ -471,7 +491,9 @@
                         android:text="SELECT LOCATION"
                         android:textColor="#3F51B5"
                         android:textSize="20sp"
-                        android:textStyle="italic"></TextView>
+                        android:textStyle="italic">
+                    </TextView>
+
                     <TextView
                         android:id="@+id/default_location"
                         android:layout_width="wrap_content"
@@ -479,7 +501,9 @@
                         android:layout_below="@+id/select_default_location"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="10dp"
-                        android:textColor="#EF4438"></TextView>
+                        android:textColor="#EF4438">
+                    </TextView>
+
                     <Button
                         android:id="@+id/apply_default_location"
                         android:layout_width="280dp"
@@ -492,8 +516,10 @@
                         android:text="APPLY"
                         android:textColor="#FDFCFC">
                     </Button>
+
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
+
             <androidx.cardview.widget.CardView
                 android:id="@+id/con8"
                 android:layout_width="match_parent"
@@ -514,7 +540,9 @@
                         android:layout_marginTop="15dp"
                         android:text="SETUP LOCATION SETTINGS:"
                         android:textSize="25sp"
-                        android:textStyle="bold"></TextView>
+                        android:textStyle="bold">
+                    </TextView>
+
                     <TextView
                         android:id="@+id/select_change_location"
                         android:layout_width="wrap_content"
@@ -526,7 +554,9 @@
                         android:text="LOCATION SETTINGS"
                         android:textColor="#3F51B5"
                         android:textSize="20sp"
-                        android:textStyle="italic"></TextView>
+                        android:textStyle="italic">
+                    </TextView>
+
                     <TextView
                         android:id="@+id/change_location"
                         android:layout_width="wrap_content"
@@ -534,7 +564,9 @@
                         android:layout_below="@+id/select_change_location"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="10dp"
-                        android:textColor="#EF4438"></TextView>
+                        android:textColor="#EF4438">
+                    </TextView>
+
                     <Button
                         android:id="@+id/apply_change_location"
                         android:layout_width="280dp"
@@ -547,6 +579,187 @@
                         android:text="APPLY"
                         android:textColor="#FDFCFC">
                     </Button>
+
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/con9"
+                android:layout_width="match_parent"
+                android:layout_height="190dp"
+                android:layout_below="@id/con8"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                app:cardCornerRadius="15dp">
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/title9"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="15dp"
+                        android:text="ORDER POINT:"
+                        android:textSize="25sp"
+                        android:textStyle="bold"/>
+
+                    <EditText
+                        android:id="@+id/editText1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/title9"
+                        android:layout_centerHorizontal="true"
+                        android:background="@android:drawable/editbox_background"
+                        android:gravity="top"
+                        android:hint=""
+                        android:inputType="text"
+                        android:textSize="30sp"></EditText>
+
+                    <TextView
+                        android:id="@+id/label1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:text="LABEL"
+                        android:layout_below="@+id/editText1">
+                    </TextView>
+
+                    <Button
+                        android:id="@+id/apply_order_point"
+                        android:layout_width="280dp"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/label1"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginLeft="100dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/buttondesign3"
+                        android:text="APPLY"
+                        android:textColor="#FDFCFC">
+                    </Button>
+
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/con10"
+                android:layout_width="match_parent"
+                android:layout_height="190dp"
+                android:layout_below="@id/con9"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                app:cardCornerRadius="15dp">
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/title10"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="15dp"
+                        android:text="SAFETY:"
+                        android:textSize="25sp"
+                        android:textStyle="bold">
+                    </TextView>
+
+                    <EditText
+                        android:id="@+id/editText2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="30sp"
+                        android:layout_centerHorizontal="true"
+                        android:inputType="text"
+                        android:background="@android:drawable/editbox_background"
+                        android:hint=""
+                        android:layout_below="@+id/title10">
+                    </EditText>
+
+                    <TextView
+                        android:id="@+id/label2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:text="LABEL"
+                        android:layout_below="@+id/editText2">
+                    </TextView>
+
+                    <Button
+                        android:id="@+id/apply_safety"
+                        android:layout_width="280dp"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/label2"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginLeft="100dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/buttondesign3"
+                        android:text="APPLY"
+                        android:textColor="#FDFCFC">
+                    </Button>
+
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/con11"
+                android:layout_width="match_parent"
+                android:layout_height="190dp"
+                android:layout_below="@id/con10"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginEnd="10dp"
+                app:cardCornerRadius="15dp">
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/title11"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="15dp"
+                        android:text="MAX:"
+                        android:textSize="25sp"
+                        android:textStyle="bold">
+                    </TextView>
+
+                    <EditText
+                        android:id="@+id/editText3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:background="@android:drawable/editbox_background"
+                        android:textSize="30sp"
+                        android:inputType="text"
+                        android:hint=""
+                        android:layout_below="@+id/title11">
+                    </EditText>
+
+                    <TextView
+                        android:id="@+id/label3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:text="LABEL"
+                        android:layout_below="@+id/editText3">
+                    </TextView>
+
+                    <Button
+                        android:id="@+id/apply_max"
+                        android:layout_width="280dp"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/label3"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginLeft="100dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/buttondesign3"
+                        android:text="APPLY"
+                        android:textColor="#FDFCFC">
+                    </Button>
+
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
         </GridLayout>

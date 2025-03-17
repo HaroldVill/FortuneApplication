@@ -410,7 +410,10 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                 +"(NULL,'DEFAULT_LOCATION_ID','1'),"
                 +"(NULL,'ALLOW_CHANGE_LOCATION','Allow'),"
                 +"(NULL,'DATE_FROM',''),"
-                +"(NULL,'DATE_TO','')";
+                +"(NULL,'DATE_TO',''),"
+                +"(NULL,'SAFETY','1'),"
+                +"(NULL,'ORDER_POINT','1'),"
+                +"(NULL,'MAX','1')";
 
         db.execSQL(CREATE_CONNECTIONTABLE);
         db.execSQL(CREATE_DASHBOARDTABLE);
@@ -1528,6 +1531,8 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         return verify_pin;
     }
 
+
+
     public int get_customer_pin_flag(){
         int customer_id =0;
         try {
@@ -2050,6 +2055,45 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         return sales_type;
     }
 
+    public String get_order_point(){
+        String sales_type="";
+        String query ="SELECT "+ "SYSTEM_SETTINGS"+"."+SYSTEM_SETTINGS_VALUE +" FROM "+ SYSTEM_SETTINGS +
+                " WHERE "+ SYSTEM_SETTINGS_NAME +"= 'ORDER_POINT'";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query,null);
+        if(cursor.moveToFirst()){
+            sales_type=cursor.getString(cursor.getColumnIndex(SYSTEM_SETTINGS_VALUE));
+            Log.d("sales_type",sales_type);
+        }
+        return sales_type;
+    }
+
+    public String get_safety(){
+        String sales_type="";
+        String query ="SELECT "+ "SYSTEM_SETTINGS"+"."+SYSTEM_SETTINGS_VALUE +" FROM "+ SYSTEM_SETTINGS +
+                " WHERE "+ SYSTEM_SETTINGS_NAME +"= 'SAFETY'";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query,null);
+        if(cursor.moveToFirst()){
+            sales_type=cursor.getString(cursor.getColumnIndex(SYSTEM_SETTINGS_VALUE));
+            Log.d("sales_type",sales_type);
+        }
+        return sales_type;
+    }
+
+    public String get_max(){
+        String sales_type="";
+        String query ="SELECT "+ "SYSTEM_SETTINGS"+"."+SYSTEM_SETTINGS_VALUE +" FROM "+ SYSTEM_SETTINGS +
+                " WHERE "+ SYSTEM_SETTINGS_NAME +"= 'MAX'";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query,null);
+        if(cursor.moveToFirst()){
+            sales_type=cursor.getString(cursor.getColumnIndex(SYSTEM_SETTINGS_VALUE));
+            Log.d("sales_type",sales_type);
+        }
+        return sales_type;
+    }
+
     public int get_open_sales_order(){
         int sales_order_id = 0;
         String query ="SELECT "+SALES_ORDERID +" FROM "+ SALES_ORDER_TABLE +
@@ -2365,6 +2409,28 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         try {
             SQLiteDatabase db = this.getReadableDatabase();
             String query = "SELECT ID FROM REQUEST_REPIN_TABLE WHERE STATUS =0 LIMIT 1";
+            Cursor cursor = db.rawQuery(query,null);
+            if (cursor.moveToFirst()) {
+                customer_repin_id = cursor.getInt(0);
+            }
+            cursor.close();
+//            db.close();
+            return customer_repin_id;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        finally {
+
+        }
+        return customer_repin_id;
+    }
+
+    public int check_customer_wsr(String customer_id){
+        int customer_repin_id =0;
+        try {
+            SQLiteDatabase db = this.getReadableDatabase();
+            String query = "SELECT COUNT(ID) FROM CUSTOMER_WSR WHERE SYNC_DATE = DATE('now') and CUSTOMER_ID="+customer_id;
             Cursor cursor = db.rawQuery(query,null);
             if (cursor.moveToFirst()) {
                 customer_repin_id = cursor.getInt(0);

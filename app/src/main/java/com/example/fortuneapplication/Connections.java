@@ -36,13 +36,17 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.Set;
 
 public class Connections extends AppCompatActivity {
     TextView creatcon, ids;
     TextView selection, connection_label, select_sales_type,sales_type_label,select_sales_rep_id,sales_rep_id_label,select_gps_mode,gps_label,select_verify_mode,verify_label,select_bluetooth_device,bluetooth_macaddress,select_default_location,default_location,select_change_location,change_location;
-    Button apply,apply_sales_type,apply_sales_rep_id,apply_gps_mode,apply_verify_mode,apply_bluetooth;
+    Button apply,apply_sales_type,apply_sales_rep_id,apply_gps_mode,apply_verify_mode,apply_bluetooth,apply_order_point,apply_safety,apply_max;
+    EditText editText1,editText2,editText3;
+    TextView label1,label2,label3;
     private PazDatabaseHelper mdatabaseHelper;
     public static final String RECEIVE_latLng = "com.bustracker.RECEIVE_latLng";
 
@@ -84,6 +88,18 @@ public class Connections extends AppCompatActivity {
         bluetooth_macaddress = findViewById(R.id.bluetooh_macaddress);
         bluetooth_macaddress.setText(mdatabaseHelper.get_bluetooth_device());
         apply_bluetooth = findViewById(R.id.apply_bluetooth);
+        editText1 = findViewById(R.id.editText1);
+        editText2 = findViewById(R.id.editText2);
+        editText3 = findViewById(R.id.editText3);
+        label1 = findViewById(R.id.label1);
+        label2 = findViewById(R.id.label2);
+        label3 = findViewById(R.id.label3);
+        apply_order_point = findViewById(R.id.apply_order_point);
+        apply_safety = findViewById(R.id.apply_safety);
+        apply_max = findViewById(R.id.apply_max);
+        label1.setText(mdatabaseHelper.get_order_point());
+        label2.setText(mdatabaseHelper.get_safety());
+        label3.setText(mdatabaseHelper.get_max());
         LocalBroadcastManager bManager = LocalBroadcastManager.getInstance(this);
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(RECEIVE_latLng);
@@ -123,6 +139,30 @@ public class Connections extends AppCompatActivity {
             @Override
             public void onClick(View view){
                 update_bluetooth_device();
+            }
+        });
+
+        apply_order_point.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                update_order_point();
+                label1.setText(mdatabaseHelper.get_order_point());
+            }
+        });
+
+        apply_safety.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                update_safety();
+                label2.setText(mdatabaseHelper.get_safety());
+            }
+        });
+
+        apply_max.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                update_max();
+                label3.setText(mdatabaseHelper.get_max());
             }
         });
 
@@ -645,6 +685,66 @@ public class Connections extends AppCompatActivity {
         db.close();
         if (numSpecificRowUpdated > 0) {
             Toast.makeText(this, "Successfull Bluetooth Connection", Toast.LENGTH_SHORT).show();
+//            selection.setText("");
+//            connection_label.setText("");
+//            Intent nanay = new Intent(Connections.this, SyncDatas.class);
+//            startActivity(nanay);
+//            finish();
+        }
+    }
+
+    public void update_order_point() {
+        String value = editText1.getText().toString();
+        SQLiteDatabase db = mdatabaseHelper.getWritableDatabase();
+        ContentValues specificRowValues = new ContentValues();
+        specificRowValues.put("VALUE", value);
+        String whereClause = SYSTEM_SETTINGS_NAME + " = ?";
+        String[] whereArgs = {"ORDER_POINT"};
+
+        int numSpecificRowUpdated = db.update(SYSTEM_SETTINGS, specificRowValues, whereClause, whereArgs);
+        db.close();
+        if (numSpecificRowUpdated > 0) {
+            Toast.makeText(this, "Successfull Order Point Set", Toast.LENGTH_SHORT).show();
+//            selection.setText("");
+//            connection_label.setText("");
+//            Intent nanay = new Intent(Connections.this, SyncDatas.class);
+//            startActivity(nanay);
+//            finish();
+        }
+    }
+
+    public void update_safety() {
+        String value = editText2.getText().toString();
+        SQLiteDatabase db = mdatabaseHelper.getWritableDatabase();
+        ContentValues specificRowValues = new ContentValues();
+        specificRowValues.put("VALUE", value);
+        String whereClause = SYSTEM_SETTINGS_NAME + " = ?";
+        String[] whereArgs = {"SAFETY"};
+
+        int numSpecificRowUpdated = db.update(SYSTEM_SETTINGS, specificRowValues, whereClause, whereArgs);
+        db.close();
+        if (numSpecificRowUpdated > 0) {
+            Toast.makeText(this, "Successfull Safety Set", Toast.LENGTH_SHORT).show();
+//            selection.setText("");
+//            connection_label.setText("");
+//            Intent nanay = new Intent(Connections.this, SyncDatas.class);
+//            startActivity(nanay);
+//            finish();
+        }
+    }
+
+    public void update_max() {
+        String value = editText3.getText().toString();
+        SQLiteDatabase db = mdatabaseHelper.getWritableDatabase();
+        ContentValues specificRowValues = new ContentValues();
+        specificRowValues.put("VALUE", value);
+        String whereClause = SYSTEM_SETTINGS_NAME + " = ?";
+        String[] whereArgs = {"MAX"};
+
+        int numSpecificRowUpdated = db.update(SYSTEM_SETTINGS, specificRowValues, whereClause, whereArgs);
+        db.close();
+        if (numSpecificRowUpdated > 0) {
+            Toast.makeText(this, "Successfull Max Set", Toast.LENGTH_SHORT).show();
 //            selection.setText("");
 //            connection_label.setText("");
 //            Intent nanay = new Intent(Connections.this, SyncDatas.class);
