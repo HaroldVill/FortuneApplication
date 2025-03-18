@@ -12,7 +12,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,7 +26,7 @@ public class SFAItemDisplay extends AppCompatActivity {
     private Spinner spinner5;
     private RecyclerView mRecyclerView;
     private SFAItemAdapter mItemAdapter;
-    private ArrayList<Item> mItemList = new ArrayList<>();
+    ArrayList<Item> sfa_itemlist_array  = new ArrayList<>();
     private PazDatabaseHelper mDatabaseHelper;
     TextView dsp;
 
@@ -35,28 +34,29 @@ public class SFAItemDisplay extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sfaitem_display);
+        mDatabaseHelper = new PazDatabaseHelper(this);
 
         dsp = findViewById(R.id.dsp);
         Intent intent = getIntent();
         String str = intent.getStringExtra("PRI");
+        String customer_id = intent.getStringExtra("CUSTOMER_ID");
         dsp.setText(str);
-
         spinner5 = findViewById(R.id.spinner5);
         mRecyclerView = findViewById(R.id.item_recycle2);
         searchbaritems = findViewById(R.id.searchbaritems);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mItemAdapter = new SFAItemAdapter(this, mItemList);
-
-
+        sfa_itemlist_array = mDatabaseHelper.get_sfa_itemlist(customer_id);
+        mItemAdapter = new SFAItemAdapter(SFAItemDisplay.this, sfa_itemlist_array);
         mRecyclerView.setAdapter(mItemAdapter);
-        mDatabaseHelper = new PazDatabaseHelper(this);
-        mItemList.addAll(mDatabaseHelper.combinedata());
+
+
+//        mItemList.addAll(mDatabaseHelper.combinedata());
         // mItemList.addAll(mDatabaseHelper.getAllupdatedItems());
         mItemAdapter.notifyDataSetChanged();
 
         // mItemList.addAll(mDatabaseHelper.getAllItems());
 
-        String [] sortme = { "SORT..","OnHand","Description"};
+        String [] sortme = { "SORT..","OnHand","Description","WSR"};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,sortme);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner5.setAdapter(adapter);
@@ -122,11 +122,22 @@ public class SFAItemDisplay extends AppCompatActivity {
                     }
                 };
                 break;
+
+            case "WSR":
+                comparator = new Comparator<Item>() {
+                    @Override
+                    public int compare(Item item1, Item item2) {
+                        double wsr1 = Double.parseDouble(item1.getWsr());
+                        double wsr2 = Double.parseDouble(item2.getWsr());
+                        return Double.compare(wsr2, wsr1);
+                    }
+                };
+                break;
             // Add more sorting options if needed
         }
 
         if (comparator != null) {
-            Collections.sort(mItemList, comparator);
+            Collections.sort(sfa_itemlist_array, comparator);
             mItemAdapter.sortData(comparator);
             mItemAdapter.notifyDataSetChanged();
 //
@@ -159,7 +170,7 @@ public class SFAItemDisplay extends AppCompatActivity {
 
     public void filterList(String text){
         List<Item> filteredList = new ArrayList<>();
-        for (Item item : mItemList) {
+        for (Item item : sfa_itemlist_array) {
             if (item.getDescription().toLowerCase().contains(text.toLowerCase())
                     || item.getGroup().toLowerCase().contains(text.toLowerCase())) {
                 filteredList.add(item);

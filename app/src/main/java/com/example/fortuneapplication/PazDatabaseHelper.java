@@ -1105,6 +1105,43 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         return itemList;
     }
 
+    public ArrayList<Item> get_sfa_itemlist(String customer_id){
+        ArrayList<Item> return_array = new ArrayList<>();
+        String query="SELECT " +
+                "ITEM_TABLE.ITEM_DESCRIPTION,\n" +
+                "ROUND(IFNULL(PRCUSTOM_PRICE,IFNULL(ITEM_TABLE.item_rate,0)),2) || ' / ' || ITEM_TABLE.item_unit_measure,\n" +
+                "ITEM_QUANTITY,\n" +
+                "ITEM_GROUP,\n" +
+                "ROUND(IFNULL(CUSTOMER_WSR.WEEKLY_SALES_RATE,0),2) FROM ITEM_TABLE \n" +
+                "LEFT JOIN CUSTOMER_WSR ON CUSTOMER_WSR.CUSTOMER_ID = "+customer_id+" AND CUSTOMER_WSR.ITEM_ID  = ITEM_TABLE.item_id AND CUSTOMER_WSR.SYNC_DATE = DATE('NOW')\n" +
+                "LEFT JOIN PRICE_LEVEL_LINES_TABLE ON PRICE_LEVEL_LINES_TABLE.PRITEM_ID = ITEM_TABLE.ITEM_ID AND PRICE_LEVEL_LINES_TABLE.PRI_LEVEL_ID = (SELECT PRICE_LEVEL_ID FROM CUSTOMER_TABLE WHERE CUSTOMER_TABLE.CUSTOMER_ID="+customer_id+")\n" +
+                "ORDER BY ITEM_TABLE.item_description";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor.moveToFirst()) {
+            do {
+                Item item = new Item();
+
+                item.setDescription(cursor.getString(0));
+                item.setRate(cursor.getString(1));
+
+                item.setQuantity(cursor.getString(2));
+                item.setGroup(cursor.getString(3));
+                item.setWsr(cursor.getString(4));
+//                Unit unit = new Unit();
+//                unit.setName(cursor.getString(cursor.getColumnIndex(NAME)));
+
+
+//                item.setUnit(unit);
+
+                return_array.add(item);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+//        db.close();
+        return return_array;
+    }
+
     /// Get Data from OrderTable
     public List<Item2> getItemDataOrder() {
         List<Item2> orderItemList = new ArrayList<>();

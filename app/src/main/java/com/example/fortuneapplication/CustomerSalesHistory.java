@@ -85,7 +85,7 @@ public class CustomerSalesHistory extends AppCompatActivity {
                                 String quantity = jsonObject.getString("quantity");
                                 String uom = jsonObject.getString("uom");
 
-                                Item item =new Item(date, refno, itemdesc, quantity, uom,"","","","");
+                                Item item =new Item(date, refno, itemdesc, quantity, uom,"","","","","");
                                 itemList.add(item);
 
                             }

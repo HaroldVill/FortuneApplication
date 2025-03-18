@@ -130,7 +130,7 @@ public class SyncItemActivity extends AppCompatActivity {
                                 String vend = jsonObject.getString("vendor");
                                 String inactive = jsonObject.getString("inactive");
 
-                                Item item = new Item(id, code, description, rate, group, quant, uom, vend,inactive);
+                                Item item = new Item(id, code, description, rate, group, quant, uom, vend,inactive,"");
 
                                 boolean isStored = databaseHelper.StoreData(item);
                                 itemList.add(item);

@@ -54,24 +54,13 @@ public class SFAItemAdapter extends RecyclerView.Adapter<SFAItemAdapter.MyViewHo
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Item item = itemList.get(position);
 
-        String rateString = item.getRate();
-        String formattedRate;
-        if (rateString != null) {
-            try {
-                double rate = Double.parseDouble(rateString);
-                DecimalFormat decimalFormat = new DecimalFormat("#.00");
-                formattedRate = decimalFormat.format(rate);
-            } catch (NumberFormatException e) {
-                formattedRate = "NO PRICE";
-            }
-        } else {
-            formattedRate = "N/A";
-        }
-        holder.it1.setText(item.getCode());
+
+
         holder.it2.setText(item.getDescription());
-        holder.it3.setText(formattedRate+ " / " + item.getUnitquant());
+        holder.it3.setText(item.getRate());
         holder.it4.setText(item.getQuantity());
         holder.it5.setText(item.getGroup());
+        holder.it6.setText(item.getWsr());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,7 +98,7 @@ public class SFAItemAdapter extends RecyclerView.Adapter<SFAItemAdapter.MyViewHo
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView it1,it2,it3,it4,it5;
+        TextView it1,it2,it3,it4,it5,it6;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -118,6 +107,7 @@ public class SFAItemAdapter extends RecyclerView.Adapter<SFAItemAdapter.MyViewHo
             it3 = itemView.findViewById(R.id.it3);
             it4 =itemView.findViewById(R.id.it4);
             it5 = itemView.findViewById(R.id.it5);
+            it6 = itemView.findViewById(R.id.it6);
 
 
         }

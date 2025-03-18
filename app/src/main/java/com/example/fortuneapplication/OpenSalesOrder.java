@@ -85,7 +85,7 @@ public class OpenSalesOrder extends AppCompatActivity {
                                 String quantity = jsonObject.getString("quantity");
                                 String ENDING_QUANTITY = jsonObject.getString("uom");
 
-                                Item item =new Item(type, refno, name, quantity, ENDING_QUANTITY,"","","","");
+                                Item item =new Item(type, refno, name, quantity, ENDING_QUANTITY,"","","","","");
                                 itemList.add(item);
 
                             }

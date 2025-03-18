@@ -12,8 +12,9 @@ public class Item {
     private NewPriceLvl newPriceLvl;
     private String vendor;
     private String inactive;
+    public String wsr;
 
-    public Item(String id, String code, String description, String rate, String group, String quantity, String unitquant, String vendor, String inactive) {
+    public Item(String id, String code, String description, String rate, String group, String quantity, String unitquant, String vendor, String inactive,String wsr) {
         this.id = id;
         this.code = code;
         this.description = description;
@@ -25,6 +26,7 @@ public class Item {
         this.newPriceLvl = newPriceLvl;
         this.vendor = vendor;
         this.inactive = inactive;
+        this.wsr = wsr;
     }
     public Item(){
 
@@ -117,6 +119,14 @@ public class Item {
 
     public void setVendor(String vendor) {
         this.vendor = vendor;
+    }
+
+    public String getWsr() {
+        return wsr;
+    }
+
+    public void setWsr(String wsr) {
+        this.wsr = wsr;
     }
 }
 
