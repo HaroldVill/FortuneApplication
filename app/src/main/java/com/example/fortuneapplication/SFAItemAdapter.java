@@ -1,5 +1,6 @@
 package com.example.fortuneapplication;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -21,10 +22,12 @@ public class SFAItemAdapter extends RecyclerView.Adapter<SFAItemAdapter.MyViewHo
     private Context context;
     private ArrayList<Item> itemList;
     private Comparator<Item> currentComparator;
+    String customer_id;
 
-    public SFAItemAdapter(Context context, ArrayList<Item> itemList) {
+    public SFAItemAdapter(Context context, ArrayList<Item> itemList,String customer_id) {
         this.context = context;
         this.itemList = itemList;
+        this.customer_id = customer_id;
     }
     public void setFilterdList(List<Item> filterdList){
         this.itemList = (ArrayList<Item>) filterdList;
@@ -50,6 +53,7 @@ public class SFAItemAdapter extends RecyclerView.Adapter<SFAItemAdapter.MyViewHo
         return new MyViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Item item = itemList.get(position);
@@ -57,7 +61,7 @@ public class SFAItemAdapter extends RecyclerView.Adapter<SFAItemAdapter.MyViewHo
 
 
         holder.it2.setText(item.getDescription());
-        holder.it3.setText(item.getRate());
+        holder.it3.setText(item.getRate() +" / "+item.getUnitquant());
         holder.it4.setText(item.getQuantity());
         holder.it5.setText(item.getGroup());
         holder.it6.setText(item.getWsr());
@@ -66,26 +70,26 @@ public class SFAItemAdapter extends RecyclerView.Adapter<SFAItemAdapter.MyViewHo
             @Override
             public void onClick(View v) {
 
-//                Intent tra = new Intent(context, InputQuantity.class);
-//                SharedPreferences preferences = context.getSharedPreferences("MyItems", Context.MODE_PRIVATE);
-//                SharedPreferences.Editor editor = preferences.edit();
-//
-//                //editor.putString("IID", item.getId());
-//
-//                editor.putString("ICODE", item.getCode());
-//                editor.putString("IDESCRIPTION", item.getDescription());
-//                editor.putString("IRATE", item.getRate());
-//                editor.putString("IQUANT", item.getQuantity());
-//                editor.putString("pcs", item.getUnitquant());
-//
-//
-//                editor.putString("DI", item.getUnit().getUnit_id());
-//                editor.putString("UNITM", item.getUnit().getQuantity());
-//                editor.putString("name", item.getUnit().getName());
-//
-//
-//                editor.apply();
-//                context.startActivity(tra);
+                Intent tra = new Intent(context, SFAInputQuantity.class);
+                SharedPreferences preferences = context.getSharedPreferences("MyItems", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+
+                editor.putString("ITEMIO", item.getId());
+                editor.putString("ICODE", item.getCode());
+                editor.putString("IDESCRIPTION", item.getDescription());
+                editor.putString("IRATE", item.getRate());
+                editor.putString("IQUANT", item.getQuantity());
+                editor.putString("pcs", item.getUnitquant());
+                editor.putString("LVL", item.getNewPriceLvl().getPdescription());
+
+                editor.putString("DI", item.getUnit().getUnit_id());
+                editor.putString("UNITM", item.getUnit().getQuantity());
+                editor.putString("name", item.getUnit().getName());
+                editor.putString("PLVL", item.getNewPriceLvl().getPid());
+                editor.putString("customer_id", customer_id);
+
+                editor.apply();
+                context.startActivity(tra);
 
             }
         });

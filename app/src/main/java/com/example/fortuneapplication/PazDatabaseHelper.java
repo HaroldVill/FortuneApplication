@@ -1109,30 +1109,47 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         ArrayList<Item> return_array = new ArrayList<>();
         String query="SELECT " +
                 "ITEM_TABLE.ITEM_DESCRIPTION,\n" +
-                "ROUND(IFNULL(PRCUSTOM_PRICE,IFNULL(ITEM_TABLE.item_rate,0)),2) || ' / ' || ITEM_TABLE.item_unit_measure,\n" +
+                "ROUND(IFNULL(PRCUSTOM_PRICE,IFNULL(ITEM_TABLE.item_rate,0)),2),\n" +
                 "ITEM_QUANTITY,\n" +
                 "ITEM_GROUP,\n" +
-                "ROUND(IFNULL(CUSTOMER_WSR.WEEKLY_SALES_RATE,0),2) FROM ITEM_TABLE \n" +
+                "ROUND(IFNULL(CUSTOMER_WSR.WEEKLY_SALES_RATE,0),2),"+
+                "UNIT_MEASURE_TABLE.NAME,\n"+
+                "UNIT_MEASURE_TABLE.QUANTITY,\n"+
+                "UNIT_MEASURE_TABLE.UNIT_ID,\n"+
+                "ITEM_CODE,\n"+
+                "ITEM_UNIT_MEASURE,\n"+
+                "PRICE_LEVEL_ID, \n"+
+                "ITEM_TABLE.ITEM_ID \n"+
+                " FROM ITEM_TABLE \n" +
                 "LEFT JOIN CUSTOMER_WSR ON CUSTOMER_WSR.CUSTOMER_ID = "+customer_id+" AND CUSTOMER_WSR.ITEM_ID  = ITEM_TABLE.item_id AND CUSTOMER_WSR.SYNC_DATE = DATE('NOW')\n" +
                 "LEFT JOIN PRICE_LEVEL_LINES_TABLE ON PRICE_LEVEL_LINES_TABLE.PRITEM_ID = ITEM_TABLE.ITEM_ID AND PRICE_LEVEL_LINES_TABLE.PRI_LEVEL_ID = (SELECT PRICE_LEVEL_ID FROM CUSTOMER_TABLE WHERE CUSTOMER_TABLE.CUSTOMER_ID="+customer_id+")\n" +
+                "LEFT JOIN UNIT_MEASURE_TABLE ON UNIT_MEASURE_TABLE.ITM_ID = ITEM_TABLE.ITEM_ID "+
+                "LEFT JOIN PRICE_LEVEL_TABLE ON PRICE_LEVEL_TABLE.PRICE_LEVEL_ID = PRICE_LEVEL_LINES_TABLE.PRI_LEVEL_ID "+
                 "ORDER BY ITEM_TABLE.item_description";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(query, null);
         if (cursor.moveToFirst()) {
             do {
                 Item item = new Item();
-
+                item.setCode(cursor.getString(8));
                 item.setDescription(cursor.getString(0));
                 item.setRate(cursor.getString(1));
-
                 item.setQuantity(cursor.getString(2));
                 item.setGroup(cursor.getString(3));
                 item.setWsr(cursor.getString(4));
-//                Unit unit = new Unit();
-//                unit.setName(cursor.getString(cursor.getColumnIndex(NAME)));
+                item.setUnitquant(cursor.getString(9));
+                item.setId(cursor.getString(11));
+                Unit unit = new Unit();
 
+                unit.setName(cursor.getString(5));
+                unit.setQuantity(cursor.getString(6));
+                unit.setUnit_id(cursor.getString(7));
 
-//                item.setUnit(unit);
+                NewPriceLvl newPriceLvl = new NewPriceLvl();
+                newPriceLvl.setPid(cursor.getString(10));
+
+                item.setNewPriceLvl(newPriceLvl);
+                item.setUnit(unit);
 
                 return_array.add(item);
             } while (cursor.moveToNext());

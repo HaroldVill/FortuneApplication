@@ -250,7 +250,7 @@ public class SFAActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent P = new Intent(SFAActivity.this, SOdisplayCustomer.class);
+                Intent P = new Intent(SFAActivity.this, SFAdisplayCustomer.class);
                 P.putExtra("Type","CoveragePlan");
                 startActivity(P);
                 finish();
@@ -261,7 +261,7 @@ public class SFAActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent P = new Intent(SFAActivity.this, SOdisplayCustomer.class);
+                Intent P = new Intent(SFAActivity.this, SFAdisplayCustomer.class);
                 P.putExtra("Type","All");
                 startActivity(P);
                 finish();

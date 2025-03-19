@@ -46,7 +46,7 @@ public class SFAItemDisplay extends AppCompatActivity {
         searchbaritems = findViewById(R.id.searchbaritems);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         sfa_itemlist_array = mDatabaseHelper.get_sfa_itemlist(customer_id);
-        mItemAdapter = new SFAItemAdapter(SFAItemDisplay.this, sfa_itemlist_array);
+        mItemAdapter = new SFAItemAdapter(SFAItemDisplay.this, sfa_itemlist_array,customer_id);
         mRecyclerView.setAdapter(mItemAdapter);
 
 

@@ -196,6 +196,12 @@
             android:name=".SFAActivity"
             android:exported="false" />
         <activity
+            android:name=".SFAdisplayCustomer"
+            android:exported="false" />
+        <activity
+            android:name=".SFAInputQuantity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
