@@ -81,7 +81,7 @@ public class SFAItemAdapter extends RecyclerView.Adapter<SFAItemAdapter.MyViewHo
                 editor.putString("IQUANT", item.getQuantity());
                 editor.putString("pcs", item.getUnitquant());
                 editor.putString("LVL", item.getNewPriceLvl().getPdescription());
-
+                editor.putString("wsr",item.getWsr());
                 editor.putString("DI", item.getUnit().getUnit_id());
                 editor.putString("UNITM", item.getUnit().getQuantity());
                 editor.putString("name", item.getUnit().getName());

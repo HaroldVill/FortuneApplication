@@ -62,8 +62,8 @@ import java.util.Calendar;
 import java.util.Locale;
 
 public class SFAInputQuantity extends AppCompatActivity {
-    EditText q1, q2, q3, q4, q5, q6;
-    TextView balik, ps, itemid, idlvl, untbase, samvalue, datasam,basihan,dew,salesrate;
+    EditText q1, q2, q3, q4, q5, q6,inv1;
+    TextView balik, ps, itemid, idlvl, untbase, samvalue, datasam,basihan,dew,salesrate,sug2;
     Button itemsave,itemfree,lessbo,generate_valuation,generate_open_orders;
     private String JSON_URL;
     private String x;
@@ -106,6 +106,7 @@ public class SFAInputQuantity extends AppCompatActivity {
         generate_open_orders = findViewById(R.id.generate_open_orders);
         date_from.setText(mdatabaseHelper.get_date_from());
         date_to.setText(mdatabaseHelper.get_date_to());
+        sug2= findViewById(R.id.sug2);
 
 
 
@@ -134,7 +135,7 @@ public class SFAInputQuantity extends AppCompatActivity {
         String cquantity = preferences.getString("UNITM", "");
         String Uname = preferences.getString("name", "");
         String plvlid = preferences.getString("PLVL", "");
-
+        salesrate.setText(preferences.getString("wsr", ""));
         String customer_id =  preferences.getString("customer_id", "");
         String customer_name = mdatabaseHelper.get_customer_name(Integer.parseInt(customer_id));
         String description = "";
@@ -142,37 +143,7 @@ public class SFAInputQuantity extends AppCompatActivity {
         String date_to_ = "";
 
 
-        ArrayList<CONNECT> connectList = mdatabaseHelper.SelectUPDT();
-        if (!connectList.isEmpty()) {
-            x = connectList.get(0).getIp();
-            JSON_URL = "http://" + x + "/MobileAPI/get_item_salesrate.php";
-        }
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, JSON_URL+"?customer_id="+customer_id+"&item_code="+icode+"&date_from="+date_from_+"&date_to="+date_to_,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONObject obj = new JSONObject(response);
-                            JSONArray itemArray = obj.getJSONArray("data");
-
-                            for (int i = 0; i < itemArray.length(); i++) {
-                                JSONObject jsonObject = itemArray.getJSONObject(i);
-                                String salesrate_label = jsonObject.getString("salesrate");
-                                salesrate.setText(salesrate_label);
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        } finally {
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-//                Toast.makeText(InputQuantity.this, "Salesrate unavailable, Please check tailscale or mobile data", Toast.LENGTH_SHORT).show();
-                salesrate.setText("Salesrate unavailable, Please check tailscale or mobile data");
-            }
-        });
         salesrate.setOnClickListener(new View.OnClickListener(){
             @Override
             public  void onClick(View v){
@@ -184,8 +155,7 @@ public class SFAInputQuantity extends AppCompatActivity {
             }
         });
 
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(stringRequest);
+
 
         // Toast.makeText(this, ""+Uname, Toast.LENGTH_SHORT).show();
 
@@ -281,7 +251,7 @@ public class SFAInputQuantity extends AppCompatActivity {
 //                if (q3.getText().toString().equals("0")) {
 //                    Toast.makeText(InputQuantity.this, "Out of Stock Please Select Another Item", Toast.LENGTH_SHORT).show();
 //                } else
-                if (!q5.getText().toString().isEmpty() && !q6.getText().toString().isEmpty() && itemid.getText().toString().equals("19080")) { String dataa = idlvl.getText().toString();
+                if (!q5.getText().toString().isEmpty() && !q6.getText().toString().isEmpty() && itemid.getText().toString().equals("19080") && !inv1.getText().toString().isEmpty()) { String dataa = idlvl.getText().toString();
                     String data0 = itemid.getText().toString();
                     String data1 = q1.getText().toString();
                     String data2 = q2.getText().toString();
@@ -309,7 +279,7 @@ public class SFAInputQuantity extends AppCompatActivity {
                     finish();
                     return;
                 }
-                if (!q5.getText().toString().isEmpty() && !q6.getText().toString().isEmpty()) {
+                if (!q5.getText().toString().isEmpty() && !q6.getText().toString().isEmpty() && !inv1.getText().toString().isEmpty()) {
 
                     // String cqa = untbase.getText().toString();
                     String dataa = idlvl.getText().toString();
@@ -340,7 +310,7 @@ public class SFAInputQuantity extends AppCompatActivity {
                     finish();
 
                 } else {
-                    Toast.makeText(SFAInputQuantity.this, "Please Check All Details", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SFAInputQuantity.this, "Please Check fill up all details. (Inventory and qty) ", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -507,6 +477,32 @@ public class SFAInputQuantity extends AppCompatActivity {
                     q6.setText("");
                 }
 
+            }
+        });
+        inv1.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void afterTextChanged(Editable editable) {
+                double safety = Double.parseDouble(mdatabaseHelper.get_safety());
+                double order_point = Double.parseDouble(mdatabaseHelper.get_order_point());
+                double max = Double.parseDouble(mdatabaseHelper.get_max());
+                double wsr = Double.parseDouble(salesrate.getText().toString());
+                double on_hand = Double.parseDouble(q3.getText().toString());
+                safety = safety * wsr;
+                order_point = safety + (order_point * wsr);
+                max = order_point + (max * wsr);
+                double suggested = max - on_hand;
+                sug2.setText(Double.toString(suggested));
             }
         });
 
