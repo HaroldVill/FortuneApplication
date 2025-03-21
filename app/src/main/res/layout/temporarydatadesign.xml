@@ -22,35 +22,57 @@
                 android:id="@+id/fb1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:padding="10sp"
-                android:text="@string/col0"
+                android:layout_weight="1"
+                android:padding="5sp"
+                android:text="#"
                 android:textAlignment="center"
                 android:textColor="#3F51B5"
-                android:textSize="12sp" />
+                android:textSize="10sp" />
 
             <TextView
                 android:id="@+id/fb2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="4"
-                android:padding="10sp"
-                android:text="@string/col1"
+                android:layout_weight="2"
+                android:padding="5sp"
+                android:text="DESC"
                 android:textAlignment="center"
                 android:textColor="@color/white"
-                android:textSize="12sp" />
-
+                android:textSize="10sp" />
 
             <TextView
-                android:id="@+id/fb3"
+                android:id="@+id/fb21"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:padding="10sp"
-                android:text="@string/col2"
+                android:layout_weight="1"
+                android:padding="5sp"
+                android:text="INV"
                 android:textAlignment="center"
-                android:textColor="#F44336"
-                android:textSize="12sp" />
+                android:textColor="@color/white"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/fb22"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="5sp"
+                android:text="WSR"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/fb23"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="5sp"
+                android:text="SO"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="10sp" />
+
 
 
 
@@ -58,23 +80,35 @@
                 android:id="@+id/fb4"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:padding="10sp"
-                android:text="@string/col3"
+                android:layout_weight="1"
+                android:padding="5sp"
+                android:text="FO"
                 android:textAlignment="center"
                 android:textColor="@color/white"
-                android:textSize="12sp" />
+                android:textSize="10sp" />
+
+
+            <TextView
+                android:id="@+id/fb3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="5sp"
+                android:text="@string/col2"
+                android:textAlignment="center"
+                android:textColor="#F44336"
+                android:textSize="10sp" />
 
             <TextView
                 android:id="@+id/fb5"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:padding="10sp"
+                android:padding="5sp"
                 android:text="@string/col4"
                 android:textAlignment="center"
                 android:textColor="#F44336"
-                android:textSize="12sp" />
+                android:textSize="10sp" />
 
             <TextView
                 android:textSize="1sp"

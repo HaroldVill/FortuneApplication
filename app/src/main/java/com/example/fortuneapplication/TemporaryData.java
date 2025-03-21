@@ -646,6 +646,9 @@ public class TemporaryData extends AppCompatActivity implements PrintingCallback
                     SALES_ORDER_TABLE + "." + NOTES + ", " +
                     SALES_ORDER_TABLE + "." + "date" + ", " +
                     SALES_ORDER_ITEMS_TABLE + "." + SOIID  +
+                    ",Sales_Order_Items_Table.INVENTORY"+
+                    ", Sales_Order_Items_Table.WSR"+
+                    ", Sales_Order_Items_Table.SUGGESTED"+
 
                    " FROM " + SALES_ORDER_ITEMS_TABLE +
                    " INNER JOIN " + SALES_ORDER_TABLE +

@@ -107,6 +107,7 @@ public class SFAInputQuantity extends AppCompatActivity {
         date_from.setText(mdatabaseHelper.get_date_from());
         date_to.setText(mdatabaseHelper.get_date_to());
         sug2= findViewById(R.id.sug2);
+        inv1 = findViewById(R.id.inv1);
 
 
 
@@ -261,8 +262,11 @@ public class SFAInputQuantity extends AppCompatActivity {
                     String data5 = q5.getText().toString();
                     String data6 = q6.getText().toString();
                     String asd = basihan.getText().toString();
+                    Double inventory = Double.parseDouble(inv1.getText().toString());
+                    Double wsr = Double.parseDouble(salesrate.getText().toString());
+                    Double suggested = Double.parseDouble(sug2.getText().toString());
 
-                    Item2 item2 = new Item2(asd,dataa, data0, data1, data2,datass, "-1", data5, "-1", data6);
+                    Item2 item2 = new Item2(asd,dataa, data0, data1, data2,datass, "-1", data5, "-1", data6,inventory,wsr,suggested);
                     //long itemId = databaseHelper.storeOrderItem(item2);
                     databaseHelper.storeOrderItem(item2);
                     Toast.makeText(SFAInputQuantity.this, "Item Added Successfully", Toast.LENGTH_SHORT).show();
@@ -275,6 +279,9 @@ public class SFAInputQuantity extends AppCompatActivity {
                     q5.setText("");
                     q6.setText("");
                     itemid.setText("");
+                    inv1.setText("");
+                    salesrate.setText("");
+                    sug2.setText("");
                     // startActivity(qa);
                     finish();
                     return;
@@ -292,8 +299,11 @@ public class SFAInputQuantity extends AppCompatActivity {
                     String data5 = q5.getText().toString();
                     String data6 = q6.getText().toString();
                     String asd = basihan.getText().toString();
+                    Double inventory = Double.parseDouble(inv1.getText().toString());
+                    Double wsr = Double.parseDouble(salesrate.getText().toString());
+                    Double suggested = Double.parseDouble(sug2.getText().toString());
 
-                    Item2 item2 = new Item2(asd,dataa, data0, data1, data2,datass, data3, data4, data5, data6);
+                    Item2 item2 = new Item2(asd,dataa, data0, data1, data2,datass, data3, data4, data5, data6,inventory,wsr,suggested);
                     //long itemId = databaseHelper.storeOrderItem(item2);
                     databaseHelper.storeOrderItem(item2);
                     Toast.makeText(SFAInputQuantity.this, "Item Added Successfully", Toast.LENGTH_SHORT).show();
@@ -306,6 +316,10 @@ public class SFAInputQuantity extends AppCompatActivity {
                     q5.setText("");
                     q6.setText("");
                     itemid.setText("");
+                    inv1.setText("");
+                    salesrate.setText("");
+                    sug2.setText("");
+
                     // startActivity(qa);
                     finish();
 
@@ -358,8 +372,11 @@ public class SFAInputQuantity extends AppCompatActivity {
                             String data5 = q5.getText().toString();
                             String data6 = q6.getText().toString();
                             String asd = basihan.getText().toString();
+                            Double inventory = Double.parseDouble(inv1.getText().toString());
+                            Double wsr = Double.parseDouble(salesrate.getText().toString());
+                            Double suggested = Double.parseDouble(sug2.getText().toString());
 
-                            Item2 item2 = new Item2(asd,dataa, data0, data1, data2,datass, data3, "0.00", data5, "0.00");
+                            Item2 item2 = new Item2(asd,dataa, data0, data1, data2,datass, data3, "0.00", data5, "0.00",inventory,wsr,suggested);
                             //long itemId = databaseHelper.storeOrderItem(item2);
                             databaseHelper.storeOrderItem(item2);
                             Toast.makeText(SFAInputQuantity.this, "Item Added Successfully", Toast.LENGTH_SHORT).show();
@@ -372,6 +389,9 @@ public class SFAInputQuantity extends AppCompatActivity {
                             q5.setText("");
                             q6.setText("");
                             itemid.setText("");
+                            inv1.setText("");
+                            salesrate.setText("");
+                            sug2.setText("");
                             // startActivity(qa);
                             finish();
                         }
@@ -424,8 +444,11 @@ public class SFAInputQuantity extends AppCompatActivity {
                             String data5 = Integer.toString(Integer.parseInt(q5.getText().toString())*-1);
                             String data6 = Double.toString(Double.parseDouble(q6.getText().toString().replace(",",""))*-1.00);
                             String asd = basihan.getText().toString();
+                            Double inventory = Double.parseDouble(inv1.getText().toString());
+                            Double wsr = Double.parseDouble(salesrate.getText().toString());
+                            Double suggested = Double.parseDouble(sug2.getText().toString());
 
-                            Item2 item2 = new Item2(asd,dataa, data0, data1, data2,datass, data3, data4, data5, data6);
+                            Item2 item2 = new Item2(asd,dataa, data0, data1, data2,datass, data3, data4, data5, data6,inventory,wsr,suggested);
                             //long itemId = databaseHelper.storeOrderItem(item2);
                             databaseHelper.storeOrderItem(item2);
                             Toast.makeText(SFAInputQuantity.this, "Item Added Successfully", Toast.LENGTH_SHORT).show();
@@ -438,6 +461,9 @@ public class SFAInputQuantity extends AppCompatActivity {
                             q5.setText("");
                             q6.setText("");
                             itemid.setText("");
+                            inv1.setText("");
+                            salesrate.setText("");
+                            sug2.setText("");
                             // startActivity(qa);
                             finish();
                         }
@@ -487,17 +513,19 @@ public class SFAInputQuantity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+                if(inv1.getText().toString().isEmpty()){
+                    inv1.setText("0");
+                }
             }
 
-            @SuppressLint("SetTextI18n")
+
             @Override
             public void afterTextChanged(Editable editable) {
                 double safety = Double.parseDouble(mdatabaseHelper.get_safety());
                 double order_point = Double.parseDouble(mdatabaseHelper.get_order_point());
                 double max = Double.parseDouble(mdatabaseHelper.get_max());
                 double wsr = Double.parseDouble(salesrate.getText().toString());
-                double on_hand = Double.parseDouble(q3.getText().toString());
+                double on_hand = Double.parseDouble(inv1.getText().toString());
                 safety = safety * wsr;
                 order_point = safety + (order_point * wsr);
                 max = order_point + (max * wsr);

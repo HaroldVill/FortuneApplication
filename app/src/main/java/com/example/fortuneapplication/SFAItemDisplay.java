@@ -16,6 +16,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -29,6 +31,7 @@ public class SFAItemDisplay extends AppCompatActivity {
     ArrayList<Item> sfa_itemlist_array  = new ArrayList<>();
     private PazDatabaseHelper mDatabaseHelper;
     TextView dsp;
+    FloatingActionButton floating_button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +51,18 @@ public class SFAItemDisplay extends AppCompatActivity {
         sfa_itemlist_array = mDatabaseHelper.get_sfa_itemlist(customer_id);
         mItemAdapter = new SFAItemAdapter(SFAItemDisplay.this, sfa_itemlist_array,customer_id);
         mRecyclerView.setAdapter(mItemAdapter);
+
+        floating_button = findViewById(R.id.floating_button);
+
+        floating_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent tyd = new Intent(SFAItemDisplay.this, SFAActivity.class);
+                startActivity(tyd);
+                finish();
+            }
+        });
 
 
 //        mItemList.addAll(mDatabaseHelper.combinedata());

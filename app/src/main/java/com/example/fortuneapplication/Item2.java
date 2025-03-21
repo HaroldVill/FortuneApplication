@@ -11,8 +11,11 @@ public class Item2  {
     private String price;
     private String quantity;
     private double total;
+    private double inventory;
+    private double wsr;
+    private double suggested;
 
-    public Item2(String unitbase, String pricelvlid, String id, String code, String description, String unitmeasure, String onhand, String price, String quantity, String total) {
+    public Item2(String unitbase, String pricelvlid, String id, String code, String description, String unitmeasure, String onhand, String price, String quantity, String total, Double inventory,Double wsr, Double suggested) {
         this.unitbase = unitbase;
         this.pricelvlid = pricelvlid;
         this.id =id;
@@ -24,6 +27,9 @@ public class Item2  {
         this.quantity = quantity;
         total = total.replace(",", "");
         this.total = Double.parseDouble(total);
+        this.inventory = inventory;
+        this.wsr = wsr;
+        this.suggested = suggested;
     }
     public Item2(){
 
@@ -103,5 +109,29 @@ public class Item2  {
 
     public void setTotal(double total) {
         this.total = total;
+    }
+
+    public double getInventory() {
+        return inventory;
+    }
+
+    public void setInventory(double inventory) {
+        this.inventory = inventory;
+    }
+
+    public double getWsr() {
+        return wsr;
+    }
+
+    public void setWsr(double wsr) {
+        this.wsr = wsr;
+    }
+
+    public double getSuggested() {
+        return suggested;
+    }
+
+    public void setSuggested(double suggested) {
+        this.suggested = suggested;
     }
 }

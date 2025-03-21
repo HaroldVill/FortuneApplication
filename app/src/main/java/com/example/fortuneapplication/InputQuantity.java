@@ -292,7 +292,7 @@ public class InputQuantity extends AppCompatActivity {
                     String data6 = q6.getText().toString();
                     String asd = basihan.getText().toString();
 
-                    Item2 item2 = new Item2(asd,dataa, data0, data1, data2,datass, "-1", data5, "-1", data6);
+                    Item2 item2 = new Item2(asd,dataa, data0, data1, data2,datass, "-1", data5, "-1", data6,0.00,0.00,0.00);
                     //long itemId = databaseHelper.storeOrderItem(item2);
                     databaseHelper.storeOrderItem(item2);
                     Toast.makeText(InputQuantity.this, "Item Added Successfully", Toast.LENGTH_SHORT).show();
@@ -323,7 +323,7 @@ public class InputQuantity extends AppCompatActivity {
                             String data6 = q6.getText().toString();
                             String asd = basihan.getText().toString();
 
-                            Item2 item2 = new Item2(asd,dataa, data0, data1, data2,datass, data3, data4, data5, data6);
+                            Item2 item2 = new Item2(asd,dataa, data0, data1, data2,datass, data3, data4, data5, data6,0.00,0.00,0.00);
                             //long itemId = databaseHelper.storeOrderItem(item2);
                             databaseHelper.storeOrderItem(item2);
                             Toast.makeText(InputQuantity.this, "Item Added Successfully", Toast.LENGTH_SHORT).show();
@@ -389,7 +389,7 @@ public class InputQuantity extends AppCompatActivity {
                         String data6 = q6.getText().toString();
                         String asd = basihan.getText().toString();
 
-                        Item2 item2 = new Item2(asd,dataa, data0, data1, data2,datass, data3, "0.00", data5, "0.00");
+                        Item2 item2 = new Item2(asd,dataa, data0, data1, data2,datass, data3, "0.00", data5, "0.00",0.00,0.00,0.00);
                         //long itemId = databaseHelper.storeOrderItem(item2);
                         databaseHelper.storeOrderItem(item2);
                         Toast.makeText(InputQuantity.this, "Item Added Successfully", Toast.LENGTH_SHORT).show();
@@ -455,7 +455,7 @@ public class InputQuantity extends AppCompatActivity {
                             String data6 = Double.toString(Double.parseDouble(q6.getText().toString().replace(",",""))*-1.00);
                             String asd = basihan.getText().toString();
 
-                            Item2 item2 = new Item2(asd,dataa, data0, data1, data2,datass, data3, data4, data5, data6);
+                            Item2 item2 = new Item2(asd,dataa, data0, data1, data2,datass, data3, data4, data5, data6,0.00,0.00,0.00);
                             //long itemId = databaseHelper.storeOrderItem(item2);
                             databaseHelper.storeOrderItem(item2);
                             Toast.makeText(InputQuantity.this, "Item Added Successfully", Toast.LENGTH_SHORT).show();

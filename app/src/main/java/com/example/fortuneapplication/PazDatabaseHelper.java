@@ -256,7 +256,10 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                 ORDER_UNIT_BASE + " INTEGER, " +
                 ORDER_ITEM_PRICE + " REAL NOT NULL," +
                 ORDER_ITEM_QUANTITY + " INTEGER NOT NULL," +
-                ORDER_ITEM_TOTAL + " REAL NOT NULL" +
+                ORDER_ITEM_TOTAL + " REAL NOT NULL," +
+                " INVENTORY DOUBLE,"+
+                " WSR DOUBLE,"+
+                " SUGGESTED DOUBLE"+
                 ")";
 
         String CREATE_UNIT_MEASURE_TABLE = "CREATE TABLE " + UNIT_MEASURE_TABLE + " (" +
@@ -328,7 +331,10 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                 SOI_CUSTOM_FIELD2 + " TEXT, " +
                 SOI_CUSTOM_FIELD3 + " TEXT, " +
                 SOI_CUSTOM_FIELD4 + " TEXT, " +
-                SOI_CUSTOM_FIELD5 + " TEXT " +
+                SOI_CUSTOM_FIELD5 + " TEXT, " +
+                " INVENTORY DOUBLE,"+
+                " WSR DOUBLE,"+
+                " SUGGESTED DOUBLE"+
                 ");";
 
         String CREATE_DASHBOARDTABLE = "CREATE TABLE " + DASHBOARD_TABLE + " (" +
@@ -585,6 +591,10 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         values.put(ORDER_ITEM_PRICE, item2.getPrice());
         values.put(ORDER_ITEM_QUANTITY, item2.getQuantity());
         values.put(ORDER_ITEM_TOTAL, item2.getTotal());
+        values.put("INVENTORY", item2.getInventory());
+        values.put("WSR", item2.getWsr());
+        values.put("SUGGESTED", item2.getSuggested());
+
 
         long itemId = db.insert(ORDER_ITEM_TABLE, null, values);
         // db.close();
@@ -915,7 +925,9 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                 item2.setPrice(cursor.getString(cursor.getColumnIndex(ORDER_ITEM_PRICE)));
                 item2.setQuantity(cursor.getString(cursor.getColumnIndex(ORDER_ITEM_QUANTITY)));
                 item2.setTotal(cursor.getDouble(cursor.getColumnIndex(ORDER_ITEM_TOTAL)));
-
+                item2.setInventory(cursor.getDouble(cursor.getColumnIndex("INVENTORY")));
+                item2.setWsr(cursor.getDouble(cursor.getColumnIndex("WSR")));
+                item2.setSuggested(cursor.getDouble(cursor.getColumnIndex("SUGGESTED")));
                 item2s.add(item2);
             } while (cursor.moveToNext());
         }
@@ -1381,7 +1393,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                 SOI_CUSTOM_FIELD2 + ", " +
                 SOI_CUSTOM_FIELD3 + ", " +
                 SOI_CUSTOM_FIELD4 + ", " +
-                SOI_CUSTOM_FIELD5 + ") " +
+                SOI_CUSTOM_FIELD5 + ", INVENTORY,WSR,SUGGESTED) " +
                 "SELECT " +
                 maxSalesOrderID + ", " +
                 ORDER_ITEM_ID + ", " +
@@ -1391,7 +1403,8 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                 ORDER_ITEM_PRICE + ", " +
                 ORDER_ITEM_TOTAL + ", " +
                 ORDER_PRICELEVEL_ID + ", " +
-                "NULL, NULL, NULL, NULL, NULL " +
+                "NULL, NULL, NULL, NULL, NULL, " +
+                "INVENTORY,WSR,SUGGESTED "+
                 "FROM " + ORDER_ITEM_TABLE;
 
         String setNullQuery = "UPDATE " + SALES_ORDER_ITEMS_TABLE +

@@ -106,7 +106,7 @@
         app:cardCornerRadius="15dp"
         android:id="@+id/crd"
         android:layout_width="match_parent"
-        android:layout_height="200dp">
+        android:layout_height="255dp">
 
 
         <RelativeLayout
@@ -172,8 +172,8 @@
                 android:textStyle="bold"
                 android:layout_marginLeft="5dp"
                 android:id="@+id/lo"
-                android:textSize="17sp"
-                android:layout_marginTop="5dp"
+                android:textSize="15dp"
+                android:layout_marginTop="25dp"
                 android:text="ONHAND:"
                 android:layout_below="@+id/ttr"
                 android:layout_width="wrap_content"
@@ -186,11 +186,12 @@
                 android:enabled="false"
                 android:id="@+id/q3"
                 android:textAlignment="center"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginLeft="85dp"
                 android:layout_below="@id/ttr"
                 android:layout_width="wrap_content"
-                android:layout_height="30dp">
+                android:textSize="15dp"
+                android:layout_height="40dp">
             </EditText>
 
             <TextView
@@ -198,10 +199,10 @@
                 android:textStyle="bold"
                 android:layout_marginLeft="5dp"
                 android:id="@+id/inv"
-                android:textSize="17sp"
-                android:layout_marginTop="5dp"
+                android:textSize="15dp"
+                android:layout_marginTop="15dp"
                 android:text="INVENTORY:"
-                android:layout_below="@+id/lo"
+                android:layout_below="@+id/q3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
             </TextView>
@@ -212,9 +213,9 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/inv1"
                 android:layout_marginLeft="5dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="15dp"
                 android:text="WEEKLY SALESRATE: "
-                android:textSize="18sp"
+                android:textSize="15dp"
                 android:textStyle="bold"></TextView>
 
             <TextView
@@ -224,21 +225,23 @@
                 android:layout_below="@+id/inv1"
                 android:layout_marginLeft="1dp"
                 android:layout_toRightOf="@+id/salesrate_label"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="15dp"
                 android:text="WEEKLY SALESRATE: "
-                android:textSize="18sp"
+                android:textSize="15dp"
                 android:textStyle="bold"></TextView>
 
             <EditText
-                android:textColor="#0C0C0C"
+                android:textColor="@color/white"
                 android:enabled="true"
                 android:id="@+id/inv1"
                 android:textAlignment="center"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="0dp"
                 android:layout_marginLeft="107dp"
                 android:layout_below="@id/q3"
+                android:textSize="15dp"
+                android:inputType="number"
                 android:layout_width="wrap_content"
-                android:layout_height="20dp">
+                android:layout_height="40dp">
             </EditText>
 
             <TextView
@@ -246,8 +249,8 @@
                 android:textStyle="bold"
                 android:layout_marginLeft="5dp"
                 android:id="@+id/sug"
-                android:textSize="17sp"
-                android:layout_marginTop="5dp"
+                android:textSize="15dp"
+                android:layout_marginTop="15dp"
                 android:text="SUGGESTED:"
                 android:layout_below="@+id/salesrate"
                 android:layout_width="wrap_content"
@@ -255,15 +258,14 @@
             </TextView>
 
             <TextView
-                android:textColor="#0C0C0C"
-                android:enabled="false"
-                android:id="@+id/sug2"
-                android:text="TEXT"
+
                 android:textStyle="bold"
-                android:textAlignment="center"
-                android:layout_marginTop="8dp"
+                android:id="@+id/sug2"
+                android:text="0.00"
+                android:layout_marginTop="15dp"
                 android:layout_marginLeft="110dp"
                 android:layout_below="@id/salesrate"
+                android:textSize="15dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
             </TextView>
@@ -441,7 +443,7 @@
         app:cardCornerRadius="15dp"
         android:id="@+id/itemhistory"
         android:layout_width="match_parent"
-        android:layout_height="200dp">
+        android:layout_height="120dp">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -524,7 +526,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_below="@+id/date_to"
                 android:layout_marginTop="2dp"
-                android:layout_height="35dp">
+                android:layout_height="wrap_content">
             </Button>
 
             <Button
@@ -535,7 +537,7 @@
                 android:layout_below="@+id/date_to"
                 android:layout_marginTop="2dp"
                 android:layout_toRightOf="@id/generate_valuation"
-                android:layout_height="35dp">
+                android:layout_height="wrap_content">
             </Button>
 
 

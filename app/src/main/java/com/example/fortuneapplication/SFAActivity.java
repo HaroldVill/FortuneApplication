@@ -45,7 +45,7 @@ public class SFAActivity extends AppCompatActivity {
     private RecyclerView recyclerViews;
     private List<Item2> itemList = new ArrayList<>();
 
-    private ADisplayItemAdapter aDisplayItemAdapter;
+    private SFAActivityAdapter aDisplayItemAdapter;
     private PazDatabaseHelper mDatabaseHelper;
 
     private static final String PREFS_KEY = "ReferenceNumberPrefs";
@@ -102,7 +102,7 @@ public class SFAActivity extends AppCompatActivity {
 
 
         itemList.addAll(mDatabaseHelper.getAllOrderItem());
-        ADisplayItemAdapter adapter = new ADisplayItemAdapter(this, itemList, mDatabaseHelper);
+        SFAActivityAdapter adapter = new SFAActivityAdapter(this, itemList, mDatabaseHelper);
         recyclerViews.setAdapter(adapter);
 
 //GET TOTAL PAYABLE//
