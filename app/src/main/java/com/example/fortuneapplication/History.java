@@ -378,6 +378,10 @@ public class History extends AppCompatActivity {
                                     jsonObject.put("unit_base_qty", salesOrderItems.getSoiunitbasequantity());
                                     jsonObject.put("uom", salesOrderItems.getUom());
                                     jsonObject.put("price_level_id", salesOrderItems.getSoipricelevelid());
+                                    jsonObject.put("inventory",salesOrderItems.getInventory());
+                                    jsonObject.put("wsr",salesOrderItems.getWsr());
+                                    jsonObject.put("suggested",salesOrderItems.getSuggested());
+
                                     json_soitems.put(jsonObject);
                                 }
                                 StringRequest send_invoices = new StringRequest(Request.Method.POST, api_url,
@@ -442,6 +446,9 @@ public class History extends AppCompatActivity {
                                     jsonObject.put("unit_base_qty", salesOrderItems.getSoiunitbasequantity());
                                     jsonObject.put("uom", salesOrderItems.getUom());
                                     jsonObject.put("price_level_id", salesOrderItems.getSoipricelevelid());
+                                    jsonObject.put("inventory",salesOrderItems.getInventory());
+                                    jsonObject.put("wsr",salesOrderItems.getWsr());
+                                    jsonObject.put("suggested",salesOrderItems.getSuggested());
                                     json_soitems.put(jsonObject);
                                 }
                                 StringRequest send_invoices = new StringRequest(Request.Method.POST, api_url,

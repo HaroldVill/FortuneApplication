@@ -40,6 +40,9 @@ public class TempoDataAdapter extends RecyclerView.Adapter<TempoDataAdapter.View
        holder.fb4.setText(String.valueOf(salesorder.getSoiquantity()));
         double soiamount = salesorder.getSoiamount();
         holder.fb5.setText(String.valueOf(soiamount));
+        holder.fb21.setText(Double.toString(salesorder.getInventory()));
+        holder.fb22.setText(Double.toString(salesorder.getWsr()));
+        holder.fb23.setText(Double.toString(salesorder.getSuggested()));
        holder.agay.setText(String.valueOf(salesorder.getId()));
 
        holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -76,7 +79,7 @@ public class TempoDataAdapter extends RecyclerView.Adapter<TempoDataAdapter.View
     }
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView fb1,fb2,fb3,fb4,fb5,samok,agay;
+        TextView fb1,fb2,fb3,fb4,fb5,samok,agay,fb21,fb22,fb23;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -86,7 +89,10 @@ public class TempoDataAdapter extends RecyclerView.Adapter<TempoDataAdapter.View
             fb3 = itemView.findViewById(R.id.fb3);
             fb4 = itemView.findViewById(R.id.fb4);
             fb5 = itemView.findViewById(R.id.fb5);
-           // samok = itemView.findViewById(R.id.samok);
+            fb21= itemView.findViewById(R.id.fb21);
+            fb22= itemView.findViewById(R.id.fb22);
+            fb23= itemView.findViewById(R.id.fb23);
+            // samok = itemView.findViewById(R.id.samok);
             agay= itemView.findViewById(R.id.agay);
 
 

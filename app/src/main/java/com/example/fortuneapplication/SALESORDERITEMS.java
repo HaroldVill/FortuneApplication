@@ -26,7 +26,8 @@ public class SALESORDERITEMS {
      private double wsr;
      private double suggested;
 
-     public SALESORDERITEMS(int id, int salesorderid, int soiitemid, int soiquantity, int soiunitbasequantity, String uom, double soirate, double soiamount, double taxable, double taxableamount, double taxamount, double soipricelevelid, String soicustomfield1, String soicustomfield2, String soicustomfield3, String soicustomfield4, String soicustomfield5, SALESORDER salesorder, Item item, String Itemdesc, int location_id) {
+
+     public SALESORDERITEMS(int id, int salesorderid, int soiitemid, int soiquantity, int soiunitbasequantity, String uom, double soirate, double soiamount, double taxable, double taxableamount, double taxamount, double soipricelevelid, String soicustomfield1, String soicustomfield2, String soicustomfield3, String soicustomfield4, String soicustomfield5, SALESORDER salesorder, Item item, String Itemdesc, int location_id, double inventory, double wsr, double suggested) {
           this.id = id;
           this.salesorderid = salesorderid;
           this.soiitemid = soiitemid;
@@ -47,6 +48,9 @@ public class SALESORDERITEMS {
           this.salesorder = salesorder;
           this.item = item;
           this.location_id = location_id;
+          this.inventory = inventory;
+          this.wsr = wsr;
+          this.suggested = suggested;
      }
 
    public SALESORDERITEMS(){
@@ -217,5 +221,31 @@ public class SALESORDERITEMS {
 
     public void setLocationId(int location_id) {
         this.location_id = location_id;
+    }
+
+    public double getInventory() {
+        return inventory;
+    }
+
+    public void setInventory(double inventory) {
+        this.inventory = inventory;
+    }
+
+    public double getWsr() {
+        return wsr;
+    }
+
+    public void setWsr(double wsr) {
+        this.wsr = wsr;
+    }
+
+
+
+    public double getSuggested() {
+        return suggested;
+    }
+
+    public void setSuggested(double suggested) {
+        this.suggested = suggested;
     }
 }

@@ -671,6 +671,9 @@ public class TemporaryData extends AppCompatActivity implements PrintingCallback
                     salesorderitems.setSoiamount(soiAmount);
                     salesorderitems.setUom(cursor.getString(cursor.getColumnIndex(SOI_UOM)));
                     salesorderitems.setId(cursor.getInt(cursor.getColumnIndex(SOIID)));
+                    salesorderitems.setInventory(cursor.getDouble(12));
+                    salesorderitems.setWsr(cursor.getDouble(13));
+                    salesorderitems.setSuggested(cursor.getDouble(14));
 
                     SALESORDER salesorder = new SALESORDER();
                     salesorder.setAmount(cursor.getString(cursor.getColumnIndex(AMOUNT)));

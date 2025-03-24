@@ -2048,7 +2048,10 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                     SALES_ORDER_ITEMS_TABLE + "." + SOI_AMOUNT + ", " +
                     SALES_ORDER_ITEMS_TABLE + "." + SOI_UNIT_BASE_QUANTITY + ", " +
                     SALES_ORDER_ITEMS_TABLE + "." + SOI_PRICE_LEVEL_ID + ", " +
-                    SALES_ORDER_ITEMS_TABLE + "." + SOI_UOM +
+                    SALES_ORDER_ITEMS_TABLE + "." + SOI_UOM +", "+
+                    "INVENTORY, "+
+                    "WSR, "+
+                    "SUGGESTED "+
                     " FROM " + SALES_ORDER_ITEMS_TABLE +
                     " INNER JOIN " + TABLE_NAME +
                     " ON " + TABLE_NAME + "." + ITEMID + " = " + SALES_ORDER_ITEMS_TABLE + "." + SOI_ITEM_ID +
@@ -2070,6 +2073,9 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                     salesorderitems.setSoiamount(cursor.getDouble(cursor.getColumnIndex(SOI_AMOUNT)));
                     salesorderitems.setSoiunitbasequantity(cursor.getInt(cursor.getColumnIndex(SOI_UNIT_BASE_QUANTITY)));
                     salesorderitems.setSoipricelevelid(cursor.getDouble(cursor.getColumnIndex(SOI_PRICE_LEVEL_ID)));
+                    salesorderitems.setInventory(cursor.getDouble(8));
+                    salesorderitems.setWsr(cursor.getDouble(9));
+                    salesorderitems.setSuggested(cursor.getDouble(10));
                     Unit uom = new Unit();
                     uom.setName(cursor.getString(cursor.getColumnIndex(SOI_UOM)));
                     salesorderitems.setUom(uom.getName());
