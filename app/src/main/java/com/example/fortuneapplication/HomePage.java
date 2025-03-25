@@ -738,7 +738,6 @@ public class HomePage extends AppCompatActivity implements LocationListener {
         }).setNegativeButton("NO", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
                 dialog.cancel();
             }
         });
