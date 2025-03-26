@@ -179,7 +179,7 @@ public class SFAInputQuantity extends AppCompatActivity {
 
                 ArrayList<Item> items = displayUOM();
 
-                if (!cquantity.isEmpty() && items.size() > 0) {
+                if (!cquantity.isEmpty() && items.size() > 0 && !inv1.getText().toString().isEmpty()) {
                     try {
                         double cquantityValue = Double.parseDouble(cquantity);
                         DecimalFormat decimalFormat = new DecimalFormat("#.##");
@@ -206,6 +206,15 @@ public class SFAInputQuantity extends AppCompatActivity {
                                 double ddValue = Double.parseDouble(dd);
                                 double result = selectedQuantity * ddValue;
                                 DecimalFormat decimalFormat = new DecimalFormat("#.00");
+                                double inventory = Double.parseDouble(inv1.getText().toString());
+                                double wsr = Double.parseDouble(salesrate.getText().toString());
+                                double suggested = Double.parseDouble(sug2.getText().toString());
+                                inventory = inventory/selectedQuantity;
+                                wsr = wsr/selectedQuantity;
+                                suggested = suggested/selectedQuantity;
+                                inv1.setText(Double.toString(inventory));
+                                salesrate.setText(Double.toString(wsr));
+                                sug2.setText(Double.toString(suggested));
                                 String formattedResult = decimalFormat.format(result);
                                 q4.setText(formattedResult);
                                 String quantityString = q5.getText().toString();
