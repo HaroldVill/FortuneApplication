@@ -63,7 +63,7 @@ import java.util.Locale;
 
 public class SFAInputQuantity extends AppCompatActivity {
     EditText q1, q2, q3, q4, q5, q6,inv1;
-    TextView balik, ps, itemid, idlvl, untbase, samvalue, datasam,basihan,dew,salesrate,sug2;
+    TextView balik, ps, itemid, idlvl, untbase, samvalue, datasam,basihan,dew,salesrate,sug2, ps2;
     Button itemsave,itemfree,lessbo,generate_valuation,generate_open_orders;
     private String JSON_URL;
     private String x;
@@ -108,6 +108,7 @@ public class SFAInputQuantity extends AppCompatActivity {
         date_to.setText(mdatabaseHelper.get_date_to());
         sug2= findViewById(R.id.sug2);
         inv1 = findViewById(R.id.inv1);
+        ps2 = findViewById(R.id.ps2);
 
 
 
@@ -165,10 +166,12 @@ public class SFAInputQuantity extends AppCompatActivity {
         q3.setText(iquantity);
         q4.setText(irate);
         ps.setText(UU);
+        ps2.setText("1");
         dew.setText(UU);
         itemid.setText(oid);
         idlvl.setText(plvlid);
         datasam.setText(irate);
+
 
 
         ps.setOnClickListener(new View.OnClickListener() {
@@ -207,11 +210,12 @@ public class SFAInputQuantity extends AppCompatActivity {
                                 double result = selectedQuantity * ddValue;
                                 DecimalFormat decimalFormat = new DecimalFormat("#.00");
                                 double inventory = Double.parseDouble(inv1.getText().toString());
-                                double wsr = Double.parseDouble(salesrate.getText().toString());
+                                double wsr = Double.parseDouble(preferences.getString("wsr", ""));
                                 double suggested = Double.parseDouble(sug2.getText().toString());
                                 inventory = inventory/selectedQuantity;
                                 wsr = wsr/selectedQuantity;
                                 suggested = suggested/selectedQuantity;
+                                ps2.setText(Double.toString(selectedQuantity));
                                 inv1.setText(Double.toString(inventory));
                                 salesrate.setText(Double.toString(wsr));
                                 sug2.setText(Double.toString(suggested));
@@ -533,7 +537,7 @@ public class SFAInputQuantity extends AppCompatActivity {
                 double safety = Double.parseDouble(mdatabaseHelper.get_safety());
                 double order_point = Double.parseDouble(mdatabaseHelper.get_order_point());
                 double max = Double.parseDouble(mdatabaseHelper.get_max());
-                double wsr = Double.parseDouble(salesrate.getText().toString());
+                double wsr = Double.parseDouble(salesrate.getText().toString())/Double.parseDouble(ps2.getText().toString());
                 double on_hand = Double.parseDouble(inv1.getText().toString());
                 safety = safety * wsr;
                 order_point = safety + (order_point * wsr);
