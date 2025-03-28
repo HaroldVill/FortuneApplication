@@ -419,7 +419,8 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                 +"(NULL,'DATE_TO',''),"
                 +"(NULL,'SAFETY','1'),"
                 +"(NULL,'ORDER_POINT','1'),"
-                +"(NULL,'MAX','1')";
+                +"(NULL,'MAX','1'), "
+                +"(NULL,'SFA','0')";
 
         db.execSQL(CREATE_CONNECTIONTABLE);
         db.execSQL(CREATE_DASHBOARDTABLE);
@@ -2132,6 +2133,19 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         String sales_type="";
         String query ="SELECT "+ "SYSTEM_SETTINGS"+"."+SYSTEM_SETTINGS_VALUE +" FROM "+ SYSTEM_SETTINGS +
                 " WHERE "+ SYSTEM_SETTINGS_NAME +"= 'ORDER_POINT'";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query,null);
+        if(cursor.moveToFirst()){
+            sales_type=cursor.getString(cursor.getColumnIndex(SYSTEM_SETTINGS_VALUE));
+            Log.d("sales_type",sales_type);
+        }
+        return sales_type;
+    }
+
+    public String get_sfa_mode(){
+        String sales_type="";
+        String query ="SELECT "+ "SYSTEM_SETTINGS"+"."+SYSTEM_SETTINGS_VALUE +" FROM "+ SYSTEM_SETTINGS +
+                " WHERE "+ SYSTEM_SETTINGS_NAME +"= 'SFA'";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(query,null);
         if(cursor.moveToFirst()){

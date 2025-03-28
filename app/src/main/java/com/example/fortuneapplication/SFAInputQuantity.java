@@ -110,6 +110,10 @@ public class SFAInputQuantity extends AppCompatActivity {
         inv1 = findViewById(R.id.inv1);
         ps2 = findViewById(R.id.ps2);
 
+        q5.setText("0");
+        q6.setText("0.00");
+
+
 
 
 
@@ -177,12 +181,15 @@ public class SFAInputQuantity extends AppCompatActivity {
         ps.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(  inv1.getText().toString().isEmpty()){
+                    inv1.setText("0");
+                }
                 PopupMenu popupMenu = new PopupMenu(SFAInputQuantity.this, ps);
                 Menu menu = popupMenu.getMenu();
 
                 ArrayList<Item> items = displayUOM();
 
-                if (!cquantity.isEmpty() && items.size() > 0 && !inv1.getText().toString().isEmpty()) {
+                if (!cquantity.isEmpty() && items.size() > 0) {
                     try {
                         double cquantityValue = Double.parseDouble(cquantity);
                         DecimalFormat decimalFormat = new DecimalFormat("#.##");
@@ -209,16 +216,20 @@ public class SFAInputQuantity extends AppCompatActivity {
                                 double ddValue = Double.parseDouble(dd);
                                 double result = selectedQuantity * ddValue;
                                 DecimalFormat decimalFormat = new DecimalFormat("#.00");
-                                double inventory = Double.parseDouble(inv1.getText().toString());
+                                double safety = Double.parseDouble(mdatabaseHelper.get_safety());
+                                double order_point = Double.parseDouble(mdatabaseHelper.get_order_point());
+                                double max = Double.parseDouble(mdatabaseHelper.get_max());
                                 double wsr = Double.parseDouble(preferences.getString("wsr", ""));
-                                double suggested = Double.parseDouble(sug2.getText().toString());
-                                inventory = inventory/selectedQuantity;
                                 wsr = wsr/selectedQuantity;
-                                suggested = suggested/selectedQuantity;
+                                DecimalFormat df = new DecimalFormat("0.00");
+                                salesrate.setText(Double.toString(Double.parseDouble(df.format(wsr))));
+                                double on_hand = Double.parseDouble(inv1.getText().toString());
+                                safety = safety * wsr;
+                                order_point = safety + (order_point * wsr);
+                                max = order_point + (max * wsr);
+                                double suggested = max - on_hand;
+                                sug2.setText(Double.toString(Double.parseDouble(df.format(suggested))));
                                 ps2.setText(Double.toString(selectedQuantity));
-                                inv1.setText(Double.toString(inventory));
-                                salesrate.setText(Double.toString(wsr));
-                                sug2.setText(Double.toString(suggested));
                                 String formattedResult = decimalFormat.format(result);
                                 q4.setText(formattedResult);
                                 String quantityString = q5.getText().toString();
@@ -537,13 +548,15 @@ public class SFAInputQuantity extends AppCompatActivity {
                 double safety = Double.parseDouble(mdatabaseHelper.get_safety());
                 double order_point = Double.parseDouble(mdatabaseHelper.get_order_point());
                 double max = Double.parseDouble(mdatabaseHelper.get_max());
-                double wsr = Double.parseDouble(salesrate.getText().toString())/Double.parseDouble(ps2.getText().toString());
+                double wsr = Double.parseDouble(preferences.getString("wsr", ""))/Double.parseDouble(ps2.getText().toString());
+                DecimalFormat df = new DecimalFormat("0.00");
+                salesrate.setText(Double.toString(Double.parseDouble(df.format(wsr))));
                 double on_hand = Double.parseDouble(inv1.getText().toString());
                 safety = safety * wsr;
                 order_point = safety + (order_point * wsr);
                 max = order_point + (max * wsr);
                 double suggested = max - on_hand;
-                sug2.setText(Double.toString(suggested));
+                sug2.setText(Double.toString(Double.parseDouble(df.format(suggested))));
             }
         });
 

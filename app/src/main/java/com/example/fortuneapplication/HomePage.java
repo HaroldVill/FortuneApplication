@@ -296,9 +296,14 @@ public class HomePage extends AppCompatActivity implements LocationListener {
                     Toast.makeText(HomePage.this, "Please sync "+check_sync+".", Toast.LENGTH_SHORT).show();
                     return;
                 }
-
-                Intent PO = new Intent(HomePage.this,SOActivity.class );
-                startActivity(PO);
+                if(mDatabaseHelper.get_sfa_mode().equals("1")) {
+                    Intent nb = new Intent(HomePage.this, SFAActivity.class);
+                    startActivity(nb);
+                }
+                else{
+                    Intent nb = new Intent(HomePage.this, SOActivity.class);
+                    startActivity(nb);
+                }
 
             }
         });
@@ -320,13 +325,13 @@ public class HomePage extends AppCompatActivity implements LocationListener {
         sfaid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String check_sync = mDatabaseHelper.get_max_sync_history();
-                if(check_sync!=""){
-                    Toast.makeText(HomePage.this, "Please sync "+check_sync+".", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                Intent nb = new Intent(HomePage.this, SFAActivity.class);
-                startActivity(nb);
+//                String check_sync = mDatabaseHelper.get_max_sync_history();
+//                if(check_sync!=""){
+//                    Toast.makeText(HomePage.this, "Please sync "+check_sync+".", Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
+//                Intent nb = new Intent(HomePage.this, SFAActivity.class);
+//                startActivity(nb);
 
             }
         });
