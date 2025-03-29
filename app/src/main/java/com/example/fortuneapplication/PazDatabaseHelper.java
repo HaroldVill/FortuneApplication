@@ -1134,7 +1134,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                 "PRICE_LEVEL_ID, \n"+
                 "ITEM_TABLE.ITEM_ID \n"+
                 " FROM ITEM_TABLE \n" +
-                "LEFT JOIN CUSTOMER_WSR ON CUSTOMER_WSR.CUSTOMER_ID = "+customer_id+" AND CUSTOMER_WSR.ITEM_ID  = ITEM_TABLE.item_id AND CUSTOMER_WSR.SYNC_DATE = DATE('NOW')\n" +
+                "LEFT JOIN CUSTOMER_WSR ON CUSTOMER_WSR.CUSTOMER_ID = "+customer_id+" AND CUSTOMER_WSR.ITEM_ID  = ITEM_TABLE.item_id AND CUSTOMER_WSR.SYNC_DATE = DATE('NOW','localtime')\n" +
                 "LEFT JOIN PRICE_LEVEL_LINES_TABLE ON PRICE_LEVEL_LINES_TABLE.PRITEM_ID = ITEM_TABLE.ITEM_ID AND PRICE_LEVEL_LINES_TABLE.PRI_LEVEL_ID = (SELECT PRICE_LEVEL_ID FROM CUSTOMER_TABLE WHERE CUSTOMER_TABLE.CUSTOMER_ID="+customer_id+")\n" +
                 "LEFT JOIN UNIT_MEASURE_TABLE ON UNIT_MEASURE_TABLE.ITM_ID = ITEM_TABLE.ITEM_ID "+
                 "LEFT JOIN PRICE_LEVEL_TABLE ON PRICE_LEVEL_TABLE.PRICE_LEVEL_ID = PRICE_LEVEL_LINES_TABLE.PRI_LEVEL_ID "+
@@ -2517,7 +2517,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         int customer_repin_id =0;
         try {
             SQLiteDatabase db = this.getReadableDatabase();
-            String query = "SELECT COUNT(ID) FROM CUSTOMER_WSR WHERE SYNC_DATE = DATE('now') and CUSTOMER_ID="+customer_id;
+            String query = "SELECT COUNT(ID) FROM CUSTOMER_WSR WHERE SYNC_DATE = DATE('now','localtime') and CUSTOMER_ID="+customer_id;
             Cursor cursor = db.rawQuery(query,null);
             if (cursor.moveToFirst()) {
                 customer_repin_id = cursor.getInt(0);
