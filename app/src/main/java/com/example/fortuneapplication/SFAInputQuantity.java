@@ -63,7 +63,7 @@ import java.util.Locale;
 
 public class SFAInputQuantity extends AppCompatActivity {
     EditText q1, q2, q3, q4, q5, q6,inv1;
-    TextView balik, ps, itemid, idlvl, untbase, samvalue, datasam,basihan,dew,salesrate,sug2, ps2;
+    TextView balik, ps, itemid, idlvl, untbase, samvalue, datasam,basihan,dew,salesrate,sug2, ps2,inv_uom;
     Button itemsave,itemfree,lessbo,generate_valuation,generate_open_orders;
     private String JSON_URL;
     private String x;
@@ -109,7 +109,7 @@ public class SFAInputQuantity extends AppCompatActivity {
         sug2= findViewById(R.id.sug2);
         inv1 = findViewById(R.id.inv1);
         ps2 = findViewById(R.id.ps2);
-
+        inv_uom = findViewById(R.id.inv_uom);
         q5.setText("0");
         q6.setText("0.00");
 
@@ -171,12 +171,50 @@ public class SFAInputQuantity extends AppCompatActivity {
         q4.setText(irate);
         ps.setText(UU);
         ps2.setText("1");
+        inv_uom.setText(UU);
         dew.setText(UU);
         itemid.setText(oid);
         idlvl.setText(plvlid);
         datasam.setText(irate);
 
+        inv_uom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (inv1.getText().toString().isEmpty()) {
+                    inv1.setText("0");
+                }
+                PopupMenu popupMenu = new PopupMenu(SFAInputQuantity.this, ps);
+                Menu menu = popupMenu.getMenu();
 
+                ArrayList<Item> items = displayUOM();
+
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        String selectedOption = item.getTitle().toString();
+                        String selectedQuantityString = selectedOption.substring(selectedOption.indexOf("(") + 1, selectedOption.indexOf(")"));
+                        double selectedQuantity = Double.parseDouble(selectedQuantityString);
+                        double safety = Double.parseDouble(mdatabaseHelper.get_safety());
+                        double order_point = Double.parseDouble(mdatabaseHelper.get_order_point());
+                        double max = Double.parseDouble(mdatabaseHelper.get_max());
+                        double wsr = Double.parseDouble(preferences.getString("wsr", ""));
+                        wsr = wsr/selectedQuantity;
+                        DecimalFormat df = new DecimalFormat("0.00");
+                        salesrate.setText(Double.toString(Double.parseDouble(df.format(wsr))));
+                        double on_hand = Double.parseDouble(inv1.getText().toString());
+                        safety = safety * wsr;
+                        order_point = safety + (order_point * wsr);
+                        max = order_point + (max * wsr);
+                        double suggested = max - on_hand;
+                        sug2.setText(Double.toString(Double.parseDouble(df.format(suggested))));
+                        ps2.setText(Double.toString(selectedQuantity));
+                        return true;
+                    }
+                });
+                popupMenu.show();
+
+            }
+        });
 
         ps.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -216,20 +254,6 @@ public class SFAInputQuantity extends AppCompatActivity {
                                 double ddValue = Double.parseDouble(dd);
                                 double result = selectedQuantity * ddValue;
                                 DecimalFormat decimalFormat = new DecimalFormat("#.00");
-                                double safety = Double.parseDouble(mdatabaseHelper.get_safety());
-                                double order_point = Double.parseDouble(mdatabaseHelper.get_order_point());
-                                double max = Double.parseDouble(mdatabaseHelper.get_max());
-                                double wsr = Double.parseDouble(preferences.getString("wsr", ""));
-                                wsr = wsr/selectedQuantity;
-                                DecimalFormat df = new DecimalFormat("0.00");
-                                salesrate.setText(Double.toString(Double.parseDouble(df.format(wsr))));
-                                double on_hand = Double.parseDouble(inv1.getText().toString());
-                                safety = safety * wsr;
-                                order_point = safety + (order_point * wsr);
-                                max = order_point + (max * wsr);
-                                double suggested = max - on_hand;
-                                sug2.setText(Double.toString(Double.parseDouble(df.format(suggested))));
-                                ps2.setText(Double.toString(selectedQuantity));
                                 String formattedResult = decimalFormat.format(result);
                                 q4.setText(formattedResult);
                                 String quantityString = q5.getText().toString();

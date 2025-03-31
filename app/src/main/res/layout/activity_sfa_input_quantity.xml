@@ -198,7 +198,7 @@
                 android:id="@+id/ps2"
                 android:layout_width="150dp"
                 android:layout_height="30dp"
-                android:layout_marginLeft="15dp"
+                android:layout_marginLeft="125dp"
                 android:drawableLeft="@drawable/down"
                 android:layout_toRightOf="@id/q3"
                 android:textColor="#3F51B5"
@@ -206,6 +206,20 @@
                 android:layout_below="@id/ttr"
                 android:visibility="invisible"
                 android:layout_marginTop="20dp"
+                android:textStyle="bold"></TextView>
+
+            <TextView
+                android:id="@+id/inv_uom"
+                android:layout_width="150dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="15dp"
+                android:drawableLeft="@drawable/down"
+                android:layout_toRightOf="@id/q3"
+                android:textColor="#3F51B5"
+                android:textSize="20sp"
+                android:layout_below="@id/ttr"
+
+                android:layout_marginTop="18dp"
                 android:textStyle="bold"></TextView>
 
             <TextView
