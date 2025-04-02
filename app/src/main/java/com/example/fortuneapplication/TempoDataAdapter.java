@@ -1,4 +1,5 @@
 package com.example.fortuneapplication;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -30,6 +31,7 @@ public class TempoDataAdapter extends RecyclerView.Adapter<TempoDataAdapter.View
         return new ViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull TempoDataAdapter.ViewHolder holder, int position) {
         SALESORDERITEMS salesorder = salesorderitems.get(position);
@@ -40,9 +42,9 @@ public class TempoDataAdapter extends RecyclerView.Adapter<TempoDataAdapter.View
        holder.fb4.setText(String.valueOf(salesorder.getSoiquantity()));
         double soiamount = salesorder.getSoiamount();
         holder.fb5.setText(String.valueOf(soiamount));
-        holder.fb21.setText(Double.toString(salesorder.getInventory()));
-        holder.fb22.setText(Double.toString(salesorder.getWsr()));
-        holder.fb23.setText(Double.toString(salesorder.getSuggested()));
+        holder.fb21.setText(Double.toString(salesorder.getInventory()) +" / "+salesorder.getInvUom());
+        holder.fb22.setText(Double.toString(salesorder.getWsr()) +" / "+salesorder.getInvUom());
+        holder.fb23.setText(Double.toString(salesorder.getSuggested()) +" / "+salesorder.getInvUom());
        holder.agay.setText(String.valueOf(salesorder.getId()));
 
        holder.itemView.setOnClickListener(new View.OnClickListener() {

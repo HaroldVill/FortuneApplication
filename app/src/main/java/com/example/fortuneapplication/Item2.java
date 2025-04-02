@@ -14,8 +14,9 @@ public class Item2  {
     private double inventory;
     private double wsr;
     private double suggested;
+    private String inv_uom;
 
-    public Item2(String unitbase, String pricelvlid, String id, String code, String description, String unitmeasure, String onhand, String price, String quantity, String total, Double inventory,Double wsr, Double suggested) {
+    public Item2(String unitbase, String pricelvlid, String id, String code, String description, String unitmeasure, String onhand, String price, String quantity, String total, Double inventory,Double wsr, Double suggested, String inv_uom) {
         this.unitbase = unitbase;
         this.pricelvlid = pricelvlid;
         this.id =id;
@@ -30,6 +31,7 @@ public class Item2  {
         this.inventory = inventory;
         this.wsr = wsr;
         this.suggested = suggested;
+        this.inv_uom = inv_uom;
     }
     public Item2(){
 
@@ -133,5 +135,13 @@ public class Item2  {
 
     public void setSuggested(double suggested) {
         this.suggested = suggested;
+    }
+
+    public String getInvUom() {
+        return inv_uom;
+    }
+
+    public void setInvUom(String inv_uom) {
+        this.inv_uom = inv_uom;
     }
 }

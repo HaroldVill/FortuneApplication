@@ -415,6 +415,7 @@ public class HomePage extends AppCompatActivity implements LocationListener {
                                     jsonObject.put("inventory",salesOrderItems.getInventory());
                                     jsonObject.put("wsr",salesOrderItems.getWsr());
                                     jsonObject.put("suggested",salesOrderItems.getSuggested());
+                                    jsonObject.put("inv_uom",salesOrderItems.getInvUom());
                                     json_soitems.put(jsonObject);
                                 }
                                 StringRequest send_invoices = new StringRequest(Request.Method.POST, api_url,
@@ -491,6 +492,7 @@ public class HomePage extends AppCompatActivity implements LocationListener {
                                     jsonObject.put("inventory",salesOrderItems.getInventory());
                                     jsonObject.put("wsr",salesOrderItems.getWsr());
                                     jsonObject.put("suggested",salesOrderItems.getSuggested());
+                                    jsonObject.put("inv_uom",salesOrderItems.getInvUom());
                                     json_soitems.put(jsonObject);
                                 }
                                 StringRequest send_invoices = new StringRequest(Request.Method.POST, api_url,

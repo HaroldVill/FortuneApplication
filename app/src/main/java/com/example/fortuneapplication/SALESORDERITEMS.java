@@ -25,9 +25,10 @@ public class SALESORDERITEMS {
      private double inventory;
      private double wsr;
      private double suggested;
+     private String inv_uom;
 
 
-     public SALESORDERITEMS(int id, int salesorderid, int soiitemid, int soiquantity, int soiunitbasequantity, String uom, double soirate, double soiamount, double taxable, double taxableamount, double taxamount, double soipricelevelid, String soicustomfield1, String soicustomfield2, String soicustomfield3, String soicustomfield4, String soicustomfield5, SALESORDER salesorder, Item item, String Itemdesc, int location_id, double inventory, double wsr, double suggested) {
+     public SALESORDERITEMS(int id, int salesorderid, int soiitemid, int soiquantity, int soiunitbasequantity, String uom, double soirate, double soiamount, double taxable, double taxableamount, double taxamount, double soipricelevelid, String soicustomfield1, String soicustomfield2, String soicustomfield3, String soicustomfield4, String soicustomfield5, SALESORDER salesorder, Item item, String Itemdesc, int location_id, double inventory, double wsr, double suggested,String inv_uom) {
           this.id = id;
           this.salesorderid = salesorderid;
           this.soiitemid = soiitemid;
@@ -51,6 +52,7 @@ public class SALESORDERITEMS {
           this.inventory = inventory;
           this.wsr = wsr;
           this.suggested = suggested;
+          this.inv_uom = inv_uom;
      }
 
    public SALESORDERITEMS(){
@@ -247,5 +249,13 @@ public class SALESORDERITEMS {
 
     public void setSuggested(double suggested) {
         this.suggested = suggested;
+    }
+
+    public String getInvUom() {
+        return inv_uom;
+    }
+
+    public void setInvUom(String inv_uom) {
+        this.inv_uom = inv_uom;
     }
 }

@@ -314,7 +314,7 @@ public class SFAInputQuantity extends AppCompatActivity {
                     Double wsr = Double.parseDouble(salesrate.getText().toString());
                     Double suggested = Double.parseDouble(sug2.getText().toString());
 
-                    Item2 item2 = new Item2(asd,dataa, data0, data1, data2,datass, "-1", data5, "-1", data6,inventory,wsr,suggested);
+                    Item2 item2 = new Item2(asd,dataa, data0, data1, data2,datass, "-1", data5, "-1", data6,inventory,wsr,suggested,inv_uom.getText().toString());
                     //long itemId = databaseHelper.storeOrderItem(item2);
                     databaseHelper.storeOrderItem(item2);
                     Toast.makeText(SFAInputQuantity.this, "Item Added Successfully", Toast.LENGTH_SHORT).show();
@@ -351,7 +351,7 @@ public class SFAInputQuantity extends AppCompatActivity {
                     Double wsr = Double.parseDouble(salesrate.getText().toString());
                     Double suggested = Double.parseDouble(sug2.getText().toString());
 
-                    Item2 item2 = new Item2(asd,dataa, data0, data1, data2,datass, data3, data4, data5, data6,inventory,wsr,suggested);
+                    Item2 item2 = new Item2(asd,dataa, data0, data1, data2,datass, data3, data4, data5, data6,inventory,wsr,suggested,inv_uom.getText().toString());
                     //long itemId = databaseHelper.storeOrderItem(item2);
                     databaseHelper.storeOrderItem(item2);
                     Toast.makeText(SFAInputQuantity.this, "Item Added Successfully", Toast.LENGTH_SHORT).show();
@@ -424,7 +424,7 @@ public class SFAInputQuantity extends AppCompatActivity {
                             Double wsr = Double.parseDouble(salesrate.getText().toString());
                             Double suggested = Double.parseDouble(sug2.getText().toString());
 
-                            Item2 item2 = new Item2(asd,dataa, data0, data1, data2,datass, data3, "0.00", data5, "0.00",inventory,wsr,suggested);
+                            Item2 item2 = new Item2(asd,dataa, data0, data1, data2,datass, data3, "0.00", data5, "0.00",inventory,wsr,suggested,inv_uom.getText().toString());
                             //long itemId = databaseHelper.storeOrderItem(item2);
                             databaseHelper.storeOrderItem(item2);
                             Toast.makeText(SFAInputQuantity.this, "Item Added Successfully", Toast.LENGTH_SHORT).show();
@@ -496,7 +496,7 @@ public class SFAInputQuantity extends AppCompatActivity {
                             Double wsr = Double.parseDouble(salesrate.getText().toString());
                             Double suggested = Double.parseDouble(sug2.getText().toString());
 
-                            Item2 item2 = new Item2(asd,dataa, data0, data1, data2,datass, data3, data4, data5, data6,inventory,wsr,suggested);
+                            Item2 item2 = new Item2(asd,dataa, data0, data1, data2,datass, data3, data4, data5, data6,inventory,wsr,suggested,inv_uom.getText().toString());
                             //long itemId = databaseHelper.storeOrderItem(item2);
                             databaseHelper.storeOrderItem(item2);
                             Toast.makeText(SFAInputQuantity.this, "Item Added Successfully", Toast.LENGTH_SHORT).show();
