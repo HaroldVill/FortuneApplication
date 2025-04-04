@@ -40,9 +40,9 @@ public class SFAActivityAdapter extends RecyclerView.Adapter<SFAActivityAdapter.
         Item2 item2 = itemList.get(position);
 
         holder.fb2.setText(item2.getDescription());
-        holder.fb21.setText(Double.toString(item2.getWsr())+" / "+item2.getInvUom());
-        holder.fb22.setText(Double.toString(item2.getInventory()) +" / "+item2.getInvUom());
-        holder.fb23.setText(Double.toString(item2.getSuggested()) +" / "+item2.getInvUom());
+        holder.fb21.setText(Double.toString(item2.getWsr())+" - "+item2.getInvUom());
+        holder.fb22.setText(Double.toString(item2.getInventory()) +" - "+item2.getInvUom());
+        holder.fb23.setText(Double.toString(item2.getSuggested()) +" - "+item2.getInvUom());
         holder.fb3.setText(item2.getPrice() + "/" + item2.getUnitmeasure() + "(" + item2.getUnitbase() + ")");
         //holder.fb3.setText(item2.getPrice()+ " / " +item2.getUnitmeasure() + ""+(item2.getUnitbase()));
         holder.fb4.setText(item2.getQuantity());

@@ -649,6 +649,7 @@ public class TemporaryData extends AppCompatActivity implements PrintingCallback
                     ",Sales_Order_Items_Table.INVENTORY"+
                     ", Sales_Order_Items_Table.WSR"+
                     ", Sales_Order_Items_Table.SUGGESTED"+
+                    ", Sales_Order_Items_Table.INV_UOM"+
 
                    " FROM " + SALES_ORDER_ITEMS_TABLE +
                    " INNER JOIN " + SALES_ORDER_TABLE +
@@ -674,7 +675,7 @@ public class TemporaryData extends AppCompatActivity implements PrintingCallback
                     salesorderitems.setInventory(cursor.getDouble(12));
                     salesorderitems.setWsr(cursor.getDouble(13));
                     salesorderitems.setSuggested(cursor.getDouble(14));
-
+                    salesorderitems.setInvUom(cursor.getString(15));
                     SALESORDER salesorder = new SALESORDER();
                     salesorder.setAmount(cursor.getString(cursor.getColumnIndex(AMOUNT)));
 

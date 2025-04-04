@@ -183,35 +183,59 @@ public class SFAInputQuantity extends AppCompatActivity {
                 if (inv1.getText().toString().isEmpty()) {
                     inv1.setText("0");
                 }
-                PopupMenu popupMenu = new PopupMenu(SFAInputQuantity.this, ps);
+                PopupMenu popupMenu = new PopupMenu(SFAInputQuantity.this, inv_uom);
                 Menu menu = popupMenu.getMenu();
 
                 ArrayList<Item> items = displayUOM();
 
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        String selectedOption = item.getTitle().toString();
-                        String selectedQuantityString = selectedOption.substring(selectedOption.indexOf("(") + 1, selectedOption.indexOf(")"));
-                        double selectedQuantity = Double.parseDouble(selectedQuantityString);
-                        double safety = Double.parseDouble(mdatabaseHelper.get_safety());
-                        double order_point = Double.parseDouble(mdatabaseHelper.get_order_point());
-                        double max = Double.parseDouble(mdatabaseHelper.get_max());
-                        double wsr = Double.parseDouble(preferences.getString("wsr", ""));
-                        wsr = wsr/selectedQuantity;
-                        DecimalFormat df = new DecimalFormat("0.00");
-                        salesrate.setText(Double.toString(Double.parseDouble(df.format(wsr))));
-                        double on_hand = Double.parseDouble(inv1.getText().toString());
-                        safety = safety * wsr;
-                        order_point = safety + (order_point * wsr);
-                        max = order_point + (max * wsr);
-                        double suggested = max - on_hand;
-                        sug2.setText(Double.toString(Double.parseDouble(df.format(suggested))));
-                        ps2.setText(Double.toString(selectedQuantity));
-                        return true;
+                if (!cquantity.isEmpty() && items.size() > 0) {
+                    try {
+                        double cquantityValue = Double.parseDouble(cquantity);
+                        DecimalFormat decimalFormat = new DecimalFormat("#.##");
+                        decimalFormat.setRoundingMode(RoundingMode.DOWN);
+
+                        String formattedCQuantity = decimalFormat.format(cquantityValue);
+
+                        for (Item item : items) {
+                            String formatteddCQuantity = decimalFormat.format(Double.parseDouble(item.getQuantity()));
+                            String formattedCaseValue = item.getUnitquant() + "(" + formatteddCQuantity + ")";
+                            menu.add(formattedCaseValue);
+                            //   basihan.setText(formatteddCQuantity);
+                        }
+
+
+                        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                            @Override
+                            public boolean onMenuItemClick(MenuItem item) {
+                                String selectedOption = item.getTitle().toString();
+                                String selectedQuantityString = selectedOption.substring(selectedOption.indexOf("(") + 1, selectedOption.indexOf(")"));
+                                double selectedQuantity = Double.parseDouble(selectedQuantityString);
+                                double safety = Double.parseDouble(mdatabaseHelper.get_safety());
+                                double order_point = Double.parseDouble(mdatabaseHelper.get_order_point());
+                                double max = Double.parseDouble(mdatabaseHelper.get_max());
+                                double wsr = Double.parseDouble(preferences.getString("wsr", ""));
+                                wsr = wsr / selectedQuantity;
+                                DecimalFormat df = new DecimalFormat("0.00");
+                                salesrate.setText(Double.toString(Double.parseDouble(df.format(wsr))));
+                                double on_hand = Double.parseDouble(inv1.getText().toString());
+                                safety = safety * wsr;
+                                order_point = safety + (order_point * wsr);
+                                max = order_point + (max * wsr);
+                                double suggested = max - on_hand;
+                                sug2.setText(Double.toString(Double.parseDouble(df.format(suggested))));
+                                ps2.setText(Double.toString(selectedQuantity));
+                                String selectedUOM = selectedOption.substring(0, selectedOption.indexOf("("));
+                                inv_uom.setText(selectedUOM);
+                                return true;
+                            }
+                        });
+                        popupMenu.show();
+                    }catch (NumberFormatException e) {
+                        e.printStackTrace();
                     }
-                });
-                popupMenu.show();
+                } else {
+                    // Handle the case where cquantity is empty or there are no items
+                }
 
             }
         });

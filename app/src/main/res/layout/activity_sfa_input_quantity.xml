@@ -214,12 +214,12 @@
                 android:layout_height="30dp"
                 android:layout_marginLeft="15dp"
                 android:drawableLeft="@drawable/down"
-                android:layout_toRightOf="@id/q3"
+                android:layout_toRightOf="@id/inv1"
                 android:textColor="#3F51B5"
                 android:textSize="20sp"
-                android:layout_below="@id/ttr"
+                android:layout_below="@id/q3"
 
-                android:layout_marginTop="18dp"
+                android:layout_marginTop="10dp"
                 android:textStyle="bold"></TextView>
 
             <TextView
