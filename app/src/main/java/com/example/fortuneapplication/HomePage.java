@@ -325,7 +325,7 @@ public class HomePage extends AppCompatActivity implements LocationListener {
         sfaid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                
+
                 Intent nb = new Intent(HomePage.this, SFAMonitoring.class);
                 startActivity(nb);
 
