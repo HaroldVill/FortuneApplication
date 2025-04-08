@@ -325,11 +325,7 @@ public class HomePage extends AppCompatActivity implements LocationListener {
         sfaid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String check_sync = mDatabaseHelper.get_max_sync_history();
-                if(check_sync!=""){
-                    Toast.makeText(HomePage.this, "Please sync "+check_sync+".", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+                
                 Intent nb = new Intent(HomePage.this, SFAMonitoring.class);
                 startActivity(nb);
 
