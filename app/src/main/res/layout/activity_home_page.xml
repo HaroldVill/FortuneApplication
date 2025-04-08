@@ -233,7 +233,7 @@
         app:cardCornerRadius="10dp"
         app:cardElevation="4dp"
         app:cardUseCompatPadding="true"
-        android:visibility="invisible"
+
         app:layout_constraintTop_toBottomOf="@id/GridId"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
