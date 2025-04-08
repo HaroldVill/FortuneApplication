@@ -202,6 +202,9 @@
             android:name=".SFAInputQuantity"
             android:exported="false" />
         <activity
+            android:name=".SFAMonitoring"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
@@ -213,7 +216,9 @@
 
         <service
             android:name=".MyLocation"
-            android:foregroundServiceType="location"></service>
+            android:foregroundServiceType="location">
+
+        </service>
     </application>
 
 </manifest>
