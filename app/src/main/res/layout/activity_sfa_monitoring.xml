@@ -3,6 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ProgressBar
+        android:id="@id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone"/>
+
     <!-- Title TextView -->
     <TextView
         android:id="@+id/title"
@@ -15,14 +22,30 @@
         android:textSize="25sp"
         android:textStyle="" />
 
+    <EditText
+        android:paddingLeft="10dp"
+        android:id="@+id/history_datepicker"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/title"
+        android:drawableLeft="@drawable/calen"
+        android:background="@drawable/searchmestyle"
+        android:clickable="false"
+        android:cursorVisible="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:hint="  YYYY-MM-DD">
+
+    </EditText>
+
     <!-- Expandable ListView -->
     <ExpandableListView
         android:id="@+id/expandableListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/title"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="45dp"/>
+        android:layout_below="@+id/history_datepicker"
+        android:layout_marginTop="5dp"/>
 
     <!-- Horizontal LinearLayout with TextView -->
     <LinearLayout

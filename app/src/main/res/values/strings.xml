@@ -32,5 +32,8 @@
     <string name="st3">TOTAL</string>
     <string name="st4">DATE</string>
     <string name="title_activity_maps">MapsActivity</string>
+    <string name="sfa_monitoring">SFA MONITORING</string>
+    <string name="item">Item</string>
+
 
 </resources>
