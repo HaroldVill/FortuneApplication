@@ -70,7 +70,8 @@ public class SFAMonitoring extends AppCompatActivity {
             @Override
             protected String doInBackground(Void... voids) {
                 try {
-                    URL url = new URL("http://100.111.39.128/mobileapi/SFA_SALESREP_LIST.php");
+                    String datepicker = historyDatepicker.getText().toString();
+                    URL url = new URL("http://100.111.39.128/mobileapi/SFA_SALESREP_LIST.php?date_picker="+datepicker);
                     HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
                     urlConnection.setRequestMethod("GET");
                     urlConnection.setConnectTimeout(15000);  // Timeout for connection
