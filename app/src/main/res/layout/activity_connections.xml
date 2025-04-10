@@ -827,6 +827,71 @@
 
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/con13"
+                android:layout_width="match_parent"
+                android:layout_height="190dp"
+                android:layout_below="@id/con12"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                app:cardCornerRadius="15dp">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/title13"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="15dp"
+                        android:text="SET MONITORING MODE:"
+                        android:textSize="25sp"
+                        android:textStyle="bold">
+                    </TextView>
+
+                    <TextView
+                        android:id="@+id/select_monitoring_mode"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/title13"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"
+                        android:drawableRight="@drawable/downboy"
+                        android:text="SELECT MONITORING MODE"
+                        android:textColor="#3F51B5"
+                        android:textSize="20sp"
+                        android:textStyle="">
+                    </TextView>
+
+                    <TextView
+                        android:id="@+id/monitoring_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/select_monitoring_mode"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="10dp"
+                        android:textColor="#EF4438">
+                    </TextView>
+
+                    <Button
+                        android:id="@+id/apply_monitorng_mode"
+                        android:layout_width="280dp"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/monitoring_label"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginLeft="100dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/buttondesign3"
+                        android:text="APPLY"
+                        android:textColor="#FDFCFC">
+                    </Button>
+
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
         </GridLayout>
     </ScrollView>
 </RelativeLayout>

@@ -43,8 +43,8 @@ import java.util.Set;
 
 public class Connections extends AppCompatActivity {
     TextView creatcon, ids;
-    TextView selection, connection_label, select_sales_type,sales_type_label,select_sales_rep_id,sales_rep_id_label,select_gps_mode,gps_label,select_verify_mode,verify_label,select_bluetooth_device,bluetooth_macaddress,select_default_location,default_location,select_change_location,change_location,sfa_label,select_sfa_mode;
-    Button apply,apply_sales_type,apply_sales_rep_id,apply_gps_mode,apply_verify_mode,apply_bluetooth,apply_order_point,apply_safety,apply_max, apply_sfa_mode;
+    TextView selection, connection_label, select_sales_type,sales_type_label,select_sales_rep_id,sales_rep_id_label,select_gps_mode,gps_label,select_verify_mode,verify_label,select_bluetooth_device,bluetooth_macaddress,select_default_location,default_location,select_change_location,change_location,sfa_label,select_sfa_mode,select_monitoring_mode,monitoring_label;
+    Button apply,apply_sales_type,apply_sales_rep_id,apply_gps_mode,apply_verify_mode,apply_bluetooth,apply_order_point,apply_safety,apply_max, apply_sfa_mode, apply_monitoring_mode;
     EditText editText1,editText2,editText3;
     TextView label1,label2,label3;
     private PazDatabaseHelper mdatabaseHelper;
@@ -108,6 +108,10 @@ public class Connections extends AppCompatActivity {
         sfa_label = findViewById(R.id.sfa_label);
         select_sfa_mode = findViewById(R.id.select_sfa_mode);
         sfa_label.setText(mdatabaseHelper.get_sfa_mode());
+        select_monitoring_mode = findViewById(R.id.select_monitoring_mode);
+        monitoring_label = findViewById(R.id.monitoring_label);
+        apply_monitoring_mode = findViewById(R.id.apply_monitorng_mode);
+        monitoring_label.setText(mdatabaseHelper.get_monitoring_mode());
         apply_sales_rep_id.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {}
@@ -145,6 +149,14 @@ public class Connections extends AppCompatActivity {
               update_sfa_mode();
             }
         });
+
+        apply_monitoring_mode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                update_monitoring_mode();
+            }
+        });
+
 
         apply_bluetooth.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -259,6 +271,26 @@ public class Connections extends AppCompatActivity {
                         String sfa_type = menuItem.getTitle().toString();
 
                         sfa_label.setText(sfa_type);
+                        return true;
+                    }
+                });
+                popupMenu.show();
+            }
+        });
+
+        select_monitoring_mode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PopupMenu popupMenu = new PopupMenu(Connections.this,select_monitoring_mode);
+                Menu menu = popupMenu.getMenu();
+                menu.add(Menu.NONE,Menu.NONE,Menu.NONE,"1");
+                menu.add(Menu.NONE,Menu.NONE,Menu.NONE,"0");
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        String monitoring_type = menuItem.getTitle().toString();
+
+                        monitoring_label.setText(monitoring_type);
                         return true;
                     }
                 });
@@ -793,6 +825,26 @@ public class Connections extends AppCompatActivity {
         specificRowValues.put("VALUE", value);
         String whereClause = SYSTEM_SETTINGS_NAME + " = ?";
         String[] whereArgs = {"SFA"};
+
+        int numSpecificRowUpdated = db.update(SYSTEM_SETTINGS, specificRowValues, whereClause, whereArgs);
+        db.close();
+        if (numSpecificRowUpdated > 0) {
+            Toast.makeText(this, "Successfull SFA Set", Toast.LENGTH_SHORT).show();
+//            selection.setText("");
+//            connection_label.setText("");
+//            Intent nanay = new Intent(Connections.this, SyncDatas.class);
+//            startActivity(nanay);
+//            finish();
+        }
+    }
+
+    public void update_monitoring_mode() {
+        String value = monitoring_label.getText().toString();
+        SQLiteDatabase db = mdatabaseHelper.getWritableDatabase();
+        ContentValues specificRowValues = new ContentValues();
+        specificRowValues.put("VALUE", value);
+        String whereClause = SYSTEM_SETTINGS_NAME + " = ?";
+        String[] whereArgs = {"SFA_MONITORING"};
 
         int numSpecificRowUpdated = db.update(SYSTEM_SETTINGS, specificRowValues, whereClause, whereArgs);
         db.close();

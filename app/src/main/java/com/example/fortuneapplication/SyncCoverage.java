@@ -98,20 +98,14 @@ public class SyncCoverage extends AppCompatActivity {
                         try {
                             JSONObject obj = new JSONObject(response);
                             JSONArray coverageArray = obj.getJSONArray("data");
-
-                            // Delete existing data from the table before syncing new data
-//                            databaseHelper.deleteCoverageData();
-
                             for (int i = 0 ; i < coverageArray.length(); i++){
                                 JSONObject jsonObject = coverageArray.getJSONObject(i);
-
                                 String id = jsonObject.getString("id");
                                 String customer_id = jsonObject.getString("customer_id");
                                 String salesrep_id = jsonObject.getString("sales_rep_id");
                                 String day = jsonObject.getString("frequency_day");
                                 String frequency = jsonObject.getString("frequency");
                                 String frequency_week_schedule = jsonObject.getString("frequency_week_schedule");
-
                                 Coverage coverage= new Coverage(id,customer_id,salesrep_id,day,frequency,frequency_week_schedule);
                                 Log.d("Coverage", coverage.toString());
                                 boolean isStored = databaseHelper.StoreCoverage(coverage);
@@ -140,26 +134,7 @@ public class SyncCoverage extends AppCompatActivity {
 
             }
         });
-        //        stringRequest.setRetryPolicy(new RetryPolicy() {
-//            @Override
-//            public int getCurrentTimeout() {
-//                // Here goes the new timeout 3 minutes
-//                return 3*60*1000;
-//            }
-//
-//            @Override
-//            public int getCurrentRetryCount() {
-//                // The max number of attempts
-//                return 5;
-//            }
-//
-//            @Override
-//            public void retry(VolleyError error) throws VolleyError {
-//
-//            }
-//        });
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(120 * 1000, 2, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
     }

@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,9 +19,19 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -39,6 +50,8 @@ public class SFAMonitoring extends AppCompatActivity {
     private EditText historyDatepicker;
     private ArrayList<String> groupTitles = new ArrayList<>();
     private ArrayList<ArrayList<String>> childItems = new ArrayList<>();
+    private PazDatabaseHelper mdatabaseHelper;
+    String JSON_URL;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +61,8 @@ public class SFAMonitoring extends AppCompatActivity {
         expandableListView = findViewById(R.id.expandableListView);
         progressBar = findViewById(R.id.progressBar);
         historyDatepicker = findViewById(R.id.history_datepicker);
+        mdatabaseHelper = new PazDatabaseHelper(SFAMonitoring.this);
+        JSON_URL= "http://" + mdatabaseHelper.get_active_connection() + "/mobileapi";
 
         setCurrentDate();
 
@@ -59,7 +74,7 @@ public class SFAMonitoring extends AppCompatActivity {
         });
 
 
-        fetchData(getCurrentDate());
+        fetchData(getCurrentDate(),JSON_URL);
     }
 
     private void setCurrentDate() {
@@ -74,15 +89,15 @@ public class SFAMonitoring extends AppCompatActivity {
     }
 
     @SuppressLint("StaticFieldLeak")
-    private void fetchData(String selectedDate) {
+    private void fetchData(String selectedDate, String JSON_URL) {
         progressBar.setVisibility(View.VISIBLE);
 
         new AsyncTask<Void, Void, String>() {
             @Override
             protected String doInBackground(Void... voids) {
                 try {
-                    String trimmedDate = selectedDate.trim();
-                    String urlString = "http://100.111.39.128/mobileapi/SFA_SALESREP_LIST.php?selectedDate=" + trimmedDate;
+
+                    String urlString = JSON_URL+"/SFA_SALESREP_LIST.php?selectedDate=" + selectedDate;
                     URL url = new URL(urlString);
                     HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
                     urlConnection.setRequestMethod("GET");
@@ -140,12 +155,17 @@ public class SFAMonitoring extends AppCompatActivity {
                         String orderingCustomersCount = salesRepData.getString("ordering_customers_count");
                         String skippedCustomersCount = salesRepData.getString("skipped_customers_count");
                         String nonOrderingCustomersCount = salesRepData.getString("non_ordering_customers_count");
+                        String id = salesRepData.getString("id");
 
                         String groupTitle = name + " - " + orderingCustomersCount + ", " + skippedCustomersCount + ", " + nonOrderingCustomersCount;
                         groupTitles.add(groupTitle);
 
                         ArrayList<String> childData = new ArrayList<>();
-                        childData.add("Details for " + name);
+
+                        StringRequest stringRequest = getStringRequest(id, childData, name, JSON_URL, selectedDate);
+                        RequestQueue requestQueue = Volley.newRequestQueue(SFAMonitoring.this);
+                        requestQueue.add(stringRequest);
+
                         childItems.add(childData);
                     }
 
@@ -163,6 +183,38 @@ public class SFAMonitoring extends AppCompatActivity {
         }.execute();
     }
 
+    @NonNull
+    private StringRequest getStringRequest(String id, ArrayList<String> childData, String name, String JSON_URL, String selectedDate) {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, JSON_URL +"/SFA_SALESREP_LIST_DETAILS.php?selectedDate=" + selectedDate +"&sales_rep_id="+ id,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject obj = new JSONObject(response);
+                            JSONArray so_details_array = obj.getJSONArray("data");
+                            for (int i = 0 ; i < so_details_array.length(); i++){
+                                JSONObject jsonObject = so_details_array.getJSONObject(i);
+                                childData.add(jsonObject.getString("so")+",     "+jsonObject.getString("location")+",     \nNAME:"+jsonObject.getString("customer_name")+",     \nAMT:"+jsonObject.getString("amount"));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+
+                        } finally {
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(SFAMonitoring.this, "Network Error Pleas Sync Again", Toast.LENGTH_SHORT).show();
+                // Hide the progress bar
+                progressBar.setVisibility(View.GONE);
+
+            }
+        });
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(120 * 1000, 2, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        return stringRequest;
+    }
+
     private void showDatePickerDialog() {
         Calendar calendar = Calendar.getInstance();
 
@@ -178,7 +230,7 @@ public class SFAMonitoring extends AppCompatActivity {
                         String formattedDate = dateFormat.format(selectedDate.getTime());
 
                         historyDatepicker.setText(formattedDate);
-                        fetchData(formattedDate);
+                        fetchData(formattedDate,JSON_URL);
                     }
                 },
                 calendar.get(Calendar.YEAR),
