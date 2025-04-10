@@ -328,8 +328,8 @@ public class SFAMonitoring extends AppCompatActivity {
             TextView textView = convertView.findViewById(android.R.id.text1);
             String childText = childItems.get(groupPosition).get(childPosition);
             textView.setText(childText);
-            textView.setTextColor(Color.BLACK);
-            convertView.setBackgroundColor(Color.LTGRAY);
+            textView.setTextColor(Color.parseColor("#006400"));
+            convertView.setBackgroundColor(Color.parseColor("#F5F5F5"));
 
             return convertView;
         }
