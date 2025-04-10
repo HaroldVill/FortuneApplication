@@ -97,7 +97,13 @@ public class HomePage extends AppCompatActivity implements LocationListener {
         sfa_button = findViewById(R.id.imageView4);
         coordinates = findViewById(R.id.coordinates);
         startThread();
-        mDatabaseHelper = new PazDatabaseHelper(this.context);
+        PazDatabaseHelper db = new PazDatabaseHelper(HomePage.this);
+        if(db.get_monitoring_mode().equals("0")){
+            sfaid.setVisibility(View.INVISIBLE);
+        }
+        else{
+            sfaid.setVisibility(View.VISIBLE);
+        }
         ActivityCompat.requestPermissions(this, new String[]
                 {Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -325,9 +331,10 @@ public class HomePage extends AppCompatActivity implements LocationListener {
         sfaid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                Intent nb = new Intent(HomePage.this, SFAMonitoring.class);
-                startActivity(nb);
+                if(db.get_monitoring_mode().equals("1")){
+                    Intent nb = new Intent(HomePage.this, SFAMonitoring.class);
+                    startActivity(nb);
+                }
 
             }
         });

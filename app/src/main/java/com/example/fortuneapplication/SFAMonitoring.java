@@ -125,7 +125,7 @@ public class SFAMonitoring extends AppCompatActivity {
 
             @Override
             protected void onPostExecute(String result) {
-                progressBar.setVisibility(View.INVISIBLE);
+
 
                 if (result == null || result.startsWith("Error:")) {
                     Toast.makeText(SFAMonitoring.this, "Error fetching data: " + result, Toast.LENGTH_SHORT).show();
@@ -174,6 +174,7 @@ public class SFAMonitoring extends AppCompatActivity {
                     expandableListView.setAdapter(adapter);
 
                     Toast.makeText(SFAMonitoring.this, "Data loaded for " + selectedDate, Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.INVISIBLE);
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -194,7 +195,7 @@ public class SFAMonitoring extends AppCompatActivity {
                             JSONArray so_details_array = obj.getJSONArray("data");
                             for (int i = 0 ; i < so_details_array.length(); i++){
                                 JSONObject jsonObject = so_details_array.getJSONObject(i);
-                                childData.add(jsonObject.getString("so")+",     "+jsonObject.getString("location")+",     \nNAME:"+jsonObject.getString("customer_name")+",     \nAMT:"+jsonObject.getString("amount"));
+                                childData.add(jsonObject.getString("so")+",\nLOCATION: "+jsonObject.getString("location")+",\nNAME: "+jsonObject.getString("customer_name")+",\nAMT: "+jsonObject.getString("amount"));
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -329,6 +330,12 @@ public class SFAMonitoring extends AppCompatActivity {
             String childText = childItems.get(groupPosition).get(childPosition);
             textView.setText(childText);
             textView.setTextColor(Color.parseColor("#006400"));
+            if(childText.contains("SKIPPED -")){
+                textView.setTextColor(Color.parseColor("#940a0f"));
+            }
+            if(childText.contains("UNVISITED -")){
+                textView.setTextColor(Color.parseColor("#002278"));
+            }
             convertView.setBackgroundColor(Color.parseColor("#F5F5F5"));
 
             return convertView;
