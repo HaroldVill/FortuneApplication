@@ -125,7 +125,7 @@ public class SFAMonitoring extends AppCompatActivity {
 
             @Override
             protected void onPostExecute(String result) {
-                progressBar.setVisibility(View.GONE);
+                progressBar.setVisibility(View.INVISIBLE);
 
                 if (result == null || result.startsWith("Error:")) {
                     Toast.makeText(SFAMonitoring.this, "Error fetching data: " + result, Toast.LENGTH_SHORT).show();
@@ -207,7 +207,7 @@ public class SFAMonitoring extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(SFAMonitoring.this, "Network Error Pleas Sync Again", Toast.LENGTH_SHORT).show();
                 // Hide the progress bar
-                progressBar.setVisibility(View.GONE);
+                progressBar.setVisibility(View.INVISIBLE);
 
             }
         });
