@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/space"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="1dp">
+
+    <TextView
+        android:id="@+id/select_sales_rep_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:drawableRight="@drawable/downboy"
+        android:text="SELECT SALES REP"
+        android:textColor="@color/text_black"
+        android:textSize="30sp"
+        android:layout_gravity="center">
+    </TextView>
+
+    <TextView
+        android:id="@+id/sales_rep_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:text="Sales Rep Name will appear here"
+        android:textAlignment="center"
+        android:textColor="@color/text_black"
+        android:textSize="25dp" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TableLayout
+            android:padding="3dp"
+            android:id="@+id/tablerow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:stretchColumns="0, 2, 3">
+
+            <TableRow>
+                <TextView
+                    android:text="PRINCIPAL"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:textAlignment="center"
+                    android:textColor="@color/text_black"/>
+                <TextView
+
+                    android:text="ACHIEVED"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:textAlignment="center"
+                    android:textColor="@color/text_black"/>
+                <TextView
+                    android:text="TARGET"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:textAlignment="center"
+                    android:textColor="@color/text_black"/>
+                <TextView
+
+                    android:text="%"
+                    android:textStyle="bold"
+                    android:textSize="15sp"
+                    android:textAlignment="center"
+                    android:textColor="@color/text_black"/>
+            </TableRow>
+
+
+        </TableLayout>
+    </ScrollView>
+
+<!--    <ProgressBar-->
+<!--        android:id="@id/progressBar"-->
+<!--        android:layout_width="160dp"-->
+<!--        android:layout_height="160dp"-->
+<!--        android:layout_gravity="center"/>-->
+
+</LinearLayout>

@@ -206,6 +206,9 @@
             android:name=".SFAMonitoring"
             android:exported="false" />
         <activity
+            android:name=".SFA"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
