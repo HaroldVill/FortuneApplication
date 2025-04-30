@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/space"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="1dp">
 
+    <!-- Title Section -->
     <TextView
         android:id="@+id/select_sales_rep_id"
         android:layout_width="wrap_content"
@@ -16,9 +16,22 @@
         android:drawableRight="@drawable/downboy"
         android:text="SELECT SALES REP"
         android:textColor="@color/text_black"
-        android:textSize="30sp"
-        android:layout_gravity="center">
-    </TextView>
+        android:textSize="25sp"
+        android:layout_gravity="center" />
+
+    <TextView
+        android:id="@+id/sales_rep_id"
+        android:layout_width="0sp"
+        android:layout_height="0sp"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="0dp"
+        android:layout_toEndOf="@id/select_sales_rep_id"
+        android:drawableRight="@drawable/downboy"
+        android:text="SELECT SALES REP"
+        android:textColor="@color/text_black"
+        android:textSize="0sp"
+
+        android:visibility="invisible" />
 
     <TextView
         android:id="@+id/sales_rep_name"
@@ -28,55 +41,142 @@
         android:text="Sales Rep Name will appear here"
         android:textAlignment="center"
         android:textColor="@color/text_black"
-        android:textSize="25dp" />
+        android:textSize="20dp" />
+
+    <!-- First Table Header -->
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:stretchColumns="0,2,3"
+        android:padding="3dp">
+
+        <TableRow>
+            <TextView
+                android:text="PRINCIPAL"
+                android:textAlignment="textStart"
+                android:textColor="@color/text_black"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:text="ACHIEVED"
+                android:textAlignment="textEnd"
+                android:textColor="@color/text_black"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:text="TARGET"
+                android:textAlignment="center"
+                android:textColor="@color/text_black"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:text="%"
+                android:textAlignment="textEnd"
+                android:textColor="@color/text_black"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+        </TableRow>
+    </TableLayout>
+
+    <!-- First Scrollable Table Body -->
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
         <TableLayout
-            android:padding="3dp"
             android:id="@+id/tablerow"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:stretchColumns="0, 2, 3">
-
-            <TableRow>
-                <TextView
-                    android:text="PRINCIPAL"
-                    android:textSize="15sp"
-                    android:textStyle="bold"
-                    android:textAlignment="center"
-                    android:textColor="@color/text_black"/>
-                <TextView
-
-                    android:text="ACHIEVED"
-                    android:textSize="15sp"
-                    android:textStyle="bold"
-                    android:textAlignment="center"
-                    android:textColor="@color/text_black"/>
-                <TextView
-                    android:text="TARGET"
-                    android:textSize="15sp"
-                    android:textStyle="bold"
-                    android:textAlignment="center"
-                    android:textColor="@color/text_black"/>
-                <TextView
-
-                    android:text="%"
-                    android:textStyle="bold"
-                    android:textSize="15sp"
-                    android:textAlignment="center"
-                    android:textColor="@color/text_black"/>
-            </TableRow>
-
-
+            android:stretchColumns="*"
+            android:padding="3dp">
         </TableLayout>
     </ScrollView>
 
-<!--    <ProgressBar-->
-<!--        android:id="@id/progressBar"-->
-<!--        android:layout_width="160dp"-->
-<!--        android:layout_height="160dp"-->
-<!--        android:layout_gravity="center"/>-->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="@android:color/black"
+        android:layout_marginVertical="4dp" />
+
+
+
+    <!-- Second Table Header -->
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:stretchColumns="1,2,3,4,5,6">
+<!--        android:padding="3dp">-->
+
+        <TableRow>
+            <TextView
+                android:text="REFNO"
+                android:textAlignment="textStart"
+                android:textColor="@color/text_black"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:layout_weight="1"/>
+
+            <TextView
+                android:text="PRINCIPAL"
+                android:textAlignment="viewEnd"
+                android:textColor="@color/text_black"
+                android:textSize="10sp"
+                android:layout_width="55dp"
+                android:textStyle="bold"
+                android:layout_weight="2"/>
+
+            <TextView
+                android:text="CUSTOMER"
+                android:textAlignment="viewEnd"
+                android:textColor="@color/text_black"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:layout_weight="2"/>
+
+            <TextView
+                android:text="DESCRIPTION"
+                android:textAlignment="center"
+                android:textColor="@color/text_black"
+                android:textSize="10sp"
+                android:layout_width="63dp"
+                android:textStyle="bold"
+                android:layout_weight="2"/>
+
+            <TextView
+                android:text="  QUANTITY"
+                android:textAlignment="viewEnd"
+                android:textColor="@color/text_black"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:layout_weight="1"/>
+
+            <TextView
+                android:text="AMOUNT"
+                android:textAlignment="textEnd"
+                android:textColor="@color/text_black"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:layout_weight="1"/>
+        </TableRow>
+    </TableLayout>
+
+    <!-- Second Scrollable Table Body -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <TableLayout
+            android:id="@+id/tablerow1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:stretchColumns="*"
+            android:padding="3dp">
+        </TableLayout>
+    </ScrollView>
 
 </LinearLayout>
