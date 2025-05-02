@@ -83,7 +83,7 @@ public void getDatalines() {
                     try {
                         JSONObject jbo = new JSONObject(response);
                         JSONArray jsonArray = jbo.getJSONArray("data");
-                        databaseHelper.deleteplines();
+//                        databaseHelper.deleteplines();
 
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject jsonObject = jsonArray.getJSONObject(i);
@@ -93,8 +93,10 @@ public void getDatalines() {
                             String cust = jsonObject.getString("custom_price");
 
                             PlevelLines_list plevelLines_list = new PlevelLines_list(linesid, pricelevelid, itemid, cust);
+                            if(databaseHelper.deleteExistingPLevelLinesId(linesid)){
+                                boolean isStored = databaseHelper.storePLVLines(plevelLines_list);
+                            }
 
-                            boolean isStored = databaseHelper.storePLVLines(plevelLines_list);
 
                             plevelLines_lists.add(plevelLines_list);
                         }

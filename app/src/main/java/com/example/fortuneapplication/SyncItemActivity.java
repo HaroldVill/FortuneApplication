@@ -110,7 +110,7 @@ public class SyncItemActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         try {
-                            databaseHelper.deleteExistingData();
+//                            databaseHelper.deleteExistingData();
                             JSONObject obj = new JSONObject(response);
                             JSONArray itemArray = obj.getJSONArray("data");
 
@@ -131,8 +131,10 @@ public class SyncItemActivity extends AppCompatActivity {
                                 String inactive = jsonObject.getString("inactive");
 
                                 Item item = new Item(id, code, description, rate, group, quant, uom, vend,inactive,"");
+                                if(databaseHelper.deleteExistingItemId(id)){
+                                    boolean isStored = databaseHelper.StoreData(item);
+                                }
 
-                                boolean isStored = databaseHelper.StoreData(item);
                                 itemList.add(item);
                             }
 

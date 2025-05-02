@@ -1218,6 +1218,40 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
 //        db.close();
     }
 
+    public boolean deleteExistingItemId(String id) {
+        try {
+            SQLiteDatabase db = getWritableDatabase();
+            db.delete("Item_Table", "item_id = ?", new String[]{id});
+//        db.close();
+            return true;
+        }
+        catch (Exception e){
+            return  false;
+        }
+    }
+    public boolean deleteExistingCustomerId(String id) {
+        try {
+            SQLiteDatabase db = getWritableDatabase();
+            db.delete("Customer_Table", "customer_id = ?", new String[]{id});
+//        db.close();
+            return true;
+        }
+        catch (Exception e){
+            return false;
+        }
+    }
+    public boolean deleteExistingPLevelLinesId(String id) {
+        try {
+            SQLiteDatabase db = getWritableDatabase();
+            db.delete("Price_Level_Lines_table", "price_level_lines_id = ?", new String[]{id});
+//        db.close();
+            return true;
+        }
+        catch (Exception e){
+            return false;
+        }
+    }
+
     //* DELETE All CUSTOMER DATA SYNC //*
     public void deleteCustomerData() {
         SQLiteDatabase db = getWritableDatabase();
