@@ -3,12 +3,18 @@ package com.example.fortuneapplication;
 import androidx.fragment.app.FragmentActivity;
 
 import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -17,15 +23,17 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Locale;
 
 public class LocateActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-    private TableRow tableRow;
-
     private PazDatabaseHelper mdatabaseHelper;
-    private java.util.ArrayList<SalesRepList> ArrayList;
+    private EditText historyDatepicker;
+    private EditText timepicker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +41,27 @@ public class LocateActivity extends FragmentActivity implements OnMapReadyCallba
         setContentView(R.layout.activity_locate);
 
         TableLayout salesTable = findViewById(R.id.salesreptable);
+        historyDatepicker = findViewById(R.id.history_datepicker);
+        timepicker = findViewById(R.id.history_timepicker);
         mdatabaseHelper = new PazDatabaseHelper(this);
+
+        setCurrentDate();
+
+        historyDatepicker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDatePickerDialog();
+            }
+        });
+
+        setCurrentTime();
+
+        timepicker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showTimePickerDialog();
+            }
+        });
 
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -59,6 +87,28 @@ public class LocateActivity extends FragmentActivity implements OnMapReadyCallba
             row.addView(name);
             salesTable.addView(row);
         }
+    }
+
+    private void setCurrentDate() {
+        String currentDate = getCurrentDate();
+        historyDatepicker.setText(currentDate);
+    }
+
+    private String getCurrentDate() {
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        return dateFormat.format(calendar.getTime());
+    }
+
+    private void setCurrentTime() {
+        String currentTime = getCurrentTime();
+        timepicker.setText(currentTime);
+    }
+
+    private String getCurrentTime() {
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
+        return timeFormat.format(calendar.getTime());
     }
 
     /**
@@ -99,5 +149,45 @@ public class LocateActivity extends FragmentActivity implements OnMapReadyCallba
         cursor.close();
         db.close();
         return salesreplist;
+    }
+
+    private void showDatePickerDialog() {
+        Calendar calendar = Calendar.getInstance();
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(
+                LocateActivity.this,
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        Calendar selectedDate = Calendar.getInstance();
+                        selectedDate.set(year, monthOfYear, dayOfMonth);
+
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                        String formattedDate = dateFormat.format(selectedDate.getTime());
+
+                        historyDatepicker.setText(formattedDate);
+                    }
+                },
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH)
+        );
+
+        datePickerDialog.show();
+    }
+
+    private void showTimePickerDialog() {
+        Calendar calendar = Calendar.getInstance();
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
+
+        TimePickerDialog timePickerDialog = new TimePickerDialog(
+                LocateActivity.this, (view, hourOfDay, minute1) -> {
+                    String formattedTime = String.format(Locale.getDefault(), "%02d:%02d", hourOfDay, minute1);
+                    timepicker.setText(formattedTime);
+        }, hour, minute, true
+        );
+
+        timePickerDialog.show();
     }
 }
