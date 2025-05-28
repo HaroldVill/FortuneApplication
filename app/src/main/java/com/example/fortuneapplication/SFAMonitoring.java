@@ -2,6 +2,7 @@ package com.example.fortuneapplication;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
@@ -11,6 +12,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ExpandableListAdapter;
@@ -52,6 +54,7 @@ public class SFAMonitoring extends AppCompatActivity {
     private ArrayList<ArrayList<String>> childItems = new ArrayList<>();
     private PazDatabaseHelper mdatabaseHelper;
     String JSON_URL;
+    private Button button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,8 +66,19 @@ public class SFAMonitoring extends AppCompatActivity {
         historyDatepicker = findViewById(R.id.history_datepicker);
         mdatabaseHelper = new PazDatabaseHelper(SFAMonitoring.this);
         JSON_URL= "http://" + mdatabaseHelper.get_active_connection() + "/mobileapi";
+        button = findViewById(R.id.button);
 
         setCurrentDate();
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(SFAMonitoring.this, LocateActivity.class);
+
+                startActivity(intent);
+                finish();
+            }
+        });
 
         historyDatepicker.setOnClickListener(new View.OnClickListener() {
             @Override
