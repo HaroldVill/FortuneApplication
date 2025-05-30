@@ -99,7 +99,8 @@ public class HomePage extends AppCompatActivity implements LocationListener {
         sfa_button = findViewById(R.id.imageView4);
         coordinates = findViewById(R.id.coordinates);
         sfa = findViewById(R.id.sfa);
-        startThread();
+
+
         PazDatabaseHelper db = new PazDatabaseHelper(HomePage.this);
 //        if(db.get_monitoring_mode().equals("0")){
 //            sfaid.setVisibility(View.INVISIBLE);
@@ -133,6 +134,7 @@ public class HomePage extends AppCompatActivity implements LocationListener {
             },0,60000);
 
         }
+        startThread();
 
 
 
@@ -357,7 +359,9 @@ public class HomePage extends AppCompatActivity implements LocationListener {
     public void startThread() {
         stopThread = true;
         stopThread = false;
-        ExampleRunnable runnable = new ExampleRunnable(30000);
+        String longitude = getLongitude();
+        String latitude = getLatitude();
+        ExampleRunnable runnable = new ExampleRunnable(30000,longitude,latitude);
         new Thread(runnable).start();
         Log.d("Test", "1");
         /*
@@ -383,9 +387,14 @@ public class HomePage extends AppCompatActivity implements LocationListener {
     class ExampleRunnable implements Runnable {
         int seconds;
         private Context context1;
+        String longitude;
+        String latitude;
 
-        ExampleRunnable(int seconds) {
+        ExampleRunnable(int seconds,String longitude, String latitude) {
             this.seconds = seconds;
+            this.longitude = longitude;
+            this.latitude = latitude;
+
         }
 
         @Override
@@ -597,9 +606,10 @@ public class HomePage extends AppCompatActivity implements LocationListener {
                     String default_salesrep_id = mDatabaseHelper.get_default_salesrep_id();
                     String datetime = mDatabaseHelper.get_currentdatetime();
                     String date = mDatabaseHelper.get_currentdate();
-                    GetGPSLocation gps = new GetGPSLocation(HomePage.this,HomePage.this,locationManager);
-                    String longitude = gps.get_longitude();
-                    String latitude = gps.get_latitude();
+
+
+
+
                     if(Integer.parseInt(default_salesrep_id) !=0){
                         try {
                             ArrayList<CONNECT> connectList2 = mDatabaseHelper.SelectUPDT();
@@ -790,6 +800,148 @@ public class HomePage extends AppCompatActivity implements LocationListener {
             //Thats All Run Your App
         }
         return ("MY CURRENT LOCATION\n\n"+"Longitude: "+longitude+"\nLatitude: "+latitude);
+    }
+
+    private String getLatitude() {
+
+        //Check Permissions again
+
+        if (ActivityCompat.checkSelfPermission(HomePage.this,Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(HomePage.this,
+
+                Manifest.permission.ACCESS_COARSE_LOCATION) !=PackageManager.PERMISSION_GRANTED)
+        {
+            ActivityCompat.requestPermissions(this,new String[]
+                    {Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
+        }
+        else
+        {
+            locationManager.requestLocationUpdates(
+                    LocationManager.NETWORK_PROVIDER,
+                    MIN_TIME_BW_UPDATES,
+                    MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
+            locationManager.requestLocationUpdates(
+                    LocationManager.GPS_PROVIDER,
+                    MIN_TIME_BW_UPDATES,
+                    MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
+            locationManager.requestLocationUpdates(
+                    LocationManager.PASSIVE_PROVIDER,
+                    MIN_TIME_BW_UPDATES,
+                    MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
+            Location LocationGps= locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            Location LocationNetwork=locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+            Location LocationPassive=locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
+
+            if (LocationGps !=null)
+            {
+                double lat=LocationGps.getLatitude();
+                double longi=LocationGps.getLongitude();
+
+                latitude=String.valueOf(lat);
+                longitude=String.valueOf(longi);
+
+                Log.d("LOCATION", "Your Location:"+"\n"+"Latitude= "+latitude+"\n"+"Longitude= "+longitude);
+            }
+            else
+            if (LocationNetwork !=null)
+            {
+                double lat=LocationNetwork.getLatitude();
+                double longi=LocationNetwork.getLongitude();
+
+                latitude=String.valueOf(lat);
+                longitude=String.valueOf(longi);
+
+                Log.d("LOCATION", "Your Location:"+"\n"+"Latitude= "+latitude+"\n"+"Longitude= "+longitude);
+            }
+            else
+            if (LocationPassive !=null)
+            {
+                double lat=LocationPassive.getLatitude();
+                double longi=LocationPassive.getLongitude();
+
+                latitude=String.valueOf(lat);
+                longitude=String.valueOf(longi);
+
+                Log.d("LOCATION", "Your Location:"+"\n"+"Latitude= "+latitude+"\n"+"Longitude= "+longitude);
+            }
+            else
+            {
+                Toast.makeText(this, "Can't Get Your Location", Toast.LENGTH_SHORT).show();
+            }
+
+            //Thats All Run Your App
+        }
+        return (latitude);
+    }
+
+    private String getLongitude() {
+
+        //Check Permissions again
+
+        if (ActivityCompat.checkSelfPermission(HomePage.this,Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(HomePage.this,
+
+                Manifest.permission.ACCESS_COARSE_LOCATION) !=PackageManager.PERMISSION_GRANTED)
+        {
+            ActivityCompat.requestPermissions(this,new String[]
+                    {Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
+        }
+        else
+        {
+            locationManager.requestLocationUpdates(
+                    LocationManager.NETWORK_PROVIDER,
+                    MIN_TIME_BW_UPDATES,
+                    MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
+            locationManager.requestLocationUpdates(
+                    LocationManager.GPS_PROVIDER,
+                    MIN_TIME_BW_UPDATES,
+                    MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
+            locationManager.requestLocationUpdates(
+                    LocationManager.PASSIVE_PROVIDER,
+                    MIN_TIME_BW_UPDATES,
+                    MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
+            Location LocationGps= locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            Location LocationNetwork=locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+            Location LocationPassive=locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
+
+            if (LocationGps !=null)
+            {
+                double lat=LocationGps.getLatitude();
+                double longi=LocationGps.getLongitude();
+
+                latitude=String.valueOf(lat);
+                longitude=String.valueOf(longi);
+
+                Log.d("LOCATION", "Your Location:"+"\n"+"Latitude= "+latitude+"\n"+"Longitude= "+longitude);
+            }
+            else
+            if (LocationNetwork !=null)
+            {
+                double lat=LocationNetwork.getLatitude();
+                double longi=LocationNetwork.getLongitude();
+
+                latitude=String.valueOf(lat);
+                longitude=String.valueOf(longi);
+
+                Log.d("LOCATION", "Your Location:"+"\n"+"Latitude= "+latitude+"\n"+"Longitude= "+longitude);
+            }
+            else
+            if (LocationPassive !=null)
+            {
+                double lat=LocationPassive.getLatitude();
+                double longi=LocationPassive.getLongitude();
+
+                latitude=String.valueOf(lat);
+                longitude=String.valueOf(longi);
+
+                Log.d("LOCATION", "Your Location:"+"\n"+"Latitude= "+latitude+"\n"+"Longitude= "+longitude);
+            }
+            else
+            {
+                Toast.makeText(this, "Can't Get Your Location", Toast.LENGTH_SHORT).show();
+            }
+
+            //Thats All Run Your App
+        }
+        return (longitude);
     }
 
     private void OnGPS() {
