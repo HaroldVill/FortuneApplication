@@ -1,5 +1,6 @@
 package com.example.fortuneapplication;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 
 import android.annotation.SuppressLint;
@@ -7,7 +8,14 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -15,13 +23,23 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -34,43 +52,51 @@ public class LocateActivity extends FragmentActivity implements OnMapReadyCallba
     private PazDatabaseHelper mdatabaseHelper;
     private EditText historyDatepicker;
     private EditText timepicker;
+    private TableLayout salesTable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_locate);
 
-        TableLayout salesTable = findViewById(R.id.salesreptable);
+        salesTable = findViewById(R.id.salesreptable);
         historyDatepicker = findViewById(R.id.history_datepicker);
         timepicker = findViewById(R.id.history_timepicker);
         mdatabaseHelper = new PazDatabaseHelper(this);
 
         setCurrentDate();
-
-        historyDatepicker.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDatePickerDialog();
-            }
-        });
-
         setCurrentTime();
 
-        timepicker.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showTimePickerDialog();
-            }
-        });
+        historyDatepicker.setOnClickListener(v -> showDatePickerDialog());
+        timepicker.setOnClickListener(view -> showTimePickerDialog());
 
-
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map1);
         mapFragment.getMapAsync(this);
+    }
 
-        ArrayList<SalesRepList> salesList = displaysalesrep();
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
 
+        LatLng location = new LatLng(9.865303, 124.224499);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 9));
+
+//        LatLng testLocation = new LatLng(9.9, 124.2);
+//        mMap.addMarker(new MarkerOptions().position(testLocation).title("Test marker"));
+
+        refreshSalesData();
+    }
+
+    private void refreshSalesData() {
+        mMap.clear();
+        salesTable.removeAllViews();
+
+        String date = historyDatepicker.getText().toString();
+        String time = timepicker.getText().toString();
+        String datetime = date + " " + time;
+
+        ArrayList<SalesRepList> salesList = displaysalesrep(datetime);
         for (int i = 0; i < salesList.size(); i++) {
             SalesRepList rep = salesList.get(i);
             TableRow row = new TableRow(this);
@@ -87,52 +113,65 @@ public class LocateActivity extends FragmentActivity implements OnMapReadyCallba
             row.addView(name);
             salesTable.addView(row);
         }
+
+        loadMapDataIndividually(date, datetime, salesList);
     }
 
-    private void setCurrentDate() {
-        String currentDate = getCurrentDate();
-        historyDatepicker.setText(currentDate);
-    }
+    private void loadMapDataIndividually(String date, String datetime, ArrayList<SalesRepList> salesList) {
 
-    private String getCurrentDate() {
-        Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        return dateFormat.format(calendar.getTime());
-    }
+//        final boolean[] cameraMoved = {false};
 
-    private void setCurrentTime() {
-        String currentTime = getCurrentTime();
-        timepicker.setText(currentTime);
-    }
+        for (int i = 0; i < salesList.size(); i++) {
+            SalesRepList salesRep = salesList.get(i);
+            String salesRepId = salesRep.getSrid();
+            final int markerIndex = i+1;
 
-    private String getCurrentTime() {
-        Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
-        return timeFormat.format(calendar.getTime());
-    }
+            String JSON_URL = "http://" + mdatabaseHelper.get_active_connection() +
+                    "/mobileapi/get_salesrep_coordinates.php?selectedDate=" + date +
+                    "&selectedDateTime=" + datetime +
+                    "&salesrepid=" + salesRepId;
 
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
+            StringRequest stringRequest = new StringRequest(Request.Method.GET, JSON_URL,
+                    response -> {
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            JSONArray jsonArray = jsonObject.getJSONArray("data");
 
-        // Add a marker in Sydney and move the camera
-        LatLng location = new LatLng(9.865303, 124.224499);
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 9));
+                            if (jsonArray.length() == 0) {
+                                Log.d("MARKER_DEBUG", "No data for rep ID: " + salesRepId);
+                                return;
+                            }
+
+                            JSONObject json = jsonArray.getJSONObject(0);
+                            double latitude = Double.parseDouble(json.getString("latitude"));
+                            double longitude = Double.parseDouble(json.getString("longitude"));
+
+                            LatLng latLng = new LatLng(latitude, longitude);
+                            Log.d("MARKER_DEBUG", "Salesrep #" + markerIndex + " @ " + latLng);
+
+                            MarkerOptions markerOptions = new MarkerOptions()
+                                    .position(latLng)
+                                    .title(datetime)
+                                    .icon(getNumberedMarkerIcon(markerIndex));
+
+                            mMap.addMarker(markerOptions);
+
+                        } catch (JSONException e) {
+                            Log.e("MARKER_DEBUG", "JSON parse error: " + e.getMessage());
+                        }
+                    },
+                    error -> Log.e("MARKER_DEBUG", "Volley error: " + error.getMessage())
+            );
+
+            Volley.newRequestQueue(this).add(stringRequest);
+        }
+
     }
 
     @SuppressLint("Range")
-    public ArrayList<SalesRepList> displaysalesrep() {
+    public ArrayList<SalesRepList> displaysalesrep(String datetime) {
         ArrayList<SalesRepList> salesreplist = new ArrayList<>();
-        String query = "SELECT salesrep_id, salesrep_name FROM sales_rep_table order by salesrep_name";
+        String query = "SELECT salesrep_id, salesrep_name FROM sales_rep_table ORDER BY salesrep_name";
 
         SQLiteDatabase db = mdatabaseHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery(query, null);
@@ -153,27 +192,19 @@ public class LocateActivity extends FragmentActivity implements OnMapReadyCallba
 
     private void showDatePickerDialog() {
         Calendar calendar = Calendar.getInstance();
-
-        DatePickerDialog datePickerDialog = new DatePickerDialog(
-                LocateActivity.this,
-                new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        Calendar selectedDate = Calendar.getInstance();
-                        selectedDate.set(year, monthOfYear, dayOfMonth);
-
-                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-                        String formattedDate = dateFormat.format(selectedDate.getTime());
-
-                        historyDatepicker.setText(formattedDate);
-                    }
+        new DatePickerDialog(
+                this,
+                (view, year, month, dayOfMonth) -> {
+                    Calendar selectedDate = Calendar.getInstance();
+                    selectedDate.set(year, month, dayOfMonth);
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                    historyDatepicker.setText(dateFormat.format(selectedDate.getTime()));
+                    refreshSalesData();
                 },
                 calendar.get(Calendar.YEAR),
                 calendar.get(Calendar.MONTH),
                 calendar.get(Calendar.DAY_OF_MONTH)
-        );
-
-        datePickerDialog.show();
+        ).show();
     }
 
     private void showTimePickerDialog() {
@@ -181,13 +212,50 @@ public class LocateActivity extends FragmentActivity implements OnMapReadyCallba
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
         int minute = calendar.get(Calendar.MINUTE);
 
-        TimePickerDialog timePickerDialog = new TimePickerDialog(
-                LocateActivity.this, (view, hourOfDay, minute1) -> {
+        new TimePickerDialog(
+                this,
+                (view, hourOfDay, minute1) -> {
                     String formattedTime = String.format(Locale.getDefault(), "%02d:%02d", hourOfDay, minute1);
                     timepicker.setText(formattedTime);
-        }, hour, minute, true
-        );
+                    refreshSalesData();
+                },
+                hour, minute, true
+        ).show();
+    }
 
-        timePickerDialog.show();
+    private void setCurrentDate() {
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        historyDatepicker.setText(dateFormat.format(calendar.getTime()));
+    }
+
+    private void setCurrentTime() {
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
+        timepicker.setText(timeFormat.format(calendar.getTime()));
+    }
+
+    private BitmapDescriptor getNumberedMarkerIcon(int number) {
+
+        Bitmap base = BitmapFactory.decodeResource(getResources(), R.drawable.red);
+        Bitmap mutable = base.copy(Bitmap.Config.ARGB_8888, true);
+        Canvas canvas = new Canvas(mutable);
+
+        Paint textPaint = new Paint();
+        textPaint.setColor(Color.WHITE);
+        textPaint.setTextSize(20);
+        textPaint.setAntiAlias(true);
+        textPaint.setTextAlign(Paint.Align.CENTER);
+
+        String text = String.valueOf(number);
+        Rect bounds = new Rect();
+        textPaint.getTextBounds(text, 0, text.length(), bounds);
+
+        float x = mutable.getWidth() / 2f;
+        float y = mutable.getHeight() / 2f;
+
+        canvas.drawText(text, x, y, textPaint);
+
+        return BitmapDescriptorFactory.fromBitmap(mutable);
     }
 }
