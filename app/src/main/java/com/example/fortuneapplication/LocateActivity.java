@@ -145,13 +145,13 @@ public class LocateActivity extends FragmentActivity implements OnMapReadyCallba
                             JSONObject json = jsonArray.getJSONObject(0);
                             double latitude = Double.parseDouble(json.getString("latitude"));
                             double longitude = Double.parseDouble(json.getString("longitude"));
-
+                            String  hello = json.getString("datetime");
                             LatLng latLng = new LatLng(latitude, longitude);
                             Log.d("MARKER_DEBUG", "Salesrep #" + markerIndex + " @ " + latLng);
 
                             MarkerOptions markerOptions = new MarkerOptions()
                                     .position(latLng)
-                                    .title(datetime)
+                                    .title(hello)
                                     .icon(getNumberedMarkerIcon(markerIndex));
 
                             mMap.addMarker(markerOptions);
