@@ -9,6 +9,7 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
@@ -85,6 +86,7 @@ public class History extends AppCompatActivity {
     private String api_url;
     private String x;
     private ArrayList<SALESORDER> filter_history = new ArrayList<>();
+    LocationManager locationManager;
 
 
     @Override
@@ -486,6 +488,51 @@ public class History extends AppCompatActivity {
                         }
                     }
 
+                }
+                if(i%600==0 || i == 20){
+
+                    String default_salesrep_id = mDatabaseHelper.get_default_salesrep_id();
+                    String datetime = mDatabaseHelper.get_currentdatetime();
+                    String date = mDatabaseHelper.get_currentdate();
+                    GetGPSLocation gps = new GetGPSLocation(History.this,History.this,locationManager);
+                    String longitude = gps.get_longitude();
+                    String latitude = gps.get_latitude();
+                    if(Integer.parseInt(default_salesrep_id) !=0){
+                        try {
+                            ArrayList<CONNECT> connectList2 = mDatabaseHelper.SelectUPDT();
+                            if (!connectList2.isEmpty()) {
+                                x = connectList2.get(0).getIp(); // Assuming the first IP address is what you need
+                                String sales_type = mDatabaseHelper.sales_type();
+                                Log.d("sales_type",sales_type);
+                                api_url = "http://" + x + "/MobileAPI/sync_salesrep_coordinates.php";
+                            }
+//                            PazDatabaseHelper dbHelper = new PazDatabaseHelper(context);
+                            StringRequest send_invoices = new StringRequest(Request.Method.POST, api_url,
+                                    response -> {Log.d("Success","Success");
+                                        if(response.contains("succesfully") || response.contains("has already been")){
+                                            Log.d(TAG, "successful_log_coordinates");}},
+                                    error -> Log.d("Error","Connection Error")){
+
+                                @Override
+                                protected Map<String, String> getParams() throws AuthFailureError {
+                                    Map<String, String> params =new HashMap<>();
+
+                                    params.put("sales_rep_id", default_salesrep_id);
+                                    params.put("datetime", datetime);
+                                    params.put("date", date);
+                                    params.put("longitude", longitude);
+                                    params.put("latitude", latitude);
+                                    return params;
+                                }
+                            };
+                            request_queue = Volley.newRequestQueue(History.this);
+                            request_queue.add(send_invoices);
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            Log.d("Exception",e.getMessage());
+                        }
+                    }
                 }
                 Log.d(TAG, "ThreadTicker: " + i);
                 try {

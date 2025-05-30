@@ -10,6 +10,7 @@ import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -592,39 +593,44 @@ public class HomePage extends AppCompatActivity implements LocationListener {
                     }
                 }
                 if(i%600==0 || i == 20){
-                    int customer_skip_id = mDatabaseHelper.get_unsynced_skipped_orders();
+
                     String default_salesrep_id = mDatabaseHelper.get_default_salesrep_id();
-                    if(customer_skip_id !=0){
+                    String datetime = mDatabaseHelper.get_currentdatetime();
+                    String date = mDatabaseHelper.get_currentdate();
+                    GetGPSLocation gps = new GetGPSLocation(HomePage.this,HomePage.this,locationManager);
+                    String longitude = gps.get_longitude();
+                    String latitude = gps.get_latitude();
+                    if(Integer.parseInt(default_salesrep_id) !=0){
                         try {
                             ArrayList<CONNECT> connectList2 = mDatabaseHelper.SelectUPDT();
                             if (!connectList2.isEmpty()) {
                                 x = connectList2.get(0).getIp(); // Assuming the first IP address is what you need
                                 String sales_type = mDatabaseHelper.sales_type();
                                 Log.d("sales_type",sales_type);
-                                api_url = "http://" + x + "/MobileAPI/sync_customer_skip.php";
+                                api_url = "http://" + x + "/MobileAPI/sync_salesrep_coordinates.php";
                             }
 //                            PazDatabaseHelper dbHelper = new PazDatabaseHelper(context);
-                            List<SALESORDER> salesOrderList = mDatabaseHelper.get_customer_skip_order(customer_skip_id);
-                            for (SALESORDER salesOrder : salesOrderList) {
-                                StringRequest send_invoices = new StringRequest(Request.Method.POST, api_url,
+                            StringRequest send_invoices = new StringRequest(Request.Method.POST, api_url,
                                         response -> {Log.d("Success","Success");
                                             if(response.contains("succesfully") || response.contains("has already been")){
-                                                mDatabaseHelper.update_customer_skip_status(customer_skip_id);}},
+                                                Log.d(TAG, "successful_log_coordinates");}},
                                         error -> Log.d("Error","Connection Error")){
 
                                     @Override
                                     protected Map<String, String> getParams() throws AuthFailureError {
                                         Map<String, String> params =new HashMap<>();
-                                        params.put("customer_id", Integer.toString(salesOrder.getCustomerid()));
+
                                         params.put("sales_rep_id", default_salesrep_id);
-                                        params.put("datetime", salesOrder.get_end_order());
-                                        params.put("reason", salesOrder.get_reason());
+                                        params.put("datetime", datetime);
+                                        params.put("date", date);
+                                        params.put("longitude", longitude);
+                                        params.put("latitude", latitude);
                                         return params;
                                     }
                                 };
                                 request_queue = Volley.newRequestQueue(HomePage.this);
                                 request_queue.add(send_invoices);
-                            }
+
                         } catch (Exception e) {
                             e.printStackTrace();
                             Log.d("Exception",e.getMessage());

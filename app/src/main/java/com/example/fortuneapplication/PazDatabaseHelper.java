@@ -2772,6 +2772,30 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         return 0;
     }
 
+    public String get_currentdate(){
+        String value="";
+        String query ="SELECT date('now')";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query,null);
+        if(cursor.moveToFirst()){
+            value=cursor.getString(0);
+//            Log.d("sales_type",sales_type);
+        }
+        return value;
+    }
+
+    public String get_currentdatetime(){
+        String value="";
+        String query ="SELECT datetime('now')";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query,null);
+        if(cursor.moveToFirst()){
+            value=cursor.getString(0);
+//            Log.d("sales_type",sales_type);
+        }
+        return value;
+    }
+
     }
 
 
