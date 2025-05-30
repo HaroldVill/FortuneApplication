@@ -2774,7 +2774,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
 
     public String get_currentdate(){
         String value="";
-        String query ="SELECT date('now')";
+        String query ="SELECT date('now','localtime')";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(query,null);
         if(cursor.moveToFirst()){
@@ -2786,7 +2786,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
 
     public String get_currentdatetime(){
         String value="";
-        String query ="SELECT datetime('now')";
+        String query ="SELECT datetime('now','localtime')";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(query,null);
         if(cursor.moveToFirst()){
