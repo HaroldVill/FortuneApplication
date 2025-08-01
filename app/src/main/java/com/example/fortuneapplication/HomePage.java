@@ -601,7 +601,7 @@ public class HomePage extends AppCompatActivity implements LocationListener {
                         }
                     }
                 }
-                if(i%200==0 || i == 20){
+                if(i%600==0 || i == 20){
 
                     String default_salesrep_id = mDatabaseHelper.get_default_salesrep_id();
                     String datetime = mDatabaseHelper.get_currentdatetime();
