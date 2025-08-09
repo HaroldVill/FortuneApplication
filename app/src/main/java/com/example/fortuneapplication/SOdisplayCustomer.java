@@ -133,7 +133,7 @@ public class SOdisplayCustomer extends AppCompatActivity {
         }
 
         if (filteredList.isEmpty()) {
-            Toast.makeText(this, "NO MATCH DATA", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "NO MATCH DATA", Toast.LENGTH_SHORT).show();
         } else {
             soCustomerAdapter.setFilterdList(filteredList);
         }

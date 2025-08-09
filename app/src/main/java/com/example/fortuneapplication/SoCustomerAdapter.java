@@ -202,6 +202,7 @@ public class SoCustomerAdapter extends RecyclerView.Adapter<SoCustomerAdapter.My
             holder.longitude.setText(longitude2);
             holder.latitude.setText(latitude2);
             holder.save_coordinate.setVisibility(View.VISIBLE);
+            holder.skip_order.setVisibility(View.VISIBLE);
 //            holder.begin_order.setVisibility(View.VISIBLE);
             holder.save_coordinate.setText("LOCATE");
             String verify_type = db.get_verify_type();
@@ -212,26 +213,88 @@ public class SoCustomerAdapter extends RecyclerView.Adapter<SoCustomerAdapter.My
                 holder.verify_pin.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        db.VerifyPin(customer_id);
-                        notifyDataSetChanged();
+                        getDistance get_distance = new getDistance(Double.parseDouble(longitude1),Double.parseDouble(longitude2),Double.parseDouble(latitude1),Double.parseDouble(latitude2),0,0);
+                        if(get_distance.get_distance()<100) {
+                            final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                            builder.setMessage("Gusto nmo i verify ang customer? naa lageh ka sa outlet? Dili na raba ka maka re-pin sa customer location kung ma verify na. Palihog double check sa una kung sakto ba kay dili naka maka order sunod basta dili mao ag verified location sa customer.").setCancelable(false).setPositiveButton("VERIFY", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    db.VerifyPin(customer_id);
+                                    Toast.makeText(context, "Customer pin successfully verified.", Toast.LENGTH_SHORT).show();
+                                    notifyDataSetChanged();
+                                }
+                            }).setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                    dialog.cancel();
+                                }
+                            });
+                            final AlertDialog alertDialog = builder.create();
+                            alertDialog.show();
+                        }
+                        else{
+                            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(context);
+                            // Set the title and message for the dialog
+                            builder.setTitle("WARNING")
+                                    .setMessage("You must be within 100 meters radius of customer coordinates. Dapat NAA ka sa outlet para maka verify sa iyang location. Kung tinuod nga naa man gani ka sa outlet i RE-PIN palihog ang iyang location para ma VERIFY nimo!")
+                                    .setCancelable(true)
+                                    .setPositiveButton("Close", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                                        }
+                                    })
+                                    .show();
+                        }
                     }
                 });
                 holder.remove_pin.setOnClickListener(new View.OnClickListener(){
                     @Override
                     public void onClick(View view) {
+                        if(db.get_customer_verification(customer_id) == 1){
+                            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(context);
+                            // Set the title and message for the dialog
+                            builder.setTitle("WARNING")
+                                    .setMessage("Dli na ma re-pin kay na verify na ag location ani nga customer.")
+                                    .setCancelable(true)
+                                    .setPositiveButton("Close", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
 
-                        db.update_customer_coordinates(customer_id, longitude1, latitude1);
-                        holder.longitude.setText(longitude1);
-                        holder.latitude.setText(latitude1);
-                        holder.save_coordinate.setVisibility(View.INVISIBLE);
-                        notifyDataSetChanged();
+                                        }
+                                    })
+                                    .show();
+                        }
+                        else {
+                            final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                            builder.setMessage("Sure na lageh ka nga i re-pin nmo ag location sa customer? Siguradoa nga naa kas tupad sa tindahan ha bantay!").setCancelable(false).setPositiveButton("RE-PIN", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    db.update_customer_coordinates(customer_id, longitude1, latitude1);
+                                    holder.longitude.setText(longitude1);
+                                    holder.latitude.setText(latitude1);
+                                    holder.save_coordinate.setVisibility(View.INVISIBLE);
+                                    notifyDataSetChanged();
+                                    Toast.makeText(context, "Customer coordinates successfully re-pinned.", Toast.LENGTH_SHORT).show();
+                                }
+                            }).setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                    dialog.cancel();
+                                }
+                            });
+                            final AlertDialog alertDialog = builder.create();
+                            alertDialog.show();
+                        }
                     }
                 });
             }
             holder.save_coordinate.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Uri gmmIntentUri = Uri.parse("google.navigation:q="+latitude2+","+longitude2);
+                    Uri gmmIntentUri = Uri.parse("geo:" + latitude2 + "," + longitude2 + "?q=" + Uri.encode(latitude2+ "," + longitude2 ));
                     Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
                     mapIntent.setPackage("com.google.android.apps.maps");
                     startActivity(context,mapIntent,null);
@@ -242,12 +305,27 @@ public class SoCustomerAdapter extends RecyclerView.Adapter<SoCustomerAdapter.My
             String coverage_type ;
             coverage_type = db.get_coverage_type();
             Log.d("coverage_type", coverage_type);
-            if(get_distance.get_distance()<20 || coverage_type.equals("Allow") || customer_id ==1) {
+            if(get_distance.get_distance()<100 || coverage_type.equals("Allow") || customer_id ==829) {
                 Log.d("Distance", Double.toString(get_distance.get_distance()));
                 holder.skip_order.setVisibility(View.VISIBLE);
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        if(db.get_customer_verification(customer_id) != 1){
+                            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(context);
+                            // Set the title and message for the dialog
+                            builder.setTitle("WARNING")
+                                    .setMessage("Wala pa na VERIFY ag location sa customer, TUPLOKA ang VERIFY button para maka order. ")
+                                    .setCancelable(true)
+                                    .setPositiveButton("Close", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                                        }
+                                    })
+                                    .show();
+                            return;
+                        }
                         if(Double.parseDouble(longitude2) == 0|| Double.parseDouble(latitude2) == 0){
                             Toast.makeText(context, "Please PIN customer first.", Toast.LENGTH_SHORT).show();
                         }
@@ -277,6 +355,37 @@ public class SoCustomerAdapter extends RecyclerView.Adapter<SoCustomerAdapter.My
                 holder.skip_order.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        getDistance get_distance = new getDistance(Double.parseDouble(longitude1),Double.parseDouble(longitude2),Double.parseDouble(latitude1),Double.parseDouble(latitude2),0,0);
+                        if(db.get_customer_verification(customer_id) != 1){
+                            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(context);
+                            // Set the title and message for the dialog
+                            builder.setTitle("WARNING")
+                                    .setMessage("Wala pa na VERIFY ag location sa customer, TUPLOKA ang VERIFY button para maka order. ")
+                                    .setCancelable(true)
+                                    .setPositiveButton("Close", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                                        }
+                                    })
+                                    .show();
+                            return;
+                        }
+                        if(get_distance.get_distance()>100) {
+                            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(context);
+                            // Set the title and message for the dialog
+                            builder.setTitle("WARNING")
+                                    .setMessage("You must be within 100 meters radius of customer coordinates. Kung tnuod man gani nga naa najud ka sa customer i RE-PIN iya coordinates")
+                                    .setCancelable(true)
+                                    .setPositiveButton("Close", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                                        }
+                                    })
+                                    .show();
+                            return;
+                        }
                         if(Double.parseDouble(longitude2) == 0|| Double.parseDouble(latitude2) == 0){
                             Toast.makeText(context, "Please PIN customer first.", Toast.LENGTH_SHORT).show();
                         }
@@ -335,7 +444,121 @@ public class SoCustomerAdapter extends RecyclerView.Adapter<SoCustomerAdapter.My
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(context, "Must be within 20 meters of the outlet area.", Toast.LENGTH_SHORT).show();
+                        if(db.get_customer_verification(customer_id) != 1){
+                            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(context);
+                            // Set the title and message for the dialog
+                            builder.setTitle("WARNING")
+                                    .setMessage("Wala pa na VERIFY ag location sa customer, TUPLOKA ang VERIFY button para maka order. ")
+                                    .setCancelable(true)
+                                    .setPositiveButton("Close", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                                        }
+                                    })
+                                    .show();
+                            return;
+                        }
+                        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(context);
+                        // Set the title and message for the dialog
+                        builder.setTitle("WARNING")
+                                .setMessage("You must be within 100 meters radius of customer coordinates. Kung tnuod man gani nga naa najud ka sa customer i RE-PIN iya coordinates")
+                                .setCancelable(true)
+                                .setPositiveButton("Close", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                                    }
+                                })
+                                .show();
+                    }
+                });
+
+                holder.skip_order.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        getDistance get_distance = new getDistance(Double.parseDouble(longitude1),Double.parseDouble(longitude2),Double.parseDouble(latitude1),Double.parseDouble(latitude2),0,0);
+                        if(db.get_customer_verification(customer_id) != 1){
+                            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(context);
+                            // Set the title and message for the dialog
+                            builder.setTitle("WARNING")
+                                    .setMessage("Wala pa na VERIFY ag location sa customer, TUPLOKA ang VERIFY button para maka order. ")
+                                    .setCancelable(true)
+                                    .setPositiveButton("Close", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                                        }
+                                    })
+                                    .show();
+                            return;
+                        }
+                        if(get_distance.get_distance()>100) {
+                            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(context);
+                            // Set the title and message for the dialog
+                            builder.setTitle("WARNING")
+                                    .setMessage("You must be within 100 meters radius of customer coordinates. Kung tnuod man gani nga naa najud ka sa customer i RE-PIN iya coordinates")
+                                    .setCancelable(true)
+                                    .setPositiveButton("Close", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                                        }
+                                    })
+                                    .show();
+                            return;
+                        }
+                        if(Double.parseDouble(longitude2) == 0|| Double.parseDouble(latitude2) == 0){
+                            Toast.makeText(context, "Please PIN customer first.", Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            final AlertDialog.Builder builder= new AlertDialog.Builder(context);
+                            final EditText input = new EditText(context);
+                            input.setInputType(InputType.TYPE_CLASS_TEXT);
+                            input.setHint("Please input reason for skipping this customer");
+                            builder.setView(input);
+                            builder.setMessage("Are you sure you want to skip this customer?").setCancelable(false).setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                }
+                            }).setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                    dialog.cancel();
+                                }
+                            });
+                            final AlertDialog alertDialog=builder.create();
+                            alertDialog.show();
+                            alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener()
+                            {
+                                @Override
+                                public void onClick(View v)
+                                {
+                                    mdatabasehelper = new PazDatabaseHelper(context);
+                                    if(TextUtils.isEmpty(input.getText())){
+                                        Toast.makeText(context, "Reason for skipping is required.", Toast.LENGTH_LONG).show();
+                                    }
+                                    else if(mdatabasehelper.check_customer_skip(Integer.parseInt(customer.getId())) > 0){
+                                        Toast.makeText(context, "Customer already skipped", Toast.LENGTH_LONG).show();
+                                    }
+                                    else {
+                                        SALESORDER dataModel = new SALESORDER();
+                                        dataModel.setCustomerid(Integer.parseInt(customer.getId()));
+                                        LocalDateTime date = LocalDateTime.now();
+                                        DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                                        String formattedDate = date.format(myFormatObj);
+                                        String end_order_time = formattedDate.toString();
+                                        dataModel.set_end_order(end_order_time.toString());
+                                        dataModel.set_reason(input.getText().toString());
+                                        mdatabasehelper.SkipCustomerOrder(dataModel);
+                                        alertDialog.dismiss();
+                                    }
+                                }
+                            });
+                        }
+
                     }
                 });
             }
@@ -347,6 +570,7 @@ public class SoCustomerAdapter extends RecyclerView.Adapter<SoCustomerAdapter.My
             holder.save_coordinate.setVisibility(View.VISIBLE);
             holder.verify_pin.setVisibility(View.INVISIBLE);
             holder.skip_order.setVisibility(View.INVISIBLE);
+            holder.remove_pin.setVisibility(View.INVISIBLE);
             holder.save_coordinate.setText("PIN");
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
