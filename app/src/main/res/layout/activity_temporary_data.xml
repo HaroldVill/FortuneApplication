@@ -177,7 +177,7 @@
                 android:id="@+id/hlk"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:padding="7sp"
                 android:text="#"
                 android:textAlignment="center"
@@ -188,43 +188,43 @@
                 android:id="@+id/h1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
+                android:layout_weight="4"
                 android:padding="7sp"
                 android:text="DESC"
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
 
-            <TextView
-                android:id="@+id/h21"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:padding="7sp"
-                android:text="INV"
-                android:textAlignment="center"
-                android:textColor="@color/black"
-                android:textSize="14sp" />
-            <TextView
-                android:id="@+id/h22"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:padding="7sp"
-                android:text="WSR"
-                android:textAlignment="center"
-                android:textColor="@color/black"
-                android:textSize="13sp" />
-            <TextView
-                android:id="@+id/h23"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:padding="7sp"
-                android:text="SO"
-                android:textAlignment="center"
-                android:textColor="@color/black"
-                android:textSize="14sp" />
+<!--            <TextView-->
+<!--                android:id="@+id/h21"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:padding="7sp"-->
+<!--                android:text="INV"-->
+<!--                android:textAlignment="center"-->
+<!--                android:textColor="@color/black"-->
+<!--                android:textSize="14sp" />-->
+<!--            <TextView-->
+<!--                android:id="@+id/h22"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:padding="7sp"-->
+<!--                android:text="WSR"-->
+<!--                android:textAlignment="center"-->
+<!--                android:textColor="@color/black"-->
+<!--                android:textSize="13sp" />-->
+<!--            <TextView-->
+<!--                android:id="@+id/h23"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:padding="7sp"-->
+<!--                android:text="SO"-->
+<!--                android:textAlignment="center"-->
+<!--                android:textColor="@color/black"-->
+<!--                android:textSize="14sp" />-->
 
 
 
@@ -233,9 +233,9 @@
                 android:id="@+id/h3"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:padding="7sp"
-                android:text="FO"
+                android:text="QTY"
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
@@ -244,10 +244,10 @@
                 android:id="@+id/h2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:padding="7sp"
                 android:text="AMT"
-                android:textAlignment="center"
+                android:textAlignment="viewEnd"
                 android:textColor="@color/black"
                 android:textSize="13sp" />
 
@@ -259,7 +259,7 @@
                 android:layout_weight="2"
                 android:padding="7sp"
                 android:text="TOTAL"
-                android:textAlignment="center"
+                android:textAlignment="viewEnd"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
         </TableRow>

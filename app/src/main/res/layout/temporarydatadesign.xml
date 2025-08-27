@@ -22,7 +22,7 @@
                 android:id="@+id/fb1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:padding="5sp"
                 android:text="#"
                 android:textAlignment="center"
@@ -33,45 +33,14 @@
                 android:id="@+id/fb2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
+                android:layout_weight="4"
                 android:padding="5sp"
                 android:text="DESC"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="14sp" />
 
-            <TextView
-                android:id="@+id/fb21"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:padding="5sp"
-                android:text="INV"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textSize="14sp" />
 
-            <TextView
-                android:id="@+id/fb22"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:padding="5sp"
-                android:text="WSR"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/fb23"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:padding="5sp"
-                android:text="SO"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textSize="14sp" />
 
 
 
@@ -80,7 +49,7 @@
                 android:id="@+id/fb4"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:padding="5sp"
                 android:text="FO"
                 android:textAlignment="center"
@@ -92,10 +61,10 @@
                 android:id="@+id/fb3"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:padding="5sp"
                 android:text="PRC"
-                android:textAlignment="center"
+                android:textAlignment="viewEnd"
                 android:textColor="#F44336"
                 android:textSize="14sp" />
 
@@ -106,7 +75,7 @@
                 android:layout_weight="2"
                 android:padding="5sp"
                 android:text="@string/col4"
-                android:textAlignment="center"
+                android:textAlignment="viewEnd"
                 android:textColor="#F44336"
                 android:textSize="14sp" />
 

@@ -213,6 +213,21 @@ public class SoCustomerAdapter extends RecyclerView.Adapter<SoCustomerAdapter.My
                 holder.verify_pin.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        if(db.get_customer_verification(customer_id) == 1){
+                            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(context);
+                            // Set the title and message for the dialog
+                            builder.setTitle("WARNING")
+                                    .setMessage("Nahuman naman ug verify ni nga customer.")
+                                    .setCancelable(true)
+                                    .setPositiveButton("Close", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                                        }
+                                    })
+                                    .show();
+                            return;
+                        }
                         getDistance get_distance = new getDistance(Double.parseDouble(longitude1),Double.parseDouble(longitude2),Double.parseDouble(latitude1),Double.parseDouble(latitude2),0,0);
                         if(get_distance.get_distance()<100) {
                             final AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -268,7 +283,7 @@ public class SoCustomerAdapter extends RecyclerView.Adapter<SoCustomerAdapter.My
                         }
                         else {
                             final AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                            builder.setMessage("Sure na lageh ka nga i re-pin nmo ag location sa customer? Siguradoa nga naa kas tupad sa tindahan ha bantay!").setCancelable(false).setPositiveButton("RE-PIN", new DialogInterface.OnClickListener() {
+                            builder.setMessage("Sure na lageh ka nga i re-pin nmo ag location sa customer? Siguradoa nga naa kas tapad sa tindahan ha!").setCancelable(false).setPositiveButton("RE-PIN", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     db.update_customer_coordinates(customer_id, longitude1, latitude1);
@@ -462,7 +477,7 @@ public class SoCustomerAdapter extends RecyclerView.Adapter<SoCustomerAdapter.My
                         android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(context);
                         // Set the title and message for the dialog
                         builder.setTitle("WARNING")
-                                .setMessage("You must be within 100 meters radius of customer coordinates. Kung tnuod man gani nga naa najud ka sa customer i RE-PIN iya coordinates")
+                                .setMessage("You must be within 100 meters radius of customer coordinates.")
                                 .setCancelable(true)
                                 .setPositiveButton("Close", new DialogInterface.OnClickListener() {
                                     @Override
@@ -497,7 +512,7 @@ public class SoCustomerAdapter extends RecyclerView.Adapter<SoCustomerAdapter.My
                             android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(context);
                             // Set the title and message for the dialog
                             builder.setTitle("WARNING")
-                                    .setMessage("You must be within 100 meters radius of customer coordinates. Kung tnuod man gani nga naa najud ka sa customer i RE-PIN iya coordinates")
+                                    .setMessage("You must be within 100 meters radius of customer coordinates.")
                                     .setCancelable(true)
                                     .setPositiveButton("Close", new DialogInterface.OnClickListener() {
                                         @Override

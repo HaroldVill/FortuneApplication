@@ -42,9 +42,9 @@ public class TempoDataAdapter extends RecyclerView.Adapter<TempoDataAdapter.View
        holder.fb4.setText(String.valueOf(salesorder.getSoiquantity()));
         double soiamount = salesorder.getSoiamount();
         holder.fb5.setText(String.valueOf(soiamount));
-        holder.fb21.setText(Double.toString(salesorder.getInventory()) +" - "+salesorder.getInvUom());
-        holder.fb22.setText(Double.toString(salesorder.getWsr()) +" - "+salesorder.getInvUom());
-        holder.fb23.setText(Double.toString(salesorder.getSuggested()) +" - "+salesorder.getInvUom());
+//        holder.fb21.setText(Double.toString(salesorder.getInventory()) +" - "+salesorder.getInvUom());
+//        holder.fb22.setText(Double.toString(salesorder.getWsr()) +" - "+salesorder.getInvUom());
+//        holder.fb23.setText(Double.toString(salesorder.getSuggested()) +" - "+salesorder.getInvUom());
        holder.agay.setText(String.valueOf(salesorder.getId()));
 
        holder.itemView.setOnClickListener(new View.OnClickListener() {
