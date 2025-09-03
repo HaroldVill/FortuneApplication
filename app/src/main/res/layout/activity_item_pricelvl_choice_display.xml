@@ -78,7 +78,7 @@
                 android:id="@+id/des2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="5"
+                android:layout_weight="4"
                 android:padding="10sp"
                 android:text="@string/hd2"
                 android:textAlignment="center"
@@ -88,9 +88,9 @@
 
             <TextView
                 android:id="@+id/des3"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:ellipsize="end"
                 android:padding="10sp"
                 android:text="@string/hd3"
@@ -102,9 +102,9 @@
                 android:id="@+id/des4"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="3"
+                android:layout_weight="2"
                 android:padding="10sp"
-                android:text="@string/hd4"
+                android:text="QTY"
                 android:textAlignment="center"
                 android:textColor="#FDFBFB"
                 android:textSize="12sp" />
@@ -115,6 +115,17 @@
                 android:layout_weight="2"
                 android:padding="10sp"
                 android:text="@string/hd5"
+                android:textAlignment="center"
+                android:textColor="#FDFBFB"
+                android:textSize="10sp">
+            </TextView>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:padding="10sp"
+                android:text="3 PRC. LVL."
                 android:textAlignment="center"
                 android:textColor="#FDFBFB"
                 android:textSize="12sp">

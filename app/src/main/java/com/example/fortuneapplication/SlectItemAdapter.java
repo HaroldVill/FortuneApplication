@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -29,7 +30,6 @@ public class SlectItemAdapter extends RecyclerView.Adapter<SlectItemAdapter.MyVi
         this.itemLista = itemLista;
         this.context = context;
         this.customer_id = customer_id;
-
     }
     public void setFilterdList(List<Item> filterdList){
         this.itemLista = (ArrayList<Item>) filterdList;
@@ -77,6 +77,7 @@ public class SlectItemAdapter extends RecyclerView.Adapter<SlectItemAdapter.MyVi
         holder.it3.setText(formattedRate+ " / " + item.getUnitquant());
         holder.it4.setText(item.getQuantity());
         holder.it5.setText(item.getGroup());
+        holder.it6.setEnabled(true);
       //  FloatingActionButton floatt = holder.itemView.findViewById(R.id.floatt);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -107,6 +108,12 @@ public class SlectItemAdapter extends RecyclerView.Adapter<SlectItemAdapter.MyVi
             }
         });
 
+        holder.it6.setOnClickListener( view -> {
+            Intent approveIntent = new Intent(context, ApprovalPage.class);
+            approveIntent.putExtra("ITEM_DESCRIPTION", item.getDescription());
+            context.startActivity(approveIntent);
+        });
+
 //        holder.floatt.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -131,7 +138,7 @@ public class SlectItemAdapter extends RecyclerView.Adapter<SlectItemAdapter.MyVi
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView it1,it2, it3,it4,it5;
+        TextView it1,it2, it3,it4,it5, it6;
         FloatingActionButton floatt;
 
         public MyViewHolder(@NonNull View itemView) {
@@ -142,6 +149,7 @@ public class SlectItemAdapter extends RecyclerView.Adapter<SlectItemAdapter.MyVi
             it3 =itemView.findViewById(R.id.it3);
             it4 =itemView.findViewById(R.id.it4);
             it5 = itemView.findViewById(R.id.it5);
+            it6 = itemView.findViewById(R.id.it6);
           // floatt = itemView.findViewById(R.id.floatt);
         }
     }

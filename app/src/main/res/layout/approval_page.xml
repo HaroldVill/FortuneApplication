@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/blue_for_background"
+    android:padding="20dp">
+
+    <TextView
+        android:id="@+id/customerName"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"/>
+
+    <Space
+        android:layout_height="10dp"
+        android:layout_width="match_parent"/>
+
+    <TextView
+        android:id="@+id/descriptionNames"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"/>
+
+    <Space
+        android:layout_height="10dp"
+        android:layout_width="match_parent"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:background="@drawable/border_radius"
+        android:layout_gravity="center">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="WHOLE - A"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="50sp"/>
+    </LinearLayout>
+
+    <Space
+        android:layout_height="10dp"
+        android:layout_width="match_parent"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:background="@drawable/border_radius"
+        android:layout_gravity="center">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="WHOLE - B"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="50sp"/>
+    </LinearLayout>
+
+    <Space
+        android:layout_height="10dp"
+        android:layout_width="match_parent"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:background="@drawable/border_radius"
+        android:layout_gravity="center">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="WHOLE - C"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="50sp"/>
+    </LinearLayout>
+
+    <Space
+        android:layout_height="10dp"
+        android:layout_width="match_parent"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="REQUEST APPROVAL"
+        android:background="@drawable/button_style"
+        android:textStyle="bold"/>
+
+</LinearLayout>
