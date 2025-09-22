@@ -111,6 +111,7 @@ public class SlectItemAdapter extends RecyclerView.Adapter<SlectItemAdapter.MyVi
         holder.it6.setOnClickListener( view -> {
             Intent approveIntent = new Intent(context, ApprovalPage.class);
             approveIntent.putExtra("ITEM_DESCRIPTION", item.getDescription());
+            approveIntent.putExtra("ITEM_ID", item.getId());
             context.startActivity(approveIntent);
         });
 

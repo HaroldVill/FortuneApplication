@@ -32,6 +32,7 @@
         android:layout_width="match_parent"/>
 
     <LinearLayout
+        android:id="@+id/whole_A"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -41,11 +42,19 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="WHOLE - A"
+            android:layout_height="wrap_content"
+            android:text="SPECIAL PRICE A"
             android:textAlignment="center"
             android:textColor="@color/white"
-            android:textSize="50sp"/>
+            android:textSize="40sp"/>
+
+        <TextView
+            android:id="@+id/special_price_A"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="40sp"/>
     </LinearLayout>
 
     <Space
@@ -53,6 +62,7 @@
         android:layout_width="match_parent"/>
 
     <LinearLayout
+        android:id="@+id/whole_B"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -62,11 +72,19 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="WHOLE - B"
+            android:layout_height="wrap_content"
+            android:text="SPECIAL PRICE B"
             android:textAlignment="center"
             android:textColor="@color/white"
-            android:textSize="50sp"/>
+            android:textSize="40sp"/>
+
+        <TextView
+            android:id="@+id/special_price_B"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="40sp"/>
     </LinearLayout>
 
     <Space
@@ -74,6 +92,7 @@
         android:layout_width="match_parent"/>
 
     <LinearLayout
+        android:id="@+id/whole_C"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -83,11 +102,19 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="WHOLE - C"
+            android:layout_height="wrap_content"
+            android:text="SPECIAL PRICE C"
             android:textAlignment="center"
             android:textColor="@color/white"
-            android:textSize="50sp"/>
+            android:textSize="40sp"/>
+
+        <TextView
+            android:id="@+id/special_price_C"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="40sp"/>
     </LinearLayout>
 
     <Space
@@ -95,6 +122,7 @@
         android:layout_width="match_parent"/>
 
     <Button
+        android:id="@+id/request_approval_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="REQUEST APPROVAL"
