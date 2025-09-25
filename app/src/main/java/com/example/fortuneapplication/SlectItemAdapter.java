@@ -1,12 +1,10 @@
 package com.example.fortuneapplication;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -109,9 +107,10 @@ public class SlectItemAdapter extends RecyclerView.Adapter<SlectItemAdapter.MyVi
         });
 
         holder.it6.setOnClickListener( view -> {
-            Intent approveIntent = new Intent(context, ApprovalPage.class);
+            Intent approveIntent = new Intent(context, RequestSpecialPriceLevelPage.class);
             approveIntent.putExtra("ITEM_DESCRIPTION", item.getDescription());
             approveIntent.putExtra("ITEM_ID", item.getId());
+            approveIntent.putExtra("CUSTOMER_ID", customer_id);
             context.startActivity(approveIntent);
         });
 

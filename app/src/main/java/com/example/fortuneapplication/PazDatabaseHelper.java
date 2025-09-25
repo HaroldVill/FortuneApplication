@@ -65,6 +65,18 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
     protected static final String COVERAGE_FORECAST = "frequency";
     protected static final String COVERAGE_FORECAST_WEEK_SCHEDULE = "frequency_week_schedule";
 
+    //*SPECIAL PRICE LEVEL TABLE //*
+    protected static final String SPECIAL_PRICE_LEVEL_TABLE = "special_price_level";
+    protected static final String SPECIAL_PRICE_LEVEL_ID = "id";
+    protected static final String SPECIAL_PRICE_LEVEL_DATETIME = "recorded_on";
+    protected static final String SPECIAL_PRICE_LEVEL_CUSTOMER_ID = "customer_id";
+    protected static final String SPECIAL_PRICE_LEVEL_ITEM_ID = "item_id";
+    protected static final String SPECIAL_PRICE_LEVEL_SALES_REP_ID = "sales_rep_id";
+    protected static final String SPECIAL_PRICE_LEVEL_PRICE_LEVEL_ID = "price_level_id";
+    protected static final String SPECIAL_PRICE_LEVEL_APPROVED = "approved";
+    protected static final String SPECIAL_PRICE_LEVEL_APPROVED_BY = "approved_by";
+    protected static final String SPECIAL_PRICE_LEVEL_APPROVED_ON = "approved_on";
+
 
     //* SALES_REP_TABLE //*
     public static final String SALESREP_TABLE = "Sales_Rep_Table";
@@ -374,6 +386,18 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                 COVERAGE_FORECAST_WEEK_SCHEDULE + " TEXT " +
                 ")";
 
+        String CREATE_SPECIAL_PRICE_LEVEL_TABLE = "CREATE TABLE " +SPECIAL_PRICE_LEVEL_TABLE + " ("+
+                SPECIAL_PRICE_LEVEL_ID+" INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                SPECIAL_PRICE_LEVEL_DATETIME+ " TEXT, " +
+                SPECIAL_PRICE_LEVEL_CUSTOMER_ID+ " INTEGER, " +
+                SPECIAL_PRICE_LEVEL_ITEM_ID+ " INTEGER, " +
+                SPECIAL_PRICE_LEVEL_SALES_REP_ID+ " INTEGER, " +
+                SPECIAL_PRICE_LEVEL_PRICE_LEVEL_ID+ " INTEGER, " +
+                SPECIAL_PRICE_LEVEL_APPROVED+ " INTEGER, " +
+                SPECIAL_PRICE_LEVEL_APPROVED_BY+ " TEXT, " +
+                SPECIAL_PRICE_LEVEL_APPROVED_ON+ " TEXT " +
+                ") ";
+
         String CREATE_CUSTOMER_SKIP_TABLE ="CREATE TABLE " +CUSTOMER_SKIP_TABLE  + " ("+
                 CUSTOMER_SKIP_TABLE_ID+" INTEGER PRIMARY KEY AUTOINCREMENT, "+
                 CUSTOMER_SKIP_TABLE_CUSTOMER_ID + " INTEGER, " +
@@ -443,6 +467,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_SYNC_HISTORY_TABLE);
         db.execSQL(INSERT_SYNC_HISTORY);
         db.execSQL(CREATE_CUSTOMERS_COVERAGE_TABLE);
+        db.execSQL(CREATE_SPECIAL_PRICE_LEVEL_TABLE);
         db.execSQL(CREATE_CUSTOMER_SKIP_TABLE);
         db.execSQL(CREATE_REQUEST_REPIN_TABLE);
         db.execSQL(CREATE_CUSTOMER_WSR_TABLE);
@@ -544,6 +569,23 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         values.put(COVERAGE_FORECAST, coverage.get_frequency());
         values.put(COVERAGE_FORECAST_WEEK_SCHEDULE, coverage.get_frequency_week_schedule());
         db.insertWithOnConflict(CUSTOMER_COVERAGE_TABLE, null, values,db.CONFLICT_REPLACE);
+        return false;
+    }
+
+    public boolean StoreSpecialPriceLevel(SpecialPriceLevel specialPriceLevel) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(SPECIAL_PRICE_LEVEL_ID, specialPriceLevel.get_id());
+        values.put(SPECIAL_PRICE_LEVEL_DATETIME, specialPriceLevel.get_recorded_on());
+        values.put(SPECIAL_PRICE_LEVEL_CUSTOMER_ID, specialPriceLevel.get_customer_id());
+        values.put(SPECIAL_PRICE_LEVEL_ITEM_ID, specialPriceLevel.get_item_id());
+        values.put(SPECIAL_PRICE_LEVEL_SALES_REP_ID, specialPriceLevel.get_sales_rep_id());
+        values.put(SPECIAL_PRICE_LEVEL_PRICE_LEVEL_ID, specialPriceLevel.get_price_level_id());
+        values.put(SPECIAL_PRICE_LEVEL_APPROVED, specialPriceLevel.get_approved());
+        values.put(SPECIAL_PRICE_LEVEL_APPROVED_BY, specialPriceLevel.get_approved_by());
+        values.put(SPECIAL_PRICE_LEVEL_APPROVED_ON, specialPriceLevel.get_approved_on());
+        db.insertWithOnConflict(SPECIAL_PRICE_LEVEL_TABLE, null, values, db.CONFLICT_REPLACE);
         return false;
     }
 

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SyncSpecialPriceLevel">
+
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#4CAF50">
+
+        <TextView
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:layout_marginTop="1dp"
+            android:layout_centerHorizontal="true"
+            android:textSize="25sp"
+            android:text="SPECIAL PRICE LVL."
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/sync_history"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:layout_marginTop="30dp"
+            android:layout_centerHorizontal="true"
+            android:textSize="12sp"
+            android:text="NO SYNC HISTORY"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <ImageView
+            android:id="@+id/chome"
+            android:layout_marginLeft="11dp"
+            android:src="@drawable/home2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/syncSpecialPriceLevel"
+            android:text="SYNC"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/syncspl"
+        android:layout_below="@+id/header"
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:visibility="invisible"
+        style="=?android:attr/progressBarStyle"
+        android:layout_width="160dp"
+        android:layout_height="160dp"/>
+
+</RelativeLayout>

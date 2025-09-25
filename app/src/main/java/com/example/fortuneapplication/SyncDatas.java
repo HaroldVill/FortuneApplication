@@ -16,8 +16,9 @@ import android.widget.Toast;
 public class SyncDatas extends AppCompatActivity {
 
 
-    CardView z1, z2, z3, z4, z5, z6, z7, z8,z9;
+    CardView z1, z2, z3, z4, z5, z6, z7, z8,z9, z10;
     TextView blkhome, set, item_sync_history, cutomer_sync_history, location_sync_history, salesrep_sync_history, uom_sync_history, pterms_sync_history, plevel_sync_history, plevelines_sync_history,
+    special_price_level_sync_history,
     refresh;
 
     private PazDatabaseHelper mdatabaseHelper;
@@ -36,6 +37,7 @@ public class SyncDatas extends AppCompatActivity {
         z7 = findViewById(R.id.z7);
         z8 = findViewById(R.id.z8);
         z9 = findViewById(R.id.z9);
+        z10 = findViewById(R.id.z10);
         blkhome = findViewById(R.id.blkhome);
         set = findViewById(R.id.set);
         mdatabaseHelper = new PazDatabaseHelper(this);
@@ -48,6 +50,7 @@ public class SyncDatas extends AppCompatActivity {
         pterms_sync_history = findViewById(R.id.pterm_sync_history);
         plevel_sync_history = findViewById(R.id.plevel_sync_history);
         plevelines_sync_history = findViewById(R.id.plevellines_sync_history);
+        special_price_level_sync_history = findViewById(R.id.special_price_level_sync_history);
         refresh = findViewById(R.id.refresh);
 
          item_sync_history.setText(mdatabaseHelper.get_sync_history(1).toString());
@@ -58,6 +61,7 @@ public class SyncDatas extends AppCompatActivity {
          pterms_sync_history.setText(mdatabaseHelper.get_sync_history(6));
          plevel_sync_history.setText(mdatabaseHelper.get_sync_history(7));
          plevelines_sync_history.setText(mdatabaseHelper.get_sync_history(8));
+         special_price_level_sync_history.setText(mdatabaseHelper.get_sync_history(9));
 
          refresh.setOnClickListener(new View.OnClickListener() {
              @Override
@@ -70,6 +74,7 @@ public class SyncDatas extends AppCompatActivity {
                  pterms_sync_history.setText(mdatabaseHelper.get_sync_history(5));
                  plevel_sync_history.setText(mdatabaseHelper.get_sync_history(6));
                  plevelines_sync_history.setText(mdatabaseHelper.get_sync_history(7));
+                 special_price_level_sync_history.setText(mdatabaseHelper.get_sync_history(9));
              }
          });
         set.setOnClickListener(new View.OnClickListener() {
@@ -199,6 +204,14 @@ z9.setOnClickListener(new View.OnClickListener() {
     public void onClick(View v) {
         Intent df = new Intent(SyncDatas.this,SyncCoverage.class);
         startActivity(df);
+    }
+});
+
+z10.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View view) {
+       Intent dj = new Intent(SyncDatas.this, SyncSpecialPriceLevel.class);
+       startActivity(dj);
     }
 });
 

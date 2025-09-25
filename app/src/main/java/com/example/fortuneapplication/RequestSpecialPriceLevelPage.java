@@ -34,7 +34,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ApprovalPage extends AppCompatActivity {
+public class RequestSpecialPriceLevelPage extends AppCompatActivity {
 
     private RequestQueue requestQueue;
     private TextView customertextView, descriptiontextView, splAtextView, splBtextView, splCtextView;
@@ -52,7 +52,7 @@ public class ApprovalPage extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.approval_page);
+        setContentView(R.layout.activity_request_special_price_level);
         mDatabaseHelper = new PazDatabaseHelper(this);
         customertextView = findViewById(R.id.customerName);
         descriptiontextView = findViewById(R.id.descriptionNames);
@@ -81,8 +81,9 @@ public class ApprovalPage extends AppCompatActivity {
             Log.d("IPADDRESS", ipAddress);
         }
 
-        SharedPreferences sharedPreferencesIds = getSharedPreferences("MyItems", Context.MODE_PRIVATE);
-        customerId = sharedPreferencesIds.getString("customer_id", "");
+//        SharedPreferences sharedPreferencesIds = getSharedPreferences("MyItems", Context.MODE_PRIVATE);
+//        customerId = sharedPreferencesIds.getString("customer_id", "");
+        customerId = getIntent().getStringExtra("CUSTOMER_ID");
         itemId = getIntent().getStringExtra("ITEM_ID");
 
         Log.d("logged", customerId);
@@ -105,8 +106,8 @@ public class ApprovalPage extends AppCompatActivity {
     private void priceLevelSelection() {
         wholeA.setOnClickListener(view -> {
             resetButtonColors();
-            wholeA.setBackground(ContextCompat.getDrawable(ApprovalPage.this, R.drawable.button_when_pressed));
-            requestApprovalButton.setEnabled(true);
+            wholeA.setBackground(ContextCompat.getDrawable(RequestSpecialPriceLevelPage.this, R.drawable.button_when_pressed));
+//            requestApprovalButton.setEnabled(true);
             requestApprovalButton.setOnClickListener(new View.OnClickListener() {
                 @SuppressLint("SetTextI18n")
                 @Override
@@ -117,8 +118,8 @@ public class ApprovalPage extends AppCompatActivity {
         });
         wholeB.setOnClickListener(view -> {
             resetButtonColors();
-            wholeB.setBackground(ContextCompat.getDrawable(ApprovalPage.this, R.drawable.button_when_pressed));
-            requestApprovalButton.setEnabled(true);
+            wholeB.setBackground(ContextCompat.getDrawable(RequestSpecialPriceLevelPage.this, R.drawable.button_when_pressed));
+//            requestApprovalButton.setEnabled(true);
             requestApprovalButton.setOnClickListener(new View.OnClickListener() {
                 @SuppressLint("SetTextI18n")
                 @Override
@@ -129,8 +130,8 @@ public class ApprovalPage extends AppCompatActivity {
         });
         wholeC.setOnClickListener(view -> {
             resetButtonColors();
-            wholeC.setBackground(ContextCompat.getDrawable(ApprovalPage.this, R.drawable.button_when_pressed));
-            requestApprovalButton.setEnabled(true);
+            wholeC.setBackground(ContextCompat.getDrawable(RequestSpecialPriceLevelPage.this, R.drawable.button_when_pressed));
+//            requestApprovalButton.setEnabled(true);
             requestApprovalButton.setOnClickListener(new View.OnClickListener() {
                 @SuppressLint("SetTextI18n")
                 @Override
@@ -142,9 +143,9 @@ public class ApprovalPage extends AppCompatActivity {
     }
 
     private void resetButtonColors() {
-        wholeA.setBackground(ContextCompat.getDrawable(ApprovalPage.this, R.drawable.border_radius));
-        wholeB.setBackground(ContextCompat.getDrawable(ApprovalPage.this, R.drawable.border_radius));
-        wholeC.setBackground(ContextCompat.getDrawable(ApprovalPage.this, R.drawable.border_radius));
+        wholeA.setBackground(ContextCompat.getDrawable(RequestSpecialPriceLevelPage.this, R.drawable.border_radius));
+        wholeB.setBackground(ContextCompat.getDrawable(RequestSpecialPriceLevelPage.this, R.drawable.border_radius));
+        wholeC.setBackground(ContextCompat.getDrawable(RequestSpecialPriceLevelPage.this, R.drawable.border_radius));
     }
 
     private void postingToSpecialPriceLevelLinesTable(String plID) {
@@ -158,7 +159,7 @@ public class ApprovalPage extends AppCompatActivity {
                                     Log.d("Volley JSON Response", "Received response: " + response);
                                     String syncedSuccessfully = jsonObject.getString("Successfully synced!");
                                     if (syncedSuccessfully.equals("Successfully synced!")) {
-                                        Toast.makeText(ApprovalPage.this, "APPROVAL REQUEST SENT SUCCESSFULLY", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(RequestSpecialPriceLevelPage.this, "APPROVAL REQUEST SENT SUCCESSFULLY", Toast.LENGTH_SHORT).show();
                                     }
                                 } catch (JSONException e) {
                                     Log.d("Volley JSON Error", "JSON parsing error: " + e.getMessage());
@@ -194,7 +195,7 @@ public class ApprovalPage extends AppCompatActivity {
                     }
                 };
                 stringRequest.setRetryPolicy(new DefaultRetryPolicy(120 * 1000, 2, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-                requestQueue = Volley.newRequestQueue(ApprovalPage.this);
+                requestQueue = Volley.newRequestQueue(RequestSpecialPriceLevelPage.this);
                 requestQueue.add(stringRequest);
     }
 
@@ -223,6 +224,9 @@ public class ApprovalPage extends AppCompatActivity {
                             JSONObject jsonObject = new JSONObject(response);
                             String specialPriceA = jsonObject.getString("special_price_a");
                             double price = Double.parseDouble(specialPriceA);
+                            if (price != 0.00) {
+                                requestApprovalButton.setEnabled(true);
+                            }
                             splAtextView.setText("₱"+String.format("%.2f", price));
                         } catch (JSONException e) {
                             throw new RuntimeException(e);
@@ -235,7 +239,7 @@ public class ApprovalPage extends AppCompatActivity {
                         Log.d("Failed", "Failed to connect apiSPLevelLinesA");
                     }
                 });
-        requestQueue = Volley.newRequestQueue(ApprovalPage.this);
+        requestQueue = Volley.newRequestQueue(RequestSpecialPriceLevelPage.this);
         requestQueue.add(stringRequest);
     }
 
@@ -251,6 +255,9 @@ public class ApprovalPage extends AppCompatActivity {
                             JSONObject jsonObject = new JSONObject(response);
                             String specialPriceB = jsonObject.getString("special_price_a");
                             double price = Double.parseDouble(specialPriceB);
+                            if (price != 0.00) {
+                                requestApprovalButton.setEnabled(true);
+                            }
                             splBtextView.setText("₱"+String.format("%.2f", price));
                         } catch (JSONException e) {
                             throw new RuntimeException(e);
@@ -263,7 +270,7 @@ public class ApprovalPage extends AppCompatActivity {
                         Log.d("Failed", "Failed to connect apiSPLevelLinesB");
                     }
                 });
-        requestQueue = Volley.newRequestQueue(ApprovalPage.this);
+        requestQueue = Volley.newRequestQueue(RequestSpecialPriceLevelPage.this);
         requestQueue.add(stringRequest);
     }
 
@@ -279,6 +286,9 @@ public class ApprovalPage extends AppCompatActivity {
                             JSONObject jsonObject = new JSONObject(response);
                             String specialPriceC = jsonObject.getString("special_price_a");
                             double price = Double.parseDouble(specialPriceC);
+                            if (price != 0.00) {
+                                requestApprovalButton.setEnabled(true);
+                            }
                             splCtextView.setText("₱"+String.format("%.2f", price));
                         } catch (JSONException e) {
                             throw new RuntimeException(e);
@@ -291,7 +301,7 @@ public class ApprovalPage extends AppCompatActivity {
                         Log.d("Failed", "Failed to connect apiSPLevelLinesC");
                     }
                 });
-        requestQueue = Volley.newRequestQueue(ApprovalPage.this);
+        requestQueue = Volley.newRequestQueue(RequestSpecialPriceLevelPage.this);
         requestQueue.add(stringRequest);
     }
 
