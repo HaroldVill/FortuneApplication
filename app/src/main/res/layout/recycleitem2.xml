@@ -80,11 +80,10 @@
                 android:id="@+id/it6"
                 android:layout_width="0dp"
                 android:layout_weight="2"
-                android:layout_height="wrap_content"
+                android:layout_height="55dp"
                 android:padding="10dp"
-                android:text="👍"
                 android:layout_marginTop="5dp"
-                android:background="@drawable/circle_button"/>
+                android:background="@drawable/requestbutton"/>
 
         </TableRow>
 
