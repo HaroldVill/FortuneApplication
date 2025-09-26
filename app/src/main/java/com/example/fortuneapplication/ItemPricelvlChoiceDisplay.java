@@ -27,6 +27,7 @@ import static com.example.fortuneapplication.PazDatabaseHelper.SPECIAL_PRICE_LEV
 import static com.example.fortuneapplication.PazDatabaseHelper.SPECIAL_PRICE_LEVEL_ITEM_ID;
 import static com.example.fortuneapplication.PazDatabaseHelper.SPECIAL_PRICE_LEVEL_CUSTOMER_ID;
 import static com.example.fortuneapplication.PazDatabaseHelper.SPECIAL_PRICE_LEVEL_TABLE;
+import static com.example.fortuneapplication.PazDatabaseHelper.SPECIAL_PRICE_LEVEL_CUSTOM_PRICE;
 
 import static com.example.fortuneapplication.PazDatabaseHelper.UNIT_MEASURE_TABLE;
 
@@ -164,8 +165,8 @@ public class ItemPricelvlChoiceDisplay extends AppCompatActivity {
             PRICE_LEVEL_LINES_TABLE + "." + PRCUSTOM_PRICE + ", " +
             PRICE_LEVEL_LINES_TABLE + "." + PRI_LEVEL_ID + ", " +
             PRICE_LEVEL_TABLE + "." + PRICE_LEVELID + ", " +
-            PRICE_LEVEL_TABLE + "." + PRICE_LEVEL_DESCRIPTION +
-
+            PRICE_LEVEL_TABLE + "." + PRICE_LEVEL_DESCRIPTION + ", " +
+            SPECIAL_PRICE_LEVEL_TABLE + "." + SPECIAL_PRICE_LEVEL_CUSTOM_PRICE +
             " FROM " + TABLE_NAME +
             " LEFT JOIN " + UNIT_MEASURE_TABLE +
             " ON " + TABLE_NAME + "." + ITEMID + " = " + UNIT_MEASURE_TABLE + "." + ITM +
@@ -224,7 +225,7 @@ public class ItemPricelvlChoiceDisplay extends AppCompatActivity {
                     else if (special_price_level_price_level_id != null) {
                         // Display the custom price if a match is found
                         // Display the regular rate if custom price is not available
-                        item.setRate(cursor.getString(cursor.getColumnIndexOrThrow(PRCUSTOM_PRICE)));
+                        item.setRate(cursor.getString(cursor.getColumnIndexOrThrow(SPECIAL_PRICE_LEVEL_CUSTOM_PRICE)));
 
                     }
                     else{
@@ -243,7 +244,7 @@ public class ItemPricelvlChoiceDisplay extends AppCompatActivity {
                     else if (special_price_level_price_level_id != null) {
                         // Display the custom price if a match is found
                         // Display the regular rate if custom price is not available
-                        existingItem.setRate(cursor.getString(cursor.getColumnIndexOrThrow(PRCUSTOM_PRICE)));
+                        existingItem.setRate(cursor.getString(cursor.getColumnIndexOrThrow(SPECIAL_PRICE_LEVEL_CUSTOM_PRICE)));
 
                     }
                     else{
