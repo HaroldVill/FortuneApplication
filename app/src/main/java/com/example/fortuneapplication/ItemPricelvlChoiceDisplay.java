@@ -23,6 +23,10 @@ import static com.example.fortuneapplication.PazDatabaseHelper.SALES_ORDERITEMID
 import static com.example.fortuneapplication.PazDatabaseHelper.SALES_ORDER_ITEMS_TABLE;
 import static com.example.fortuneapplication.PazDatabaseHelper.TABLE_NAME;
 import static com.example.fortuneapplication.PazDatabaseHelper.UNIT_ID;
+import static com.example.fortuneapplication.PazDatabaseHelper.SPECIAL_PRICE_LEVEL_PRICE_LEVEL_ID;
+import static com.example.fortuneapplication.PazDatabaseHelper.SPECIAL_PRICE_LEVEL_ITEM_ID;
+import static com.example.fortuneapplication.PazDatabaseHelper.SPECIAL_PRICE_LEVEL_CUSTOMER_ID;
+import static com.example.fortuneapplication.PazDatabaseHelper.SPECIAL_PRICE_LEVEL_TABLE;
 
 import static com.example.fortuneapplication.PazDatabaseHelper.UNIT_MEASURE_TABLE;
 
@@ -169,7 +173,11 @@ public class ItemPricelvlChoiceDisplay extends AppCompatActivity {
             " ON " + TABLE_NAME + "." + ITEMID + " = " + PRICE_LEVEL_LINES_TABLE + "." + PRITEM_ID +
             " AND "+PRICE_LEVEL_LINES_TABLE+"."+PRI_LEVEL_ID+" = (SELECT PRICE_LEVEL_ID FROM CUSTOMER_TABLE WHERE CUSTOMER_ID ="+customer_id.getText().toString()+")" +
            " LEFT JOIN " + PRICE_LEVEL_TABLE +
-           " ON " + PRICE_LEVEL_LINES_TABLE + "." + PRI_LEVEL_ID + " = " + PRICE_LEVEL_TABLE + "." + PRICE_LEVELID;
+           " ON " + PRICE_LEVEL_LINES_TABLE + "." + PRI_LEVEL_ID + " = " + PRICE_LEVEL_TABLE + "." + PRICE_LEVELID+
+            " LEFT JOIN " + SPECIAL_PRICE_LEVEL_TABLE +
+            " ON " + SPECIAL_PRICE_LEVEL_TABLE + "." + SPECIAL_PRICE_LEVEL_PRICE_LEVEL_ID + " = " + PRICE_LEVEL_TABLE + "." + PRICE_LEVELID +
+            " ON " + SPECIAL_PRICE_LEVEL_TABLE + "." + SPECIAL_PRICE_LEVEL_ITEM_ID + " = " + TABLE_NAME + "." + ITEMID +
+            " ON " + SPECIAL_PRICE_LEVEL_TABLE + "." + SPECIAL_PRICE_LEVEL_CUSTOMER_ID + " = " + customer_id.getText().toString();
 
     SQLiteDatabase db = mDatabaseHelper.getReadableDatabase();
     String levelValue = level.getText().toString();
@@ -184,6 +192,7 @@ public class ItemPricelvlChoiceDisplay extends AppCompatActivity {
                 String itemCode = cursor.getString(cursor.getColumnIndexOrThrow(ITEM_CODE));
                 Item existingItem = itemMap.get(itemCode);
                 String priceLevelId = cursor.getString(cursor.getColumnIndexOrThrow(PRI_LEVEL_ID));
+                String special_price_level_price_level_id = cursor.getString(cursor.getColumnIndexOrThrow(SPECIAL_PRICE_LEVEL_PRICE_LEVEL_ID));
                 if (existingItem == null) {
                     // Create a new item if it doesn't exist in the map
                     Item item = new Item();
@@ -212,6 +221,12 @@ public class ItemPricelvlChoiceDisplay extends AppCompatActivity {
                         item.setRate(cursor.getString(cursor.getColumnIndexOrThrow(PRCUSTOM_PRICE)));
 
                     }
+                    else if (special_price_level_price_level_id != null) {
+                        // Display the custom price if a match is found
+                        // Display the regular rate if custom price is not available
+                        item.setRate(cursor.getString(cursor.getColumnIndexOrThrow(PRCUSTOM_PRICE)));
+
+                    }
                     else{
                         item.setRate(cursor.getString(cursor.getColumnIndexOrThrow(ITEM_RATE)));
                     }
@@ -222,6 +237,12 @@ public class ItemPricelvlChoiceDisplay extends AppCompatActivity {
                     if (priceLevelId != null) {
                         // Display the custom price if a match is found
                             // Display the regular rate if custom price is not available
+                        existingItem.setRate(cursor.getString(cursor.getColumnIndexOrThrow(PRCUSTOM_PRICE)));
+
+                    }
+                    else if (special_price_level_price_level_id != null) {
+                        // Display the custom price if a match is found
+                        // Display the regular rate if custom price is not available
                         existingItem.setRate(cursor.getString(cursor.getColumnIndexOrThrow(PRCUSTOM_PRICE)));
 
                     }
