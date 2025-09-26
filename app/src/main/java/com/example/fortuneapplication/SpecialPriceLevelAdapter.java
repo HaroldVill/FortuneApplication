@@ -37,6 +37,7 @@ public class SpecialPriceLevelAdapter extends ArrayAdapter<SpecialPriceLevel> {
         TextView p7 = listViewSpecialPriceLevel.findViewById(R.id.approved_spl);
         TextView p8 = listViewSpecialPriceLevel.findViewById(R.id.approved_by_spl);
         TextView p9 = listViewSpecialPriceLevel.findViewById(R.id.approved_on_spl);
+        TextView p10 = listViewSpecialPriceLevel.findViewById(R.id.custom_price_spl);
 
         SpecialPriceLevel specialPriceLevel = specialPriceLevelList.get(position);
 
@@ -49,6 +50,7 @@ public class SpecialPriceLevelAdapter extends ArrayAdapter<SpecialPriceLevel> {
         p7.setText(specialPriceLevel.get_approved());
         p8.setText(specialPriceLevel.get_approved_by());
         p9.setText(specialPriceLevel.get_approved_on());
+        p10.setText(specialPriceLevel.get_custom_price());
 
         return listViewSpecialPriceLevel;
     }

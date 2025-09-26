@@ -102,7 +102,8 @@ public class SyncSpecialPriceLevel extends AppCompatActivity {
                                 String approved = jsonObject.getString("approved");
                                 String approved_by = jsonObject.getString("approved_by");
                                 String approved_on = jsonObject.getString("approved_on");
-                                SpecialPriceLevel specialPriceLevel = new SpecialPriceLevel(id, recorded_on, customer_id, item_id, sales_rep_id, price_level_id, approved, approved_by, approved_on);
+                                String custom_price = jsonObject.getString("custom_price");
+                                SpecialPriceLevel specialPriceLevel = new SpecialPriceLevel(id, recorded_on, customer_id, item_id, sales_rep_id, price_level_id, approved, approved_by, approved_on, custom_price);
                                 Log.d("SpecialPriceLevel", specialPriceLevel.toString());
                                 specialPriceLevelList.add(specialPriceLevel);
 //                                databaseHelper.StoreSpecialPriceLevel(specialPriceLevel);

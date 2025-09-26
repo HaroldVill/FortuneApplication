@@ -118,6 +118,16 @@
                 android:layout_height="wrap_content"/>
 
             <TextView
+                android:id="@+id/spl_custom_price"
+                android:layout_below="@+id/spl_approved_on"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="10dp"
+                android:textSize="17sp"
+                android:text="CUSTOM PRICE: "
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
                 android:id="@+id/id_spl"
                 android:layout_below="@id/spl_header"
                 android:layout_marginTop="10dp"
@@ -201,9 +211,19 @@
                 android:id="@+id/approved_on_spl"
                 android:layout_below="@+id/approved_by_spl"
                 android:layout_marginTop="10dp"
-                android:layout_marginStart="190dp"
+                android:layout_marginStart="150dp"
                 android:textSize="17sp"
                 android:text="APPROVED ON"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/custom_price_spl"
+                android:layout_below="@+id/approved_on_spl"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="190dp"
+                android:textSize="17sp"
+                android:text="CUSTOM PRICE"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 

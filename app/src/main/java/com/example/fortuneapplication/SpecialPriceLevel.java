@@ -10,6 +10,7 @@ public class SpecialPriceLevel {
     private String approved;
     private String approved_by;
     private String approved_on;
+    private String custom_price;
 
     public SpecialPriceLevel(String id,
                              String recorded_on,
@@ -19,7 +20,8 @@ public class SpecialPriceLevel {
                              String price_level_id,
                              String approved,
                              String approved_by,
-                             String approved_on) {
+                             String approved_on,
+                             String custom_price) {
         this.id = id;
         this.recorded_on = recorded_on;
         this.customer_id = customer_id;
@@ -29,6 +31,7 @@ public class SpecialPriceLevel {
         this.approved = approved;
         this.approved_by = approved_by;
         this.approved_on = approved_on;
+        this.custom_price = custom_price;
     }
 
     public String get_id() { return id; }
@@ -49,5 +52,7 @@ public class SpecialPriceLevel {
     public void set_approved_by(String approved_by) { this.approved_by = approved_by; }
     public String get_approved_on() { return approved_on; }
     public void set_approved_on(String approved_on) { this.approved_on = approved_on; }
+    public String get_custom_price() { return custom_price; }
+    public void set_custom_price(String custom_price) { this.custom_price = custom_price; }
 
 } //SpecialPriceLevel

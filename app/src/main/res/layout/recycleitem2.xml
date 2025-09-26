@@ -83,7 +83,8 @@
                 android:layout_height="55dp"
                 android:padding="10dp"
                 android:layout_marginTop="5dp"
-                android:background="@drawable/requestbutton"/>
+                android:background="@drawable/requestbutton"
+                android:elevation="10dp"/>
 
         </TableRow>
 

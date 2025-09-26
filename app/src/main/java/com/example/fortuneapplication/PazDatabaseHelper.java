@@ -76,6 +76,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
     protected static final String SPECIAL_PRICE_LEVEL_APPROVED = "approved";
     protected static final String SPECIAL_PRICE_LEVEL_APPROVED_BY = "approved_by";
     protected static final String SPECIAL_PRICE_LEVEL_APPROVED_ON = "approved_on";
+    protected static final String SPECIAL_PRICE_LEVEL_CUSTOM_PRICE = "custom_price";
 
 
     //* SALES_REP_TABLE //*
@@ -395,7 +396,8 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                 SPECIAL_PRICE_LEVEL_PRICE_LEVEL_ID+ " INTEGER, " +
                 SPECIAL_PRICE_LEVEL_APPROVED+ " INTEGER, " +
                 SPECIAL_PRICE_LEVEL_APPROVED_BY+ " TEXT, " +
-                SPECIAL_PRICE_LEVEL_APPROVED_ON+ " TEXT " +
+                SPECIAL_PRICE_LEVEL_APPROVED_ON+ " TEXT, " +
+                SPECIAL_PRICE_LEVEL_CUSTOM_PRICE+ " TEXT "+
                 ") ";
 
         String CREATE_CUSTOMER_SKIP_TABLE ="CREATE TABLE " +CUSTOMER_SKIP_TABLE  + " ("+
@@ -585,6 +587,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         values.put(SPECIAL_PRICE_LEVEL_APPROVED, specialPriceLevel.get_approved());
         values.put(SPECIAL_PRICE_LEVEL_APPROVED_BY, specialPriceLevel.get_approved_by());
         values.put(SPECIAL_PRICE_LEVEL_APPROVED_ON, specialPriceLevel.get_approved_on());
+        values.put(SPECIAL_PRICE_LEVEL_CUSTOM_PRICE, specialPriceLevel.get_custom_price());
         db.insertWithOnConflict(SPECIAL_PRICE_LEVEL_TABLE, null, values, db.CONFLICT_REPLACE);
         return false;
     }
