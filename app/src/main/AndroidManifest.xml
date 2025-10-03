@@ -212,6 +212,11 @@
             android:name=".LocateActivity"
             android:exported="false" />
         <activity
+            android:name=".RequestSpecialPriceLevelPage"
+            android:exported="false" />
+        <activity android:name=".SyncSpecialPriceLevel"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
