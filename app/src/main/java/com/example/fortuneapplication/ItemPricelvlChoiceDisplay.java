@@ -66,7 +66,7 @@ public class ItemPricelvlChoiceDisplay extends AppCompatActivity {
     private SlectItemAdapter slectItemAdapter;
     private ArrayList<Item> itemLista;
     private PazDatabaseHelper mDatabaseHelper;
-    private TextView level,customer_id;
+    private TextView level,customer_id, refresh_table;
     EditText searchbarr;
     Spinner spinner8;
     FloatingActionButton floatt;
@@ -84,6 +84,7 @@ public class ItemPricelvlChoiceDisplay extends AppCompatActivity {
         spinner8 = findViewById(R.id.spinner8);
 
         floatt = findViewById(R.id.floatt);
+        refresh_table = findViewById(R.id.refresh_table);
 
         floatt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -145,6 +146,15 @@ public class ItemPricelvlChoiceDisplay extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
 
+            }
+        });
+
+        refresh_table.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                checkvalue();
+                searchbarr.setText("");
+                Toast.makeText(ItemPricelvlChoiceDisplay.this, "REFRESHED", Toast.LENGTH_SHORT).show();
             }
         });
     }
