@@ -82,7 +82,8 @@ public class SyncSpecialPriceLevel extends AppCompatActivity {
     } //onCreate
 
     public void fetchSpecialPriceLevel() {
-        PazDatabaseHelper databaseHelper = new PazDatabaseHelper(getApplicationContext());
+        PazDatabaseHelper databaseHelper = new PazDatabaseHelper( this);
+        databaseHelper.delete_old_data();
         apiSpecialPriceLevel = "http://" + JSON_URL + "/MobileAPI/get_special_price_level.php";
         StringRequest stringRequest = new StringRequest(Request.Method.GET, apiSpecialPriceLevel,
                 new Response.Listener<String>() {
@@ -110,13 +111,13 @@ public class SyncSpecialPriceLevel extends AppCompatActivity {
 
                                 if (approved.equals("1")) {
                                     databaseHelper.StoreSpecialPriceLevel(specialPriceLevel);
-//                                    deleteIfNotApproved();
+//
                                 }
                             }
                             SpecialPriceLevelAdapter specialPriceLevelAdapter = new SpecialPriceLevelAdapter(specialPriceLevelList, getApplicationContext());
                             syncspl.setAdapter(specialPriceLevelAdapter);
-                            databaseHelper.UpdateSyncHistory(9);
-                            sync_history.setText(mdatabaseHelper.get_sync_history(9));
+                            databaseHelper.UpdateSyncHistory(10);
+                            sync_history.setText(mdatabaseHelper.get_sync_history(10));
                             Toast.makeText(SyncSpecialPriceLevel.this, "Successfully Sync Data", Toast.LENGTH_SHORT).show();
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -136,23 +137,7 @@ public class SyncSpecialPriceLevel extends AppCompatActivity {
         requestQueue.add(stringRequest);
     }
 
-    private void deleteIfNotApproved() {
-        PazDatabaseHelper pdbHelper = new PazDatabaseHelper(this);
-        SQLiteDatabase db = pdbHelper.getWritableDatabase();
-        String[] whereArgs = { String.valueOf("1") };
 
-        try {
-            db.beginTransaction();
-            db.delete(SPECIAL_PRICE_LEVEL_TABLE, "approved = ?", whereArgs);
-            db.setTransactionSuccessful();
-            Toast.makeText(SyncSpecialPriceLevel.this, "Delete successful", Toast.LENGTH_SHORT).show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            db.endTransaction();
-            db.close();
-        }
-    }
 
 
 } //SyncSpecialPriceLevel

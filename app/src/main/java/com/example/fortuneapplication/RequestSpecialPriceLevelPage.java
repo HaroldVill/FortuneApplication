@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -381,7 +382,8 @@ public class RequestSpecialPriceLevelPage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 PazDatabaseHelper pazDatabaseHelper = new PazDatabaseHelper(getApplicationContext());
-                apiForIndividualSyncing = "http://" + ipAddress + "/MobileAPI/get_special_price_level_filtered.php?customer_id=" + customerId + "&item_id=" + itemId + "&price_level_id=" + priceLevelID;
+
+                apiForIndividualSyncing = "http://" + ipAddress + "/MobileAPI/get_special_price_level_filtered.php?customer_id=" + customerId + "&item_id=" + itemId;
                 StringRequest stringRequest1 = new StringRequest(Request.Method.GET, apiForIndividualSyncing,
                         new Response.Listener<String>() {
                             @Override
@@ -407,6 +409,7 @@ public class RequestSpecialPriceLevelPage extends AppCompatActivity {
 //                                databaseHelper.StoreSpecialPriceLevel(specialPriceLevel);
 
                                         if (approved.equals("1")) {
+                                            pazDatabaseHelper.delete_old_data_filtered(Integer.parseInt(customer_id), Integer.parseInt(item_id));
                                             pazDatabaseHelper.StoreSpecialPriceLevel(specialPriceLevel);
 //                                    deleteIfNotApproved();
                                         }

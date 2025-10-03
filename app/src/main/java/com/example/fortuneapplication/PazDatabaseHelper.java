@@ -431,7 +431,8 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                 "(NULL,'PRICELEVEL',''),"+
                 "(NULL,'PRICELEVELLINES',''),"+
                 "(NULL,'UOM',''),"+
-                "(NULL,'COVERAGE','')"
+                "(NULL,'COVERAGE',''),"+
+                "(NULL,'SPECIALPRICELEVELLINES','')"
                 ;
 //        String  ALTER_ITEM_TABLE = "ALTER TABLE " + SALES_ORDER_TABLE + " ADD COLUMN " +
 //                "posted" + " INTEGER DEFAULT 0";
@@ -2839,6 +2840,42 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
 //            Log.d("sales_type",sales_type);
         }
         return value;
+    }
+
+    public void delete_old_data() {
+//        PazDatabaseHelper pdbHelper = new PazDatabaseHelper(this);
+        SQLiteDatabase db = this.getWritableDatabase();
+//        String[] whereArgs = { String.valueOf("1") };
+
+        try {
+//            db.beginTransaction();
+            db.execSQL("DELETE FROM special_price_level");
+//            db.setTransactionSuccessful();
+//            Toast.makeText(SyncSpecialPriceLevel.this, "Delete successful", Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+//            db.endTransaction();
+            db.close();
+        }
+    }
+
+    public void delete_old_data_filtered(Integer customer_id,Integer item_id) {
+//        PazDatabaseHelper pdbHelper = new PazDatabaseHelper(this);
+        SQLiteDatabase db = this.getWritableDatabase();
+//        String[] whereArgs = { String.valueOf("1") };
+
+        try {
+//            db.beginTransaction();
+            db.execSQL("DELETE FROM special_price_level where customer_id = "+customer_id.toString() +" and item_id = "+item_id.toString());
+//            db.setTransactionSuccessful();
+//            Toast.makeText(SyncSpecialPriceLevel.this, "Delete successful", Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+//            db.endTransaction();
+            db.close();
+        }
     }
 
     }

@@ -61,7 +61,8 @@ public class SyncDatas extends AppCompatActivity {
          pterms_sync_history.setText(mdatabaseHelper.get_sync_history(6));
          plevel_sync_history.setText(mdatabaseHelper.get_sync_history(7));
          plevelines_sync_history.setText(mdatabaseHelper.get_sync_history(8));
-         special_price_level_sync_history.setText(mdatabaseHelper.get_sync_history(9));
+
+         special_price_level_sync_history.setText(mdatabaseHelper.get_sync_history(10));
 
          refresh.setOnClickListener(new View.OnClickListener() {
              @Override
