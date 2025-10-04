@@ -202,7 +202,7 @@ public class RequestSpecialPriceLevelPage extends AppCompatActivity {
                                     String alreadyExist = jsonObject2.getString("Already exist");
                                     if (alreadyExist.equals("Already exist")) {
                                         builder.setTitle("OOOOOPPPPPS!")
-                                                .setMessage("NAA NA SIYA SA DATABASE. DI NA KA KAREQUEST BALIK")
+                                                .setMessage("NAA NAY SPECIAL PRICE LEVEL NI NGA CUSTOMER. DI NA KA KAREQUEST BALIK CALL IT FOR CONCERNS")
                                                 .setNegativeButton("OK", new DialogInterface.OnClickListener() {
                                                     @Override
                                                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -256,7 +256,7 @@ public class RequestSpecialPriceLevelPage extends AppCompatActivity {
     //if zero ang price
     private void alertDialogCheckIfZero() {
         builder.setTitle("STOP!")
-                .setMessage("ZERO ANG PRICE, STOP THE TRANSACTION")
+                .setMessage("ZERO ANG PRICE, DLI PWEDE")
                 .setNegativeButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -382,7 +382,7 @@ public class RequestSpecialPriceLevelPage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 PazDatabaseHelper pazDatabaseHelper = new PazDatabaseHelper(getApplicationContext());
-
+                pazDatabaseHelper.delete_old_data_filtered(Integer.parseInt(customerId), Integer.parseInt(itemId));
                 apiForIndividualSyncing = "http://" + ipAddress + "/MobileAPI/get_special_price_level_filtered.php?customer_id=" + customerId + "&item_id=" + itemId;
                 StringRequest stringRequest1 = new StringRequest(Request.Method.GET, apiForIndividualSyncing,
                         new Response.Listener<String>() {
@@ -409,7 +409,6 @@ public class RequestSpecialPriceLevelPage extends AppCompatActivity {
 //                                databaseHelper.StoreSpecialPriceLevel(specialPriceLevel);
 
                                         if (approved.equals("1")) {
-                                            pazDatabaseHelper.delete_old_data_filtered(Integer.parseInt(customer_id), Integer.parseInt(item_id));
                                             pazDatabaseHelper.StoreSpecialPriceLevel(specialPriceLevel);
 //                                    deleteIfNotApproved();
                                         }
