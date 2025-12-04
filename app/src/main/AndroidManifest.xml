@@ -216,6 +216,8 @@
             android:exported="false" />
         <activity android:name=".SyncSpecialPriceLevel"
             android:exported="false" />
+        <activity android:name=".SyncPriceLevelLines2"
+            android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="true">
