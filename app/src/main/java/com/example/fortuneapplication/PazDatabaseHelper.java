@@ -1298,6 +1298,18 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    public boolean deleteExistingCoverage(String id) {
+        try {
+            SQLiteDatabase db = getWritableDatabase();
+            db.delete("customer_coverage_plan", "id = ?", new String[]{id});
+//        db.close();
+            return true;
+        }
+        catch (Exception e){
+            return false;
+        }
+    }
+
     //* DELETE All CUSTOMER DATA SYNC //*
     public void deleteCustomerData() {
         SQLiteDatabase db = getWritableDatabase();
