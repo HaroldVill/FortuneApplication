@@ -1331,6 +1331,12 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
 //        db.close();
     }
 
+    public void deleteCoveragePlan() {
+        SQLiteDatabase db = getWritableDatabase();
+        db.delete(CUSTOMER_COVERAGE_TABLE, null, null);
+//        db.close();
+    }
+
     public void deleteItem(String code) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete("Order_Item_Table", "id = ?", new String[]{code});

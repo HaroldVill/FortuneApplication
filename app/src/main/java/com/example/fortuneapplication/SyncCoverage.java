@@ -98,6 +98,7 @@ public class SyncCoverage extends AppCompatActivity {
                         try {
                             JSONObject obj = new JSONObject(response);
                             JSONArray coverageArray = obj.getJSONArray("data");
+                            databaseHelper.deleteCoveragePlan();
                             for (int i = 0 ; i < coverageArray.length(); i++){
                                 JSONObject jsonObject = coverageArray.getJSONObject(i);
                                 String id = jsonObject.getString("id");
