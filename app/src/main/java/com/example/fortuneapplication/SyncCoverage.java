@@ -98,6 +98,7 @@ public class SyncCoverage extends AppCompatActivity {
                         try {
                             JSONObject obj = new JSONObject(response);
                             JSONArray coverageArray = obj.getJSONArray("data");
+                            databaseHelper.deleteCoveragePlan();
                             for (int i = 0 ; i < coverageArray.length(); i++){
                                 JSONObject jsonObject = coverageArray.getJSONObject(i);
                                 String id = jsonObject.getString("id");
@@ -108,7 +109,9 @@ public class SyncCoverage extends AppCompatActivity {
                                 String frequency_week_schedule = jsonObject.getString("frequency_week_schedule");
                                 Coverage coverage= new Coverage(id,customer_id,salesrep_id,day,frequency,frequency_week_schedule);
                                 Log.d("Coverage", coverage.toString());
-                                boolean isStored = databaseHelper.StoreCoverage(coverage);
+                                if(databaseHelper.deleteExistingCoverage(id)){
+                                    boolean isStored = databaseHelper.StoreCoverage(coverage);
+                                }
                                 coverageList.add(coverage);
                             }
                             CoverageAdapter adapter = new CoverageAdapter(coverageList, getApplicationContext());
