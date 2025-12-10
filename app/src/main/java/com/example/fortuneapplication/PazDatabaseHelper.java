@@ -126,6 +126,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
     protected static final String PRI_LEVEL_ID = "pri_level_id";
     protected static final String PRITEM_ID = "prItem_id";
     protected static final String PRCUSTOM_PRICE = "prcustom_price";
+    protected static final String PRTYPE = "type";
 
     // PRICE LEVEL//
     protected static final String PRICE_LEVEL_TABLE = "Price_Level_Table";
@@ -293,7 +294,8 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                 PRICE_LEVEL_LINES_ID + " INTEGER, " +
                 PRI_LEVEL_ID + " INTEGER, " +
                 PRITEM_ID + " INTEGER, " +
-                PRCUSTOM_PRICE + " REAL" +
+                PRCUSTOM_PRICE + " REAL," +
+                PRTYPE + " INTEGER " +
                 ");";
 
 
@@ -432,8 +434,8 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                 "(NULL,'PRICELEVELLINES',''),"+
                 "(NULL,'UOM',''),"+
                 "(NULL,'COVERAGE',''),"+
-                "(NULL,'SPECIALPRICELEVELLINES','')"
-                ;
+                "(NULL,'SPECIALPRICELEVELLINES',''),"+
+                "(NULL,'PRICELEVELLINES2','')";
 //        String  ALTER_ITEM_TABLE = "ALTER TABLE " + SALES_ORDER_TABLE + " ADD COLUMN " +
 //                "posted" + " INTEGER DEFAULT 0";
 
@@ -697,6 +699,35 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         values.put(PRI_LEVEL_ID, plevelLines_list.getPricelvl_id());
         values.put(PRITEM_ID, plevelLines_list.getItem_id());
         values.put(PRCUSTOM_PRICE, plevelLines_list.getCustomprice());
+        values.put(PRTYPE, 1);
+
+        long newRowId = db.insert(PRICE_LEVEL_LINES_TABLE, null, values);
+
+        // Check if the insertion was successful
+        if (newRowId != -1) {
+            // Insertion successful, return true
+            return true;
+        } else {
+            // Insertion failed, return false
+            return false;
+        }
+
+//        values.put(PRICE_LEVEL_LINES_ID, plevelLines_list.getId());
+//        values.put(PRI_LEVEL_ID, plevelLines_list.getPricelvl_id());
+//        values.put(PRITEM_ID, plevelLines_list.getItem_id());
+//        values.put(PRCUSTOM_PRICE, plevelLines_list.getCustomprice());
+//        db.insert(PRICE_LEVEL_LINES_TABLE, null, values);
+//        return false;
+    }
+
+    public boolean storePLVLines2(PlevelLines_list plevelLines_list) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(PRICE_LEVEL_LINES_ID, plevelLines_list.getId());
+        values.put(PRI_LEVEL_ID, plevelLines_list.getPricelvl_id());
+        values.put(PRITEM_ID, plevelLines_list.getItem_id());
+        values.put(PRCUSTOM_PRICE, plevelLines_list.getCustomprice());
+        values.put(PRTYPE, 2);
 
         long newRowId = db.insert(PRICE_LEVEL_LINES_TABLE, null, values);
 
@@ -1357,10 +1388,33 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
     }
 
     public void deleteplines() {
-        SQLiteDatabase db = getWritableDatabase();
-        db.delete(PRICE_LEVEL_LINES_TABLE, null, null);
-//        db.close();
+        SQLiteDatabase db = this.getWritableDatabase();
+        String delete_query = "DELETE FROM Price_Level_Lines_table where type=1";
+        try{
+            db.execSQL(delete_query);
+            //db.setTransactionSuccessful();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        finally {
+            //db.endTransaction();
+        }
+    }
 
+    public void deleteplines2() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String delete_query = "DELETE FROM Price_Level_Lines_table where type=2";
+        try{
+            db.execSQL(delete_query);
+            //db.setTransactionSuccessful();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        finally {
+            //db.endTransaction();
+        }
     }
 
     public void deletepricelevel() {

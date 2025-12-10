@@ -72,7 +72,7 @@ public class SyncPriceLevelLines2 extends AppCompatActivity {
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             JSONArray jsonArray = jsonObject.getJSONArray("data");
-
+                            mDatabaseHelper.deleteplines2();
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject jsonDataObject = jsonArray.getJSONObject(i);
 
@@ -82,14 +82,13 @@ public class SyncPriceLevelLines2 extends AppCompatActivity {
                                 String custom_price2 = jsonDataObject.getString("custom_price");
 
                                 PlevelLines_list plevelLines_list2 = new PlevelLines_list(lines2_id, price_level_lines2_id, item2_id, custom_price2);
-                                mDatabaseHelper.deleteExistingPLevelLinesId(lines2_id);
                                 plevelLines_lists2.add(plevelLines_list2);
-                                mDatabaseHelper.storePLVLines(plevelLines_list2);
+                                mDatabaseHelper.storePLVLines2(plevelLines_list2);
                             }
                             PlvlinesAdapter plvlinesAdapter = new PlvlinesAdapter(plevelLines_lists2, getApplicationContext());
                             pll2_listView.setAdapter(plvlinesAdapter);
-                            mDatabaseHelper.UpdateSyncHistory(7);
-                            pll2_textView.setText(mDatabaseHelper.get_sync_history(7));
+                            mDatabaseHelper.UpdateSyncHistory(11);
+                            pll2_textView.setText(mDatabaseHelper.get_sync_history(11));
                             Toast.makeText(SyncPriceLevelLines2.this, "Successfully Sync Data", Toast.LENGTH_SHORT).show();
                         } catch (JSONException e) {
                             Log.e(TAG, "JSON Parsing Error" + e.getMessage());

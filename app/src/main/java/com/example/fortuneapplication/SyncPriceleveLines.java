@@ -83,7 +83,7 @@ public void getDatalines() {
                     try {
                         JSONObject jbo = new JSONObject(response);
                         JSONArray jsonArray = jbo.getJSONArray("data");
-//                        databaseHelper.deleteplines();
+                        databaseHelper.deleteplines();
 
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject jsonObject = jsonArray.getJSONObject(i);

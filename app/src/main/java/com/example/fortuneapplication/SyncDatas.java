@@ -17,8 +17,8 @@ public class SyncDatas extends AppCompatActivity {
 
 
     CardView z1, z2, z3, z4, z5, z6, z7, z8,z9, z10, pll2;
-    TextView blkhome, set, item_sync_history, cutomer_sync_history, location_sync_history, salesrep_sync_history, uom_sync_history, pterms_sync_history, plevel_sync_history, plevelines_sync_history,
-    special_price_level_sync_history,
+    TextView blkhome, set, item_sync_history, cutomer_sync_history, location_sync_history, salesrep_sync_history, uom_sync_history, pterms_sync_history, plevel_sync_history, plevelines_sync_history,coverage_plan,
+    special_price_level_sync_history,price_level_lines2,
     refresh;
 
     private PazDatabaseHelper mdatabaseHelper;
@@ -51,19 +51,22 @@ public class SyncDatas extends AppCompatActivity {
         pterms_sync_history = findViewById(R.id.pterm_sync_history);
         plevel_sync_history = findViewById(R.id.plevel_sync_history);
         plevelines_sync_history = findViewById(R.id.plevellines_sync_history);
+        coverage_plan = findViewById(R.id.coverage_plan);
         special_price_level_sync_history = findViewById(R.id.special_price_level_sync_history);
+        price_level_lines2 = findViewById(R.id.price_level_lines2);
         refresh = findViewById(R.id.refresh);
 
          item_sync_history.setText(mdatabaseHelper.get_sync_history(1).toString());
          cutomer_sync_history.setText(mdatabaseHelper.get_sync_history(2));
          location_sync_history.setText(mdatabaseHelper.get_sync_history(3));
          salesrep_sync_history.setText(mdatabaseHelper.get_sync_history(4));
-         uom_sync_history.setText(mdatabaseHelper.get_sync_history(5));
-         pterms_sync_history.setText(mdatabaseHelper.get_sync_history(6));
-         plevel_sync_history.setText(mdatabaseHelper.get_sync_history(7));
-         plevelines_sync_history.setText(mdatabaseHelper.get_sync_history(8));
-
+         pterms_sync_history.setText(mdatabaseHelper.get_sync_history(5));
+         plevel_sync_history.setText(mdatabaseHelper.get_sync_history(6));
+         plevelines_sync_history.setText(mdatabaseHelper.get_sync_history(7));
+         uom_sync_history.setText(mdatabaseHelper.get_sync_history(8));
+         coverage_plan.setText(mdatabaseHelper.get_sync_history(9));
          special_price_level_sync_history.setText(mdatabaseHelper.get_sync_history(10));
+         price_level_lines2.setText(mdatabaseHelper.get_sync_history(11));
 
          refresh.setOnClickListener(new View.OnClickListener() {
              @Override
@@ -72,11 +75,13 @@ public class SyncDatas extends AppCompatActivity {
                  cutomer_sync_history.setText(mdatabaseHelper.get_sync_history(2));
                  location_sync_history.setText(mdatabaseHelper.get_sync_history(3));
                  salesrep_sync_history.setText(mdatabaseHelper.get_sync_history(4));
-                 uom_sync_history.setText(mdatabaseHelper.get_sync_history(8));
                  pterms_sync_history.setText(mdatabaseHelper.get_sync_history(5));
                  plevel_sync_history.setText(mdatabaseHelper.get_sync_history(6));
                  plevelines_sync_history.setText(mdatabaseHelper.get_sync_history(7));
-                 special_price_level_sync_history.setText(mdatabaseHelper.get_sync_history(9));
+                 uom_sync_history.setText(mdatabaseHelper.get_sync_history(8));
+                 coverage_plan.setText(mdatabaseHelper.get_sync_history(9));
+                 special_price_level_sync_history.setText(mdatabaseHelper.get_sync_history(10));
+                 price_level_lines2.setText(mdatabaseHelper.get_sync_history(11));
              }
          });
         set.setOnClickListener(new View.OnClickListener() {
