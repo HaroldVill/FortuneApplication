@@ -1,6 +1,5 @@
 package com.example.fortuneapplication;
 
-import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
@@ -9,7 +8,6 @@ import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -454,6 +452,18 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                 +"(NULL,'SFA','0'),"
                 +"(NULL,'SFA_MONITORING','0')";
 
+        String CREATE_COORDINATE_TRACKING_TABLE ="CREATE TABLE COORDINATE_TRACKING (" +
+                "ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "SALES_REP_ID INTEGER, " +
+                "DATETIME TEXT, " +
+                "DATE TEXT," +
+                "LONGITUDE TEXT," +
+                "LATITUDE TEXT," +
+                "SYNC_STATUS INTEGER" +
+                ")";
+
+
+
         db.execSQL(CREATE_CONNECTIONTABLE);
         db.execSQL(CREATE_DASHBOARDTABLE);
         db.execSQL(CREATE_SALES_ORDER_ITEMS_TABLE);
@@ -476,6 +486,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_CUSTOMER_SKIP_TABLE);
         db.execSQL(CREATE_REQUEST_REPIN_TABLE);
         db.execSQL(CREATE_CUSTOMER_WSR_TABLE);
+        db.execSQL(CREATE_COORDINATE_TRACKING_TABLE);
 //        db.execSQL(ALTER_ITEM_TABLE);
 
     }
@@ -498,6 +509,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + CUSTOMER_SKIP_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + REQUEST_REPIN_STATUS);
         db.execSQL("DROP TABLE IF EXISTS CUSTOMER_WSR");
+        db.execSQL("DROP TABLE IF EXISTS COORDINATE_TRACKING");
         onCreate(db);
     }
 
@@ -689,6 +701,23 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         }
         catch (Exception e) {
             return false;
+        }
+    }
+
+    public void storeCoordinateTracking(String [] coordinate_tracking){
+        try {
+            SQLiteDatabase db = this.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put("SALES_REP_ID,", coordinate_tracking[0]);
+            values.put("DATETIME", coordinate_tracking[1]);
+            values.put("DATE", coordinate_tracking[2]);
+            values.put("LONGITUDE", coordinate_tracking[3]);
+            values.put("LATITUDE", coordinate_tracking[4]);
+            values.put("SYNC_STATUS", coordinate_tracking[5]);
+            db.insert("coordinate_tracking", null, values);
+
+        }
+        catch (Exception ignored) {
         }
     }
 
@@ -2684,6 +2713,47 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         }
         return customer_repin_id;
     }
+
+    public ArrayList<String[]> get_unsynced_coordinates(){//gets unsynced salesrep tracker
+        ArrayList<String[]> return_array = new ArrayList<String[]>();
+        String query="SELECT * FROM COORDINATE_TRACKING WHERE SYNC_STATUS=0";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query,null);
+        if(cursor.moveToFirst()){
+            do{
+                String[] row = {cursor.getString(0)
+                        ,cursor.getString(1)
+                        ,cursor.getString(2)
+                        ,cursor.getString(3)
+                        ,cursor.getString(4)
+                        ,cursor.getString(5)
+                        ,cursor.getString(6)
+
+                };
+                return_array.add(row);
+            }while(cursor.moveToNext());
+        }
+        cursor.close();
+        return return_array;
+    }
+
+    public void update_synced_coordinate_tracking(Integer id){
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        String update_query = "UPDATE COORDINATE_TRACKING SET SYNC_STATUS = 1 where ID ="+ id.toString();
+        try{
+            db.execSQL(update_query);
+            //db.setTransactionSuccessful();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        finally {
+            //db.endTransaction();
+        }
+
+    }
+
 
     public int check_customer_wsr(String customer_id){
         int customer_repin_id =0;
