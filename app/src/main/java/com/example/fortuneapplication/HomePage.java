@@ -278,6 +278,12 @@ public class HomePage extends AppCompatActivity implements LocationListener {
                     Toast.makeText(HomePage.this, "Please sync "+check_sync+".", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
+                {
+                    //Write Function To enable gps
+                    Toast.makeText(HomePage.this, "Please turn on location. .", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 Intent f = new Intent(HomePage.this,CustoDisplay.class );
                 startActivity(f);
@@ -294,6 +300,12 @@ public class HomePage extends AppCompatActivity implements LocationListener {
                     Toast.makeText(HomePage.this, "Please sync "+check_sync+".", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
+                {
+                    //Write Function To enable gps
+                    Toast.makeText(HomePage.this, "Please turn on location. .", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 Intent P = new Intent(HomePage.this,ItemListDisplay.class );
                 startActivity(P);
@@ -306,6 +318,12 @@ public class HomePage extends AppCompatActivity implements LocationListener {
                 String check_sync = mDatabaseHelper.get_max_sync_history();
                 if(check_sync!=""){
                     Toast.makeText(HomePage.this, "Please sync "+check_sync+".", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
+                {
+                    //Write Function To enable gps
+                    Toast.makeText(HomePage.this, "Please turn on location. .", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if(mDatabaseHelper.get_sfa_mode().equals("1")) {
@@ -326,6 +344,12 @@ public class HomePage extends AppCompatActivity implements LocationListener {
                 String check_sync = mDatabaseHelper.get_max_sync_history();
                 if(check_sync!=""){
                     Toast.makeText(HomePage.this, "Please sync "+check_sync+".", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
+                {
+                    //Write Function To enable gps
+                    Toast.makeText(HomePage.this, "Please turn on location. .", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 Intent nb = new Intent(HomePage.this,History.class);
