@@ -626,7 +626,7 @@ public class HomePage extends AppCompatActivity implements LocationListener {
                         }
                     }
                 }
-                if(i%600==0 || i == 40){
+                if(i%60==0){
                     try {
                         ArrayList<String[]> unsynced_coordinates = mDatabaseHelper.get_unsynced_coordinates();
 
@@ -671,7 +671,7 @@ public class HomePage extends AppCompatActivity implements LocationListener {
                         Log.d("Exception",e.getMessage());
                     }
                 }
-                if(i%600==0 || i == 20){
+                if(i%50==0){
 
                     String default_salesrep_id = mDatabaseHelper.get_default_salesrep_id();
                     String datetime = mDatabaseHelper.get_currentdatetime();

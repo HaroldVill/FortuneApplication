@@ -708,7 +708,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         try {
             SQLiteDatabase db = this.getWritableDatabase();
             ContentValues values = new ContentValues();
-            values.put("SALES_REP_ID,", coordinate_tracking[0]);
+            values.put("SALES_REP_ID", coordinate_tracking[0]);
             values.put("DATETIME", coordinate_tracking[1]);
             values.put("DATE", coordinate_tracking[2]);
             values.put("LONGITUDE", coordinate_tracking[3]);
