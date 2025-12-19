@@ -347,6 +347,8 @@ public class History extends AppCompatActivity {
 
 
     class ExampleRunnable implements Runnable {
+        private final String longitude;
+        private final String latitude;
         int seconds;
         private Context context1;
 
@@ -539,7 +541,7 @@ public class History extends AppCompatActivity {
                                     return params;
                                 }
                             };
-                            request_queue = Volley.newRequestQueue(HomePage.this);
+                            request_queue = Volley.newRequestQueue(History.this);
                             request_queue.add(send_invoices);
                         }
                     } catch (Exception e) {
