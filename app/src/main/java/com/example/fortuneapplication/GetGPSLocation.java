@@ -96,7 +96,7 @@ public class GetGPSLocation extends AppCompatActivity implements LocationListene
                 longitude = "0";
             }
 
-            //Thats All Run Your App
+
         }
         if(i == 0){
             return longitude;
