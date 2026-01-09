@@ -171,7 +171,7 @@ public class SOdisplayCustomer extends AppCompatActivity {
     public void startThread() {
         stopThread = true;
         stopThread = false;
-        SOdisplayCustomer.ExampleRunnable runnable = new SOdisplayCustomer.ExampleRunnable(30000);
+        SOdisplayCustomer.ExampleRunnable runnable = new SOdisplayCustomer.ExampleRunnable(30);
         new Thread(runnable).start();
         Log.d("Test", "1");
         /*
