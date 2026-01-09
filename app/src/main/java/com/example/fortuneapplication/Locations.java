@@ -18,7 +18,7 @@ public class Locations extends AppCompatActivity {
     private RecyclerView locationlw;
     EditText sc1;
     private LocationDisplayAdapter locationDisplayAdapter;
-    private ArrayList<Location> mLocation= new ArrayList<>();
+    private ArrayList<Locationing> mLocation= new ArrayList<>();
     private PazDatabaseHelper mDatabaseHelper;
 
     @Override
@@ -56,8 +56,8 @@ public class Locations extends AppCompatActivity {
     }
 
     public void filterList(String text) {
-        List<Location> filterList = new ArrayList<>();
-        for (Location location : mLocation) {
+        List<Locationing> filterList = new ArrayList<>();
+        for (Locationing location : mLocation) {
 
             if (location.getLocname().toLowerCase().contains(text.toLowerCase())) {
                 filterList.add(location);

@@ -6,7 +6,6 @@ import static com.example.fortuneapplication.PazDatabaseHelper.CONNECTION_NAME;
 import static com.example.fortuneapplication.PazDatabaseHelper.CONNECTION_TABLE;
 import static com.example.fortuneapplication.PazDatabaseHelper.SYSTEM_SETTINGS;
 import static com.example.fortuneapplication.PazDatabaseHelper.SYSTEM_SETTINGS_NAME;
-import static com.example.fortuneapplication.PazDatabaseHelper.SYSTEM_SETTINGS_VALUE;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -35,8 +34,6 @@ import android.widget.EditText;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Set;
@@ -357,9 +354,9 @@ public class Connections extends AppCompatActivity {
             public void onClick(View view) {
                 PopupMenu popupMenu = new PopupMenu(Connections.this, selection);
                 Menu menu = popupMenu.getMenu();
-                ArrayList<Location> locationlists = displaylocation();
+                ArrayList<Locationing> locationlists = displaylocation();
 
-                for (Location locationlist : locationlists) {
+                for (Locationing locationlist : locationlists) {
                     menu.add(Menu.NONE, Integer.parseInt(locationlist.getLocid().toString()), Menu.NONE, locationlist.getLocname().toString());
                 }
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -527,8 +524,8 @@ public class Connections extends AppCompatActivity {
 
     }
 
-    public ArrayList<Location> displaylocation() {
-        ArrayList<Location> Locationlist = new ArrayList<>();
+    public ArrayList<Locationing> displaylocation() {
+        ArrayList<Locationing> Locationlist = new ArrayList<>();
 
         String query = "SELECT location_id,location_name from location_table";
 
@@ -536,7 +533,7 @@ public class Connections extends AppCompatActivity {
         Cursor cursor = db.rawQuery(query, null);
         if (cursor.moveToFirst()) {
             do {
-                Location location = new Location();
+                Locationing location = new Locationing();
                 location.setLocid(cursor.getString(0));
                 location.setLocname(cursor.getString(1));
                 Locationlist.add(location);

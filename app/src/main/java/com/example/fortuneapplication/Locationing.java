@@ -1,15 +1,15 @@
 package com.example.fortuneapplication;
 
-public class Location {
+public class Locationing {
 
     private String locid;
     private String locname;
 
-    public Location(String locid, String locname) {
+    public Locationing(String locid, String locname) {
         this.locid = locid;
         this.locname = locname;
     }
-    public Location(){
+    public Locationing(){
 
     }
 

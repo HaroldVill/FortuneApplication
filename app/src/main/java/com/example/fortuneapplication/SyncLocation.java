@@ -34,7 +34,7 @@ import java.util.List;
 
 public class SyncLocation extends AppCompatActivity {
    // private static final String JSON_URL = "http://192.168.254.230:8082/MobileAPI/LOCATION.php";
-    private List<Location> locations;
+    private List<Locationing> locations;
     ListView syncloca;
     Button snclo;
     ImageView humn;
@@ -102,7 +102,7 @@ public class SyncLocation extends AppCompatActivity {
                                     String idlo = jsonObject.getString("id");
                                     String namlo = jsonObject.getString("name");
 
-                                    Location location = new Location(idlo,namlo);
+                                    Locationing location = new Locationing(idlo,namlo);
 
 
                                     boolean isStored = databaseHelper.storeLocation(location);

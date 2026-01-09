@@ -20,7 +20,7 @@ public class SALESORDER {
     private Customer customer;
     private SALESORDERITEMS salesorderitems;
     private Item item;
-    private Location location;
+    private Locationing location;
     private SalesRepList salesRepList;
     private String sales_rep_name;
     private String item_group;
@@ -31,7 +31,7 @@ public class SALESORDER {
     private String end_order;
     private String reason;
 
-    public SALESORDER(int salesorderid, String code, String date, int customerid, int locationid, int salesrepid, String dateneeded, int ponumber, int shipvia, String amount, String notes, String custom1, String custom2, String custom3, String custom4, String custom5, Customer customer, SALESORDERITEMS salesorderitems, Item item, Location location, SalesRepList salesRepList, String sales_rep_name,String item_group, String customer_name, String buying_accts, String drop_size, String begin_order, String end_order, String reason) {
+    public SALESORDER(int salesorderid, String code, String date, int customerid, int locationid, int salesrepid, String dateneeded, int ponumber, int shipvia, String amount, String notes, String custom1, String custom2, String custom3, String custom4, String custom5, Customer customer, SALESORDERITEMS salesorderitems, Item item, Locationing location, SalesRepList salesRepList, String sales_rep_name, String item_group, String customer_name, String buying_accts, String drop_size, String begin_order, String end_order, String reason) {
         this.salesorderid = salesorderid;
         this.code = code;
         this.date = date;
@@ -231,11 +231,11 @@ public class SALESORDER {
         this.item = item;
     }
 
-    public Location getLocation() {
+    public Locationing getLocation() {
         return location;
     }
 
-    public void setLocation(Location location) {
+    public void setLocation(Locationing location) {
         this.location = location;
     }
 

@@ -12,12 +12,12 @@ import androidx.annotation.Nullable;
 
 import java.util.List;
 
-public class SyncLocactionAdapter extends ArrayAdapter<Location> {
+public class SyncLocactionAdapter extends ArrayAdapter<Locationing> {
 
-    private List<Location> locations;
+    private List<Locationing> locations;
     private Context context;
 
-    public SyncLocactionAdapter(List<Location> locations, Context context) {
+    public SyncLocactionAdapter(List<Locationing> locations, Context context) {
         super(context, R.layout.locationdesign, locations);
         this.locations = locations;
         this.context = context;
@@ -33,7 +33,7 @@ public class SyncLocactionAdapter extends ArrayAdapter<Location> {
         TextView w1 = listlocation.findViewById(R.id.locid);
         TextView w2 = listlocation.findViewById(R.id.locname);
 
-        Location location = locations.get(position);
+        Locationing location = locations.get(position);
 
         w1.setText(location.getLocid());
         w2.setText(location.getLocname());

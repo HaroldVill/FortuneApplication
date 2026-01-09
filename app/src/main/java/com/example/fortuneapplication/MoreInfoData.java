@@ -99,7 +99,7 @@ public class MoreInfoData extends AppCompatActivity {
            SalesRepList salesRepList = new SalesRepList();
            salesRepList.setSrname(cursor.getString(cursor.getColumnIndex(SALESREP_NAME)));
 
-           Location location = new Location();
+           Locationing location = new Locationing();
            location.setLocname(cursor.getString(cursor.getColumnIndex(LOCATION_NAME)));
 
 

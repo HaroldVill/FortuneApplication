@@ -5,7 +5,10 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
-
+import androidx.core.content.ContextCompat;
+//import androidx.work.ExistingPeriodicWorkPolicy;
+//import androidx.work.PeriodicWorkRequest;
+//import androidx.work.WorkManager;
 
 
 import android.Manifest;
@@ -21,6 +24,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.LocationRequest;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
@@ -52,6 +56,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 
 public class HomePage extends AppCompatActivity implements LocationListener {
     private static final long MIN_TIME_BW_UPDATES = 1000;
@@ -77,6 +82,8 @@ public class HomePage extends AppCompatActivity implements LocationListener {
     RequestQueue request_queue;
     Criteria criteria;
     Context context;
+    private static final int LOCATION_PERMISSION_CODE =100;
+    private boolean isServiceRunning = false;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -377,6 +384,11 @@ public class HomePage extends AppCompatActivity implements LocationListener {
             }
         });
 
+//        if (checkLocationPermissions()) {
+//            startLocationService();
+//        } else {
+//            requestLocationPermissions();
+//        }
     }
 
 
@@ -467,7 +479,7 @@ public class HomePage extends AppCompatActivity implements LocationListener {
                                     json_soitems.put(jsonObject);
                                 }
                                 StringRequest send_invoices = new StringRequest(Request.Method.POST, api_url,
-                                        response -> {Log.d("Success","Success");
+                                        response -> {Log.d("Success","1Success");
                                                 if(response.contains("succesfully") || response.contains("has already been")){
                                                     mDatabaseHelper.update_so_status(sales_order_id);}
                                                 else{
@@ -544,7 +556,7 @@ public class HomePage extends AppCompatActivity implements LocationListener {
                                     json_soitems.put(jsonObject);
                                 }
                                 StringRequest send_invoices = new StringRequest(Request.Method.POST, api_url,
-                                        response -> {Log.d("Success","Success");
+                                        response -> {Log.d("Success","2Success");
                                             if(response.contains("succesfully") || response.contains("has already been")){
                                                 mDatabaseHelper.update_so_status(sales_order_id);}
                                             else{
@@ -602,7 +614,7 @@ public class HomePage extends AppCompatActivity implements LocationListener {
                             List<SALESORDER> salesOrderList = mDatabaseHelper.get_customer_skip_order(customer_skip_id);
                             for (SALESORDER salesOrder : salesOrderList) {
                                 StringRequest send_invoices = new StringRequest(Request.Method.POST, api_url,
-                                        response -> {Log.d("Success","Success");
+                                        response -> {Log.d("Success","3Success");
                                             if(response.contains("succesfully") || response.contains("has already been")){
                                                 mDatabaseHelper.update_customer_skip_status(customer_skip_id);}},
                                         error -> Log.d("Error","Connection Error")){
@@ -626,68 +638,70 @@ public class HomePage extends AppCompatActivity implements LocationListener {
                         }
                     }
                 }
-                if(i%60==0){
-                    try {
-                        ArrayList<String[]> unsynced_coordinates = mDatabaseHelper.get_unsynced_coordinates();
-
-                        for (String[] coordinates_array : unsynced_coordinates) {
-                            Integer id = Integer.parseInt(coordinates_array[0]);
-                            String default_salesrep_id = coordinates_array[1];
-                            String datetime = coordinates_array[2];
-                            String date = coordinates_array[3];
-                            String unsynced_longitude = coordinates_array[4];
-                            String unsynced_latitude = coordinates_array[5];
-
-                            ArrayList<CONNECT> connectList2 = mDatabaseHelper.SelectUPDT();
-                            if (!connectList2.isEmpty()) {
-                                x = connectList2.get(0).getIp(); // Assuming the first IP address is what you need
-                                String sales_type = mDatabaseHelper.sales_type();
-                                Log.d("sales_type",sales_type);
-                                api_url = "http://" + x + "/MobileAPI/sync_salesrep_coordinates.php";
-                            }
-//                           PazDatabaseHelper dbHelper = new PazDatabaseHelper(context);
-                            StringRequest send_invoices = new StringRequest(Request.Method.POST, api_url,
-                                    response -> {Log.d("Success","Success");
-                                        if(response.contains("succesfully") || response.contains("has already been")){
-                                            mDatabaseHelper.update_synced_coordinate_tracking(id);
-                                            Log.d(TAG, "successful_log_coordinates");}},
-                                    error -> Log.d("Error","Connection Error")){
-                                @Override
-                                protected Map<String, String> getParams() throws AuthFailureError {
-                                    Map<String, String> params =new HashMap<>();
-                                    params.put("sales_rep_id", default_salesrep_id);
-                                    params.put("datetime", datetime);
-                                    params.put("date", date);
-                                    params.put("longitude", unsynced_longitude);
-                                    params.put("latitude", unsynced_latitude);
-                                    return params;
-                                }
-                            };
-                            request_queue = Volley.newRequestQueue(HomePage.this);
-                            request_queue.add(send_invoices);
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        Log.d("Exception",e.getMessage());
-                    }
-                }
-                if(i%50==0){
-
-                    String default_salesrep_id = mDatabaseHelper.get_default_salesrep_id();
-                    String datetime = mDatabaseHelper.get_currentdatetime();
-                    String date = mDatabaseHelper.get_currentdate();
-
-                    String[] coordinate_tracking = {default_salesrep_id, datetime, date, longitude,latitude,"0"};
-
-                    if(Integer.parseInt(default_salesrep_id) !=0){
-                        try {
-                            mDatabaseHelper.storeCoordinateTracking(coordinate_tracking);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            Log.d("Exception",e.getMessage());
-                        }
-                    }
-                }
+//                if(i%60==0){
+//                    try {
+//                        ArrayList<String[]> unsynced_coordinates = mDatabaseHelper.get_unsynced_coordinates();
+//
+//                        for (String[] coordinates_array : unsynced_coordinates) {
+//                            Integer id = Integer.parseInt(coordinates_array[0]);
+//                            String default_salesrep_id = coordinates_array[1];
+//                            String datetime = coordinates_array[2];
+//                            String date = coordinates_array[3];
+//                            String unsynced_longitude = coordinates_array[4];
+//                            String unsynced_latitude = coordinates_array[5];
+//
+//                            ArrayList<CONNECT> connectList2 = mDatabaseHelper.SelectUPDT();
+//                            if (!connectList2.isEmpty()) {
+//                                x = connectList2.get(0).getIp(); // Assuming the first IP address is what you need
+//                                String sales_type = mDatabaseHelper.sales_type();
+//                                Log.d("sales_type",sales_type);
+//                                api_url = "http://" + x + "/MobileAPI/sync_salesrep_coordinates.php";
+//                            }
+////                           PazDatabaseHelper dbHelper = new PazDatabaseHelper(context);
+//                            StringRequest send_invoices = new StringRequest(Request.Method.POST, api_url,
+//                                    response -> {Log.d("Success","Success");
+//                                        if(response.contains("succesfully") || response.contains("has already been")){
+//                                            mDatabaseHelper.update_synced_coordinate_tracking(id);
+//                                            Log.d(TAG, "successful_log_coordinates");}},
+//                                    error -> Log.d("Error","Connection Error")){
+//                                @Override
+//                                protected Map<String, String> getParams() throws AuthFailureError {
+//                                    Map<String, String> params =new HashMap<>();
+//                                    params.put("sales_rep_id", default_salesrep_id);
+//                                    params.put("datetime", datetime);
+//                                    params.put("date", date);
+//                                    params.put("longitude", unsynced_longitude);
+//                                    params.put("latitude", unsynced_latitude);
+//                                    return params;
+//                                }
+//                            };
+//                            request_queue = Volley.newRequestQueue(HomePage.this);
+//                            request_queue.add(send_invoices);
+//                        }
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                        Log.d("Exception",e.getMessage());
+//                    }
+//                }
+//                if(i%50==0){
+//
+//                    String default_salesrep_id = mDatabaseHelper.get_default_salesrep_id();
+//                    String datetime = mDatabaseHelper.get_currentdatetime();
+//                    String date = mDatabaseHelper.get_currentdate();
+//
+//                    String[] coordinate_tracking = {default_salesrep_id, datetime, date, longitude,latitude,"0"};
+//
+//                    if(Integer.parseInt(default_salesrep_id) !=0){
+//                        try {
+//                            mDatabaseHelper.storeCoordinateTracking(coordinate_tracking);
+//                            Log.d("BackgroundLocation", "storedIntheDatabase");
+//                        } catch (Exception e) {
+//                            e.printStackTrace();
+//                            Log.d("Exception",e.getMessage());
+//                        }
+//                    }
+////                    Log.d("BackgroundLocation", "storedIntheDatabase");
+//                }
                 if(i%5==0){
                     int customer_repin_id = mDatabaseHelper.get_unsynced_request_repin();
                     if(customer_repin_id !=0){
@@ -704,7 +718,7 @@ public class HomePage extends AppCompatActivity implements LocationListener {
                             for (SALESORDER salesOrder : salesOrderList) {
                                 Log.d(TAG, Integer.toString(salesOrder.getCustomerid()));
                                 StringRequest send_invoices = new StringRequest(Request.Method.POST, api_url,
-                                        response -> {Log.d("Success","Success");
+                                        response -> {Log.d("Success","4Success");
                                             if(response.contains("succesfully") || response.contains("has already been")){
                                                 mDatabaseHelper.update_customer_repin_status(customer_repin_id);}},
                                         error -> Log.d("Error","Connection Error")){
@@ -728,7 +742,8 @@ public class HomePage extends AppCompatActivity implements LocationListener {
                 }
                 if(i%10 == 0){
                     int customer_id = mDatabaseHelper.get_customer_pin_flag();
-                    if(customer_id >=0){
+                    Log.d("customer_id", Integer.toString(mDatabaseHelper.get_customer_pin_flag()));
+                    if(customer_id >0){
                         try {
                             ArrayList<CONNECT> connectList2 = mDatabaseHelper.SelectUPDT();
                             if (!connectList2.isEmpty()) {
@@ -739,7 +754,7 @@ public class HomePage extends AppCompatActivity implements LocationListener {
                             String latitude=mDatabaseHelper.get_customer_latitude(customer_id);
                             String verify_pin= mDatabaseHelper.get_verify_pin(customer_id);
                             StringRequest send_customer_pin = new StringRequest(Request.Method.POST, api_url,
-                                    response -> {Log.d("Success","Success");
+                                    response -> {Log.d("Success","5Success");
                                         if(response.contains("succesfully") || response.contains("has already been")){
                                             mDatabaseHelper.update_customer_pin_flag(customer_id);}},
                                     error -> Log.d("Error","Connection Error")){
@@ -1003,4 +1018,77 @@ public class HomePage extends AppCompatActivity implements LocationListener {
         final AlertDialog alertDialog=builder.create();
         alertDialog.show();
     }
+
+    private boolean checkLocationPermissions() {
+        boolean fineLocation = ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+        boolean coarseLocation = ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            boolean backgroundLocation = ContextCompat.checkSelfPermission(this,
+                    Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_GRANTED;
+            return fineLocation && coarseLocation && backgroundLocation;
+        }
+        return fineLocation && coarseLocation;
+    }
+
+    private void requestLocationPermissions() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{
+                            Manifest.permission.ACCESS_FINE_LOCATION,
+                            Manifest.permission.ACCESS_COARSE_LOCATION,
+                            Manifest.permission.ACCESS_BACKGROUND_LOCATION
+                    }, LOCATION_PERMISSION_CODE);
+        } else {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{
+                            Manifest.permission.ACCESS_FINE_LOCATION,
+                            Manifest.permission.ACCESS_COARSE_LOCATION
+                    }, LOCATION_PERMISSION_CODE);
+        }
+    }
+
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+//                                           @NonNull int[] grantResults) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//        if (requestCode == LOCATION_PERMISSION_CODE) {
+//            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//                startLocationService();
+//            } else {
+//                Toast.makeText(this, "Location permissions required", Toast.LENGTH_SHORT).show();
+//            }
+//        }
+//    }
+
+//    public void startLocationService() {
+//        Intent serviceIntent = new Intent(this, LocationService.class);
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            startForegroundService(serviceIntent);
+//        } else {
+//            startService(serviceIntent);
+//        }
+//        isServiceRunning = true;
+//        Toast.makeText(this, "Location service started", Toast.LENGTH_SHORT).show();
+//    }
+
+//    private void scheduleAutoStartWork() {
+//        String workName = "MyAutoStartSyncWork";
+//
+//        PeriodicWorkRequest autoStartWorkRequest = new PeriodicWorkRequest.Builder(AutoStartWorker.class, 1, TimeUnit.HOURS)
+//                .build();
+//
+//        WorkManager.getInstance(this).enqueueUniquePeriodicWork(
+//                workName,
+//                ExistingPeriodicWorkPolicy.KEEP,
+//                autoStartWorkRequest);
+//    }
+
+
+
+
+
+
 }

@@ -620,7 +620,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
     }
 
     //*LOCATION TABLE//*
-    public boolean storeLocation(Location location) {
+    public boolean storeLocation(Locationing location) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
@@ -997,15 +997,15 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
     // FETCH DATA FROM LOCATION TABLE //
 
     @SuppressLint("Range")
-    public ArrayList<Location> getAllLocation() {
-        ArrayList<Location> locations = new ArrayList<>();
+    public ArrayList<Locationing> getAllLocation() {
+        ArrayList<Locationing> locations = new ArrayList<>();
         String query = "SELECT * FROM " + LOCATION_TABLE;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(query, null);
         if (cursor.moveToFirst()) {
 
             do {
-                Location location = new Location();
+                Locationing location = new Locationing();
                 location.setLocid(cursor.getString(cursor.getColumnIndex(LOCATION_ID)));
                 location.setLocname(cursor.getString(cursor.getColumnIndex(LOCATION_NAME)));
 
@@ -2028,7 +2028,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                 customerR.setCustomername(cursor.getString(cursor.getColumnIndex(CUSTOMER_NAME)));
                 customerR.setId(cursor.getString(cursor.getColumnIndex(CUSTOMER_ID)));
 
-                Location location = new Location();
+                Locationing location = new Locationing();
                 location.setLocid(cursor.getString(cursor.getColumnIndex(LOCATION_ID)));
 
                 salesorder.setLocationid(Integer.parseInt(location.getLocid()));
@@ -2107,7 +2107,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                 customerR.setCustomername(cursor.getString(cursor.getColumnIndex(CUSTOMER_NAME)));
                 customerR.setId(cursor.getString(cursor.getColumnIndex(CUSTOMER_ID)));
 
-                Location location = new Location();
+                Locationing location = new Locationing();
                 location.setLocid(cursor.getString(cursor.getColumnIndex(LOCATION_ID)));
 
                 salesorder.setLocationid(Integer.parseInt(location.getLocid()));
@@ -2170,7 +2170,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                 customerR.setCustomername(cursor.getString(cursor.getColumnIndex(CUSTOMER_NAME)));
                 customerR.setId(cursor.getString(cursor.getColumnIndex(CUSTOMER_ID)));
 
-                Location location = new Location();
+                Locationing location = new Locationing();
                 location.setLocid(cursor.getString(cursor.getColumnIndex(LOCATION_ID)));
 
                 salesorder.setLocationid(Integer.parseInt(location.getLocid()));
@@ -2716,7 +2716,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
 
     public ArrayList<String[]> get_unsynced_coordinates(){//gets unsynced salesrep tracker
         ArrayList<String[]> return_array = new ArrayList<String[]>();
-        String query="SELECT * FROM COORDINATE_TRACKING WHERE SYNC_STATUS=0";
+        String query="SELECT * FROM COORDINATE_TRACKING WHERE SYNC_STATUS=0 LIMIT 5";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(query,null);
         if(cursor.moveToFirst()){

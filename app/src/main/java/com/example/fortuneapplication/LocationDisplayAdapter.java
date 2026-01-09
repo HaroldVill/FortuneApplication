@@ -16,15 +16,15 @@ import java.util.List;
 
 public class LocationDisplayAdapter extends RecyclerView.Adapter<LocationDisplayAdapter.MyViewHolder> {
     private Context context;
-    private ArrayList<Location> locations;
+    private ArrayList<Locationing> locations;
 
-    public LocationDisplayAdapter(Context context, ArrayList<Location> locations) {
+    public LocationDisplayAdapter(Context context, ArrayList<Locationing> locations) {
         this.context = context;
         this.locations = locations;
     }
 
-    public void setFilterdList(List<Location> filterdList){
-        this.locations = (ArrayList<Location>) filterdList;
+    public void setFilterdList(List<Locationing> filterdList){
+        this.locations = (ArrayList<Locationing>) filterdList;
         notifyDataSetChanged();
     }
 
@@ -37,7 +37,7 @@ public class LocationDisplayAdapter extends RecyclerView.Adapter<LocationDisplay
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        Location location = locations.get(position);
+        Locationing location = locations.get(position);
         holder.locid.setText(location.getLocid());
         holder.locname.setText(location.getLocname());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
