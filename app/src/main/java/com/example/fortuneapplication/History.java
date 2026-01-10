@@ -327,7 +327,7 @@ public class History extends AppCompatActivity {
         GetGPSLocation gps = new GetGPSLocation(History.this,this,locationManager);
         double longitude = Double.parseDouble(gps.get_longitude());
         double latitude = Double.parseDouble(gps.get_latitude());
-        ExampleRunnable runnable = new ExampleRunnable(200,Double.toString(longitude),Double.toString(latitude));
+        ExampleRunnable runnable = new ExampleRunnable(180,Double.toString(longitude),Double.toString(latitude));
         new Thread(runnable).start();
         Log.d("Test", "1");
         /*
@@ -504,68 +504,68 @@ public class History extends AppCompatActivity {
                     }
 
                 }
-                if(i%60==0){
-                    try {
-                        ArrayList<String[]> unsynced_coordinates = mDatabaseHelper.get_unsynced_coordinates();
-
-                        for (String[] coordinates_array : unsynced_coordinates) {
-                            Integer id = Integer.parseInt(coordinates_array[0]);
-                            String default_salesrep_id = coordinates_array[1];
-                            String datetime = coordinates_array[2];
-                            String date = coordinates_array[3];
-                            String unsynced_longitude = coordinates_array[4];
-                            String unsynced_latitude = coordinates_array[5];
-
-                            ArrayList<CONNECT> connectList2 = mDatabaseHelper.SelectUPDT();
-                            if (!connectList2.isEmpty()) {
-                                x = connectList2.get(0).getIp(); // Assuming the first IP address is what you need
-                                String sales_type = mDatabaseHelper.sales_type();
-                                Log.d("sales_type",sales_type);
-                                api_url = "http://" + x + "/MobileAPI/sync_salesrep_coordinates.php";
-                            }
-//                           PazDatabaseHelper dbHelper = new PazDatabaseHelper(context);
-                            StringRequest send_invoices = new StringRequest(Request.Method.POST, api_url,
-                                    response -> {Log.d("Success","Success");
-                                        if(response.contains("succesfully") || response.contains("has already been")){
-                                            mDatabaseHelper.update_synced_coordinate_tracking(id);
-                                            Log.d(TAG, "successful_log_coordinates");}},
-                                    error -> Log.d("Error","Connection Error")){
-                                @Override
-                                protected Map<String, String> getParams() throws AuthFailureError {
-                                    Map<String, String> params =new HashMap<>();
-                                    params.put("sales_rep_id", default_salesrep_id);
-                                    params.put("datetime", datetime);
-                                    params.put("date", date);
-                                    params.put("longitude", unsynced_longitude);
-                                    params.put("latitude", unsynced_latitude);
-                                    return params;
-                                }
-                            };
-                            request_queue = Volley.newRequestQueue(History.this);
-                            request_queue.add(send_invoices);
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        Log.d("Exception",e.getMessage());
-                    }
-                }
-                if(i%50==0){
-
-                    String default_salesrep_id = mDatabaseHelper.get_default_salesrep_id();
-                    String datetime = mDatabaseHelper.get_currentdatetime();
-                    String date = mDatabaseHelper.get_currentdate();
-
-                    String[] coordinate_tracking = {default_salesrep_id, datetime, date, longitude,latitude,"0"};
-
-                    if(Integer.parseInt(default_salesrep_id) !=0){
-                        try {
-                            mDatabaseHelper.storeCoordinateTracking(coordinate_tracking);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            Log.d("Exception",e.getMessage());
-                        }
-                    }
-                }
+//                if(i%60==0){
+//                    try {
+//                        ArrayList<String[]> unsynced_coordinates = mDatabaseHelper.get_unsynced_coordinates();
+//
+//                        for (String[] coordinates_array : unsynced_coordinates) {
+//                            Integer id = Integer.parseInt(coordinates_array[0]);
+//                            String default_salesrep_id = coordinates_array[1];
+//                            String datetime = coordinates_array[2];
+//                            String date = coordinates_array[3];
+//                            String unsynced_longitude = coordinates_array[4];
+//                            String unsynced_latitude = coordinates_array[5];
+//
+//                            ArrayList<CONNECT> connectList2 = mDatabaseHelper.SelectUPDT();
+//                            if (!connectList2.isEmpty()) {
+//                                x = connectList2.get(0).getIp(); // Assuming the first IP address is what you need
+//                                String sales_type = mDatabaseHelper.sales_type();
+//                                Log.d("sales_type",sales_type);
+//                                api_url = "http://" + x + "/MobileAPI/sync_salesrep_coordinates.php";
+//                            }
+////                           PazDatabaseHelper dbHelper = new PazDatabaseHelper(context);
+//                            StringRequest send_invoices = new StringRequest(Request.Method.POST, api_url,
+//                                    response -> {Log.d("Success","Success");
+//                                        if(response.contains("succesfully") || response.contains("has already been")){
+//                                            mDatabaseHelper.update_synced_coordinate_tracking(id);
+//                                            Log.d(TAG, "successful_log_coordinates");}},
+//                                    error -> Log.d("Error","Connection Error")){
+//                                @Override
+//                                protected Map<String, String> getParams() throws AuthFailureError {
+//                                    Map<String, String> params =new HashMap<>();
+//                                    params.put("sales_rep_id", default_salesrep_id);
+//                                    params.put("datetime", datetime);
+//                                    params.put("date", date);
+//                                    params.put("longitude", unsynced_longitude);
+//                                    params.put("latitude", unsynced_latitude);
+//                                    return params;
+//                                }
+//                            };
+//                            request_queue = Volley.newRequestQueue(History.this);
+//                            request_queue.add(send_invoices);
+//                        }
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                        Log.d("Exception",e.getMessage());
+//                    }
+//                }
+//                if(i%50==0){
+//
+//                    String default_salesrep_id = mDatabaseHelper.get_default_salesrep_id();
+//                    String datetime = mDatabaseHelper.get_currentdatetime();
+//                    String date = mDatabaseHelper.get_currentdate();
+//
+//                    String[] coordinate_tracking = {default_salesrep_id, datetime, date, longitude,latitude,"0"};
+//
+//                    if(Integer.parseInt(default_salesrep_id) !=0){
+//                        try {
+//                            mDatabaseHelper.storeCoordinateTracking(coordinate_tracking);
+//                        } catch (Exception e) {
+//                            e.printStackTrace();
+//                            Log.d("Exception",e.getMessage());
+//                        }
+//                    }
+//                }
 //                if(i%600==0 || i == 20){
 //
 //                    String default_salesrep_id = mDatabaseHelper.get_default_salesrep_id();

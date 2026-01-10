@@ -2716,7 +2716,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
 
     public ArrayList<String[]> get_unsynced_coordinates(){//gets unsynced salesrep tracker
         ArrayList<String[]> return_array = new ArrayList<String[]>();
-        String query="SELECT * FROM COORDINATE_TRACKING WHERE SYNC_STATUS=0 LIMIT 5";
+        String query="SELECT * FROM COORDINATE_TRACKING WHERE SYNC_STATUS=0 ORDER BY DATETIME DESC LIMIT 5";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(query,null);
         if(cursor.moveToFirst()){
