@@ -48,7 +48,9 @@ public class LocationService extends Service {
     private PazDatabaseHelper mDatabaseHelper;
     private RequestQueue request_queue;
     private String IPADD, apiSendingAddress;
-    private static final int INTERVAL = 1000 * 60 * 2; // 2 minutes
+    private static final long INTERVAL = 1000 * 60 * 2; // 2 minutes
+    private final Handler handler = new Handler();
+    private Runnable runnable;
 
     @Override
     public void onCreate() {
@@ -64,7 +66,7 @@ public class LocationService extends Service {
                 }
                 for (Location location : locationResult.getLocations()) {
                     handleLocationUpdate(location);
-                    postingUnsyncedLocationOfSalesRep();
+//                    postingUnsyncedLocationOfSalesRep();
                 }
             }
         };
@@ -73,9 +75,35 @@ public class LocationService extends Service {
         if (!connectIP.isEmpty()) {
             IPADD = connectIP.get(0).getIp();
         }
+//        startThread();
+        repeatingTask();
 
 
     }
+
+//    private void startThread() {
+//        ExampleRunnable running = new ExampleRunnable(86400);
+//        new Thread(running).start();
+//    }
+//
+//    static class ExampleRunnable implements Runnable {
+//        int seconds;
+//
+//        ExampleRunnable(int seconds) {
+//            this.seconds = seconds;
+//        }
+//
+//        @Override
+//        public void run() {
+//            for(int i = 1; i < seconds; i++) {
+//                if (i % 120 == 0) {
+////                    postingUnsyncedLocationOfSalesRep();
+//                    Log.d(TAG, "FOR EVERY TWO MINUTES, YOU WILL APPEAR");
+//                }
+//            }
+//        }
+//    }
+
 
     public int onStartCommand(Intent intent, int flags, int startId) {
         createNotificationChannel();
@@ -132,7 +160,7 @@ public class LocationService extends Service {
         }
     }
 
-    public void postingUnsyncedLocationOfSalesRep() {
+    private void postingUnsyncedLocationOfSalesRep() {
         mDatabaseHelper = new PazDatabaseHelper(LocationService.this);
         try {
             ArrayList<String[]> unsynced_coordinates = mDatabaseHelper.get_unsynced_coordinates();
@@ -145,14 +173,14 @@ public class LocationService extends Service {
                 String unsynced_longitude = coordinates_array[4];
                 String unsynced_latitude = coordinates_array[5];
 
-                apiSendingAddress = "http://" + IPADD + "/MobileAPIaaaaaaaa/sync_salesrep_coordinatesaaaaaaaa.php";
+                apiSendingAddress = "http://" + IPADD + "/MobileAPI/sync_salesrep_coordinates.php";
                 StringRequest sendingToDatabase = new StringRequest(Request.Method.POST, apiSendingAddress,
                         new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
                                 Log.d(TAG, "SUCCESSFULLY RESPONDED");
                                 if(response.contains("succesfully") || response.contains("has already been")) {
-//                                    mDatabaseHelper.update_synced_coordinate_tracking(id);
+                                    mDatabaseHelper.update_synced_coordinate_tracking(id);
                                     Log.d(TAG, "SUCCESSFULLY_POSTED!");
                                 }
                             }
@@ -173,7 +201,7 @@ public class LocationService extends Service {
                         return params;
                     }
                 };
-                sendingToDatabase.setRetryPolicy(new DefaultRetryPolicy(120 * 1000, 2, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+//                sendingToDatabase.setRetryPolicy(new DefaultRetryPolicy(120 * 1000, 2, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
                 request_queue = Volley.newRequestQueue(LocationService.this);
                 request_queue.add(sendingToDatabase);
             }
@@ -269,11 +297,24 @@ public class LocationService extends Service {
         if (fusedLocationClient != null && locationCallback != null) {
             fusedLocationClient.removeLocationUpdates(locationCallback);
         }
+        handler.removeCallbacks(runnable);
     }
 
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
         return null;
+    }
+
+    private void repeatingTask() {
+        runnable = new Runnable() {
+            @Override
+            public void run() {
+//                Log.d(TAG, "FOR EVERY TWO MINUTES, YOU WILL APPEAR");
+                postingUnsyncedLocationOfSalesRep();
+                handler.postDelayed(this, INTERVAL);
+            }
+        };
+        handler.postDelayed(runnable, INTERVAL);
     }
 }
