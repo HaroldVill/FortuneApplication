@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -82,8 +83,17 @@ public class MainActivity extends AppCompatActivity  {
         sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         run();
 //        startThread();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            ActivityCompat.requestPermissions(this, new String[]
+                    {Manifest.permission.POST_NOTIFICATIONS}, REQUEST_LOCATION);
+        }
         ActivityCompat.requestPermissions(this,new String[]
                 {Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
+//        notificationPermission();
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+//            ActivityCompat.requestPermissions(this, new String[]
+//                    {Manifest.permission.POST_NOTIFICATIONS}, REQUEST_LOCATION);
+//        }
         locationManager=(LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
         {
@@ -97,6 +107,17 @@ public class MainActivity extends AppCompatActivity  {
 
             getLocation();
         }
+
+        Intent serviceIntent = new Intent(this, LocationService.class);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            // Use context.startForegroundService when targeting Android O and above
+            startForegroundService(serviceIntent);
+            Toast.makeText(this, "HINGGANA SYA PO", Toast.LENGTH_SHORT).show();
+        } else {
+            this.startService(serviceIntent);
+        }
+        notificationPermission();
     }
 
     private void getLocation() {
@@ -555,6 +576,28 @@ public class MainActivity extends AppCompatActivity  {
             }
         }
     }
+
+    private void notificationPermission() {
+        if (ContextCompat.checkSelfPermission(
+                MainActivity.this, Manifest.permission.POST_NOTIFICATIONS) !=
+                PackageManager.PERMISSION_GRANTED) {
+            requestNotification();
+        }
+    }
+
+    private void requestNotification() {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            ActivityCompat.requestPermissions(this, new String[]
+                    {Manifest.permission.POST_NOTIFICATIONS}, 1);
+        }
+    }
+
+
+//    private boolean isVersionTiramisu() {
+//        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU;
+//    }
+//    ActivityCompat.requestPermissions(this,new String[]
+//    {Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
 }
 
 

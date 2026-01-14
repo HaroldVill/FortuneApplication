@@ -22,8 +22,11 @@
 
     <!-- For Android 14+ (API 34+), specify foreground service type -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION" />
-    <!-- When boot completed sa app, mustart na iyang background/foreground service/s bisag nakaclose na ag app -->
+    <!-- When boot completed sa phone, mustart na iyang background/foreground service/s bisag nakaclose ag app -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+<!--    phone's permission to vibrate-->
+    <uses-permission android:name="android.permission.VIBRATE"/>
 
     <application
         android:usesCleartextTraffic="true"
@@ -240,6 +243,7 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.PROVIDER_CHANGED"/>
             </intent-filter>
         </receiver>
 

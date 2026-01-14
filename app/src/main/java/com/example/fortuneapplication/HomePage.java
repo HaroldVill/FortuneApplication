@@ -1049,46 +1049,4 @@ public class HomePage extends AppCompatActivity implements LocationListener {
                     }, LOCATION_PERMISSION_CODE);
         }
     }
-
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-//                                           @NonNull int[] grantResults) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-//        if (requestCode == LOCATION_PERMISSION_CODE) {
-//            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                startLocationService();
-//            } else {
-//                Toast.makeText(this, "Location permissions required", Toast.LENGTH_SHORT).show();
-//            }
-//        }
-//    }
-
-//    public void startLocationService() {
-//        Intent serviceIntent = new Intent(this, LocationService.class);
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//            startForegroundService(serviceIntent);
-//        } else {
-//            startService(serviceIntent);
-//        }
-//        isServiceRunning = true;
-//        Toast.makeText(this, "Location service started", Toast.LENGTH_SHORT).show();
-//    }
-
-//    private void scheduleAutoStartWork() {
-//        String workName = "MyAutoStartSyncWork";
-//
-//        PeriodicWorkRequest autoStartWorkRequest = new PeriodicWorkRequest.Builder(AutoStartWorker.class, 1, TimeUnit.HOURS)
-//                .build();
-//
-//        WorkManager.getInstance(this).enqueueUniquePeriodicWork(
-//                workName,
-//                ExistingPeriodicWorkPolicy.KEEP,
-//                autoStartWorkRequest);
-//    }
-
-
-
-
-
-
 }
