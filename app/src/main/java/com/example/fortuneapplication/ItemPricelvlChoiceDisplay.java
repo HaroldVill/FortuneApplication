@@ -187,7 +187,8 @@ public class ItemPricelvlChoiceDisplay extends AppCompatActivity {
            " ON " + PRICE_LEVEL_LINES_TABLE + "." + PRI_LEVEL_ID + " = " + PRICE_LEVEL_TABLE + "." + PRICE_LEVELID+
             " LEFT JOIN " + SPECIAL_PRICE_LEVEL_TABLE +
             " ON " + SPECIAL_PRICE_LEVEL_TABLE + "." + SPECIAL_PRICE_LEVEL_ITEM_ID + " = " + TABLE_NAME + "." + ITEMID +
-            " AND " + SPECIAL_PRICE_LEVEL_TABLE + "." + SPECIAL_PRICE_LEVEL_CUSTOMER_ID + " = " + customer_id.getText().toString();
+            " AND " + SPECIAL_PRICE_LEVEL_TABLE + "." + SPECIAL_PRICE_LEVEL_CUSTOMER_ID + " = " + customer_id.getText().toString()
+            +   " WHERE INACTIVE=0";
 
        Log.d("CHECKVALUE", "checkvalue: "+query);
 
