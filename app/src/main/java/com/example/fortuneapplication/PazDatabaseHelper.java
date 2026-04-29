@@ -76,6 +76,11 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
     protected static final String SPECIAL_PRICE_LEVEL_APPROVED_ON = "approved_on";
     protected static final String SPECIAL_PRICE_LEVEL_CUSTOM_PRICE = "custom_price";
 
+    //*DEFAULT ROUTE TABLE //*
+    protected static final String DEFAULT_ROUTE_TABLE = "route_table";
+    protected static final String DEFAULT_ROUTE_ID = "route_id";
+    protected static final String DEFAULT_ROUTE_NAME = "route_name";
+
 
     //* SALES_REP_TABLE //*
     public static final String SALESREP_TABLE = "Sales_Rep_Table";
@@ -272,7 +277,9 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                 " INVENTORY DOUBLE,"+
                 " WSR DOUBLE,"+
                 " SUGGESTED DOUBLE,"+
-                " INV_UOM TEXT"+
+                " INV_UOM TEXT,"+
+                " DEPARTURE_DATE TEXT,"+
+                " TARGET_ARRIVAL TEXT "+
                 ")";
 
         String CREATE_UNIT_MEASURE_TABLE = "CREATE TABLE " + UNIT_MEASURE_TABLE + " (" +
@@ -400,6 +407,11 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                 SPECIAL_PRICE_LEVEL_CUSTOM_PRICE+ " TEXT "+
                 ") ";
 
+        String CREATE_DEFAULT_ROUTE_TABLE = "CREATE TABLE " +DEFAULT_ROUTE_TABLE + " ("+
+                DEFAULT_ROUTE_ID+ " INTEGER, " +
+                DEFAULT_ROUTE_NAME+ " TEXT " +
+                ") ";
+
         String CREATE_CUSTOMER_SKIP_TABLE ="CREATE TABLE " +CUSTOMER_SKIP_TABLE  + " ("+
                 CUSTOMER_SKIP_TABLE_ID+" INTEGER PRIMARY KEY AUTOINCREMENT, "+
                 CUSTOMER_SKIP_TABLE_CUSTOMER_ID + " INTEGER, " +
@@ -433,7 +445,8 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                 "(NULL,'UOM',''),"+
                 "(NULL,'COVERAGE',''),"+
                 "(NULL,'SPECIALPRICELEVELLINES',''),"+
-                "(NULL,'PRICELEVELLINES2','')";
+                "(NULL,'PRICELEVELLINES2',''),"+
+                "(NULL, 'DEFAULTROUTE', '')";
 //        String  ALTER_ITEM_TABLE = "ALTER TABLE " + SALES_ORDER_TABLE + " ADD COLUMN " +
 //                "posted" + " INTEGER DEFAULT 0";
 
@@ -450,7 +463,8 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                 +"(NULL,'ORDER_POINT','1'),"
                 +"(NULL,'MAX','1'), "
                 +"(NULL,'SFA','0'),"
-                +"(NULL,'SFA_MONITORING','0')";
+                +"(NULL,'SFA_MONITORING','0'),"
+                +"(NULL,'DEFAULT_DELIVERY_TYPE','0')";
 
         String CREATE_COORDINATE_TRACKING_TABLE ="CREATE TABLE COORDINATE_TRACKING (" +
                 "ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -483,6 +497,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(INSERT_SYNC_HISTORY);
         db.execSQL(CREATE_CUSTOMERS_COVERAGE_TABLE);
         db.execSQL(CREATE_SPECIAL_PRICE_LEVEL_TABLE);
+        db.execSQL(CREATE_DEFAULT_ROUTE_TABLE);
         db.execSQL(CREATE_CUSTOMER_SKIP_TABLE);
         db.execSQL(CREATE_REQUEST_REPIN_TABLE);
         db.execSQL(CREATE_CUSTOMER_WSR_TABLE);
@@ -775,6 +790,24 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
 //        values.put(PRCUSTOM_PRICE, plevelLines_list.getCustomprice());
 //        db.insert(PRICE_LEVEL_LINES_TABLE, null, values);
 //        return false;
+    }
+
+    public boolean storeRoutes(DefaultRoute defaultRoute) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(DEFAULT_ROUTE_ID, defaultRoute.get_route_id());
+        values.put(DEFAULT_ROUTE_NAME, defaultRoute.get_route_name());
+
+        long newRowId = db.insert(DEFAULT_ROUTE_TABLE, null, values);
+
+        // Check if the insertion was successful
+        if (newRowId != -1) {
+            // Insertion successful, return true
+            return true;
+        } else {
+            // Insertion failed, return false
+            return false;
+        }
     }
 
     public long inserSO(SALESORDER salesorder) {
@@ -1381,6 +1414,12 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
     public void deleteSalerepDate() {
         SQLiteDatabase db = getWritableDatabase();
         db.delete(SALESREP_TABLE, null, null);
+//        db.close();
+    }
+
+    public void deleteroute() {
+        SQLiteDatabase db = getWritableDatabase();
+        db.delete(DEFAULT_ROUTE_TABLE, null, null);
 //        db.close();
     }
 
@@ -2518,6 +2557,18 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         if(cursor.moveToFirst()){
             value=cursor.getString(0);
 //            Log.d("sales_type",sales_type);
+        }
+        return value;
+    }
+
+    public String get_default_route_name() {
+        String value = "";
+        String query = "SELECT route_name FROM route_table WHERE route_id = " +
+                "(SELECT VALUE FROM " + SYSTEM_SETTINGS + " WHERE " + SYSTEM_SETTINGS_NAME + " = 'DEFAULT_DELIVERY_TYPE')";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor.moveToFirst()) {
+            value = cursor.getString(0);
         }
         return value;
     }

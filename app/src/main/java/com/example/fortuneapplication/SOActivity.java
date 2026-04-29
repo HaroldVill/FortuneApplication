@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -18,6 +19,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -36,7 +38,7 @@ import java.util.Random;
 
 public class SOActivity extends AppCompatActivity {
     Button cl, adis;
-    EditText cname, ccontact, caddd, slr, loc, ptt;
+    EditText cname, ccontact, caddd, slr, loc, ptt, editTextDate4, editTextDate5;
     private EditText tot;
     TextView datess, sr1, sr2, autref, save, ii, cid, location_id, sales_id, sonotes, textnote,BeginOrderTime;
     Button his;
@@ -84,6 +86,22 @@ public class SOActivity extends AppCompatActivity {
         customer_coverage_plan = findViewById(R.id.customer_coverage_plan);
         BeginOrderTime = findViewById(R.id.BeginOrderTime);
         mDatabaseHelper = new PazDatabaseHelper(this);
+        editTextDate4 = findViewById(R.id.editTextDate4);
+        editTextDate5 = findViewById(R.id.editTextDate5);
+
+        editTextDate4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDatePickerDialog1();
+            }
+        });
+
+        editTextDate5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDatePickerDialog2();
+            }
+        });
 
 
         // Load the last saved reference number from SharedPreferences
@@ -136,6 +154,13 @@ public class SOActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String tindera = slr.getText().toString();
                 String lugar = loc.getText().toString();
+                String deliveryDate = editTextDate4.getText().toString();
+                String departureDate = editTextDate5.getText().toString();
+                if (deliveryDate.isEmpty() || departureDate.isEmpty()) {
+                    Toast.makeText(SOActivity.this, "Please Enter Valid Delivery and Departure Date", Toast.LENGTH_LONG).show();
+
+                    return;
+                }
                 if (tindera.isEmpty() || lugar.isEmpty()) {
                     Toast.makeText(SOActivity.this, "Please Enter Valid Sales Representative or Location", Toast.LENGTH_LONG).show();
                 } else if (itemList.isEmpty()) {
@@ -369,6 +394,56 @@ public class SOActivity extends AppCompatActivity {
                 startActivity(getIntent());
                 finish();
             }
+
+    private void showDatePickerDialog1() {
+        Calendar calendar = Calendar.getInstance();
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(
+                SOActivity.this,
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        Calendar selectedDate = Calendar.getInstance();
+                        selectedDate.set(year, monthOfYear, dayOfMonth);
+
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                        String formattedDate = dateFormat.format(selectedDate.getTime());
+
+                        editTextDate4.setText(formattedDate);
+                    }
+                },
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH)
+        );
+
+        datePickerDialog.show();
+    }
+
+    private void showDatePickerDialog2() {
+        Calendar calendar = Calendar.getInstance();
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(
+                SOActivity.this,
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        Calendar selectedDate = Calendar.getInstance();
+                        selectedDate.set(year, monthOfYear, dayOfMonth);
+
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                        String formattedDate = dateFormat.format(selectedDate.getTime());
+
+                        editTextDate5.setText(formattedDate);
+                    }
+                },
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH)
+        );
+
+        datePickerDialog.show();
+    }
 
 
         }

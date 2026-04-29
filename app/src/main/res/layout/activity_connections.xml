@@ -892,6 +892,84 @@
 
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/con14"
+                android:layout_width="match_parent"
+                android:layout_height="190dp"
+                android:layout_below="@id/con13"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                app:cardCornerRadius="15dp">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/title14"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="15dp"
+                        android:text="SET DEFAULT ROUTE: "
+                        android:textSize="25sp"
+                        android:textStyle="bold">
+                    </TextView>
+
+                    <TextView
+                        android:id="@+id/set_default_route"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/title14"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"
+                        android:drawableRight="@drawable/downboy"
+                        android:text="SET DEFAULT ROUTE"
+                        android:textColor="#3F51B5"
+                        android:textSize="20sp"
+                        android:textStyle="">
+                    </TextView>
+
+                    <TextView
+                        android:id="@+id/route_monitoring_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/set_default_route"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="10dp"
+                        android:textColor="#EF4438">
+                    </TextView>
+
+                    <TextView
+                        android:id="@+id/route_monitoring_label_id"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/title14"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="10dp"
+                        android:textColor="#EF4438"
+                        android:visibility="invisible">
+                    </TextView>
+
+                    <Button
+                        android:id="@+id/apply_default_route"
+                        android:layout_width="280dp"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/route_monitoring_label"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginLeft="100dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/buttondesign3"
+                        android:text="APPLY"
+                        android:textColor="#FDFCFC">
+                    </Button>
+
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+
         </GridLayout>
     </ScrollView>
 </RelativeLayout>

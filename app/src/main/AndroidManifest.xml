@@ -228,6 +228,8 @@
             android:exported="false" />
         <activity android:name=".SyncPriceLevelLines2"
             android:exported="false" />
+        <activity android:name=".SyncDefaultRoute"
+            android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="true">

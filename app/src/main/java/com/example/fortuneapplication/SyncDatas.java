@@ -16,9 +16,9 @@ import android.widget.Toast;
 public class SyncDatas extends AppCompatActivity {
 
 
-    CardView z1, z2, z3, z4, z5, z6, z7, z8,z9, z10, pll2;
+    CardView z1, z2, z3, z4, z5, z6, z7, z8,z9, z10, pll2, sdr;
     TextView blkhome, set, item_sync_history, cutomer_sync_history, location_sync_history, salesrep_sync_history, uom_sync_history, pterms_sync_history, plevel_sync_history, plevelines_sync_history,coverage_plan,
-    special_price_level_sync_history,price_level_lines2,
+    special_price_level_sync_history,price_level_lines2,default_route,
     refresh;
 
     private PazDatabaseHelper mdatabaseHelper;
@@ -39,6 +39,8 @@ public class SyncDatas extends AppCompatActivity {
         z9 = findViewById(R.id.z9);
         z10 = findViewById(R.id.z10);
         pll2 = findViewById(R.id.priceLevelLines2);
+        sdr = findViewById(R.id.sync_default_route);
+        default_route = findViewById(R.id.default_route);
         blkhome = findViewById(R.id.blkhome);
         set = findViewById(R.id.set);
         mdatabaseHelper = new PazDatabaseHelper(this);
@@ -67,6 +69,7 @@ public class SyncDatas extends AppCompatActivity {
          coverage_plan.setText(mdatabaseHelper.get_sync_history(9));
          special_price_level_sync_history.setText(mdatabaseHelper.get_sync_history(10));
          price_level_lines2.setText(mdatabaseHelper.get_sync_history(11));
+         default_route.setText(mdatabaseHelper.get_sync_history(12));
 
          refresh.setOnClickListener(new View.OnClickListener() {
              @Override
@@ -82,6 +85,8 @@ public class SyncDatas extends AppCompatActivity {
                  coverage_plan.setText(mdatabaseHelper.get_sync_history(9));
                  special_price_level_sync_history.setText(mdatabaseHelper.get_sync_history(10));
                  price_level_lines2.setText(mdatabaseHelper.get_sync_history(11));
+                 default_route.setText(mdatabaseHelper.get_sync_history(12));
+
              }
          });
         set.setOnClickListener(new View.OnClickListener() {
@@ -227,6 +232,14 @@ pll2.setOnClickListener((new View.OnClickListener() {
     public void onClick(View view) {
         Intent pricell2 = new Intent(SyncDatas.this, SyncPriceLevelLines2.class);
         startActivity(pricell2);
+    }
+}));
+
+sdr.setOnClickListener((new View.OnClickListener() {
+    @Override
+    public void onClick(View view) {
+        Intent sdr = new Intent(SyncDatas.this, SyncDefaultRoute.class);
+        startActivity(sdr);
     }
 }));
 

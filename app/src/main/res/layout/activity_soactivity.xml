@@ -120,7 +120,7 @@
             android:layout_width="41dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="160dp"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="30dp"
             android:alpha="0.0">
 
         </Button>
@@ -130,7 +130,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="166dp"
-            android:layout_marginTop="73dp"
+            android:layout_marginTop="30dp"
             app:srcCompat="@drawable/addicon">
         </ImageView>
 
@@ -139,7 +139,7 @@
             android:layout_width="39dp"
             android:layout_height="33dp"
             android:layout_marginLeft="213dp"
-            android:layout_marginTop="73dp"
+            android:layout_marginTop="30dp"
             app:srcCompat="@drawable/tao"></ImageView>
 
         <TextView
@@ -209,7 +209,7 @@
             android:id="@+id/custd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="75dp"
+            android:layout_marginTop="30dp"
             android:text="CUSTOMER LIST:"
             android:layout_marginRight="5dp"
             android:textSize="20dp"
@@ -282,10 +282,11 @@
             android:layout_marginTop="15dp" />
 
         <RelativeLayout
+            android:id="@+id/caccs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/cadds"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="5dp"
             android:orientation="vertical">
 
             <TextView
@@ -390,11 +391,47 @@
 
         </RelativeLayout>
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/caccs">
+
+            <EditText
+                android:id="@+id/editTextDate4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="9"
+                android:inputType="date"
+                android:layout_marginStart="10dp"
+                android:hint="target departure date"
+                android:textColor="#1430CA"
+                android:textAlignment="center"
+                android:clickable="false"
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"/>
+
+            <EditText
+                android:id="@+id/editTextDate5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="8"
+                android:inputType="date"
+                android:layout_marginStart="200dp"
+                android:hint="target delivery date"
+                android:textColor="#33b864"
+                android:textAlignment="center"
+                android:clickable="false"
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"/>
+        </RelativeLayout>
+
     </RelativeLayout>
 
 
     <Button
-        android:layout_marginTop="505dp"
+        android:layout_marginTop="480dp"
         android:id="@+id/adis"
         android:layout_marginLeft="107dp"
         android:layout_width="130dp"
@@ -417,7 +454,7 @@
         android:textColor="#1430CA"
         android:textSize="20dp"
         android:textStyle="bold"
-        android:layout_marginTop="515dp"
+        android:layout_marginTop="480dp"
         android:layout_marginLeft="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -432,7 +469,7 @@
         android:layout_marginRight="100sp"
         android:textSize="20sp"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="515dp"
+        android:layout_marginTop="480dp"
         android:text="TOTAL:"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
@@ -445,7 +482,7 @@
         android:textAlignment="center"
         android:enabled="false"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="500dp"
+        android:layout_marginTop="475dp"
         android:layout_width="100dp"
         android:layout_height="wrap_content">
     </EditText>
@@ -458,12 +495,12 @@
 
     <TableLayout
         android:id="@+id/tbl"
-        android:layout_marginTop="545dp"
+        android:layout_marginTop="515dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:layout_marginEnd="5dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="5dp"
         android:background="@color/black">
 
         <TableRow

@@ -40,7 +40,8 @@ import java.util.Set;
 
 public class Connections extends AppCompatActivity {
     TextView creatcon, ids;
-    TextView selection, connection_label, select_sales_type,sales_type_label,select_sales_rep_id,sales_rep_id_label,select_gps_mode,gps_label,select_verify_mode,verify_label,select_bluetooth_device,bluetooth_macaddress,select_default_location,default_location,select_change_location,change_location,sfa_label,select_sfa_mode,select_monitoring_mode,monitoring_label;
+    TextView selection, connection_label, select_sales_type,sales_type_label,select_sales_rep_id,sales_rep_id_label,select_gps_mode,gps_label,select_verify_mode,verify_label,select_bluetooth_device,bluetooth_macaddress,select_default_location,default_location,select_change_location,change_location,sfa_label,select_sfa_mode,select_monitoring_mode,monitoring_label,
+    set_default_route, route_monitoring_label, route_monitoring_label_id;
     Button apply,apply_sales_type,apply_sales_rep_id,apply_gps_mode,apply_verify_mode,apply_bluetooth,apply_order_point,apply_safety,apply_max, apply_sfa_mode, apply_monitoring_mode;
     EditText editText1,editText2,editText3;
     TextView label1,label2,label3;
@@ -52,6 +53,9 @@ public class Connections extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_connections);
 
+        set_default_route = findViewById(R.id.set_default_route);
+        route_monitoring_label = findViewById(R.id.route_monitoring_label);
+        route_monitoring_label_id = findViewById(R.id.route_monitoring_label_id);
         creatcon = findViewById(R.id.creatcon);
         selection = findViewById(R.id.selection);
         select_sales_type = findViewById(R.id.select_sales_type);
@@ -97,6 +101,7 @@ public class Connections extends AppCompatActivity {
         label1.setText(mdatabaseHelper.get_order_point());
         label2.setText(mdatabaseHelper.get_safety());
         label3.setText(mdatabaseHelper.get_max());
+        route_monitoring_label.setText(mdatabaseHelper.get_default_route_name());
         LocalBroadcastManager bManager = LocalBroadcastManager.getInstance(this);
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(RECEIVE_latLng);
@@ -349,6 +354,32 @@ public class Connections extends AppCompatActivity {
             }
         });
 
+        set_default_route.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PopupMenu popupMenu = new PopupMenu(Connections.this, selection);
+                Menu menu = popupMenu.getMenu();
+                ArrayList<DefaultRoute> defaultRoutes = displayroutes();
+
+                for(DefaultRoute defaultRoute : defaultRoutes){
+                    menu.add(Menu.NONE,Integer.parseInt(defaultRoute.get_route_id().toString()),Menu.NONE,defaultRoute.get_route_name().toString());
+                }
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        int routeId = menuItem.getItemId();
+                        String routeName = menuItem.getTitle().toString();
+                        route_monitoring_label.setText(routeName);
+                        route_monitoring_label_id.setText(Integer.toString(routeId));
+                        update_route_id();
+                        Log.d("TAG", routeName);
+                        return true;
+                    }
+                });
+                popupMenu.show();
+            }
+        });
+
         select_default_location.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -524,6 +555,28 @@ public class Connections extends AppCompatActivity {
 
     }
 
+    @SuppressLint("Range")
+    public ArrayList<DefaultRoute> displayroutes() {
+        ArrayList<DefaultRoute> routelist = new ArrayList<>();
+
+        String query = "SELECT route_id,route_name from route_table";
+
+        SQLiteDatabase db = mdatabaseHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor.moveToFirst()) {
+            do {
+                DefaultRoute route = new DefaultRoute();
+                route.set_route_id(cursor.getString(0));
+                route.set_route_name(cursor.getString(1));
+                routelist.add(route);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return routelist;
+
+    }
+
     public ArrayList<Locationing> displaylocation() {
         ArrayList<Locationing> Locationlist = new ArrayList<>();
 
@@ -635,6 +688,28 @@ public class Connections extends AppCompatActivity {
 //            Intent nanay = new Intent(Connections.this, SyncDatas.class);
 //            startActivity(nanay);
 //            finish();
+        }
+    }
+
+    public void update_route_id() {
+
+//        String route_name = route_monitoring_label.getText().toString();
+        String route_id = route_monitoring_label_id.getText().toString();
+
+
+
+        SQLiteDatabase db = mdatabaseHelper.getWritableDatabase();
+        ContentValues specificRowValues = new ContentValues();
+        specificRowValues.put("VALUE", route_id);
+
+        String whereClause = SYSTEM_SETTINGS_NAME + " = ?";
+        String[] whereArgs = {"DEFAULT_DELIVERY_TYPE"};
+
+        int numSpecificRowUpdated = db.update(SYSTEM_SETTINGS, specificRowValues, whereClause, whereArgs);
+        db.close();
+
+        if (numSpecificRowUpdated > 0) {
+            Toast.makeText(this, "Successfully Set Route", Toast.LENGTH_SHORT).show();
         }
     }
 
