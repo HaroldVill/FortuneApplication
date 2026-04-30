@@ -208,6 +208,7 @@ public class Connections extends AppCompatActivity {
                 Menu menu = popupMenu.getMenu();
                 menu.add(Menu.NONE,Menu.NONE,Menu.NONE,"sync_sales_order.php");
                 menu.add(Menu.NONE,Menu.NONE,Menu.NONE,"sync_sales_order_v2.php");
+                menu.add(Menu.NONE,Menu.NONE,Menu.NONE,"sync_sales_orderv3.php");
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem menuItem) {

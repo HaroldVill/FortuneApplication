@@ -386,7 +386,7 @@ public class History extends AppCompatActivity {
                             String departure_date = String.valueOf(mDatabaseHelper.sales_order_departure_date(sales_order_id));
                             String target_arrival = String.valueOf(mDatabaseHelper.sales_order_target_arrival(sales_order_id));
 
-                            
+
 //                            PazDatabaseHelper dbHelper = new PazDatabaseHelper(context);
                             List<SALESORDER> salesOrderList = mDatabaseHelper.getSlsorder(sales_order_id);
                             for (SALESORDER salesOrder : salesOrderList) {
