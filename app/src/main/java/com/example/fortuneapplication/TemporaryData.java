@@ -32,6 +32,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
@@ -65,7 +66,9 @@ import com.mazenrashed.printooth.utilities.PrintingCallback;
 import java.io.OutputStream;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 
@@ -91,6 +94,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 import java.util.logging.Handler;
 
@@ -103,7 +107,7 @@ import org.json.JSONObject;
 public class TemporaryData extends AppCompatActivity implements PrintingCallback {
     TextView ref, names, moreinfo, notesam, dt;
     ImageView hm, print,deletebutton,print_picklist;
-    EditText supertot;
+    EditText supertot, editTextDate4, editTextDate5;
     RecyclerView datadisp;
     Printing print_receipt;
     //    ImageView printbutton;
@@ -139,6 +143,8 @@ public class TemporaryData extends AppCompatActivity implements PrintingCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_temporary_data);
 
+        editTextDate4 = findViewById(R.id.editTextDate4);
+        editTextDate5 = findViewById(R.id.editTextDate5);
         ref = findViewById(R.id.ref);
         datadisp = findViewById(R.id.datadisp);
         names = findViewById(R.id.names);
@@ -280,6 +286,40 @@ public class TemporaryData extends AppCompatActivity implements PrintingCallback
                 }
             }
         });
+
+        editTextDate4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showDatePickerDialog(editTextDate4); // replaces showDatePickerDialog1()
+            }
+        });
+
+        editTextDate5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showDatePickerDialog(editTextDate5); // replaces showDatePickerDialog1()
+            }
+        });
+    }
+
+    private void showDatePickerDialog(TextView targetEditText) {
+        Calendar calendar = Calendar.getInstance();
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(
+                TemporaryData.this,
+                (view, year, monthOfYear, dayOfMonth) -> {
+                    Calendar selectedDate = Calendar.getInstance();
+                    selectedDate.set(year, monthOfYear, dayOfMonth);
+
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                    targetEditText.setText(dateFormat.format(selectedDate.getTime()));
+                },
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH)
+        );
+
+        datePickerDialog.show();
     }
 
 
