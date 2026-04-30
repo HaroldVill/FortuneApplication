@@ -396,6 +396,12 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/caccs">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Target Departure Date:"
+                android:layout_marginStart="10dp"/>
+
             <EditText
                 android:id="@+id/editTextDate4"
                 android:layout_width="wrap_content"
@@ -403,13 +409,18 @@
                 android:ems="9"
                 android:inputType="date"
                 android:layout_marginStart="10dp"
-                android:hint="target departure date"
                 android:textColor="#1430CA"
                 android:textAlignment="center"
                 android:clickable="false"
                 android:cursorVisible="false"
                 android:focusable="false"
                 android:focusableInTouchMode="false"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Target Delivery Date:"
+                android:layout_marginStart="200dp"/>
 
             <EditText
                 android:id="@+id/editTextDate5"
@@ -418,7 +429,6 @@
                 android:ems="8"
                 android:inputType="date"
                 android:layout_marginStart="200dp"
-                android:hint="target delivery date"
                 android:textColor="#33b864"
                 android:textAlignment="center"
                 android:clickable="false"
