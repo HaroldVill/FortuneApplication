@@ -457,7 +457,7 @@ public class HomePage extends AppCompatActivity implements LocationListener {
                                 api_url = "http://" + x + "/MobileAPI/"+sales_type;
                             }
 
-                            //Gi separate ni ug select aron d na mag dugang2 sa SalesOrder nga class kay maot kaau pagka gamaa potang inang code
+                            //Gi separate ni ug select aron d na mag dugang2 sa SalesOrder nga class kay maot kaau pagka gamaa sauna potang inang code
                             String delivery_type_id = String.valueOf(mDatabaseHelper.sales_order_delivery_type_id(sales_order_id));
                             String departure_date = String.valueOf(mDatabaseHelper.sales_order_departure_date(sales_order_id));
                             String target_arrival = String.valueOf(mDatabaseHelper.sales_order_target_arrival(sales_order_id));
