@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.time.LocalDate;
@@ -330,6 +331,9 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                 CUSTOM_FIELD5 + " TEXT, " +
                 BEGIN_ORDER + " TEXT, " +
                 END_ORDER + " TEXT, "+
+                "delivery_type_id INTEGER DEFAULT '0'," +
+                "departure_date TEXT," +
+                "target_arrival TEXT," +
                 "status INTEGER DEFAULT '0'," +
                 "posted INTEGER DEFAULT '0')";
 
@@ -810,7 +814,36 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public long inserSO(SALESORDER salesorder) {
+    public long inserSO_DEFAULT(@NonNull SALESORDER salesorder,String delivery_type,String deparutre_date,String target_arrival) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        //  values.put(SALES_ORDERID, salesorder.getSalesorderid());
+        values.put(CODE, salesorder.getCode());
+        values.put(DATE, salesorder.getDate());
+        values.put(SOCUSTOMER_ID, salesorder.getCustomerid());
+        values.put(SOLOCATION_ID, salesorder.getLocationid());
+        values.put(SOSALESREPID, salesorder.getSalesrepid());
+        values.put(DATE_NEEDED, salesorder.getDateneeded());
+        values.put(PO_NUMBER, salesorder.getPonumber());
+        values.put(SHIP_VIA_ID, salesorder.getShipvia());
+        values.put(AMOUNT, salesorder.getAmount());
+        values.put(NOTES, salesorder.getNotes());
+        values.put(CUSTOM_FIELD1, salesorder.getCustom1());
+        values.put(CUSTOM_FIELD2, salesorder.getCustom2());
+        values.put(CUSTOM_FIELD3, salesorder.getCustom3());
+        values.put(CUSTOM_FIELD4, salesorder.getCustom4());
+        values.put(CUSTOM_FIELD5, salesorder.getCustom5());
+        values.put(BEGIN_ORDER, salesorder.get_begin_order());
+        values.put(END_ORDER,salesorder.get_end_order());
+        values.put("delivery_type_id",delivery_type);
+        values.put("departure_date",deparutre_date);
+        values.put("target_arrival",target_arrival);
+        long sioid = db.insert(SALES_ORDER_TABLE, null, values);
+        return sioid;
+
+    }
+
+    public long inserSO_SFA(@NonNull SALESORDER salesorder) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         //  values.put(SALES_ORDERID, salesorder.getSalesorderid());
@@ -2694,6 +2727,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         return value;
     }
 
+
     public String get_max_sync_history(){
 
         String value="";
@@ -3034,6 +3068,61 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         }
         return value;
     }
+
+    public String get_default_delivery_type(){
+        String value="";
+        String query ="SELECT VALUE FROM SYSTEM_SETTINGS WHERE NAME = 'DEFAULT_DELIVERY_TYPE'";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query,null);
+        if(cursor.moveToFirst()){
+            value=cursor.getString(0);
+//            Log.d("sales_type",sales_type);
+        }
+        return value;
+    }
+
+
+
+    public Integer sales_order_delivery_type_id(Integer id){
+        Log.d("customer_id", id.toString());
+        Integer value=0;
+        String query ="SELECT delivery_type_id from Sales_Order_table where Sales_OrderID = "+id.toString();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query,null);
+        if(cursor.moveToFirst()){
+            value=cursor.getInt(0);
+//            Log.d("sales_type",sales_type);
+        }
+        return value;
+    }
+
+    public Integer sales_order_departure_date(Integer id){
+        Log.d("customer_id", id.toString());
+        Integer value=0;
+        String query ="SELECT delivery_type_id from Sales_Order_table where Sales_OrderID = "+id;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query,null);
+        if(cursor.moveToFirst()){
+            value=cursor.getInt(0);
+//            Log.d("sales_type",sales_type);
+        }
+        return value;
+    }
+
+    public Integer sales_order_target_arrival(Integer id){
+        Log.d("customer_id", id.toString());
+        Integer value=0;
+        String query ="SELECT delivery_type_id from Sales_Order_table where Sales_OrderID = "+id;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query,null);
+        if(cursor.moveToFirst()){
+            value=cursor.getInt(0);
+//            Log.d("sales_type",sales_type);
+        }
+        return value;
+    }
+
+
 
     public void delete_old_data() {
 //        PazDatabaseHelper pdbHelper = new PazDatabaseHelper(this);

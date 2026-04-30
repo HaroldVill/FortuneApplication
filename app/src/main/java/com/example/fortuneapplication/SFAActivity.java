@@ -397,7 +397,7 @@ public class SFAActivity extends AppCompatActivity {
         String formattedDate = date.format(myFormatObj);
         String end_order_time = formattedDate.toString();
         dataModel.set_end_order(end_order_time.toString());
-        mDatabaseHelper.inserSO(dataModel);
+        mDatabaseHelper.inserSO_SFA(dataModel);
 
         Toast.makeText(SFAActivity.this, "Saving", Toast.LENGTH_SHORT).show();
         referenceNumber++;

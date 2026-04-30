@@ -343,6 +343,9 @@ public class SOActivity extends AppCompatActivity {
                 String salesrep_id = sales_id.getText().toString();
                 String currentDate = getCurrentDate();
                 String total = tot.getText().toString();
+                String deparutre_date = editTextDate4.getText().toString();
+                String target_arrival = editTextDate5.getText().toString();
+                String delivery_type = mDatabaseHelper.get_default_delivery_type();
 
                 //SALES ORDER TABLE
                 SALESORDER dataModel = new SALESORDER();
@@ -360,7 +363,7 @@ public class SOActivity extends AppCompatActivity {
                 String formattedDate = date.format(myFormatObj);
                 String end_order_time = formattedDate.toString();
                 dataModel.set_end_order(end_order_time.toString());
-                mDatabaseHelper.inserSO(dataModel);
+                mDatabaseHelper.inserSO_DEFAULT(dataModel,delivery_type,deparutre_date,target_arrival);
 
                 Toast.makeText(SOActivity.this, "Saving", Toast.LENGTH_SHORT).show();
                 referenceNumber++;
