@@ -115,12 +115,16 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
             holder.sam2.setTypeface(Typeface.DEFAULT_BOLD);
             holder.sam3.setTypeface(Typeface.DEFAULT_BOLD);
             holder.sam4.setTypeface(Typeface.DEFAULT_BOLD);
+            holder.sam5.setTypeface(Typeface.DEFAULT_BOLD);
+            holder.sam6.setTypeface(Typeface.DEFAULT_BOLD);
 
         }
         holder.sam1.setText(salesOrder.getCode());
         holder.sam2.setText(salesOrder.getCustomer().getCustomername());
         holder.sam3.setText(salesOrder.getAmount());
         holder.sam4.setText(salesOrder.getDate());
+        holder.sam5.setText(db.sales_order_departure_date(salesOrder.getSalesorderid()));
+        holder.sam6.setText(db.sales_order_target_arrival(salesOrder.getSalesorderid()));
         holder.sampot.setText(String.valueOf(salesOrder.getSalesorderid()));
         holder.removes.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -207,7 +211,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView sam1,sam2,sam3,sam4, sampot;
+        TextView sam1,sam2,sam3,sam4,sam5,sam6, sampot;
         ImageView removes;
 
         public ViewHolder(@NonNull View itemView) {
@@ -216,6 +220,8 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
             sam2 = itemView.findViewById(R.id.sam2);
             sam3 = itemView.findViewById(R.id.sam3);
             sam4 = itemView.findViewById(R.id.sam4);
+            sam5 = itemView.findViewById(R.id.sam5);
+            sam6 = itemView.findViewById(R.id.sam6);
             sampot = itemView.findViewById(R.id.sampot);
             removes= itemView.findViewById(R.id.removes);
 

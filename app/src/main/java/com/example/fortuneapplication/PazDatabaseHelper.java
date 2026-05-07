@@ -3096,27 +3096,27 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         return value;
     }
 
-    public Integer sales_order_departure_date(Integer id){
+    public String sales_order_departure_date(Integer id){
         Log.d("customer_id", id.toString());
-        Integer value=0;
-        String query ="SELECT delivery_type_id from Sales_Order_table where Sales_OrderID = "+id;
+        String value="";
+        String query ="SELECT departure_date from Sales_Order_table where Sales_OrderID = "+id;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(query,null);
         if(cursor.moveToFirst()){
-            value=cursor.getInt(0);
+            value=cursor.getString(0);
 //            Log.d("sales_type",sales_type);
         }
         return value;
     }
 
-    public Integer sales_order_target_arrival(Integer id){
+    public String sales_order_target_arrival(Integer id){
         Log.d("customer_id", id.toString());
-        Integer value=0;
-        String query ="SELECT delivery_type_id from Sales_Order_table where Sales_OrderID = "+id;
+        String value="";
+        String query ="SELECT target_arrival from Sales_Order_table where Sales_OrderID = "+id;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(query,null);
         if(cursor.moveToFirst()){
-            value=cursor.getInt(0);
+            value=cursor.getString(0);
 //            Log.d("sales_type",sales_type);
         }
         return value;

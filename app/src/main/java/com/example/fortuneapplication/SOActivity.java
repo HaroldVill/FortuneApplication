@@ -9,6 +9,7 @@ import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -26,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -34,6 +36,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Random;
 
 public class SOActivity extends AppCompatActivity {
@@ -152,21 +155,87 @@ public class SOActivity extends AppCompatActivity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String tindera = slr.getText().toString();
-                String lugar = loc.getText().toString();
-                String deliveryDate = editTextDate4.getText().toString();
-                String departureDate = editTextDate5.getText().toString();
-                if (deliveryDate.isEmpty() || departureDate.isEmpty()) {
-                    Toast.makeText(SOActivity.this, "Please Enter Valid Delivery and Departure Date", Toast.LENGTH_LONG).show();
+                try {
 
-                    return;
-                }
-                if (tindera.isEmpty() || lugar.isEmpty()) {
-                    Toast.makeText(SOActivity.this, "Please Enter Valid Sales Representative or Location", Toast.LENGTH_LONG).show();
-                } else if (itemList.isEmpty()) {
-                    Toast.makeText(SOActivity.this, "Please Select Items Before Saving", Toast.LENGTH_SHORT).show();
-                } else {
-                    maone();
+                    String tindera = slr.getText().toString();
+                    String lugar = loc.getText().toString();
+                    String departureDate = editTextDate4.getText().toString();
+                    String arrivalDate = editTextDate5.getText().toString();
+
+                    if (arrivalDate.isEmpty() || departureDate.isEmpty()) {
+                        android.app.AlertDialog.Builder error_builder = new android.app.AlertDialog.Builder(SOActivity.this);
+                        // Set the title and message for the dialog
+                        error_builder.setTitle("WARNING")
+                                .setMessage("Please enter valid departure or arrival date.")
+                                .setCancelable(true)
+                                .setPositiveButton("Close", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                                    }
+                                })
+                                .show();
+                        return;
+                    }
+
+                    LocalDateTime currentdate = LocalDateTime.now();
+                    DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                    String formattedDate = currentdate.format(myFormatObj);
+
+                    SimpleDateFormat departure_format = new SimpleDateFormat("M/d/yyyy");
+                    SimpleDateFormat arrival_format = new SimpleDateFormat("yyyy-MM-dd");
+                    SimpleDateFormat current_format = new SimpleDateFormat("dd/MM/yyyy");
+
+                    Date departure_date = departure_format.parse(departureDate);
+                    Date arrival_date = arrival_format.parse(arrivalDate);
+                    Date current_date = current_format.parse(formattedDate);
+
+
+
+
+                    assert arrival_date != null;
+                    if(arrival_date.before(departure_date)){
+                        android.app.AlertDialog.Builder error_builder = new android.app.AlertDialog.Builder(SOActivity.this);
+                        // Set the title and message for the dialog
+                        error_builder.setTitle("WARNING")
+                                .setMessage("Arrival Date must be on or after departure date")
+                                .setCancelable(true)
+                                .setPositiveButton("Close", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                                    }
+                                })
+                                .show();
+                        return;
+                    }
+
+                    if(arrival_date.before(current_date) || Objects.requireNonNull(departure_date).before(current_date)){
+                        android.app.AlertDialog.Builder error_builder = new android.app.AlertDialog.Builder(SOActivity.this);
+                        // Set the title and message for the dialog
+                        error_builder.setTitle("WARNING")
+                                .setMessage("Arrival Date must be on or after departure date")
+                                .setCancelable(true)
+                                .setPositiveButton("Close", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                                    }
+                                })
+                                .show();
+                        return;
+                    }
+
+
+                    if (tindera.isEmpty() || lugar.isEmpty()) {
+                        Toast.makeText(SOActivity.this, "Please Enter Valid Sales Representative or Location", Toast.LENGTH_LONG).show();
+                    } else if (itemList.isEmpty()) {
+                        Toast.makeText(SOActivity.this, "Please Select Items Before Saving", Toast.LENGTH_SHORT).show();
+                    } else {
+                        maone();
+                    }
+                } catch (ParseException e) {
+                    throw new RuntimeException(e);
                 }
             }
         });
@@ -409,7 +478,7 @@ public class SOActivity extends AppCompatActivity {
                         Calendar selectedDate = Calendar.getInstance();
                         selectedDate.set(year, monthOfYear, dayOfMonth);
 
-                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("M/d/yyyy", Locale.getDefault());
                         String formattedDate = dateFormat.format(selectedDate.getTime());
 
                         editTextDate4.setText(formattedDate);

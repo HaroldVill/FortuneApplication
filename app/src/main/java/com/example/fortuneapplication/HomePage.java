@@ -333,6 +333,10 @@ public class HomePage extends AppCompatActivity implements LocationListener {
                     Toast.makeText(HomePage.this, "Please turn on location. .", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                if(mDatabaseHelper.get_default_delivery_type().equals("0")){
+                    Toast.makeText(HomePage.this, "Default delivery type must be set.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 if(mDatabaseHelper.get_sfa_mode().equals("1")) {
                     Intent nb = new Intent(HomePage.this, SFAActivity.class);
                     startActivity(nb);
@@ -543,6 +547,9 @@ public class HomePage extends AppCompatActivity implements LocationListener {
                                 Log.d("sales_type",sales_type);
                                 api_url = "http://" + x + "/MobileAPI/"+sales_type;
                             }
+                            String delivery_type_id = String.valueOf(mDatabaseHelper.sales_order_delivery_type_id(sales_order_id));
+                            String departure_date = String.valueOf(mDatabaseHelper.sales_order_departure_date(sales_order_id));
+                            String target_arrival = String.valueOf(mDatabaseHelper.sales_order_target_arrival(sales_order_id));
 //                            PazDatabaseHelper dbHelper = new PazDatabaseHelper(context);
                             List<SALESORDER> salesOrderList = mDatabaseHelper.getSlsorder(sales_order_id);
                             for (SALESORDER salesOrder : salesOrderList) {
@@ -587,6 +594,9 @@ public class HomePage extends AppCompatActivity implements LocationListener {
                                         params.put("begin_order", salesOrder.get_begin_order());
                                         params.put("end_order", salesOrder.get_end_order());
                                         params.put("sales_order_items", json_soitems.toString());
+                                        params.put("delivery_type_id", delivery_type_id);
+                                        params.put("departure_date", departure_date);
+                                        params.put("target_arrival", target_arrival);
                                         return params;
                                     }
                                 };

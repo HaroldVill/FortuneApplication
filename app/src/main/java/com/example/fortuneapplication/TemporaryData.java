@@ -175,6 +175,9 @@ public class TemporaryData extends AppCompatActivity implements PrintingCallback
         int salesOrderId = preferences.getInt("SID", 0);
 
         String salesOrderIdString = String.valueOf(salesOrderId);
+
+        editTextDate4.setText(mDatabaseHelper.sales_order_departure_date(salesOrderId));
+        editTextDate5.setText(mDatabaseHelper.sales_order_target_arrival(salesOrderId));
         ref.setText(salesOrderIdString);
         names.setText(nameses);
         //supertot.setText(sprt);
