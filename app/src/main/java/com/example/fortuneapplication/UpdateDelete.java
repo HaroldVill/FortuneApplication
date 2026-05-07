@@ -16,6 +16,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -40,10 +41,13 @@ import android.widget.Toast;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Locale;
 
 public class UpdateDelete extends AppCompatActivity {
-    EditText q1, q2, q4, q5, q6;
+    EditText q1, q2, q4, q5, q6, departureDate, deliveryDate;
     AlertDialog.Builder builder;
     TextView ps1, menid, balik, idlvl,datasam;
 
@@ -70,11 +74,22 @@ public class UpdateDelete extends AppCompatActivity {
         idlvl = findViewById(R.id.idlvl);
         datasam = findViewById(R.id. datasam);
         updt = findViewById(R.id.updt);
+        departureDate = findViewById(R.id.editTextDepartureDate);
+        deliveryDate = findViewById(R.id.editTextDeliveryDate);
+
+        SharedPreferences preferences = getSharedPreferences("HISTORY", Context.MODE_PRIVATE);
+        String oid = preferences.getString("REFID", "");
+        String nameses = preferences.getString("CN", "");
+        //  String sprt = preferences.getString("TOT", "");
+        int salesOrderId = preferences.getInt("SID", 0);
 
 
         menid = findViewById(R.id.menid);
         builder = new AlertDialog.Builder(this);
         mDatabaseHelper = new PazDatabaseHelper(this);
+
+        departureDate.setText(mDatabaseHelper.sales_order_departure_date(salesOrderId));
+        deliveryDate.setText(mDatabaseHelper.sales_order_target_arrival(salesOrderId));
 
         String di = getIntent().getStringExtra("iditem");
         String code = getIntent().getStringExtra("code");
@@ -104,6 +119,9 @@ public class UpdateDelete extends AppCompatActivity {
           String quantityz = q5.getText().toString();
           String totalpayablez = q6.getText().toString();
           String idi = menid.getText().toString();
+          String departureDit = departureDate.getText().toString();
+          String deliveryDit = deliveryDate.getText().toString();
+
 
                 SQLiteDatabase db = mDatabaseHelper.getWritableDatabase();
                 ContentValues values = new ContentValues();
@@ -118,7 +136,11 @@ public class UpdateDelete extends AppCompatActivity {
                 int numRowsUpdated = db.update(SALES_ORDER_ITEMS_TABLE, values, whereClause, whereArgs);
               // db.close();
                 if (numRowsUpdated > 0) {
-                    Cursor cursor = db.rawQuery("UPDATE Sales_Order_table set amount = (SELECT SUM(rate * quantity) from Sales_Order_Items_Table where sales_order_id = (SELECT sales_order_id FROM Sales_Order_Items_Table where id ="+idi+")) where Sales_OrderID =(SELECT sales_order_id FROM Sales_Order_Items_Table where id ="+idi+")",null);
+                    Cursor cursor = db.rawQuery("UPDATE Sales_Order_table SET " +
+                            "amount = (SELECT SUM(rate * quantity) FROM Sales_Order_Items_Table WHERE sales_order_id = (SELECT sales_order_id FROM Sales_Order_Items_Table WHERE id =" + idi + ")), " +
+                            "departure_date = '" + departureDit + "', " +
+                            "target_arrival = '" + deliveryDit + "' " +
+                            "WHERE Sales_OrderID = (SELECT sales_order_id FROM Sales_Order_Items_Table WHERE id =" + idi + ")",null);
                     cursor.moveToFirst();
                     Toast.makeText(UpdateDelete.this, "Successfully Updated", Toast.LENGTH_SHORT).show();
                     Toast.makeText(UpdateDelete.this, "Please Save the data after Updating ", Toast.LENGTH_LONG).show();
@@ -254,6 +276,40 @@ public class UpdateDelete extends AppCompatActivity {
                 }
             }
         });
+
+        departureDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showDatePickerDialog(departureDate);
+            }
+        });
+
+        deliveryDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showDatePickerDialog(deliveryDate);
+            }
+        });
+    }
+
+    private void showDatePickerDialog(TextView targetEditText) {
+        Calendar calendar = Calendar.getInstance();
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(
+                UpdateDelete.this,
+                (view, year, monthOfYear, dayOfMonth) -> {
+                    Calendar selectedDate = Calendar.getInstance();
+                    selectedDate.set(year, monthOfYear, dayOfMonth);
+
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                    targetEditText.setText(dateFormat.format(selectedDate.getTime()));
+                },
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH)
+        );
+
+        datePickerDialog.show();
     }
 
     private double iphadong(int quantity, double price){

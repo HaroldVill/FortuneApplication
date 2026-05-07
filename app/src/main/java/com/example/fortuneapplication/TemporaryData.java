@@ -289,42 +289,7 @@ public class TemporaryData extends AppCompatActivity implements PrintingCallback
                 }
             }
         });
-
-        editTextDate4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showDatePickerDialog(editTextDate4); // replaces showDatePickerDialog1()
-            }
-        });
-
-        editTextDate5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showDatePickerDialog(editTextDate5); // replaces showDatePickerDialog1()
-            }
-        });
     }
-
-    private void showDatePickerDialog(TextView targetEditText) {
-        Calendar calendar = Calendar.getInstance();
-
-        DatePickerDialog datePickerDialog = new DatePickerDialog(
-                TemporaryData.this,
-                (view, year, monthOfYear, dayOfMonth) -> {
-                    Calendar selectedDate = Calendar.getInstance();
-                    selectedDate.set(year, monthOfYear, dayOfMonth);
-
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-                    targetEditText.setText(dateFormat.format(selectedDate.getTime()));
-                },
-                calendar.get(Calendar.YEAR),
-                calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH)
-        );
-
-        datePickerDialog.show();
-    }
-
 
     public void connectBluetooth(String macAddress, Integer so_id) {
 
