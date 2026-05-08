@@ -280,19 +280,39 @@ public class UpdateDelete extends AppCompatActivity {
         departureDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showDatePickerDialog(departureDate);
+                showDatePickerDialog1();
             }
         });
 
         deliveryDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showDatePickerDialog(deliveryDate);
+                showDatePickerDialog2();
             }
         });
     }
 
-    private void showDatePickerDialog(TextView targetEditText) {
+    private void showDatePickerDialog1() {
+        Calendar calendar = Calendar.getInstance();
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(
+                UpdateDelete.this,
+                (view, year, monthOfYear, dayOfMonth) -> {
+                    Calendar selectedDate = Calendar.getInstance();
+                    selectedDate.set(year, monthOfYear, dayOfMonth);
+
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("M/dd/yyyy", Locale.getDefault());
+                    departureDate.setText(dateFormat.format(selectedDate.getTime()));
+                },
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH)
+        );
+
+        datePickerDialog.show();
+    }
+
+    private void showDatePickerDialog2() {
         Calendar calendar = Calendar.getInstance();
 
         DatePickerDialog datePickerDialog = new DatePickerDialog(
@@ -302,7 +322,7 @@ public class UpdateDelete extends AppCompatActivity {
                     selectedDate.set(year, monthOfYear, dayOfMonth);
 
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-                    targetEditText.setText(dateFormat.format(selectedDate.getTime()));
+                    deliveryDate.setText(dateFormat.format(selectedDate.getTime()));
                 },
                 calendar.get(Calendar.YEAR),
                 calendar.get(Calendar.MONTH),
