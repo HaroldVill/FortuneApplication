@@ -92,19 +92,7 @@ public class SOActivity extends AppCompatActivity {
         editTextDate4 = findViewById(R.id.editTextDate4);
         editTextDate5 = findViewById(R.id.editTextDate5);
 
-        editTextDate4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDatePickerDialog1();
-            }
-        });
 
-        editTextDate5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDatePickerDialog2();
-            }
-        });
 
 
         // Load the last saved reference number from SharedPreferences
@@ -214,7 +202,7 @@ public class SOActivity extends AppCompatActivity {
                         android.app.AlertDialog.Builder error_builder = new android.app.AlertDialog.Builder(SOActivity.this);
                         // Set the title and message for the dialog
                         error_builder.setTitle("WARNING")
-                                .setMessage("Arrival Date must be on or after departure date")
+                                .setMessage("Arrival or departure must be on or after current date.")
                                 .setCancelable(true)
                                 .setPositiveButton("Close", new DialogInterface.OnClickListener() {
                                     @Override
@@ -237,6 +225,50 @@ public class SOActivity extends AppCompatActivity {
                 } catch (ParseException e) {
                     throw new RuntimeException(e);
                 }
+            }
+        });
+
+        editTextDate4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (itemList.isEmpty()) {
+                    android.app.AlertDialog.Builder error_builder = new android.app.AlertDialog.Builder(SOActivity.this);
+                    // Set the title and message for the dialog
+                    error_builder.setTitle("WARNING")
+                            .setMessage("Please add items first before inputting departure date.")
+                            .setCancelable(true)
+                            .setPositiveButton("Close", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+
+                                }
+                            })
+                            .show();
+                    return;
+                }
+                showDatePickerDialog1();
+            }
+        });
+
+        editTextDate5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (itemList.isEmpty()) {
+                    android.app.AlertDialog.Builder error_builder = new android.app.AlertDialog.Builder(SOActivity.this);
+                    // Set the title and message for the dialog
+                    error_builder.setTitle("WARNING")
+                            .setMessage("Please add items first before inputting arrival date.")
+                            .setCancelable(true)
+                            .setPositiveButton("Close", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+
+                                }
+                            })
+                            .show();
+                    return;
+                }
+                showDatePickerDialog2();
             }
         });
 

@@ -201,7 +201,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:padding="10sp"
-                android:text="DPRTR"
+                android:text="DEP"
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textSize="12sp" />
@@ -211,7 +211,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:padding="10sp"
-                android:text="ARRVL"
+                android:text="ARR"
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textSize="12sp" />
