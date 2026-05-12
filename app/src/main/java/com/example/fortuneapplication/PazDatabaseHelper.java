@@ -3122,6 +3122,19 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
         return value;
     }
 
+    public String sales_order_notes(Integer id){
+        Log.d("customer_id", id.toString());
+        String value="";
+        String query ="SELECT notes from Sales_Order_table where Sales_OrderID = "+id;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query,null);
+        if(cursor.moveToFirst()){
+            value=cursor.getString(0);
+//            Log.d("sales_type",sales_type);
+        }
+        return value;
+    }
+
 
 
     public void delete_old_data() {

@@ -385,7 +385,7 @@ public class History extends AppCompatActivity {
                             String delivery_type_id = String.valueOf(mDatabaseHelper.sales_order_delivery_type_id(sales_order_id));
                             String departure_date = String.valueOf(mDatabaseHelper.sales_order_departure_date(sales_order_id));
                             String target_arrival = String.valueOf(mDatabaseHelper.sales_order_target_arrival(sales_order_id));
-
+                            String notes = String.valueOf(mDatabaseHelper.sales_order_notes(sales_order_id));
 
 //                            PazDatabaseHelper dbHelper = new PazDatabaseHelper(context);
                             List<SALESORDER> salesOrderList = mDatabaseHelper.getSlsorder(sales_order_id);
@@ -433,6 +433,7 @@ public class History extends AppCompatActivity {
                                         params.put("delivery_type_id", delivery_type_id);
                                         params.put("departure_date", departure_date);
                                         params.put("target_arrival", target_arrival);
+                                        params.put("notes", notes);
                                         return params;
                                     }
                                 };
@@ -460,6 +461,7 @@ public class History extends AppCompatActivity {
                             }
                             String delivery_type_id = String.valueOf(mDatabaseHelper.sales_order_delivery_type_id(sales_order_id));
                             String departure_date = String.valueOf(mDatabaseHelper.sales_order_departure_date(sales_order_id));
+                            String notes = String.valueOf(mDatabaseHelper.sales_order_notes(sales_order_id));
                             String target_arrival = String.valueOf(mDatabaseHelper.sales_order_target_arrival(sales_order_id));
 //                            PazDatabaseHelper dbHelper = new PazDatabaseHelper(context);
                             List<SALESORDER> salesOrderList = mDatabaseHelper.getSlsorder(sales_order_id);
@@ -507,6 +509,7 @@ public class History extends AppCompatActivity {
                                         params.put("delivery_type_id", delivery_type_id);
                                         params.put("departure_date", departure_date);
                                         params.put("target_arrival", target_arrival);
+                                        params.put("notes", notes);
                                         return params;
                                     }
                                 };
