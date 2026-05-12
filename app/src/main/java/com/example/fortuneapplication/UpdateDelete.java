@@ -41,10 +41,16 @@ import android.widget.Toast;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 public class UpdateDelete extends AppCompatActivity {
     EditText q1, q2, q4, q5, q6, departureDate, deliveryDate;
@@ -120,7 +126,85 @@ public class UpdateDelete extends AppCompatActivity {
           String totalpayablez = q6.getText().toString();
           String idi = menid.getText().toString();
           String departureDit = departureDate.getText().toString();
-          String deliveryDit = deliveryDate.getText().toString();
+                String arrivalDit = deliveryDate.getText().toString();
+
+                if (arrivalDit.isEmpty() || departureDit.isEmpty()) {
+                    android.app.AlertDialog.Builder error_builder = new android.app.AlertDialog.Builder(UpdateDelete.this);
+                    // Set the title and message for the dialog
+                    error_builder.setTitle("WARNING")
+                            .setMessage("Please enter valid departure or arrival date.")
+                            .setCancelable(true)
+                            .setPositiveButton("Close", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+
+                                }
+                            })
+                            .show();
+                    return;
+                }
+
+                LocalDateTime currentdate = LocalDateTime.now();
+                DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                String formattedDate = currentdate.format(myFormatObj);
+
+                SimpleDateFormat departure_format = new SimpleDateFormat("M/d/yyyy");
+                SimpleDateFormat arrival_format = new SimpleDateFormat("yyyy-MM-dd");
+                SimpleDateFormat current_format = new SimpleDateFormat("dd/MM/yyyy");
+
+                Date departure_date = null;
+                try {
+                    departure_date = departure_format.parse(departureDit);
+                } catch (ParseException e) {
+                    throw new RuntimeException(e);
+                }
+                Date arrival_date = null;
+                try {
+                    arrival_date = arrival_format.parse(arrivalDit);
+                } catch (ParseException e) {
+                    throw new RuntimeException(e);
+                }
+                Date current_date = null;
+                try {
+                    current_date = current_format.parse(formattedDate);
+                } catch (ParseException e) {
+                    throw new RuntimeException(e);
+                }
+
+
+                assert arrival_date != null;
+                if(arrival_date.before(departure_date)){
+                    android.app.AlertDialog.Builder error_builder = new android.app.AlertDialog.Builder(UpdateDelete.this);
+                    // Set the title and message for the dialog
+                    error_builder.setTitle("WARNING")
+                            .setMessage("Arrival Date must be on or after departure date")
+                            .setCancelable(true)
+                            .setPositiveButton("Close", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+
+                                }
+                            })
+                            .show();
+                    return;
+                }
+
+                if(arrival_date.before(current_date) || Objects.requireNonNull(departure_date).before(current_date)){
+                    android.app.AlertDialog.Builder error_builder = new android.app.AlertDialog.Builder(UpdateDelete.this);
+                    // Set the title and message for the dialog
+                    error_builder.setTitle("WARNING")
+                            .setMessage("Arrival or departure must be on or after current date.")
+                            .setCancelable(true)
+                            .setPositiveButton("Close", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+
+                                }
+                            })
+                            .show();
+                    return;
+                }
+
 
 
                 SQLiteDatabase db = mDatabaseHelper.getWritableDatabase();
@@ -139,7 +223,7 @@ public class UpdateDelete extends AppCompatActivity {
                     Cursor cursor = db.rawQuery("UPDATE Sales_Order_table SET " +
                             "amount = (SELECT SUM(rate * quantity) FROM Sales_Order_Items_Table WHERE sales_order_id = (SELECT sales_order_id FROM Sales_Order_Items_Table WHERE id =" + idi + ")), " +
                             "departure_date = '" + departureDit + "', " +
-                            "target_arrival = '" + deliveryDit + "' " +
+                            "target_arrival = '" + arrivalDit + "' " +
                             "WHERE Sales_OrderID = (SELECT sales_order_id FROM Sales_Order_Items_Table WHERE id =" + idi + ")",null);
                     cursor.moveToFirst();
                     Toast.makeText(UpdateDelete.this, "Successfully Updated", Toast.LENGTH_SHORT).show();
