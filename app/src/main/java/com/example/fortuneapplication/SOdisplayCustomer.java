@@ -23,6 +23,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -54,6 +55,7 @@ public class SOdisplayCustomer extends AppCompatActivity {
 
     private static final String TAG = "SoCustDispLogs";
     private volatile boolean stopThread = false;
+    private TextView passed_params;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,25 +65,37 @@ public class SOdisplayCustomer extends AppCompatActivity {
         searchbar = findViewById(R.id.searchbar);
         spinner4 = findViewById(R.id.spinner4);
         sorecyle = findViewById(R.id.sorecyle);
+        passed_params = findViewById(R.id.passed_parameter);
         startThread();
         sorecyle.setLayoutManager(new LinearLayoutManager(this));
         ActivityCompat.requestPermissions(SOdisplayCustomer.this,new String[]
                 {Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
         locationManager=(LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        soCustomerAdapter = new SoCustomerAdapter(SOdisplayCustomer.this, customers,this,locationManager);
-        sorecyle.setAdapter(soCustomerAdapter);
+        Intent intent = getIntent();
+        String customer_view_type = intent.getStringExtra("Type");
+        if(customer_view_type.equals("All")) {
+            soCustomerAdapter = new SoCustomerAdapter(SOdisplayCustomer.this, customers,this,locationManager,"2");
+            sorecyle.setAdapter(soCustomerAdapter);
+        }
+        else{
+            soCustomerAdapter = new SoCustomerAdapter(SOdisplayCustomer.this, customers,this,locationManager,"1");
+            sorecyle.setAdapter(soCustomerAdapter);
+        }
+
 
         mDatabaseHelper = new PazDatabaseHelper(this);
-        Intent intent = getIntent();
+
         String type = intent.getStringExtra("Type");
         Log.d("customerdisplaytype",type);
         if(type.equals("All")) {
             customers.addAll(mDatabaseHelper.getAllCustomer());
             soCustomerAdapter.notifyDataSetChanged();
+            passed_params.setText("2");
         }
         else{
             customers.addAll(mDatabaseHelper.getCustomerFromCoveragePlan());
             soCustomerAdapter.notifyDataSetChanged();
+            passed_params.setText("1");
         }
         String[] sortme = {"  SORT BY: ...........", "Customer Name", "Customer Address"};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, sortme);

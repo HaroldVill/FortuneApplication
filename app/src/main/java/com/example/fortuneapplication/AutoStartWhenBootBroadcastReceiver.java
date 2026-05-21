@@ -40,7 +40,7 @@ public class AutoStartWhenBootBroadcastReceiver extends BroadcastReceiver {
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 context.startForegroundService(serviceIntent);
-                Toast.makeText(context, "HINGGANA SYA PO", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(context, "HINGGANA SYA PO", Toast.LENGTH_SHORT).show();
             } else {
                 context.startService(serviceIntent);
             }

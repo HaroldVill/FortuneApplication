@@ -68,14 +68,16 @@ public class SoCustomerAdapter extends RecyclerView.Adapter<SoCustomerAdapter.My
     LocationManager locationManager;
     PazDatabaseHelper mdatabasehelper;
     RequestQueue request_queue;
+    private String customer_view_type;
 
     private volatile boolean stopThread = false;
 
-    public SoCustomerAdapter(Context context, ArrayList<Customer> customerList,Activity activity, LocationManager locationManager) {
+    public SoCustomerAdapter(Context context, ArrayList<Customer> customerList,Activity activity, LocationManager locationManager, String customer_view_type) {
         this.context = context;
         this.customerList = customerList;
         this.activity = activity;
         this.locationManager = locationManager;
+        this.customer_view_type = customer_view_type;
     }
 
     public void setFilterdList(List<Customer> filterdList){
@@ -320,7 +322,7 @@ public class SoCustomerAdapter extends RecyclerView.Adapter<SoCustomerAdapter.My
             String coverage_type ;
             coverage_type = db.get_coverage_type();
             Log.d("coverage_type", coverage_type);
-            if(get_distance.get_distance()<100 || coverage_type.equals("Allow") || customer_id ==829) {
+            if(get_distance.get_distance()<100 || coverage_type.equals("Allow") || customer_id ==829 || customer_view_type.equals("2")) {
                 Log.d("Distance", Double.toString(get_distance.get_distance()));
                 holder.skip_order.setVisibility(View.VISIBLE);
                 holder.itemView.setOnClickListener(new View.OnClickListener() {

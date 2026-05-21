@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity  {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             // Use context.startForegroundService when targeting Android O and above
             startForegroundService(serviceIntent);
-            Toast.makeText(this, "HINGGANA SYA PO", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "HINGGANA SYA PO", Toast.LENGTH_SHORT).show();
         } else {
             this.startService(serviceIntent);
         }
