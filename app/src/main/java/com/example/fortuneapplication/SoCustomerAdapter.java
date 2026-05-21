@@ -328,7 +328,7 @@ public class SoCustomerAdapter extends RecyclerView.Adapter<SoCustomerAdapter.My
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(db.get_customer_verification(customer_id) != 1){
+                        if(db.get_customer_verification(customer_id) != 1 && customer_view_type.equals("1")){
                             android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(context);
                             // Set the title and message for the dialog
                             builder.setTitle("WARNING")
@@ -377,7 +377,7 @@ public class SoCustomerAdapter extends RecyclerView.Adapter<SoCustomerAdapter.My
                             android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(context);
                             // Set the title and message for the dialog
                             builder.setTitle("WARNING")
-                                    .setMessage("Wala pa na VERIFY ag location sa customer, TUPLOKA ang VERIFY button para maka order. ")
+                                    .setMessage("Wala pa na VERIFY ag location sa customer, TUPLOKA ang VERIFY button para maka skip. ")
                                     .setCancelable(true)
                                     .setPositiveButton("Close", new DialogInterface.OnClickListener() {
                                         @Override
@@ -461,7 +461,7 @@ public class SoCustomerAdapter extends RecyclerView.Adapter<SoCustomerAdapter.My
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(db.get_customer_verification(customer_id) != 1){
+                        if(db.get_customer_verification(customer_id) != 1 && customer_view_type.equals("1")){
                             android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(context);
                             // Set the title and message for the dialog
                             builder.setTitle("WARNING")
@@ -499,7 +499,7 @@ public class SoCustomerAdapter extends RecyclerView.Adapter<SoCustomerAdapter.My
                             android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(context);
                             // Set the title and message for the dialog
                             builder.setTitle("WARNING")
-                                    .setMessage("Wala pa na VERIFY ag location sa customer, TUPLOKA ang VERIFY button para maka order. ")
+                                    .setMessage("Wala pa na VERIFY ag location sa customer, TUPLOKA ang VERIFY button para maka skip. ")
                                     .setCancelable(true)
                                     .setPositiveButton("Close", new DialogInterface.OnClickListener() {
                                         @Override
