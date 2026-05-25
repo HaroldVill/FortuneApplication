@@ -164,8 +164,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/cid"
             android:text="151"
-            android:visibility="invisible"
-            tools:visibility="invisible">
+            android:visibility="visible"
+            tools:visibility="visible">
         </TextView>
 
         <TextView

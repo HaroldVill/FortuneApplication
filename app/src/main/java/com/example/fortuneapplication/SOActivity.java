@@ -344,12 +344,12 @@ public class SOActivity extends AppCompatActivity {
 
         slr.setText(namesr);
         if(mDatabaseHelper.get_location_settings().equals("Strict")) {
-            loc.setText(mDatabaseHelper.get_default_location_name(Integer.parseInt(mDatabaseHelper.get_default_location_id())));
-            location_id.setText(mDatabaseHelper.get_default_location_id());
+            loc.setText(cola);
+            location_id.setText(idloc);
         }
         else if(mDatabaseHelper.get_location_settings().equals("Allow") && idloc.equals("")){
-            loc.setText(mDatabaseHelper.get_default_location_name(Integer.parseInt(mDatabaseHelper.get_default_location_id())));
-            location_id.setText(mDatabaseHelper.get_default_location_id());
+            loc.setText(cola);
+            location_id.setText(idloc);
         }
         else{
             loc.setText(cola);
@@ -437,6 +437,10 @@ public class SOActivity extends AppCompatActivity {
 
     }
             public void maone () {
+//                if(1==1) {
+//                    Log.d("PSITE YAWA", "maone: " + location_id.getText().toString());
+//                    return;
+//                }
                 String nts = textnote.getText().toString();
                 String idlocation = location_id.getText().toString();
                 String custoid = cid.getText().toString();
