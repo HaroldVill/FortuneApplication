@@ -468,7 +468,8 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                 +"(NULL,'MAX','1'), "
                 +"(NULL,'SFA','0'),"
                 +"(NULL,'SFA_MONITORING','0'),"
-                +"(NULL,'DEFAULT_DELIVERY_TYPE','0')";
+                +"(NULL,'DEFAULT_DELIVERY_TYPE','0'),"
+                +"(NULL,'ALLOW DIRECT REPIN','0')";
 
         String CREATE_COORDINATE_TRACKING_TABLE ="CREATE TABLE COORDINATE_TRACKING (" +
                 "ID INTEGER PRIMARY KEY AUTOINCREMENT, " +

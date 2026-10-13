@@ -95,7 +95,7 @@ public class NewPriceLEVEl extends AppCompatActivity {
                                 NewPriceLvl newPriceLvl = new NewPriceLvl(ia,ib,ic);
 
                                 boolean isStored = databaseHelper.storepriceLevel(newPriceLvl);
-                                Toast.makeText(NewPriceLEVEl.this, "Successfully Sync Data", Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(NewPriceLEVEl.this, "Successfully Sync Data", Toast.LENGTH_SHORT).show();
                                 if (isStored) {
 //                                    PazDatabaseHelper databaseHelper = new PazDatabaseHelper(getApplicationContext());
 //                                    databaseHelper.deletepricelevel();
@@ -123,7 +123,7 @@ public class NewPriceLEVEl extends AppCompatActivity {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(NewPriceLEVEl.this, "Network Error Pleas Sync Again", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(NewPriceLEVEl.this, "Network Error Pleas Sync Again", Toast.LENGTH_SHORT).show();
                 progressBar10.setVisibility(View.GONE);
 
             }

@@ -100,7 +100,7 @@ public class SyncPricelvl extends AppCompatActivity {
              @Override
              public void onErrorResponse(VolleyError error) {
                  progressBar6.setVisibility(View.GONE);
-                 Toast.makeText(SyncPricelvl.this, "Network Error please Sync Again", Toast.LENGTH_SHORT).show();
+//                 Toast.makeText(SyncPricelvl.this, "Network Error please Sync Again", Toast.LENGTH_SHORT).show();
 
              }
          });

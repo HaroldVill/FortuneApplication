@@ -115,8 +115,8 @@ public class SFAMonitoring extends AppCompatActivity {
                     URL url = new URL(urlString);
                     HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
                     urlConnection.setRequestMethod("GET");
-                    urlConnection.setConnectTimeout(15000);
-                    urlConnection.setReadTimeout(15000);
+                    urlConnection.setConnectTimeout(60000);
+                    urlConnection.setReadTimeout(60000);
 
                     int responseCode = urlConnection.getResponseCode();
                     if (responseCode == HttpURLConnection.HTTP_OK) {

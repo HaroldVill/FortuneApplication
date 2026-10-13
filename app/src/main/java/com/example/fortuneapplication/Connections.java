@@ -40,9 +40,9 @@ import java.util.Set;
 
 public class Connections extends AppCompatActivity {
     TextView creatcon, ids;
-    TextView selection, connection_label, select_sales_type,sales_type_label,select_sales_rep_id,sales_rep_id_label,select_gps_mode,gps_label,select_verify_mode,verify_label,select_bluetooth_device,bluetooth_macaddress,select_default_location,default_location,select_change_location,change_location,sfa_label,select_sfa_mode,select_monitoring_mode,monitoring_label,
+    TextView selection, connection_label, select_sales_type,sales_type_label,select_sales_rep_id,sales_rep_id_label,select_gps_mode,gps_label,select_verify_mode,verify_label,select_bluetooth_device,bluetooth_macaddress,select_default_location,default_location,select_change_location,change_location,sfa_label,select_sfa_mode,select_monitoring_mode,monitoring_label,select_repin_mode,repin_label,
     set_default_route, route_monitoring_label, route_monitoring_label_id;
-    Button apply,apply_sales_type,apply_sales_rep_id,apply_gps_mode,apply_verify_mode,apply_bluetooth,apply_order_point,apply_safety,apply_max, apply_sfa_mode, apply_monitoring_mode;
+    Button apply,apply_sales_type,apply_sales_rep_id,apply_gps_mode,apply_verify_mode,apply_bluetooth,apply_order_point,apply_safety,apply_max, apply_sfa_mode, apply_monitoring_mode,apply_repin;
     EditText editText1,editText2,editText3;
     TextView label1,label2,label3;
     private PazDatabaseHelper mdatabaseHelper;
@@ -77,6 +77,7 @@ public class Connections extends AppCompatActivity {
         ids = findViewById(R.id.ids);
         apply_sales_type=findViewById(R.id.apply_sales_type);
         apply_sales_rep_id = findViewById(R.id.apply_sales_rep_id);
+        apply_repin = findViewById(R.id.apply_repin_mode);
         select_gps_mode = findViewById(R.id.select_gps_mode);
         select_verify_mode = findViewById(R.id.select_verify_mode);
         gps_label = findViewById(R.id.gps_label);
@@ -95,6 +96,8 @@ public class Connections extends AppCompatActivity {
         label1 = findViewById(R.id.label1);
         label2 = findViewById(R.id.label2);
         label3 = findViewById(R.id.label3);
+        select_repin_mode = findViewById(R.id.select_repin_mode);
+        repin_label = findViewById(R.id.repin_label);
         apply_order_point = findViewById(R.id.apply_order_point);
         apply_safety = findViewById(R.id.apply_safety);
         apply_max = findViewById(R.id.apply_max);

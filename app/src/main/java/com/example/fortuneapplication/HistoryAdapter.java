@@ -81,6 +81,9 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         holder.sam2.setTypeface(Typeface.DEFAULT);
         holder.sam3.setTypeface(Typeface.DEFAULT);
         holder.sam4.setTypeface(Typeface.DEFAULT);
+        holder.sam1.setTextColor(Color.rgb(0,0,0));
+        holder.sam2.setTextColor(Color.rgb(0,0,0));
+        holder.sam4.setTextColor(Color.rgb(0,0,0));
         if(status == 1){
 
             holder.sam1.setTextColor(Color.rgb(0,89,27));
@@ -278,6 +281,8 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
                     jsonObject.put("price_level_id", salesOrderItems.getSoipricelevelid());
                     json_soitems.put(jsonObject);
                 }
+
+
 //                        RequestFuture <JSONObject> future = RequestFuture.newFuture();
                 StringRequest send_invoices = new StringRequest(Request.Method.POST, api_url,
                         response -> {Toast.makeText(context, response, Toast.LENGTH_LONG).show();
