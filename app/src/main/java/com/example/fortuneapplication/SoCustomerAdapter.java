@@ -269,7 +269,7 @@ public class SoCustomerAdapter extends RecyclerView.Adapter<SoCustomerAdapter.My
                 holder.remove_pin.setOnClickListener(new View.OnClickListener(){
                     @Override
                     public void onClick(View view) {
-                        if(db.get_customer_verification(customer_id) == 1){
+                        if(db.get_customer_verification(customer_id) == 1 && Integer.parseInt(db.get_repin_mode()) == 0){
                             android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(context);
                             // Set the title and message for the dialog
                             builder.setTitle("WARNING")

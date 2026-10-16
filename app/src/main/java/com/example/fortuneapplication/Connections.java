@@ -73,6 +73,7 @@ public class Connections extends AppCompatActivity {
         sales_rep_id_label.setText(mdatabaseHelper.get_default_salesrep());
         default_location.setText(mdatabaseHelper.get_default_location_name(Integer.parseInt(mdatabaseHelper.get_default_location_id())));
         change_location.setText(mdatabaseHelper.get_location_settings());
+
         apply = findViewById(R.id.apply);
         ids = findViewById(R.id.ids);
         apply_sales_type=findViewById(R.id.apply_sales_type);
@@ -98,6 +99,7 @@ public class Connections extends AppCompatActivity {
         label3 = findViewById(R.id.label3);
         select_repin_mode = findViewById(R.id.select_repin_mode);
         repin_label = findViewById(R.id.repin_label);
+        repin_label.setText(mdatabaseHelper.get_repin_mode());
         apply_order_point = findViewById(R.id.apply_order_point);
         apply_safety = findViewById(R.id.apply_safety);
         apply_max = findViewById(R.id.apply_max);
@@ -423,6 +425,26 @@ public class Connections extends AppCompatActivity {
                         String gps_type = menuItem.getTitle().toString();
                         change_location.setText(gps_type);
                         update_change_location();
+                        return true;
+                    }
+                });
+                popupMenu.show();
+            }
+        });
+
+        select_repin_mode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PopupMenu popupMenu = new PopupMenu(Connections.this,select_repin_mode);
+                Menu menu = popupMenu.getMenu();
+                menu.add(Menu.NONE,Menu.NONE,Menu.NONE,"1");
+                menu.add(Menu.NONE,Menu.NONE,Menu.NONE,"0");
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        String repin_type = menuItem.getTitle().toString();
+                        repin_label.setText(repin_type);
+                        update_repin_mode();
                         return true;
                     }
                 });
@@ -758,6 +780,31 @@ public class Connections extends AppCompatActivity {
 
         if (numSpecificRowUpdated > 0) {
             Toast.makeText(this, "Successfull Location Set", Toast.LENGTH_SHORT).show();
+//            selection.setText("");
+//            connection_label.setText("");
+
+//            Intent nanay = new Intent(Connections.this, SyncDatas.class);
+//            startActivity(nanay);
+//            finish();
+        }
+    }
+
+    public void update_repin_mode() {
+
+        String repin_id = repin_label.getText().toString();
+
+        SQLiteDatabase db = mdatabaseHelper.getWritableDatabase();
+        ContentValues specificRowValues = new ContentValues();
+        specificRowValues.put("VALUE", repin_id);
+
+        String whereClause = SYSTEM_SETTINGS_NAME + " = ?";
+        String[] whereArgs = {"ALLOW_DIRECT_REPIN"};
+
+        int numSpecificRowUpdated = db.update(SYSTEM_SETTINGS, specificRowValues, whereClause, whereArgs);
+        db.close();
+
+        if (numSpecificRowUpdated > 0) {
+            Toast.makeText(this, "Successful Repin Mode Set", Toast.LENGTH_SHORT).show();
 //            selection.setText("");
 //            connection_label.setText("");
 

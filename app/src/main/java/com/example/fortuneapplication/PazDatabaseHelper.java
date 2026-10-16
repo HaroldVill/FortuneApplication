@@ -469,7 +469,7 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
                 +"(NULL,'SFA','0'),"
                 +"(NULL,'SFA_MONITORING','0'),"
                 +"(NULL,'DEFAULT_DELIVERY_TYPE','0'),"
-                +"(NULL,'ALLOW DIRECT REPIN','0')";
+                +"(NULL,'ALLOW_DIRECT_REPIN','0')";
 
         String CREATE_COORDINATE_TRACKING_TABLE ="CREATE TABLE COORDINATE_TRACKING (" +
                 "ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -2586,6 +2586,18 @@ public class PazDatabaseHelper extends SQLiteOpenHelper {
     public String get_default_salesrep(){
         String value="";
         String query ="SELECT ifnull(VALUE,'') VALUE FROM SYSTEM_SETTINGS WHERE  id=2";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query,null);
+        if(cursor.moveToFirst()){
+            value=cursor.getString(0);
+//            Log.d("sales_type",sales_type);
+        }
+        return value;
+    }
+
+    public String get_repin_mode(){
+        String value="";
+        String query ="SELECT ifnull(VALUE,'') VALUE FROM SYSTEM_SETTINGS WHERE  id=16";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(query,null);
         if(cursor.moveToFirst()){
